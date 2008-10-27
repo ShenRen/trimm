@@ -67,7 +67,7 @@ namespace TriMM {
             triangleLabel.Text = mesh.Count.ToString();
             edgeLabel.Text = mesh.Edges.Count.ToString();
 
-            
+
             control.ShowMesh = true;
             control.VertexColorDist = mesh.VertexColorDist;
             control.TriangleColorDist = mesh.TriangleColorDist;
@@ -129,7 +129,7 @@ namespace TriMM {
             control.ObservedVertex = null;
             control.UseColorArray = false;
             observedVertex = -1;
-            
+
             xNumericUpDown.Value = 0;
             yNumericUpDown.Value = 0;
             zNumericUpDown.Value = 0;
@@ -145,26 +145,26 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-            Cursor.Current = Cursors.WaitCursor;
+                Cursor.Current = Cursors.WaitCursor;
 
-            // Parses the file.
-            if (file.EndsWith(".off")) {
-                mesh = OffParser.Parse(reader);
-            } else if (file.EndsWith(".stl")) {
-                mesh = STLParser.Parse(reader);
-            }
+                // Parses the file.
+                if (file.EndsWith(".off")) {
+                    mesh = OffParser.Parse(reader);
+                } else if (file.EndsWith(".stl")) {
+                    mesh = STLParser.Parse(reader);
+                }
 
-            InitializeControl();
-            meshGroupBox.Visible = saveToolStripMenuItem.Enabled = closeToolStripMenuItem.Enabled
-                = showViewToolStripMenuItem.Enabled = manipulationGroupBox.Visible = true;
+                InitializeControl();
+                meshGroupBox.Visible = saveToolStripMenuItem.Enabled = closeToolStripMenuItem.Enabled
+                    = showViewToolStripMenuItem.Enabled = manipulationGroupBox.Visible = true;
 
 #if !DEBUG
             } catch (Exception exception) {
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
-            reader.Close();
-            Cursor.Current = Cursors.Default;
+                reader.Close();
+                Cursor.Current = Cursors.Default;
 #if !DEBUG
             }
 #endif
@@ -186,21 +186,21 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-            ofd.CheckFileExists = true;
-            ofd.DefaultExt = "off";
-            ofd.Filter = "OOGL Files (*.off)|*.off|STL Files (*.stl)|*.stl";
-            ofd.Multiselect = false;
-            ofd.Title = "Open File";
-            if (ofd.ShowDialog() == DialogResult.OK) {
-                CloseFile(sender, e);
-                OpenFile(ofd.FileName);
-            }
+                ofd.CheckFileExists = true;
+                ofd.DefaultExt = "off";
+                ofd.Filter = "OOGL Files (*.off)|*.off|STL Files (*.stl)|*.stl";
+                ofd.Multiselect = false;
+                ofd.Title = "Open File";
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    CloseFile(sender, e);
+                    OpenFile(ofd.FileName);
+                }
 #if !DEBUG
             } catch (Exception exception) {
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
-            ofd.Dispose();
+                ofd.Dispose();
 #if !DEBUG
             }
 #endif
@@ -216,27 +216,27 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-            sfd.AddExtension = true;
-            sfd.OverwritePrompt = true;
-            sfd.DefaultExt = "off";
-            sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl";
-            sfd.Title = "Save File";
-            if (sfd.ShowDialog() == DialogResult.OK) {
-                if (sfd.FilterIndex == 1) {
-                    OffParser.WriteOFF(sfd.FileName, mesh);
-                } else if (sfd.FilterIndex == 2) {
-                    STLParser.WriteToASCII(sfd.FileName, mesh);
-                } else if (sfd.FilterIndex == 3) {
-                    STLParser.WriteToBinary(sfd.FileName, mesh);
+                sfd.AddExtension = true;
+                sfd.OverwritePrompt = true;
+                sfd.DefaultExt = "off";
+                sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl";
+                sfd.Title = "Save File";
+                if (sfd.ShowDialog() == DialogResult.OK) {
+                    if (sfd.FilterIndex == 1) {
+                        OffParser.WriteOFF(sfd.FileName, mesh);
+                    } else if (sfd.FilterIndex == 2) {
+                        STLParser.WriteToASCII(sfd.FileName, mesh);
+                    } else if (sfd.FilterIndex == 3) {
+                        STLParser.WriteToBinary(sfd.FileName, mesh);
+                    }
+
                 }
-                
-            }
 #if !DEBUG
             } catch (Exception exception) {
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
-            sfd.Dispose();
+                sfd.Dispose();
 #if !DEBUG
             }
 #endif
@@ -295,7 +295,47 @@ namespace TriMM {
 
         #endregion
 
-        #region Cleaning
+        #region Visualization
+
+
+        /// <summary>
+        /// Shows information about the picked Vertex.
+        /// </summary>
+        /// <param name="picked">The index of the picked Vertex</param>
+        private void Control_VertexPicked(List<int> picked) {
+            ClearObserved();
+            if (picked.Count != 0) {
+                control.Info.Add("Vertex " + picked[0] + " = " + mesh.Vertices[picked[0]].ToString());
+                control.ObservedVertex = mesh.Vertices[picked[0]];
+                observedVertex = picked[0];
+                xNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][0];
+                yNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][1];
+                zNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][2];
+            }
+            control.Refresh();
+        }
+
+        private void Control_TrianglePicked(List<int> picked) {
+            ClearObserved();
+            if (picked.Count != 0) {
+                control.Info.Add("Triangle " + picked[0] + " = (" + mesh[picked[0]][0] + ", " + mesh[picked[0]][1] + ", " + mesh[picked[0]][2] + ")");
+                control.Info.Add("Vertex " + mesh[picked[0]][0] + " = " + mesh[picked[0], 0].ToString());
+                control.Info.Add("Vertex " + mesh[picked[0]][1] + " = " + mesh[picked[0], 1].ToString());
+                control.Info.Add("Vertex " + mesh[picked[0]][2] + " = " + mesh[picked[0], 2].ToString());
+                observedTriangle = picked[0];
+                control.ColorArray = mesh.GetMarkedTriangleColorArray(picked[0], control.PlainColor, control.ObservedTriangleColor);
+                control.UseColorArray = true;
+                aNumericUpDown.Value = (decimal)mesh[picked[0]][0];
+                bNumericUpDown.Value = (decimal)mesh[picked[0]][1];
+                cNumericUpDown.Value = (decimal)mesh[picked[0]][2];
+            }
+            control.Refresh();
+
+        }
+
+        #endregion
+
+        #region Manipulation
 
         /// <summary>
         /// Does all cleaning steps.
@@ -605,6 +645,21 @@ namespace TriMM {
             Cursor.Current = Cursors.Default;
         }
 
+
+        private void TransposeVertexButton_Click(object sender, EventArgs e) {
+            Cursor.Current = Cursors.WaitCursor;
+
+            if (observedVertex != -1) {
+                mesh.Vertices[observedVertex] = (mesh.Vertices[observedVertex] + new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value)).ToVertex();
+
+                ClearObserved();
+                mesh.Finish(true);
+                RefreshControl();
+            }
+
+            Cursor.Current = Cursors.Default;
+        }
+
         /// <summary>
         /// Adds the Vertex given by the values in the corresponding NumericUpDowns.
         /// </summary>
@@ -683,46 +738,6 @@ namespace TriMM {
             }
 
             Cursor.Current = Cursors.Default;
-        }
-
-        #endregion
-
-        #region Visualization
-
-
-        /// <summary>
-        /// Shows information about the picked Vertex.
-        /// </summary>
-        /// <param name="picked">The index of the picked Vertex</param>
-        private void Control_VertexPicked(List<int> picked) {
-            ClearObserved();
-            if (picked.Count != 0) {
-                control.Info.Add("Vertex " + picked[0] + " = " + mesh.Vertices[picked[0]].ToString());
-                control.ObservedVertex = mesh.Vertices[picked[0]];
-                observedVertex = picked[0];
-                xNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][0];
-                yNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][1];
-                zNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][2];
-            }
-            control.Refresh();
-        }
-
-        private void Control_TrianglePicked(List<int> picked) {
-            ClearObserved();
-            if (picked.Count != 0) {
-                control.Info.Add("Triangle " + picked[0] + " = (" + mesh[picked[0]][0] + ", " + mesh[picked[0]][1] + ", " + mesh[picked[0]][2] + ")");
-                control.Info.Add("Vertex " + mesh[picked[0]][0] + " = " + mesh[picked[0], 0].ToString());
-                control.Info.Add("Vertex " + mesh[picked[0]][1] + " = " + mesh[picked[0], 1].ToString());
-                control.Info.Add("Vertex " + mesh[picked[0]][2] + " = " + mesh[picked[0], 2].ToString());
-                observedTriangle = picked[0];
-                control.ColorArray = mesh.GetMarkedTriangleColorArray(picked[0], control.PlainColor, control.ObservedTriangleColor);
-                control.UseColorArray = true;
-                aNumericUpDown.Value = (decimal)mesh[picked[0]][0];
-                bNumericUpDown.Value = (decimal)mesh[picked[0]][1];
-                cNumericUpDown.Value = (decimal)mesh[picked[0]][2];
-            }
-            control.Refresh();
-
         }
 
         #endregion

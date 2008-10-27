@@ -73,6 +73,9 @@ namespace TriMM {
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triangleLabel = new System.Windows.Forms.Label();
             this.edgeLabel = new System.Windows.Forms.Label();
             this.vertexLabel = new System.Windows.Forms.Label();
@@ -80,9 +83,7 @@ namespace TriMM {
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.meshGroupBox = new System.Windows.Forms.GroupBox();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transposeVertexButton = new System.Windows.Forms.Button();
             this.manipulationGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).BeginInit();
@@ -98,6 +99,7 @@ namespace TriMM {
             // 
             // manipulationGroupBox
             // 
+            this.manipulationGroupBox.Controls.Add(this.transposeVertexButton);
             this.manipulationGroupBox.Controls.Add(this.flipObservedTriangleButton);
             this.manipulationGroupBox.Controls.Add(this.flipAllTrianglesButton);
             this.manipulationGroupBox.Controls.Add(this.flipButton);
@@ -124,7 +126,7 @@ namespace TriMM {
             this.manipulationGroupBox.Controls.Add(this.remove2NVerticesButton);
             this.manipulationGroupBox.Location = new System.Drawing.Point(12, 104);
             this.manipulationGroupBox.Name = "manipulationGroupBox";
-            this.manipulationGroupBox.Size = new System.Drawing.Size(239, 539);
+            this.manipulationGroupBox.Size = new System.Drawing.Size(239, 564);
             this.manipulationGroupBox.TabIndex = 15;
             this.manipulationGroupBox.TabStop = false;
             this.manipulationGroupBox.Text = "Manipulation";
@@ -132,9 +134,9 @@ namespace TriMM {
             // 
             // flipObservedTriangleButton
             // 
-            this.flipObservedTriangleButton.Location = new System.Drawing.Point(7, 193);
+            this.flipObservedTriangleButton.Location = new System.Drawing.Point(6, 193);
             this.flipObservedTriangleButton.Name = "flipObservedTriangleButton";
-            this.flipObservedTriangleButton.Size = new System.Drawing.Size(226, 23);
+            this.flipObservedTriangleButton.Size = new System.Drawing.Size(227, 23);
             this.flipObservedTriangleButton.TabIndex = 28;
             this.flipObservedTriangleButton.Text = "Flip Observed Triangle";
             this.flipObservedTriangleButton.UseVisualStyleBackColor = true;
@@ -152,9 +154,9 @@ namespace TriMM {
             // 
             // flipButton
             // 
-            this.flipButton.Location = new System.Drawing.Point(6, 503);
+            this.flipButton.Location = new System.Drawing.Point(7, 535);
             this.flipButton.Name = "flipButton";
-            this.flipButton.Size = new System.Drawing.Size(227, 23);
+            this.flipButton.Size = new System.Drawing.Size(226, 23);
             this.flipButton.TabIndex = 26;
             this.flipButton.Text = "Flip Selected Edge";
             this.flipButton.UseVisualStyleBackColor = true;
@@ -162,7 +164,7 @@ namespace TriMM {
             // 
             // e1NumericUpDown
             // 
-            this.e1NumericUpDown.Location = new System.Drawing.Point(29, 477);
+            this.e1NumericUpDown.Location = new System.Drawing.Point(30, 509);
             this.e1NumericUpDown.Name = "e1NumericUpDown";
             this.e1NumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.e1NumericUpDown.TabIndex = 25;
@@ -170,7 +172,7 @@ namespace TriMM {
             // 
             // e2NumericUpDown
             // 
-            this.e2NumericUpDown.Location = new System.Drawing.Point(140, 477);
+            this.e2NumericUpDown.Location = new System.Drawing.Point(141, 509);
             this.e2NumericUpDown.Name = "e2NumericUpDown";
             this.e2NumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.e2NumericUpDown.TabIndex = 24;
@@ -189,7 +191,7 @@ namespace TriMM {
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 422);
+            this.label3.Location = new System.Drawing.Point(7, 454);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 13);
             this.label3.TabIndex = 22;
@@ -198,7 +200,7 @@ namespace TriMM {
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 396);
+            this.label2.Location = new System.Drawing.Point(7, 428);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(17, 13);
             this.label2.TabIndex = 21;
@@ -207,7 +209,7 @@ namespace TriMM {
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 370);
+            this.label1.Location = new System.Drawing.Point(7, 402);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 13);
             this.label1.TabIndex = 20;
@@ -225,9 +227,9 @@ namespace TriMM {
             // 
             // addVertexButton
             // 
-            this.addVertexButton.Location = new System.Drawing.Point(6, 446);
+            this.addVertexButton.Location = new System.Drawing.Point(7, 478);
             this.addVertexButton.Name = "addVertexButton";
-            this.addVertexButton.Size = new System.Drawing.Size(227, 23);
+            this.addVertexButton.Size = new System.Drawing.Size(226, 23);
             this.addVertexButton.TabIndex = 18;
             this.addVertexButton.Text = "Add selected Vertex";
             this.addVertexButton.UseVisualStyleBackColor = true;
@@ -241,7 +243,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.xNumericUpDown.Location = new System.Drawing.Point(29, 368);
+            this.xNumericUpDown.Location = new System.Drawing.Point(29, 400);
             this.xNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -265,7 +267,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.zNumericUpDown.Location = new System.Drawing.Point(29, 420);
+            this.zNumericUpDown.Location = new System.Drawing.Point(29, 452);
             this.zNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -289,7 +291,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.yNumericUpDown.Location = new System.Drawing.Point(29, 394);
+            this.yNumericUpDown.Location = new System.Drawing.Point(29, 426);
             this.yNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -466,6 +468,27 @@ namespace TriMM {
             this.showViewToolStripMenuItem.Text = "Show &View";
             this.showViewToolStripMenuItem.Click += new System.EventHandler(this.ShowViewToolStripMenuItem_Click);
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manualToolStripMenuItem,
+            this.infoToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // manualToolStripMenuItem
+            // 
+            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.manualToolStripMenuItem.Text = "&Manual";
+            // 
+            // infoToolStripMenuItem
+            // 
+            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.infoToolStripMenuItem.Text = "&Info";
+            // 
             // triangleLabel
             // 
             this.triangleLabel.AutoSize = true;
@@ -536,32 +559,21 @@ namespace TriMM {
             this.meshGroupBox.Text = "Mesh Information";
             this.meshGroupBox.Visible = false;
             // 
-            // helpToolStripMenuItem
+            // transposeVertexButton
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manualToolStripMenuItem,
-            this.infoToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.helpToolStripMenuItem.Text = "&Help";
-            // 
-            // manualToolStripMenuItem
-            // 
-            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            this.manualToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.manualToolStripMenuItem.Text = "&Manual";
-            // 
-            // infoToolStripMenuItem
-            // 
-            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.infoToolStripMenuItem.Text = "&Info";
+            this.transposeVertexButton.Location = new System.Drawing.Point(7, 368);
+            this.transposeVertexButton.Name = "transposeVertexButton";
+            this.transposeVertexButton.Size = new System.Drawing.Size(226, 23);
+            this.transposeVertexButton.TabIndex = 29;
+            this.transposeVertexButton.Text = "Transpose Observed Vertex By";
+            this.transposeVertexButton.UseVisualStyleBackColor = true;
+            this.transposeVertexButton.Click += new System.EventHandler(this.TransposeVertexButton_Click);
             // 
             // TriMMForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 659);
+            this.ClientSize = new System.Drawing.Size(262, 680);
             this.Controls.Add(this.meshGroupBox);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.manipulationGroupBox);
@@ -634,6 +646,7 @@ namespace TriMM {
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
+        private System.Windows.Forms.Button transposeVertexButton;
     }
 }
 
