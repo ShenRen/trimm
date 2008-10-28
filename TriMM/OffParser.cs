@@ -157,7 +157,7 @@ namespace TriMM {
             try {
 #endif
                 // The Header.
-                sw.WriteLine("# Written by the TriangleMeshLib OffParser (by Christian Moritz)");
+                sw.WriteLine("# Written by the TriMM OffParser (by Christian Moritz)");
                 if (normals) { sw.WriteLine("NOFF"); } else { sw.WriteLine("OFF"); }
                 sw.WriteLine(triangleMesh.Vertices.Count + " " + triangleMesh.Count + " " + triangleMesh.Edges.Count);
 

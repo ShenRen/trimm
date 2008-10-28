@@ -57,6 +57,7 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="Neighborhood.cs" />
     <Compile Include="OffParser.cs" />
+    <Compile Include="PlyParser.cs" />
     <Compile Include="TriMMControl.cs">
       <SubType>Component</SubType>
     </Compile>

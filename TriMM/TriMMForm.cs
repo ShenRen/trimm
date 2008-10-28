@@ -152,6 +152,8 @@ namespace TriMM {
                     mesh = OffParser.Parse(reader);
                 } else if (file.EndsWith(".stl")) {
                     mesh = STLParser.Parse(reader);
+                } else if (file.EndsWith(".ply")) {
+                    mesh = PlyParser.Parse(reader);
                 }
 
                 InitializeControl();
@@ -188,7 +190,7 @@ namespace TriMM {
 #endif
                 ofd.CheckFileExists = true;
                 ofd.DefaultExt = "off";
-                ofd.Filter = "OOGL Files (*.off)|*.off|STL Files (*.stl)|*.stl";
+                ofd.Filter = "OOGL Files (*.off)|*.off|STL Files (*.stl)|*.stl|PLY Files (*.ply)|*.ply";
                 ofd.Multiselect = false;
                 ofd.Title = "Open File";
                 if (ofd.ShowDialog() == DialogResult.OK) {
@@ -219,7 +221,7 @@ namespace TriMM {
                 sfd.AddExtension = true;
                 sfd.OverwritePrompt = true;
                 sfd.DefaultExt = "off";
-                sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl";
+                sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl|PLY Files (*.ply)|*.ply";
                 sfd.Title = "Save File";
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     if (sfd.FilterIndex == 1) {
@@ -228,6 +230,8 @@ namespace TriMM {
                         STLParser.WriteToASCII(sfd.FileName, mesh);
                     } else if (sfd.FilterIndex == 3) {
                         STLParser.WriteToBinary(sfd.FileName, mesh);
+                    } else if (sfd.FilterIndex == 4) {
+                        PlyParser.WritePLY(sfd.FileName, mesh);
                     }
 
                 }
