@@ -16,6 +16,7 @@
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
@@ -27,6 +28,18 @@ namespace TriMM {
     /// Only triangle meshes are supported.
     /// </summary>
     public static class PlyParser {
+
+        private struct Element {
+            public string name;
+            public int count;
+            public List<string> properties;
+
+            public Element(string name, int count) {
+                this.name = name;
+                this.count = count;
+                properties = new List<string>();
+            }
+        }
 
         #region Methods
 
@@ -44,81 +57,75 @@ namespace TriMM {
             int count = 0;
             int vertices = 0;
             int faces = 0;
-            bool ascii = false;
-            bool ply = false;
-            bool v = false;
-            bool f = false;
-            bool ind = false;
-            bool x = false;
-            bool y = false;
-            bool z = false;
+            string format;
+            string version;
+            List<Element> elements = new List<Element>();
+            String[] inputList;
 
             // The numbers in the file must have the decimal separator ".".
             NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
             numberFormatInfo.NumberDecimalSeparator = ".";
 
+            input = file.ReadLine();
+            if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+            input.Trim();
+            inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (inputList[0] != "ply") { throw new Exception("The file is not a PLY file, or it is broken!"); }
+            input = file.ReadLine();
+            input.Trim();
+            inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+
             // The header is processed here.
             do {
-                input = file.ReadLine();
-                input.Trim();
-
                 // Empty lines and comment-lines are skipped.
-                if ((input != "") && (!input.StartsWith("comment"))) {
-                    if (!ply && (input == "ply")) {
-                        ply = true;
-                    } else if (ply) {
-                        if (!ascii && (input == "format ascii 1.0")) {
-                            ascii = true;
-                        } else if (ascii) {
-                            if (!v && input.StartsWith("element vertex")) {
-                                // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace.
-                                String[] l = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                                vertices = int.Parse(l[2]);
-                                v = true;
-                            } else if (v) {
-                                if (!x && input.StartsWith("property") && input.EndsWith("x")) {
-                                    x = true;
-                                } else if (x) {
-                                    if (!y && input.StartsWith("property") && input.EndsWith("y")) {
-                                        y = true;
-                                    } else if (y) {
-                                        if (!z && input.StartsWith("property") && input.EndsWith("z")) {
-                                            z = true;
-                                        } else if (z) {
-                                            if (!input.StartsWith("property") || input.StartsWith("property list")) {
-                                                if (!f && input.StartsWith("element face")) {
-                                                    // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace.
-                                                    String[] l = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                                                    faces = int.Parse(l[2]);
-                                                    f = true;
-                                                } else if (f) {
-                                                    if (!ind && (input == "property list uchar int vertex_index")) {
-                                                        ind = true;
-                                                    }
-                                                } else {
-                                                    throw new Exception("The file is not a PLY file, or it is broken!");
-                                                }
-                                            }
-                                        } else {
-                                            throw new Exception("The file is not a PLY file, or it is broken!");
-                                        }
-                                    } else {
-                                        throw new Exception("The file is not a PLY file, or it is broken!");
-                                    }
-                                } else {
-                                    throw new Exception("The file is not a PLY file, or it is broken!");
-                                }
-                            } else {
-                                throw new Exception("The file is not a PLY file, or it is broken!");
-                            }
-                        } else {
-                            throw new Exception("The file is not an ASCII PLY file, or it is broken!");
-                        }
-                    } else {
-                        throw new Exception("The file is not a PLY file, or it is broken!");
-                    }
+                if ((input == "") || (input.StartsWith("comment"))) { } else if (inputList[0] == "format") {
+                    if (inputList.Length != 3) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                    format = inputList[1];
+                    version = inputList[2];
+                } else if (inputList[0] == "element") {
+                    if (inputList.Length != 3) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                    elements.Add(new Element(inputList[1], int.Parse(inputList[2])));
+                } else if (inputList[0] == "property") {
+                    elements[elements.Count - 1].properties.Add(input);
                 }
+
+                input = file.ReadLine();
+                if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                input.Trim();
+                inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             } while (input != "end_header");
+
+            for (int i = 0; i < elements.Count; i++) {
+                Element el = elements[i];
+                if (el.name == "vertex") {
+                    vertices = el.count;
+                    if (el.properties.Count < 3) {
+                        throw new Exception("The file is not a PLY file, or it is broken!");
+                    } else {
+                        bool x = false, y = false, z = false;
+                        for (int j = 0; j < el.properties.Count; j++) {
+                            String[] l = el.properties[j].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            switch (l[2]) {
+                                case "x":
+                                    x=true;
+                                    break;
+                                case "y":
+                                    y = true;
+                                    break;
+                                case "z":
+                                    z = true;
+                                    break;
+                            }
+                        }
+                        if (!x || !y || !z) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                    }
+                } else if (el.name == "face") {
+                    faces = el.count;
+                    if (el.properties[0] != "property list uchar int vertex_index") { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                }
+            }
+
 
             // The following lines in the file contain the Vertices.
             count = 0;
@@ -129,11 +136,11 @@ namespace TriMM {
                     if (input.Contains("#")) { input = input.Substring(0, input.IndexOf("#")); }
 
                     // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace.
-                    String[] l = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Only the Vertex is read and added to the VertexList of the owners TriangleMesh, everything else in the line is ignored.
-                    vertex = new Vertex(double.Parse(l[0], NumberStyles.Float, numberFormatInfo),
-                        double.Parse(l[1], NumberStyles.Float, numberFormatInfo), double.Parse(l[2], NumberStyles.Float, numberFormatInfo));
+                    vertex = new Vertex(double.Parse(inputList[0], NumberStyles.Float, numberFormatInfo),
+                        double.Parse(inputList[1], NumberStyles.Float, numberFormatInfo), double.Parse(inputList[2], NumberStyles.Float, numberFormatInfo));
 
                     triangleMesh.Vertices.Add(vertex);
 
@@ -150,10 +157,10 @@ namespace TriMM {
                     if (input.Contains("#")) { input = input.Substring(0, input.IndexOf("#")); }
 
                     // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
-                    String[] l = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Only the Triangle is read and added to the owners TriangleMesh, everything else in the line is ignored.
-                    triangleMesh.Add(new Triangle(int.Parse(l[1], numberFormatInfo), int.Parse(l[2], numberFormatInfo), int.Parse(l[3], numberFormatInfo)));
+                    triangleMesh.Add(new Triangle(int.Parse(inputList[1], numberFormatInfo), int.Parse(inputList[2], numberFormatInfo), int.Parse(inputList[3], numberFormatInfo)));
 
                     count++;
                 }
@@ -177,20 +184,20 @@ namespace TriMM {
             try {
 #endif
             // The Header.
-            sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
             sw.WriteLine("ply");
+            sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
             sw.WriteLine("format ascii 1.0");
             sw.WriteLine("element vertex " + triangleMesh.Vertices.Count.ToString());
             sw.WriteLine("property double x");
-            sw.WriteLine("property double x");
-            sw.WriteLine("property double x");
+            sw.WriteLine("property double y");
+            sw.WriteLine("property double z");
             sw.WriteLine("element face " + triangleMesh.Count.ToString());
             sw.WriteLine("property list uchar int vertex_index");
             sw.WriteLine("end_header");
 
             // The Vertices
             for (int i = 0; i < triangleMesh.Vertices.Count; i++) {
-                    sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
+                sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
             }
 
             // The Triangles.
