@@ -547,6 +547,17 @@ namespace TriMM {
             }
         }
 
+
+        private void SubdivideTriangleButton_Click(object sender, EventArgs e) {
+            if (observedTriangle != -1) {
+                mesh.SubdivideTriangle(observedTriangle);
+                observedTriangle = -1;
+                RefreshControl();
+                if (view != null) { view.RefreshView(); }
+
+            }
+        }
+
         /// <summary>
         /// Removes a Triangle given by the three Vertices selected in the NumericUpDowns (all permutations), if it exists.
         /// </summary>
@@ -742,6 +753,12 @@ namespace TriMM {
             }
 
             Cursor.Current = Cursors.Default;
+        }
+
+        private void SubdivideButton_Click(object sender, EventArgs e) {
+            mesh = TriangleMesh.Subdivide(mesh, 1);
+            RefreshControl();
+            if (view != null) { view.RefreshView(); }
         }
 
         #endregion

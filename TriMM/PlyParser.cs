@@ -108,7 +108,7 @@ namespace TriMM {
                             String[] l = el.properties[j].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                             switch (l[2]) {
                                 case "x":
-                                    x=true;
+                                    x = true;
                                     break;
                                 case "y":
                                     y = true;
@@ -183,33 +183,33 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-            // The Header.
-            sw.WriteLine("ply");
-            sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
-            sw.WriteLine("format ascii 1.0");
-            sw.WriteLine("element vertex " + triangleMesh.Vertices.Count.ToString());
-            sw.WriteLine("property double x");
-            sw.WriteLine("property double y");
-            sw.WriteLine("property double z");
-            sw.WriteLine("element face " + triangleMesh.Count.ToString());
-            sw.WriteLine("property list uchar int vertex_index");
-            sw.WriteLine("end_header");
+                // The Header.
+                sw.WriteLine("ply");
+                sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
+                sw.WriteLine("format ascii 1.0");
+                sw.WriteLine("element vertex " + triangleMesh.Vertices.Count.ToString());
+                sw.WriteLine("property double x");
+                sw.WriteLine("property double y");
+                sw.WriteLine("property double z");
+                sw.WriteLine("element face " + triangleMesh.Count.ToString());
+                sw.WriteLine("property list uchar int vertex_index");
+                sw.WriteLine("end_header");
 
-            // The Vertices
-            for (int i = 0; i < triangleMesh.Vertices.Count; i++) {
-                sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
-            }
+                // The Vertices
+                for (int i = 0; i < triangleMesh.Vertices.Count; i++) {
+                    sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
+                }
 
-            // The Triangles.
-            for (int j = 0; j < triangleMesh.Count; j++) {
-                sw.WriteLine(3 + " " + triangleMesh[j][0] + " " + triangleMesh[j][1] + " " + triangleMesh[j][2]);
-            }
+                // The Triangles.
+                for (int j = 0; j < triangleMesh.Count; j++) {
+                    sw.WriteLine(3 + " " + triangleMesh[j][0] + " " + triangleMesh[j][1] + " " + triangleMesh[j][2]);
+                }
 #if !DEBUG
             } catch (Exception exception) {
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
-            sw.Close();
+                sw.Close();
 #if !DEBUG
             }
 #endif

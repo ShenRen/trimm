@@ -276,6 +276,29 @@ namespace TriMM {
             Finish(true);
         }
 
+        public void SubdivideTriangle(int triangle) {
+            Triangle tri = this[triangle];
+            this.RemoveAt(triangle);
+
+            int[] indices = new int[6];
+            indices[0] = tri[0];
+            vertices.Add(((vertices[tri[0]] + vertices[tri[1]]) / 2).ToVertex());
+            indices[1] = vertices.Count - 1;
+            indices[2] = tri[1];
+            vertices.Add(((vertices[tri[1]] + vertices[tri[2]]) / 2).ToVertex());
+            indices[3] = vertices.Count - 1;
+            indices[4] = tri[2];
+            vertices.Add(((vertices[tri[2]] + vertices[tri[0]]) / 2).ToVertex());
+            indices[5] = vertices.Count - 1;
+
+            this.Add(new Triangle(indices[0], indices[1], indices[5]));
+            this.Add(new Triangle(indices[1], indices[2], indices[3]));
+            this.Add(new Triangle(indices[1], indices[3], indices[5]));
+            this.Add(new Triangle(indices[3], indices[4], indices[5]));
+
+            this.Finish(true);
+        }
+
         /// <summary>
         /// Creates a copy of the TriangleMesh and returns it.
         /// </summary>

@@ -41,6 +41,8 @@ namespace TriMM {
         /// </summary>
         private void InitializeComponent() {
             this.manipulationGroupBox = new System.Windows.Forms.GroupBox();
+            this.subdivideButton = new System.Windows.Forms.Button();
+            this.transposeVertexButton = new System.Windows.Forms.Button();
             this.flipObservedTriangleButton = new System.Windows.Forms.Button();
             this.flipAllTrianglesButton = new System.Windows.Forms.Button();
             this.flipButton = new System.Windows.Forms.Button();
@@ -83,7 +85,7 @@ namespace TriMM {
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.meshGroupBox = new System.Windows.Forms.GroupBox();
-            this.transposeVertexButton = new System.Windows.Forms.Button();
+            this.subdivideTriangleButton = new System.Windows.Forms.Button();
             this.manipulationGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).BeginInit();
@@ -99,6 +101,8 @@ namespace TriMM {
             // 
             // manipulationGroupBox
             // 
+            this.manipulationGroupBox.Controls.Add(this.subdivideTriangleButton);
+            this.manipulationGroupBox.Controls.Add(this.subdivideButton);
             this.manipulationGroupBox.Controls.Add(this.transposeVertexButton);
             this.manipulationGroupBox.Controls.Add(this.flipObservedTriangleButton);
             this.manipulationGroupBox.Controls.Add(this.flipAllTrianglesButton);
@@ -126,11 +130,31 @@ namespace TriMM {
             this.manipulationGroupBox.Controls.Add(this.remove2NVerticesButton);
             this.manipulationGroupBox.Location = new System.Drawing.Point(12, 104);
             this.manipulationGroupBox.Name = "manipulationGroupBox";
-            this.manipulationGroupBox.Size = new System.Drawing.Size(239, 564);
+            this.manipulationGroupBox.Size = new System.Drawing.Size(239, 626);
             this.manipulationGroupBox.TabIndex = 15;
             this.manipulationGroupBox.TabStop = false;
             this.manipulationGroupBox.Text = "Manipulation";
             this.manipulationGroupBox.Visible = false;
+            // 
+            // subdivideButton
+            // 
+            this.subdivideButton.Location = new System.Drawing.Point(7, 597);
+            this.subdivideButton.Name = "subdivideButton";
+            this.subdivideButton.Size = new System.Drawing.Size(226, 23);
+            this.subdivideButton.TabIndex = 30;
+            this.subdivideButton.Text = "Subdivide Mesh";
+            this.subdivideButton.UseVisualStyleBackColor = true;
+            this.subdivideButton.Click += new System.EventHandler(this.SubdivideButton_Click);
+            // 
+            // transposeVertexButton
+            // 
+            this.transposeVertexButton.Location = new System.Drawing.Point(7, 401);
+            this.transposeVertexButton.Name = "transposeVertexButton";
+            this.transposeVertexButton.Size = new System.Drawing.Size(226, 23);
+            this.transposeVertexButton.TabIndex = 29;
+            this.transposeVertexButton.Text = "Transpose Observed Vertex By";
+            this.transposeVertexButton.UseVisualStyleBackColor = true;
+            this.transposeVertexButton.Click += new System.EventHandler(this.TransposeVertexButton_Click);
             // 
             // flipObservedTriangleButton
             // 
@@ -154,7 +178,7 @@ namespace TriMM {
             // 
             // flipButton
             // 
-            this.flipButton.Location = new System.Drawing.Point(7, 535);
+            this.flipButton.Location = new System.Drawing.Point(7, 568);
             this.flipButton.Name = "flipButton";
             this.flipButton.Size = new System.Drawing.Size(226, 23);
             this.flipButton.TabIndex = 26;
@@ -164,7 +188,7 @@ namespace TriMM {
             // 
             // e1NumericUpDown
             // 
-            this.e1NumericUpDown.Location = new System.Drawing.Point(30, 509);
+            this.e1NumericUpDown.Location = new System.Drawing.Point(30, 542);
             this.e1NumericUpDown.Name = "e1NumericUpDown";
             this.e1NumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.e1NumericUpDown.TabIndex = 25;
@@ -172,7 +196,7 @@ namespace TriMM {
             // 
             // e2NumericUpDown
             // 
-            this.e2NumericUpDown.Location = new System.Drawing.Point(141, 509);
+            this.e2NumericUpDown.Location = new System.Drawing.Point(141, 542);
             this.e2NumericUpDown.Name = "e2NumericUpDown";
             this.e2NumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.e2NumericUpDown.TabIndex = 24;
@@ -180,7 +204,7 @@ namespace TriMM {
             // 
             // moveObservedButton
             // 
-            this.moveObservedButton.Location = new System.Drawing.Point(6, 339);
+            this.moveObservedButton.Location = new System.Drawing.Point(6, 372);
             this.moveObservedButton.Name = "moveObservedButton";
             this.moveObservedButton.Size = new System.Drawing.Size(227, 23);
             this.moveObservedButton.TabIndex = 23;
@@ -191,7 +215,7 @@ namespace TriMM {
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 454);
+            this.label3.Location = new System.Drawing.Point(7, 487);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 13);
             this.label3.TabIndex = 22;
@@ -200,7 +224,7 @@ namespace TriMM {
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 428);
+            this.label2.Location = new System.Drawing.Point(7, 461);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(17, 13);
             this.label2.TabIndex = 21;
@@ -209,7 +233,7 @@ namespace TriMM {
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 402);
+            this.label1.Location = new System.Drawing.Point(7, 435);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 13);
             this.label1.TabIndex = 20;
@@ -217,7 +241,7 @@ namespace TriMM {
             // 
             // removeObservedButton
             // 
-            this.removeObservedButton.Location = new System.Drawing.Point(6, 310);
+            this.removeObservedButton.Location = new System.Drawing.Point(6, 343);
             this.removeObservedButton.Name = "removeObservedButton";
             this.removeObservedButton.Size = new System.Drawing.Size(227, 23);
             this.removeObservedButton.TabIndex = 19;
@@ -227,7 +251,7 @@ namespace TriMM {
             // 
             // addVertexButton
             // 
-            this.addVertexButton.Location = new System.Drawing.Point(7, 478);
+            this.addVertexButton.Location = new System.Drawing.Point(7, 511);
             this.addVertexButton.Name = "addVertexButton";
             this.addVertexButton.Size = new System.Drawing.Size(226, 23);
             this.addVertexButton.TabIndex = 18;
@@ -243,7 +267,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.xNumericUpDown.Location = new System.Drawing.Point(29, 400);
+            this.xNumericUpDown.Location = new System.Drawing.Point(29, 433);
             this.xNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -267,7 +291,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.zNumericUpDown.Location = new System.Drawing.Point(29, 452);
+            this.zNumericUpDown.Location = new System.Drawing.Point(29, 485);
             this.zNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -291,7 +315,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.yNumericUpDown.Location = new System.Drawing.Point(29, 426);
+            this.yNumericUpDown.Location = new System.Drawing.Point(29, 459);
             this.yNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -309,7 +333,7 @@ namespace TriMM {
             // 
             // addTriangleButton
             // 
-            this.addTriangleButton.Location = new System.Drawing.Point(6, 281);
+            this.addTriangleButton.Location = new System.Drawing.Point(6, 314);
             this.addTriangleButton.Name = "addTriangleButton";
             this.addTriangleButton.Size = new System.Drawing.Size(227, 23);
             this.addTriangleButton.TabIndex = 14;
@@ -329,7 +353,7 @@ namespace TriMM {
             // 
             // removeTriangleButton
             // 
-            this.removeTriangleButton.Location = new System.Drawing.Point(6, 252);
+            this.removeTriangleButton.Location = new System.Drawing.Point(6, 285);
             this.removeTriangleButton.Name = "removeTriangleButton";
             this.removeTriangleButton.Size = new System.Drawing.Size(227, 23);
             this.removeTriangleButton.TabIndex = 13;
@@ -349,7 +373,7 @@ namespace TriMM {
             // 
             // cNumericUpDown
             // 
-            this.cNumericUpDown.Location = new System.Drawing.Point(168, 222);
+            this.cNumericUpDown.Location = new System.Drawing.Point(168, 255);
             this.cNumericUpDown.Name = "cNumericUpDown";
             this.cNumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.cNumericUpDown.TabIndex = 11;
@@ -357,7 +381,7 @@ namespace TriMM {
             // 
             // bNumericUpDown
             // 
-            this.bNumericUpDown.Location = new System.Drawing.Point(87, 222);
+            this.bNumericUpDown.Location = new System.Drawing.Point(87, 255);
             this.bNumericUpDown.Name = "bNumericUpDown";
             this.bNumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.bNumericUpDown.TabIndex = 12;
@@ -385,7 +409,7 @@ namespace TriMM {
             // 
             // aNumericUpDown
             // 
-            this.aNumericUpDown.Location = new System.Drawing.Point(7, 222);
+            this.aNumericUpDown.Location = new System.Drawing.Point(7, 255);
             this.aNumericUpDown.Name = "aNumericUpDown";
             this.aNumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.aNumericUpDown.TabIndex = 10;
@@ -559,21 +583,21 @@ namespace TriMM {
             this.meshGroupBox.Text = "Mesh Information";
             this.meshGroupBox.Visible = false;
             // 
-            // transposeVertexButton
+            // subdivideTriangleButton
             // 
-            this.transposeVertexButton.Location = new System.Drawing.Point(7, 368);
-            this.transposeVertexButton.Name = "transposeVertexButton";
-            this.transposeVertexButton.Size = new System.Drawing.Size(226, 23);
-            this.transposeVertexButton.TabIndex = 29;
-            this.transposeVertexButton.Text = "Transpose Observed Vertex By";
-            this.transposeVertexButton.UseVisualStyleBackColor = true;
-            this.transposeVertexButton.Click += new System.EventHandler(this.TransposeVertexButton_Click);
+            this.subdivideTriangleButton.Location = new System.Drawing.Point(6, 222);
+            this.subdivideTriangleButton.Name = "subdivideTriangleButton";
+            this.subdivideTriangleButton.Size = new System.Drawing.Size(227, 23);
+            this.subdivideTriangleButton.TabIndex = 31;
+            this.subdivideTriangleButton.Text = "Subdivide Observed Triangle";
+            this.subdivideTriangleButton.UseVisualStyleBackColor = true;
+            this.subdivideTriangleButton.Click += new System.EventHandler(this.SubdivideTriangleButton_Click);
             // 
             // TriMMForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 680);
+            this.ClientSize = new System.Drawing.Size(262, 742);
             this.Controls.Add(this.meshGroupBox);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.manipulationGroupBox);
@@ -647,6 +671,8 @@ namespace TriMM {
         private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.Button transposeVertexButton;
+        private System.Windows.Forms.Button subdivideButton;
+        private System.Windows.Forms.Button subdivideTriangleButton;
     }
 }
 
