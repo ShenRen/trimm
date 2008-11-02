@@ -135,7 +135,7 @@ namespace TriMM {
             }
 
             // The TriangleMesh is complete and can be finalized.
-            triangleMesh.Finish(true);
+            if (vN) { triangleMesh.Finish(true, false); } else { triangleMesh.Finish(true, true); }
 
             return triangleMesh;
         }

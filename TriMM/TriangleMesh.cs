@@ -105,13 +105,13 @@ namespace TriMM {
         /// <summary>
         /// Clears Neighborhoods etc. for reinitializing a TriangleMesh.
         /// </summary>
-        public void ClearRelations() {
+        public void ClearRelations(bool cN) {
             maxEdgeLength = 0;
             minEdgeLength = double.PositiveInfinity;
             edges.Clear();
             for (int i = 0; i < this.Count; i++) { this[i].Edges.Clear(); }
             for (int i = 0; i < this.vertices.Count; i++) {
-                vertices[i].Normal = new VectorND(0, 0, 0);
+                if (cN) { vertices[i].Normal = new VectorND(0, 0, 0); }
                 vertices[i].Neighborhood.Clear();
                 vertices[i].AdjacentTriangles.Clear();
             }
@@ -125,9 +125,10 @@ namespace TriMM {
         /// Determines the area nearest each Vertex of a Triangle and the area of the entire Triangle.
         /// Calculates the angles of the Triangles.
         /// </summary>
-        /// <param name="normals">If true, the Triangle normals and the centroid are calculated. If False, they are not calculated.</param>
-        public void Finish(bool normals) {
-            ClearRelations();
+        /// <param name="triNormals">If true, the Triangle normals and the centroid are calculated. If False, they are not calculated.</param>
+        /// <param name="verNormals">If true, the Vertex normals are calculated. If False, they are not calculated.</param>
+        public void Finish(bool triNormals, bool verNormals) {
+            ClearRelations(verNormals);
 
             Edge edge;
             double edgeLength;
@@ -158,7 +159,7 @@ namespace TriMM {
 
             for (int i = 0; i < this.Count; i++) {
 
-                if (normals) {
+                if (triNormals) {
                     // Sets the Centroid for each Triangle.
                     this[i].Centroid = ((vertices[this[i][0]] + vertices[this[i][1]] + vertices[this[i][2]]) / 3).ToVertex();
                     // Sets the Normal for each Triangle.
@@ -170,7 +171,7 @@ namespace TriMM {
                     if (this[i].Max[j] > max[j]) { max[j] = this[i].Max[j]; }
 
                     // Calculates the Normal for each Vertex using the algorithm of Gouraud.
-                    this[i, j].Normal += this[i].Normal;
+                    if (verNormals) { this[i, j].Normal += this[i].Normal; }
                     // Sets the adjacent Triangles.
                     this[i, j].AddAdjacentTriangle(i);
                     // Sets the Neighborhood.
@@ -190,11 +191,13 @@ namespace TriMM {
                 }
             }
 
-            // Normalizes the normal vector and sets a default value for Vertices that are not part of any Triangle.
-            for (int i = 0; i < vertices.Count; i++) {
-                VectorND normal = vertices[i].Normal;
-                VectorND empty = new VectorND(0, 0, 0);
-                if (normal != empty) { normal.Normalize(); } else { normal = new VectorND(1, 0, 0); }
+            if (verNormals) {
+                // Normalizes the normal vector and sets a default value for Vertices that are not part of any Triangle.
+                for (int i = 0; i < vertices.Count; i++) {
+                    VectorND normal = vertices[i].Normal;
+                    VectorND empty = new VectorND(0, 0, 0);
+                    if (normal != empty) { normal.Normalize(); } else { normal = new VectorND(1, 0, 0); }
+                }
             }
 
             // The center is calculated.
@@ -268,12 +271,12 @@ namespace TriMM {
 
         public void FlipTriangle(int triangle) {
             this[triangle] = new Triangle(this[triangle][2], this[triangle][1], this[triangle][0]);
-            Finish(true);
+            Finish(true, true);
         }
 
         public void FlipAllTriangles() {
             for (int i = 0; i < this.Count; i++) { this[i] = new Triangle(this[i][2], this[i][1], this[i][0]); }
-            Finish(true);
+            Finish(true, true);
         }
 
         public void SubdivideTriangle(int triangle) {
@@ -296,7 +299,7 @@ namespace TriMM {
             this.Add(new Triangle(indices[1], indices[3], indices[5]));
             this.Add(new Triangle(indices[3], indices[4], indices[5]));
 
-            this.Finish(true);
+            this.Finish(true, true);
         }
 
         /// <summary>
@@ -398,6 +401,23 @@ namespace TriMM {
             }
 
             return faceNormalVectorList.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the array for drawing the Vertex normals as lines.
+        /// </summary>
+        /// <returns>The array of the endpoints of the Vertex normals</returns>
+        public double[] GetVertexNormalVectorArray() {
+            List<double> vertexNormalVectorList = new List<double>(vertices.Count * 6);
+            VectorND temp;
+
+            for (int i = 0; i < vertices.Count; i++) {
+                temp = vertices[i] + (this.Scale / 50) * vertices[i].Normal;
+                vertexNormalVectorList.AddRange(vertices[i]);
+                vertexNormalVectorList.AddRange(temp);
+            }
+
+            return vertexNormalVectorList.ToArray();
         }
 
         public float[] GetMarkedTriangleColorArray(int index, ColorOGL all, ColorOGL selected) {
@@ -505,7 +525,7 @@ namespace TriMM {
 
             newMesh.AddRange(oldTriangles.ToArray());
             newMesh.Vertices.AddRange(oldVertices.ToArray());
-            newMesh.Finish(true);
+            newMesh.Finish(true, true);
             return newMesh;
         }
 

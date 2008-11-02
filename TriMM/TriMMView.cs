@@ -55,6 +55,9 @@ namespace TriMM {
             meshColorTextBox.Text = control.MeshColor.ToString();
             vertexColorTextBox.Text = control.VertexColor.ToString();
             normalColorTextBox.Text = control.NormalColor.ToString();
+            xAxisColorTextBox.Text = control.XAxisColor.ToString();
+            yAxisColorTextBox.Text = control.YAxisColor.ToString();
+            zAxisColorTextBox.Text = control.ZAxisColor.ToString();
             observedVertexColorTextBox.Text = control.ObservedVertexColor.ToString();
             observedTriangleColorTextBox.Text = control.ObservedTriangleColor.ToString();
 
@@ -127,6 +130,18 @@ namespace TriMM {
             control.Refresh();
         }
 
+
+        private void VertexNormalsCheckBox_CheckedChanged(object sender, EventArgs e) {
+            control.ShowVertexNormalVectors = vertexNormalsCheckBox.Checked;
+            control.Refresh();
+        }
+
+
+        private void AxesCheckBox_CheckedChanged(object sender, EventArgs e) {
+            control.ShowAxes = axesCheckBox.Checked;
+            control.Refresh();
+        }
+
         /// <summary>
         /// Refreshes the TriMMControl, drawing it smooth using the Vertex normals, if checked.
         /// </summary>
@@ -175,13 +190,13 @@ namespace TriMM {
             control.PickingMode = pickingModeComboBox.SelectedIndex;
             observedNumericUpDown.Value = -1;
             if (pickingModeComboBox.SelectedIndex == 0) {
-                observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = false;
+                observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = false;
             } else if (pickingModeComboBox.SelectedIndex == 1) {
                 observedNumericUpDown.Maximum = (decimal)(control.VertexArray.Length / 3) - 1;
-                observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = true;
+                observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = true;
             } else {
                 observedNumericUpDown.Maximum = (decimal)(control.TriangleArray.Length / 9) - 1;
-                observedLabel.Visible = observedNumericUpDown.Visible = true;
+                observedLabel.Visible = observedNumericUpDown.Visible = clearObservedButton.Visible = true;
                 radiusLabel.Visible = radiusNumericUpDown.Visible = false;
             }
         }
@@ -248,7 +263,7 @@ namespace TriMM {
             clippingPlaneNumericUpDown.Value = (decimal)1.1;
             clippingPlaneNumericUpDown.ValueChanged += ClippingPlaneNumericUpDown_ValueChanged;
             solidCheckBox.Checked = meshCheckBox.Checked = true;
-            verticesCheckBox.Checked = facetNormalsCheckBox.Checked = smoothCheckBox.Checked = false;
+            verticesCheckBox.Checked = facetNormalsCheckBox.Checked = vertexNormalsCheckBox.Checked = smoothCheckBox.Checked = axesCheckBox.Checked = false;
             control.Refresh();
         }
 
@@ -340,10 +355,22 @@ namespace TriMM {
                         normalColorTextBox.Text = control.NormalColor.ToString();
                         break;
                     case "6":
+                        control.XAxisColor = newColor;
+                        xAxisColorTextBox.Text = control.XAxisColor.ToString();
+                        break;
+                    case "7":
+                        control.YAxisColor = newColor;
+                        yAxisColorTextBox.Text = control.YAxisColor.ToString();
+                        break;
+                    case "8":
+                        control.ZAxisColor = newColor;
+                        zAxisColorTextBox.Text = control.ZAxisColor.ToString();
+                        break;
+                    case "9":
                         control.ObservedVertexColor = newColor;
                         observedVertexColorTextBox.Text = control.ObservedVertexColor.ToString();
                         break;
-                    case "7":
+                    case "10":
                         control.ObservedTriangleColor = newColor;
                         observedTriangleColorTextBox.Text = control.ObservedTriangleColor.ToString();
                         break;
@@ -366,6 +393,9 @@ namespace TriMM {
             meshColorTextBox.Text = control.MeshColor.ToString();
             vertexColorTextBox.Text = control.VertexColor.ToString();
             normalColorTextBox.Text = control.NormalColor.ToString();
+            xAxisColorTextBox.Text = control.XAxisColor.ToString();
+            yAxisColorTextBox.Text = control.YAxisColor.ToString();
+            zAxisColorTextBox.Text = control.ZAxisColor.ToString();
             observedVertexColorTextBox.Text = control.ObservedVertexColor.ToString();
             observedTriangleColorTextBox.Text = control.ObservedTriangleColor.ToString();
         }

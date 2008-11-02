@@ -40,8 +40,7 @@ namespace TriMM {
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
         private void InitializeComponent() {
-            this.manipulationGroupBox = new System.Windows.Forms.GroupBox();
-            this.subdivideButton = new System.Windows.Forms.Button();
+            this.subdivideTriangleButton = new System.Windows.Forms.Button();
             this.transposeVertexButton = new System.Windows.Forms.Button();
             this.flipObservedTriangleButton = new System.Windows.Forms.Button();
             this.flipAllTrianglesButton = new System.Windows.Forms.Button();
@@ -85,8 +84,13 @@ namespace TriMM {
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.meshGroupBox = new System.Windows.Forms.GroupBox();
-            this.subdivideTriangleButton = new System.Windows.Forms.Button();
-            this.manipulationGroupBox.SuspendLayout();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.triangleTabPage = new System.Windows.Forms.TabPage();
+            this.vertexTabPage = new System.Windows.Forms.TabPage();
+            this.moveAlongNormalButton = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.distanceNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.edgeTabPage = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).BeginInit();
@@ -97,117 +101,85 @@ namespace TriMM {
             ((System.ComponentModel.ISupportInitialize)(this.aNumericUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.meshGroupBox.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.triangleTabPage.SuspendLayout();
+            this.vertexTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.distanceNumericUpDown)).BeginInit();
+            this.edgeTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
-            // manipulationGroupBox
+            // subdivideTriangleButton
             // 
-            this.manipulationGroupBox.Controls.Add(this.subdivideTriangleButton);
-            this.manipulationGroupBox.Controls.Add(this.subdivideButton);
-            this.manipulationGroupBox.Controls.Add(this.transposeVertexButton);
-            this.manipulationGroupBox.Controls.Add(this.flipObservedTriangleButton);
-            this.manipulationGroupBox.Controls.Add(this.flipAllTrianglesButton);
-            this.manipulationGroupBox.Controls.Add(this.flipButton);
-            this.manipulationGroupBox.Controls.Add(this.e1NumericUpDown);
-            this.manipulationGroupBox.Controls.Add(this.e2NumericUpDown);
-            this.manipulationGroupBox.Controls.Add(this.moveObservedButton);
-            this.manipulationGroupBox.Controls.Add(this.label3);
-            this.manipulationGroupBox.Controls.Add(this.label2);
-            this.manipulationGroupBox.Controls.Add(this.label1);
-            this.manipulationGroupBox.Controls.Add(this.removeObservedButton);
-            this.manipulationGroupBox.Controls.Add(this.addVertexButton);
-            this.manipulationGroupBox.Controls.Add(this.xNumericUpDown);
-            this.manipulationGroupBox.Controls.Add(this.zNumericUpDown);
-            this.manipulationGroupBox.Controls.Add(this.yNumericUpDown);
-            this.manipulationGroupBox.Controls.Add(this.addTriangleButton);
-            this.manipulationGroupBox.Controls.Add(this.removeSinglesButton);
-            this.manipulationGroupBox.Controls.Add(this.removeTriangleButton);
-            this.manipulationGroupBox.Controls.Add(this.removeDoubleVertButton);
-            this.manipulationGroupBox.Controls.Add(this.cNumericUpDown);
-            this.manipulationGroupBox.Controls.Add(this.bNumericUpDown);
-            this.manipulationGroupBox.Controls.Add(this.removeColinButton);
-            this.manipulationGroupBox.Controls.Add(this.removeDoubleButton);
-            this.manipulationGroupBox.Controls.Add(this.aNumericUpDown);
-            this.manipulationGroupBox.Controls.Add(this.remove2NVerticesButton);
-            this.manipulationGroupBox.Location = new System.Drawing.Point(12, 104);
-            this.manipulationGroupBox.Name = "manipulationGroupBox";
-            this.manipulationGroupBox.Size = new System.Drawing.Size(239, 626);
-            this.manipulationGroupBox.TabIndex = 15;
-            this.manipulationGroupBox.TabStop = false;
-            this.manipulationGroupBox.Text = "Manipulation";
-            this.manipulationGroupBox.Visible = false;
-            // 
-            // subdivideButton
-            // 
-            this.subdivideButton.Location = new System.Drawing.Point(7, 597);
-            this.subdivideButton.Name = "subdivideButton";
-            this.subdivideButton.Size = new System.Drawing.Size(226, 23);
-            this.subdivideButton.TabIndex = 30;
-            this.subdivideButton.Text = "Subdivide Mesh";
-            this.subdivideButton.UseVisualStyleBackColor = true;
-            this.subdivideButton.Click += new System.EventHandler(this.SubdivideButton_Click);
+            this.subdivideTriangleButton.Location = new System.Drawing.Point(6, 161);
+            this.subdivideTriangleButton.Name = "subdivideTriangleButton";
+            this.subdivideTriangleButton.Size = new System.Drawing.Size(219, 23);
+            this.subdivideTriangleButton.TabIndex = 7;
+            this.subdivideTriangleButton.Text = "Subdivide Observed Triangle";
+            this.subdivideTriangleButton.UseVisualStyleBackColor = true;
+            this.subdivideTriangleButton.Click += new System.EventHandler(this.SubdivideTriangleButton_Click);
             // 
             // transposeVertexButton
             // 
-            this.transposeVertexButton.Location = new System.Drawing.Point(7, 401);
+            this.transposeVertexButton.Location = new System.Drawing.Point(6, 270);
             this.transposeVertexButton.Name = "transposeVertexButton";
-            this.transposeVertexButton.Size = new System.Drawing.Size(226, 23);
-            this.transposeVertexButton.TabIndex = 29;
+            this.transposeVertexButton.Size = new System.Drawing.Size(219, 23);
+            this.transposeVertexButton.TabIndex = 9;
             this.transposeVertexButton.Text = "Transpose Observed Vertex By";
             this.transposeVertexButton.UseVisualStyleBackColor = true;
             this.transposeVertexButton.Click += new System.EventHandler(this.TransposeVertexButton_Click);
             // 
             // flipObservedTriangleButton
             // 
-            this.flipObservedTriangleButton.Location = new System.Drawing.Point(6, 193);
+            this.flipObservedTriangleButton.Location = new System.Drawing.Point(6, 132);
             this.flipObservedTriangleButton.Name = "flipObservedTriangleButton";
-            this.flipObservedTriangleButton.Size = new System.Drawing.Size(227, 23);
-            this.flipObservedTriangleButton.TabIndex = 28;
+            this.flipObservedTriangleButton.Size = new System.Drawing.Size(219, 23);
+            this.flipObservedTriangleButton.TabIndex = 6;
             this.flipObservedTriangleButton.Text = "Flip Observed Triangle";
             this.flipObservedTriangleButton.UseVisualStyleBackColor = true;
             this.flipObservedTriangleButton.Click += new System.EventHandler(this.FlipObservedTriangleButton_Click);
             // 
             // flipAllTrianglesButton
             // 
-            this.flipAllTrianglesButton.Location = new System.Drawing.Point(6, 164);
+            this.flipAllTrianglesButton.Location = new System.Drawing.Point(6, 103);
             this.flipAllTrianglesButton.Name = "flipAllTrianglesButton";
-            this.flipAllTrianglesButton.Size = new System.Drawing.Size(227, 23);
-            this.flipAllTrianglesButton.TabIndex = 27;
+            this.flipAllTrianglesButton.Size = new System.Drawing.Size(219, 23);
+            this.flipAllTrianglesButton.TabIndex = 5;
             this.flipAllTrianglesButton.Text = "Flip All Triangles";
             this.flipAllTrianglesButton.UseVisualStyleBackColor = true;
             this.flipAllTrianglesButton.Click += new System.EventHandler(this.FlipAllTrianglesButton_Click);
             // 
             // flipButton
             // 
-            this.flipButton.Location = new System.Drawing.Point(7, 568);
+            this.flipButton.Location = new System.Drawing.Point(6, 43);
             this.flipButton.Name = "flipButton";
-            this.flipButton.Size = new System.Drawing.Size(226, 23);
-            this.flipButton.TabIndex = 26;
+            this.flipButton.Size = new System.Drawing.Size(219, 23);
+            this.flipButton.TabIndex = 2;
             this.flipButton.Text = "Flip Selected Edge";
             this.flipButton.UseVisualStyleBackColor = true;
             this.flipButton.Click += new System.EventHandler(this.FlipButton_Click);
             // 
             // e1NumericUpDown
             // 
-            this.e1NumericUpDown.Location = new System.Drawing.Point(30, 542);
+            this.e1NumericUpDown.Location = new System.Drawing.Point(6, 6);
             this.e1NumericUpDown.Name = "e1NumericUpDown";
             this.e1NumericUpDown.Size = new System.Drawing.Size(65, 20);
-            this.e1NumericUpDown.TabIndex = 25;
+            this.e1NumericUpDown.TabIndex = 0;
             this.e1NumericUpDown.ThousandsSeparator = true;
             // 
             // e2NumericUpDown
             // 
-            this.e2NumericUpDown.Location = new System.Drawing.Point(141, 542);
+            this.e2NumericUpDown.Location = new System.Drawing.Point(160, 6);
             this.e2NumericUpDown.Name = "e2NumericUpDown";
             this.e2NumericUpDown.Size = new System.Drawing.Size(65, 20);
-            this.e2NumericUpDown.TabIndex = 24;
+            this.e2NumericUpDown.TabIndex = 1;
             this.e2NumericUpDown.ThousandsSeparator = true;
             // 
             // moveObservedButton
             // 
-            this.moveObservedButton.Location = new System.Drawing.Point(6, 372);
+            this.moveObservedButton.Location = new System.Drawing.Point(6, 241);
             this.moveObservedButton.Name = "moveObservedButton";
-            this.moveObservedButton.Size = new System.Drawing.Size(227, 23);
-            this.moveObservedButton.TabIndex = 23;
+            this.moveObservedButton.Size = new System.Drawing.Size(219, 23);
+            this.moveObservedButton.TabIndex = 8;
             this.moveObservedButton.Text = "Move Observed Vertex To";
             this.moveObservedButton.UseVisualStyleBackColor = true;
             this.moveObservedButton.Click += new System.EventHandler(this.MoveObservedButton_Click);
@@ -215,7 +187,7 @@ namespace TriMM {
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 487);
+            this.label3.Location = new System.Drawing.Point(6, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 13);
             this.label3.TabIndex = 22;
@@ -224,7 +196,7 @@ namespace TriMM {
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 461);
+            this.label2.Location = new System.Drawing.Point(6, 31);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(17, 13);
             this.label2.TabIndex = 21;
@@ -233,7 +205,7 @@ namespace TriMM {
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 435);
+            this.label1.Location = new System.Drawing.Point(6, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 13);
             this.label1.TabIndex = 20;
@@ -241,20 +213,20 @@ namespace TriMM {
             // 
             // removeObservedButton
             // 
-            this.removeObservedButton.Location = new System.Drawing.Point(6, 343);
+            this.removeObservedButton.Location = new System.Drawing.Point(6, 183);
             this.removeObservedButton.Name = "removeObservedButton";
-            this.removeObservedButton.Size = new System.Drawing.Size(227, 23);
-            this.removeObservedButton.TabIndex = 19;
+            this.removeObservedButton.Size = new System.Drawing.Size(219, 23);
+            this.removeObservedButton.TabIndex = 6;
             this.removeObservedButton.Text = "Remove Observed Vertex";
             this.removeObservedButton.UseVisualStyleBackColor = true;
             this.removeObservedButton.Click += new System.EventHandler(this.RemoveObservedButton_Click);
             // 
             // addVertexButton
             // 
-            this.addVertexButton.Location = new System.Drawing.Point(7, 511);
+            this.addVertexButton.Location = new System.Drawing.Point(6, 212);
             this.addVertexButton.Name = "addVertexButton";
-            this.addVertexButton.Size = new System.Drawing.Size(226, 23);
-            this.addVertexButton.TabIndex = 18;
+            this.addVertexButton.Size = new System.Drawing.Size(219, 23);
+            this.addVertexButton.TabIndex = 7;
             this.addVertexButton.Text = "Add selected Vertex";
             this.addVertexButton.UseVisualStyleBackColor = true;
             this.addVertexButton.Click += new System.EventHandler(this.AddVertexButton_Click);
@@ -267,7 +239,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.xNumericUpDown.Location = new System.Drawing.Point(29, 433);
+            this.xNumericUpDown.Location = new System.Drawing.Point(29, 3);
             this.xNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -279,8 +251,8 @@ namespace TriMM {
             0,
             -2147483648});
             this.xNumericUpDown.Name = "xNumericUpDown";
-            this.xNumericUpDown.Size = new System.Drawing.Size(204, 20);
-            this.xNumericUpDown.TabIndex = 17;
+            this.xNumericUpDown.Size = new System.Drawing.Size(196, 20);
+            this.xNumericUpDown.TabIndex = 0;
             this.xNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // zNumericUpDown
@@ -291,7 +263,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.zNumericUpDown.Location = new System.Drawing.Point(29, 485);
+            this.zNumericUpDown.Location = new System.Drawing.Point(29, 55);
             this.zNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -303,8 +275,8 @@ namespace TriMM {
             0,
             -2147483648});
             this.zNumericUpDown.Name = "zNumericUpDown";
-            this.zNumericUpDown.Size = new System.Drawing.Size(204, 20);
-            this.zNumericUpDown.TabIndex = 16;
+            this.zNumericUpDown.Size = new System.Drawing.Size(196, 20);
+            this.zNumericUpDown.TabIndex = 2;
             this.zNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // yNumericUpDown
@@ -315,7 +287,7 @@ namespace TriMM {
             0,
             0,
             196608});
-            this.yNumericUpDown.Location = new System.Drawing.Point(29, 459);
+            this.yNumericUpDown.Location = new System.Drawing.Point(29, 29);
             this.yNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -327,100 +299,100 @@ namespace TriMM {
             0,
             -2147483648});
             this.yNumericUpDown.Name = "yNumericUpDown";
-            this.yNumericUpDown.Size = new System.Drawing.Size(204, 20);
-            this.yNumericUpDown.TabIndex = 15;
+            this.yNumericUpDown.Size = new System.Drawing.Size(196, 20);
+            this.yNumericUpDown.TabIndex = 1;
             this.yNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // addTriangleButton
             // 
-            this.addTriangleButton.Location = new System.Drawing.Point(6, 314);
+            this.addTriangleButton.Location = new System.Drawing.Point(6, 219);
             this.addTriangleButton.Name = "addTriangleButton";
-            this.addTriangleButton.Size = new System.Drawing.Size(227, 23);
-            this.addTriangleButton.TabIndex = 14;
+            this.addTriangleButton.Size = new System.Drawing.Size(219, 23);
+            this.addTriangleButton.TabIndex = 9;
             this.addTriangleButton.Text = "Add selected Triangle";
             this.addTriangleButton.UseVisualStyleBackColor = true;
             this.addTriangleButton.Click += new System.EventHandler(this.AddTriangleButton_Click);
             // 
             // removeSinglesButton
             // 
-            this.removeSinglesButton.Location = new System.Drawing.Point(6, 48);
+            this.removeSinglesButton.Location = new System.Drawing.Point(6, 96);
             this.removeSinglesButton.Name = "removeSinglesButton";
-            this.removeSinglesButton.Size = new System.Drawing.Size(227, 23);
-            this.removeSinglesButton.TabIndex = 6;
+            this.removeSinglesButton.Size = new System.Drawing.Size(219, 23);
+            this.removeSinglesButton.TabIndex = 3;
             this.removeSinglesButton.Text = "Remove Single Vertices";
             this.removeSinglesButton.UseVisualStyleBackColor = true;
             this.removeSinglesButton.Click += new System.EventHandler(this.RemoveSinglesButton_Click);
             // 
             // removeTriangleButton
             // 
-            this.removeTriangleButton.Location = new System.Drawing.Point(6, 285);
+            this.removeTriangleButton.Location = new System.Drawing.Point(6, 190);
             this.removeTriangleButton.Name = "removeTriangleButton";
-            this.removeTriangleButton.Size = new System.Drawing.Size(227, 23);
-            this.removeTriangleButton.TabIndex = 13;
+            this.removeTriangleButton.Size = new System.Drawing.Size(219, 23);
+            this.removeTriangleButton.TabIndex = 8;
             this.removeTriangleButton.Text = "Remove selected Triangle";
             this.removeTriangleButton.UseVisualStyleBackColor = true;
             this.removeTriangleButton.Click += new System.EventHandler(this.RemoveTriangleButton_Click);
             // 
             // removeDoubleVertButton
             // 
-            this.removeDoubleVertButton.Location = new System.Drawing.Point(6, 77);
+            this.removeDoubleVertButton.Location = new System.Drawing.Point(6, 125);
             this.removeDoubleVertButton.Name = "removeDoubleVertButton";
-            this.removeDoubleVertButton.Size = new System.Drawing.Size(227, 23);
-            this.removeDoubleVertButton.TabIndex = 8;
+            this.removeDoubleVertButton.Size = new System.Drawing.Size(219, 23);
+            this.removeDoubleVertButton.TabIndex = 4;
             this.removeDoubleVertButton.Text = "Remove Double Vertices";
             this.removeDoubleVertButton.UseVisualStyleBackColor = true;
             this.removeDoubleVertButton.Click += new System.EventHandler(this.RemoveDoubleVertButton_Click);
             // 
             // cNumericUpDown
             // 
-            this.cNumericUpDown.Location = new System.Drawing.Point(168, 255);
+            this.cNumericUpDown.Location = new System.Drawing.Point(160, 6);
             this.cNumericUpDown.Name = "cNumericUpDown";
             this.cNumericUpDown.Size = new System.Drawing.Size(65, 20);
-            this.cNumericUpDown.TabIndex = 11;
+            this.cNumericUpDown.TabIndex = 2;
             this.cNumericUpDown.ThousandsSeparator = true;
             // 
             // bNumericUpDown
             // 
-            this.bNumericUpDown.Location = new System.Drawing.Point(87, 255);
+            this.bNumericUpDown.Location = new System.Drawing.Point(83, 6);
             this.bNumericUpDown.Name = "bNumericUpDown";
             this.bNumericUpDown.Size = new System.Drawing.Size(65, 20);
-            this.bNumericUpDown.TabIndex = 12;
+            this.bNumericUpDown.TabIndex = 1;
             this.bNumericUpDown.ThousandsSeparator = true;
             // 
             // removeColinButton
             // 
-            this.removeColinButton.Location = new System.Drawing.Point(6, 19);
+            this.removeColinButton.Location = new System.Drawing.Point(6, 45);
             this.removeColinButton.Name = "removeColinButton";
-            this.removeColinButton.Size = new System.Drawing.Size(227, 23);
-            this.removeColinButton.TabIndex = 7;
+            this.removeColinButton.Size = new System.Drawing.Size(219, 23);
+            this.removeColinButton.TabIndex = 3;
             this.removeColinButton.Text = "Remove Triangles with colinear Vertices";
             this.removeColinButton.UseVisualStyleBackColor = true;
             this.removeColinButton.Click += new System.EventHandler(this.RemoveColinButton_Click);
             // 
             // removeDoubleButton
             // 
-            this.removeDoubleButton.Location = new System.Drawing.Point(6, 106);
+            this.removeDoubleButton.Location = new System.Drawing.Point(6, 74);
             this.removeDoubleButton.Name = "removeDoubleButton";
-            this.removeDoubleButton.Size = new System.Drawing.Size(227, 23);
-            this.removeDoubleButton.TabIndex = 2;
+            this.removeDoubleButton.Size = new System.Drawing.Size(219, 23);
+            this.removeDoubleButton.TabIndex = 4;
             this.removeDoubleButton.Text = "Remove Double Triangles";
             this.removeDoubleButton.UseVisualStyleBackColor = true;
             this.removeDoubleButton.Click += new System.EventHandler(this.RemoveDoubleButton_Click);
             // 
             // aNumericUpDown
             // 
-            this.aNumericUpDown.Location = new System.Drawing.Point(7, 255);
+            this.aNumericUpDown.Location = new System.Drawing.Point(6, 6);
             this.aNumericUpDown.Name = "aNumericUpDown";
             this.aNumericUpDown.Size = new System.Drawing.Size(65, 20);
-            this.aNumericUpDown.TabIndex = 10;
+            this.aNumericUpDown.TabIndex = 0;
             this.aNumericUpDown.ThousandsSeparator = true;
             // 
             // remove2NVerticesButton
             // 
-            this.remove2NVerticesButton.Location = new System.Drawing.Point(6, 135);
+            this.remove2NVerticesButton.Location = new System.Drawing.Point(6, 154);
             this.remove2NVerticesButton.Name = "remove2NVerticesButton";
-            this.remove2NVerticesButton.Size = new System.Drawing.Size(227, 23);
-            this.remove2NVerticesButton.TabIndex = 3;
+            this.remove2NVerticesButton.Size = new System.Drawing.Size(219, 23);
+            this.remove2NVerticesButton.TabIndex = 5;
             this.remove2NVerticesButton.Text = "Remove Vertices with only two neighbors";
             this.remove2NVerticesButton.UseVisualStyleBackColor = true;
             this.remove2NVerticesButton.Click += new System.EventHandler(this.Remove2NVerticesButton_Click);
@@ -583,31 +555,129 @@ namespace TriMM {
             this.meshGroupBox.Text = "Mesh Information";
             this.meshGroupBox.Visible = false;
             // 
-            // subdivideTriangleButton
+            // tabControl1
             // 
-            this.subdivideTriangleButton.Location = new System.Drawing.Point(6, 222);
-            this.subdivideTriangleButton.Name = "subdivideTriangleButton";
-            this.subdivideTriangleButton.Size = new System.Drawing.Size(227, 23);
-            this.subdivideTriangleButton.TabIndex = 31;
-            this.subdivideTriangleButton.Text = "Subdivide Observed Triangle";
-            this.subdivideTriangleButton.UseVisualStyleBackColor = true;
-            this.subdivideTriangleButton.Click += new System.EventHandler(this.SubdivideTriangleButton_Click);
+            this.tabControl1.Controls.Add(this.triangleTabPage);
+            this.tabControl1.Controls.Add(this.vertexTabPage);
+            this.tabControl1.Controls.Add(this.edgeTabPage);
+            this.tabControl1.Location = new System.Drawing.Point(12, 104);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(239, 278);
+            this.tabControl1.TabIndex = 0;
+            this.tabControl1.Visible = false;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
+            // 
+            // triangleTabPage
+            // 
+            this.triangleTabPage.Controls.Add(this.subdivideTriangleButton);
+            this.triangleTabPage.Controls.Add(this.removeColinButton);
+            this.triangleTabPage.Controls.Add(this.removeDoubleButton);
+            this.triangleTabPage.Controls.Add(this.flipAllTrianglesButton);
+            this.triangleTabPage.Controls.Add(this.flipObservedTriangleButton);
+            this.triangleTabPage.Controls.Add(this.aNumericUpDown);
+            this.triangleTabPage.Controls.Add(this.addTriangleButton);
+            this.triangleTabPage.Controls.Add(this.removeTriangleButton);
+            this.triangleTabPage.Controls.Add(this.cNumericUpDown);
+            this.triangleTabPage.Controls.Add(this.bNumericUpDown);
+            this.triangleTabPage.Location = new System.Drawing.Point(4, 22);
+            this.triangleTabPage.Name = "triangleTabPage";
+            this.triangleTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.triangleTabPage.Size = new System.Drawing.Size(231, 252);
+            this.triangleTabPage.TabIndex = 1;
+            this.triangleTabPage.Text = "Triangles";
+            // 
+            // vertexTabPage
+            // 
+            this.vertexTabPage.Controls.Add(this.moveAlongNormalButton);
+            this.vertexTabPage.Controls.Add(this.label7);
+            this.vertexTabPage.Controls.Add(this.distanceNumericUpDown);
+            this.vertexTabPage.Controls.Add(this.removeDoubleVertButton);
+            this.vertexTabPage.Controls.Add(this.transposeVertexButton);
+            this.vertexTabPage.Controls.Add(this.remove2NVerticesButton);
+            this.vertexTabPage.Controls.Add(this.label1);
+            this.vertexTabPage.Controls.Add(this.addVertexButton);
+            this.vertexTabPage.Controls.Add(this.removeSinglesButton);
+            this.vertexTabPage.Controls.Add(this.label3);
+            this.vertexTabPage.Controls.Add(this.removeObservedButton);
+            this.vertexTabPage.Controls.Add(this.label2);
+            this.vertexTabPage.Controls.Add(this.moveObservedButton);
+            this.vertexTabPage.Controls.Add(this.zNumericUpDown);
+            this.vertexTabPage.Controls.Add(this.yNumericUpDown);
+            this.vertexTabPage.Controls.Add(this.xNumericUpDown);
+            this.vertexTabPage.Location = new System.Drawing.Point(4, 22);
+            this.vertexTabPage.Name = "vertexTabPage";
+            this.vertexTabPage.Size = new System.Drawing.Size(231, 364);
+            this.vertexTabPage.TabIndex = 2;
+            this.vertexTabPage.Text = "Vertices";
+            // 
+            // moveAlongNormalButton
+            // 
+            this.moveAlongNormalButton.Location = new System.Drawing.Point(6, 299);
+            this.moveAlongNormalButton.Name = "moveAlongNormalButton";
+            this.moveAlongNormalButton.Size = new System.Drawing.Size(219, 23);
+            this.moveAlongNormalButton.TabIndex = 10;
+            this.moveAlongNormalButton.Text = "Move Observed Vertex along Normal";
+            this.moveAlongNormalButton.UseVisualStyleBackColor = true;
+            this.moveAlongNormalButton.Click += new System.EventHandler(this.MoveAlongNormalButton_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 335);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(52, 13);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Distance:";
+            // 
+            // distanceNumericUpDown
+            // 
+            this.distanceNumericUpDown.DecimalPlaces = 15;
+            this.distanceNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+            this.distanceNumericUpDown.Location = new System.Drawing.Point(64, 333);
+            this.distanceNumericUpDown.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.distanceNumericUpDown.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.distanceNumericUpDown.Name = "distanceNumericUpDown";
+            this.distanceNumericUpDown.Size = new System.Drawing.Size(161, 20);
+            this.distanceNumericUpDown.TabIndex = 11;
+            this.distanceNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // edgeTabPage
+            // 
+            this.edgeTabPage.Controls.Add(this.e1NumericUpDown);
+            this.edgeTabPage.Controls.Add(this.flipButton);
+            this.edgeTabPage.Controls.Add(this.e2NumericUpDown);
+            this.edgeTabPage.Location = new System.Drawing.Point(4, 22);
+            this.edgeTabPage.Name = "edgeTabPage";
+            this.edgeTabPage.Size = new System.Drawing.Size(231, 252);
+            this.edgeTabPage.TabIndex = 3;
+            this.edgeTabPage.Text = "Edges";
             // 
             // TriMMForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 742);
+            this.ClientSize = new System.Drawing.Size(262, 390);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.meshGroupBox);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.manipulationGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "TriMMForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "TriMM";
-            this.manipulationGroupBox.ResumeLayout(false);
-            this.manipulationGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).EndInit();
@@ -620,6 +690,12 @@ namespace TriMM {
             this.menuStrip1.PerformLayout();
             this.meshGroupBox.ResumeLayout(false);
             this.meshGroupBox.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.triangleTabPage.ResumeLayout(false);
+            this.vertexTabPage.ResumeLayout(false);
+            this.vertexTabPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.distanceNumericUpDown)).EndInit();
+            this.edgeTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -627,7 +703,6 @@ namespace TriMM {
 
         #endregion
 
-        private System.Windows.Forms.GroupBox manipulationGroupBox;
         private System.Windows.Forms.Button flipButton;
         private System.Windows.Forms.NumericUpDown e1NumericUpDown;
         private System.Windows.Forms.NumericUpDown e2NumericUpDown;
@@ -671,8 +746,14 @@ namespace TriMM {
         private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.Button transposeVertexButton;
-        private System.Windows.Forms.Button subdivideButton;
         private System.Windows.Forms.Button subdivideTriangleButton;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage triangleTabPage;
+        private System.Windows.Forms.TabPage vertexTabPage;
+        private System.Windows.Forms.TabPage edgeTabPage;
+        private System.Windows.Forms.Button moveAlongNormalButton;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown distanceNumericUpDown;
     }
 }
 

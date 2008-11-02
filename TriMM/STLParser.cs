@@ -122,7 +122,7 @@ namespace TriMM {
                 binReader.Close();
             }
 
-            mesh.Finish(false);
+            mesh.Finish(false, true);
             return mesh;
         }
 
@@ -191,7 +191,7 @@ namespace TriMM {
                 sr.Close();
             }
 
-            mesh.Finish(false);
+            mesh.Finish(false, true);
             return mesh;
         }
 

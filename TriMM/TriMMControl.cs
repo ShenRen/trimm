@@ -115,6 +115,9 @@ namespace TriMM {
         private ColorOGL normalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
         private ColorOGL observedVertexColor = new ColorOGL();
         private ColorOGL observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
+        private ColorOGL xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
+        private ColorOGL yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
+        private ColorOGL zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
 
         private Vertex observedVertex;
         private float observedRadius = 0.1f;
@@ -129,6 +132,8 @@ namespace TriMM {
         private bool showMesh = false;
         private bool showVertices = false;
         private bool showFacetNormalVectors = false;
+        private bool showVertexNormalVectors = false;
+        private bool showAxes = false;
 
         #endregion
 
@@ -143,6 +148,7 @@ namespace TriMM {
         private double[] normalArray;
         private double[] smoothNormalArray;
         private double[] facetNormalVectorArray;
+        private double[] vertexNormalVectorArray;
 
         #endregion
 
@@ -241,6 +247,15 @@ namespace TriMM {
         /// <value>Gets the color for the sphere around the observed Vertex or sets it.</value>
         public ColorOGL ObservedTriangleColor { get { return observedTriangleColor; } set { observedTriangleColor = value; } }
 
+        /// <value>Gets the color for the x-axis or sets it.</value>
+        public ColorOGL XAxisColor { get { return xAxisColor; } set { xAxisColor = value; } }
+
+        /// <value>Gets the color for the y-axis or sets it.</value>
+        public ColorOGL YAxisColor { get { return yAxisColor; } set { yAxisColor = value; } }
+
+        /// <value>Gets the color for the z-axis or sets it.</value>
+        public ColorOGL ZAxisColor { get { return zAxisColor; } set { zAxisColor = value; } }
+
         /// <value>Sets the currently observed Vertex.</value>
         public Vertex ObservedVertex {
             set {
@@ -278,6 +293,12 @@ namespace TriMM {
         /// <value>If true, the Triangle normal vectors of the modell are drawn.</value>
         public bool ShowFacetNormalVectors { set { showFacetNormalVectors = value; } }
 
+        /// <value>If true, the Vertex normal vectors of the modell are drawn.</value>
+        public bool ShowVertexNormalVectors { set { showVertexNormalVectors = value; } }
+
+        /// <value>If true, the coordinate-axes are drawn.</value>
+        public bool ShowAxes { set { showAxes = value; } }
+
         #endregion
 
         #region Drawing Arrays
@@ -308,6 +329,9 @@ namespace TriMM {
 
         /// <value>Sets the array of normal vectors of all Triangles as lines.</value>
         public double[] FacetNormalVectorArray { set { facetNormalVectorArray = value; } }
+
+        /// <value>Sets the array of normal vectors of all Triangles as lines.</value>
+        public double[] VertexNormalVectorArray { set { vertexNormalVectorArray = value; } }
 
         #endregion
 
@@ -479,9 +503,7 @@ namespace TriMM {
             }
 
             if (this.deviceContext != IntPtr.Zero) {
-                if (this.Handle != IntPtr.Zero) {
-                    User.ReleaseDC(this.Handle, this.deviceContext);
-                }
+                if (this.Handle != IntPtr.Zero) { User.ReleaseDC(this.Handle, this.deviceContext); }
                 this.deviceContext = IntPtr.Zero;
             }
         }
@@ -652,6 +674,9 @@ namespace TriMM {
             meshColor = new ColorOGL(0.5f, 0.5f, 0.5f);
             vertexColor = new ColorOGL(0.8f, 0.8f, 0.0f);
             normalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
+            xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
+            yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
+            zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
             observedVertexColor = new ColorOGL();
             observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
 
@@ -753,6 +778,8 @@ namespace TriMM {
                 if (showMesh) { DrawMesh(); }
                 if (showVertices) { DrawVertices(); }
                 if (showFacetNormalVectors) { DrawFacetNormals(); }
+                if (showVertexNormalVectors) { DrawVertexNormals(); }
+                if (showAxes) { DrawAxes(); }
                 if (observedVertex != null) { DrawObservedVertex(); }
                 if (info.Count > 0) { DrawInfo(); }
             } else if (picking && (pickingMode == 1)) {
@@ -840,6 +867,44 @@ namespace TriMM {
 
             Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, facetNormalVectorArray);
             Gl.glDrawArrays(Gl.GL_LINES, 0, facetNormalVectorArray.Length / 3);
+
+            Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
+            Gl.glEnable(Gl.GL_LIGHTING);
+        }
+
+
+        private void DrawVertexNormals() {
+            Gl.glDisable(Gl.GL_LIGHTING);
+            Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
+
+            Gl.glLineWidth(1.5f);
+            Gl.glColor3fv(normalColor.RGB);
+
+            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, vertexNormalVectorArray);
+            Gl.glDrawArrays(Gl.GL_LINES, 0, vertexNormalVectorArray.Length / 3);
+
+            Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
+            Gl.glEnable(Gl.GL_LIGHTING);
+        }
+
+
+        private void DrawAxes() {
+            Gl.glDisable(Gl.GL_LIGHTING);
+            Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
+
+            Gl.glLineWidth(1.5f);
+
+            Gl.glBegin(Gl.GL_LINES);
+            Gl.glColor3fv(xAxisColor.RGB);
+            Gl.glVertex3f(0.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(1.05f * scale, 0.0f, 0.0f);
+            Gl.glColor3fv(yAxisColor.RGB);
+            Gl.glVertex3f(0.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(0.0f, 1.05f * scale, 0.0f);
+            Gl.glColor3fv(zAxisColor.RGB);
+            Gl.glVertex3f(0.0f, 0.0f, 0.0f);
+            Gl.glVertex3f(0.0f, 0.0f, 1.05f * scale);
+            Gl.glEnd();
 
             Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
             Gl.glEnable(Gl.GL_LIGHTING);

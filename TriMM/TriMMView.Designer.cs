@@ -45,6 +45,8 @@ namespace TriMM {
             this.panel = new System.Windows.Forms.TableLayoutPanel();
             this.centerButton = new System.Windows.Forms.Button();
             this.controlPanel = new System.Windows.Forms.Panel();
+            this.axesCheckBox = new System.Windows.Forms.CheckBox();
+            this.vertexNormalsCheckBox = new System.Windows.Forms.CheckBox();
             this.pickingModeComboBox = new System.Windows.Forms.ComboBox();
             this.pickingModeLabel = new System.Windows.Forms.Label();
             this.smoothCheckBox = new System.Windows.Forms.CheckBox();
@@ -63,6 +65,12 @@ namespace TriMM {
             this.resetViewButton = new System.Windows.Forms.Button();
             this.colorPanelButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.zAxisColorTextBox = new System.Windows.Forms.TextBox();
+            this.zAxisColorButton = new System.Windows.Forms.Button();
+            this.yAxisColorTextBox = new System.Windows.Forms.TextBox();
+            this.xAxisColorTextBox = new System.Windows.Forms.TextBox();
+            this.yAxisColorButton = new System.Windows.Forms.Button();
+            this.xAxisColorButton = new System.Windows.Forms.Button();
             this.colorsLabel = new System.Windows.Forms.Label();
             this.observedTriangleColorTextBox = new System.Windows.Forms.TextBox();
             this.observedTriangleButton = new System.Windows.Forms.Button();
@@ -131,6 +139,8 @@ namespace TriMM {
             this.panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 97F));
+            this.panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.panel.Size = new System.Drawing.Size(642, 719);
             this.panel.TabIndex = 2;
             // 
@@ -149,6 +159,8 @@ namespace TriMM {
             // controlPanel
             // 
             this.panel.SetColumnSpan(this.controlPanel, 3);
+            this.controlPanel.Controls.Add(this.axesCheckBox);
+            this.controlPanel.Controls.Add(this.vertexNormalsCheckBox);
             this.controlPanel.Controls.Add(this.pickingModeComboBox);
             this.controlPanel.Controls.Add(this.pickingModeLabel);
             this.controlPanel.Controls.Add(this.smoothCheckBox);
@@ -171,6 +183,28 @@ namespace TriMM {
             this.controlPanel.Size = new System.Drawing.Size(636, 91);
             this.controlPanel.TabIndex = 4;
             // 
+            // axesCheckBox
+            // 
+            this.axesCheckBox.AutoSize = true;
+            this.axesCheckBox.Location = new System.Drawing.Point(367, 30);
+            this.axesCheckBox.Name = "axesCheckBox";
+            this.axesCheckBox.Size = new System.Drawing.Size(49, 17);
+            this.axesCheckBox.TabIndex = 31;
+            this.axesCheckBox.Text = "Axes";
+            this.axesCheckBox.UseVisualStyleBackColor = true;
+            this.axesCheckBox.CheckedChanged += new System.EventHandler(this.AxesCheckBox_CheckedChanged);
+            // 
+            // vertexNormalsCheckBox
+            // 
+            this.vertexNormalsCheckBox.AutoSize = true;
+            this.vertexNormalsCheckBox.Location = new System.Drawing.Point(195, 30);
+            this.vertexNormalsCheckBox.Name = "vertexNormalsCheckBox";
+            this.vertexNormalsCheckBox.Size = new System.Drawing.Size(97, 17);
+            this.vertexNormalsCheckBox.TabIndex = 30;
+            this.vertexNormalsCheckBox.Text = "Vertex Normals";
+            this.vertexNormalsCheckBox.UseVisualStyleBackColor = true;
+            this.vertexNormalsCheckBox.CheckedChanged += new System.EventHandler(this.VertexNormalsCheckBox_CheckedChanged);
+            // 
             // pickingModeComboBox
             // 
             this.pickingModeComboBox.FormattingEnabled = true;
@@ -178,7 +212,7 @@ namespace TriMM {
             "None",
             "Vertex",
             "Triangle"});
-            this.pickingModeComboBox.Location = new System.Drawing.Point(92, 34);
+            this.pickingModeComboBox.Location = new System.Drawing.Point(92, 65);
             this.pickingModeComboBox.Name = "pickingModeComboBox";
             this.pickingModeComboBox.Size = new System.Drawing.Size(70, 21);
             this.pickingModeComboBox.TabIndex = 29;
@@ -187,7 +221,7 @@ namespace TriMM {
             // pickingModeLabel
             // 
             this.pickingModeLabel.AutoSize = true;
-            this.pickingModeLabel.Location = new System.Drawing.Point(11, 37);
+            this.pickingModeLabel.Location = new System.Drawing.Point(11, 68);
             this.pickingModeLabel.Name = "pickingModeLabel";
             this.pickingModeLabel.Size = new System.Drawing.Size(75, 13);
             this.pickingModeLabel.TabIndex = 28;
@@ -208,7 +242,7 @@ namespace TriMM {
             // 
             this.clippingPlaneLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.clippingPlaneLabel.AutoSize = true;
-            this.clippingPlaneLabel.Location = new System.Drawing.Point(486, 9);
+            this.clippingPlaneLabel.Location = new System.Drawing.Point(485, 8);
             this.clippingPlaneLabel.Name = "clippingPlaneLabel";
             this.clippingPlaneLabel.Size = new System.Drawing.Size(77, 13);
             this.clippingPlaneLabel.TabIndex = 27;
@@ -217,18 +251,18 @@ namespace TriMM {
             // facetNormalsCheckBox
             // 
             this.facetNormalsCheckBox.AutoSize = true;
-            this.facetNormalsCheckBox.Location = new System.Drawing.Point(383, 7);
+            this.facetNormalsCheckBox.Location = new System.Drawing.Point(14, 30);
             this.facetNormalsCheckBox.Name = "facetNormalsCheckBox";
-            this.facetNormalsCheckBox.Size = new System.Drawing.Size(64, 17);
+            this.facetNormalsCheckBox.Size = new System.Drawing.Size(105, 17);
             this.facetNormalsCheckBox.TabIndex = 23;
-            this.facetNormalsCheckBox.Text = "Normals";
+            this.facetNormalsCheckBox.Text = "Triangle Normals";
             this.facetNormalsCheckBox.UseVisualStyleBackColor = true;
             this.facetNormalsCheckBox.CheckedChanged += new System.EventHandler(this.FacetNormalsCheckBox_CheckedChanged);
             // 
             // verticesCheckBox
             // 
             this.verticesCheckBox.AutoSize = true;
-            this.verticesCheckBox.Location = new System.Drawing.Point(285, 7);
+            this.verticesCheckBox.Location = new System.Drawing.Point(367, 7);
             this.verticesCheckBox.Name = "verticesCheckBox";
             this.verticesCheckBox.Size = new System.Drawing.Size(64, 17);
             this.verticesCheckBox.TabIndex = 26;
@@ -241,7 +275,7 @@ namespace TriMM {
             this.meshCheckBox.AutoSize = true;
             this.meshCheckBox.Checked = true;
             this.meshCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.meshCheckBox.Location = new System.Drawing.Point(199, 7);
+            this.meshCheckBox.Location = new System.Drawing.Point(246, 7);
             this.meshCheckBox.Name = "meshCheckBox";
             this.meshCheckBox.Size = new System.Drawing.Size(52, 17);
             this.meshCheckBox.TabIndex = 25;
@@ -284,7 +318,7 @@ namespace TriMM {
             this.solidCheckBox.AutoSize = true;
             this.solidCheckBox.Checked = true;
             this.solidCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.solidCheckBox.Location = new System.Drawing.Point(111, 7);
+            this.solidCheckBox.Location = new System.Drawing.Point(125, 7);
             this.solidCheckBox.Name = "solidCheckBox";
             this.solidCheckBox.Size = new System.Drawing.Size(49, 17);
             this.solidCheckBox.TabIndex = 24;
@@ -294,7 +328,7 @@ namespace TriMM {
             // 
             // observedNumericUpDown
             // 
-            this.observedNumericUpDown.Location = new System.Drawing.Point(257, 35);
+            this.observedNumericUpDown.Location = new System.Drawing.Point(230, 66);
             this.observedNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -319,7 +353,7 @@ namespace TriMM {
             0,
             0,
             131072});
-            this.radiusNumericUpDown.Location = new System.Drawing.Point(427, 35);
+            this.radiusNumericUpDown.Location = new System.Drawing.Point(422, 66);
             this.radiusNumericUpDown.Name = "radiusNumericUpDown";
             this.radiusNumericUpDown.Size = new System.Drawing.Size(84, 20);
             this.radiusNumericUpDown.TabIndex = 20;
@@ -328,7 +362,7 @@ namespace TriMM {
             // radiusLabel
             // 
             this.radiusLabel.AutoSize = true;
-            this.radiusLabel.Location = new System.Drawing.Point(378, 37);
+            this.radiusLabel.Location = new System.Drawing.Point(373, 70);
             this.radiusLabel.Name = "radiusLabel";
             this.radiusLabel.Size = new System.Drawing.Size(43, 13);
             this.radiusLabel.TabIndex = 18;
@@ -337,18 +371,19 @@ namespace TriMM {
             // clearObservedButton
             // 
             this.clearObservedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearObservedButton.Location = new System.Drawing.Point(321, 63);
+            this.clearObservedButton.Location = new System.Drawing.Point(320, 65);
             this.clearObservedButton.Name = "clearObservedButton";
-            this.clearObservedButton.Size = new System.Drawing.Size(100, 23);
+            this.clearObservedButton.Size = new System.Drawing.Size(50, 23);
             this.clearObservedButton.TabIndex = 16;
-            this.clearObservedButton.Text = "Clear Observed";
+            this.clearObservedButton.Text = "Clear";
             this.clearObservedButton.UseVisualStyleBackColor = true;
+            this.clearObservedButton.Visible = false;
             this.clearObservedButton.Click += new System.EventHandler(this.ClearObservedButton_Click);
             // 
             // observedLabel
             // 
             this.observedLabel.AutoSize = true;
-            this.observedLabel.Location = new System.Drawing.Point(195, 37);
+            this.observedLabel.Location = new System.Drawing.Point(168, 68);
             this.observedLabel.Name = "observedLabel";
             this.observedLabel.Size = new System.Drawing.Size(56, 13);
             this.observedLabel.TabIndex = 12;
@@ -357,9 +392,9 @@ namespace TriMM {
             // screenshotButton
             // 
             this.screenshotButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.screenshotButton.Location = new System.Drawing.Point(533, 65);
+            this.screenshotButton.Location = new System.Drawing.Point(537, 65);
             this.screenshotButton.Name = "screenshotButton";
-            this.screenshotButton.Size = new System.Drawing.Size(100, 23);
+            this.screenshotButton.Size = new System.Drawing.Size(96, 23);
             this.screenshotButton.TabIndex = 11;
             this.screenshotButton.Text = "Screenshot";
             this.screenshotButton.UseVisualStyleBackColor = true;
@@ -368,9 +403,9 @@ namespace TriMM {
             // resetViewButton
             // 
             this.resetViewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.resetViewButton.Location = new System.Drawing.Point(427, 63);
+            this.resetViewButton.Location = new System.Drawing.Point(537, 36);
             this.resetViewButton.Name = "resetViewButton";
-            this.resetViewButton.Size = new System.Drawing.Size(100, 23);
+            this.resetViewButton.Size = new System.Drawing.Size(96, 23);
             this.resetViewButton.TabIndex = 10;
             this.resetViewButton.Text = "Reset View";
             this.resetViewButton.UseVisualStyleBackColor = true;
@@ -402,6 +437,12 @@ namespace TriMM {
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.zAxisColorTextBox);
+            this.splitContainer1.Panel2.Controls.Add(this.zAxisColorButton);
+            this.splitContainer1.Panel2.Controls.Add(this.yAxisColorTextBox);
+            this.splitContainer1.Panel2.Controls.Add(this.xAxisColorTextBox);
+            this.splitContainer1.Panel2.Controls.Add(this.yAxisColorButton);
+            this.splitContainer1.Panel2.Controls.Add(this.xAxisColorButton);
             this.splitContainer1.Panel2.Controls.Add(this.colorsLabel);
             this.splitContainer1.Panel2.Controls.Add(this.observedTriangleColorTextBox);
             this.splitContainer1.Panel2.Controls.Add(this.observedTriangleButton);
@@ -424,6 +465,63 @@ namespace TriMM {
             this.splitContainer1.SplitterDistance = 642;
             this.splitContainer1.TabIndex = 3;
             // 
+            // zAxisColorTextBox
+            // 
+            this.zAxisColorTextBox.Location = new System.Drawing.Point(4, 484);
+            this.zAxisColorTextBox.Name = "zAxisColorTextBox";
+            this.zAxisColorTextBox.ReadOnly = true;
+            this.zAxisColorTextBox.Size = new System.Drawing.Size(128, 20);
+            this.zAxisColorTextBox.TabIndex = 25;
+            // 
+            // zAxisColorButton
+            // 
+            this.zAxisColorButton.Location = new System.Drawing.Point(4, 510);
+            this.zAxisColorButton.Name = "zAxisColorButton";
+            this.zAxisColorButton.Size = new System.Drawing.Size(128, 23);
+            this.zAxisColorButton.TabIndex = 24;
+            this.zAxisColorButton.Tag = "8";
+            this.zAxisColorButton.Text = "Z-Axis";
+            this.zAxisColorButton.UseVisualStyleBackColor = true;
+            this.zAxisColorButton.Click += new System.EventHandler(this.ColorButton_Click);
+            // 
+            // yAxisColorTextBox
+            // 
+            this.yAxisColorTextBox.Location = new System.Drawing.Point(4, 429);
+            this.yAxisColorTextBox.Name = "yAxisColorTextBox";
+            this.yAxisColorTextBox.ReadOnly = true;
+            this.yAxisColorTextBox.Size = new System.Drawing.Size(128, 20);
+            this.yAxisColorTextBox.TabIndex = 23;
+            // 
+            // xAxisColorTextBox
+            // 
+            this.xAxisColorTextBox.Location = new System.Drawing.Point(4, 374);
+            this.xAxisColorTextBox.Name = "xAxisColorTextBox";
+            this.xAxisColorTextBox.ReadOnly = true;
+            this.xAxisColorTextBox.Size = new System.Drawing.Size(128, 20);
+            this.xAxisColorTextBox.TabIndex = 22;
+            // 
+            // yAxisColorButton
+            // 
+            this.yAxisColorButton.Location = new System.Drawing.Point(4, 455);
+            this.yAxisColorButton.Name = "yAxisColorButton";
+            this.yAxisColorButton.Size = new System.Drawing.Size(128, 23);
+            this.yAxisColorButton.TabIndex = 21;
+            this.yAxisColorButton.Tag = "7";
+            this.yAxisColorButton.Text = "Y-Axis";
+            this.yAxisColorButton.UseVisualStyleBackColor = true;
+            this.yAxisColorButton.Click += new System.EventHandler(this.ColorButton_Click);
+            // 
+            // xAxisColorButton
+            // 
+            this.xAxisColorButton.Location = new System.Drawing.Point(4, 400);
+            this.xAxisColorButton.Name = "xAxisColorButton";
+            this.xAxisColorButton.Size = new System.Drawing.Size(128, 23);
+            this.xAxisColorButton.TabIndex = 20;
+            this.xAxisColorButton.Tag = "6";
+            this.xAxisColorButton.Text = "X-Axis";
+            this.xAxisColorButton.UseVisualStyleBackColor = true;
+            this.xAxisColorButton.Click += new System.EventHandler(this.ColorButton_Click);
+            // 
             // colorsLabel
             // 
             this.colorsLabel.AutoSize = true;
@@ -436,19 +534,19 @@ namespace TriMM {
             // 
             // observedTriangleColorTextBox
             // 
-            this.observedTriangleColorTextBox.Location = new System.Drawing.Point(2, 492);
+            this.observedTriangleColorTextBox.Location = new System.Drawing.Point(4, 594);
             this.observedTriangleColorTextBox.Name = "observedTriangleColorTextBox";
             this.observedTriangleColorTextBox.ReadOnly = true;
-            this.observedTriangleColorTextBox.Size = new System.Drawing.Size(130, 20);
+            this.observedTriangleColorTextBox.Size = new System.Drawing.Size(128, 20);
             this.observedTriangleColorTextBox.TabIndex = 18;
             // 
             // observedTriangleButton
             // 
-            this.observedTriangleButton.Location = new System.Drawing.Point(2, 518);
+            this.observedTriangleButton.Location = new System.Drawing.Point(4, 620);
             this.observedTriangleButton.Name = "observedTriangleButton";
-            this.observedTriangleButton.Size = new System.Drawing.Size(130, 23);
+            this.observedTriangleButton.Size = new System.Drawing.Size(128, 23);
             this.observedTriangleButton.TabIndex = 17;
-            this.observedTriangleButton.Tag = "7";
+            this.observedTriangleButton.Tag = "10";
             this.observedTriangleButton.Text = "Observed Triangle";
             this.observedTriangleButton.UseVisualStyleBackColor = true;
             this.observedTriangleButton.Click += new System.EventHandler(this.ColorButton_Click);
@@ -466,76 +564,76 @@ namespace TriMM {
             // 
             // observedVertexColorTextBox
             // 
-            this.observedVertexColorTextBox.Location = new System.Drawing.Point(3, 428);
+            this.observedVertexColorTextBox.Location = new System.Drawing.Point(4, 539);
             this.observedVertexColorTextBox.Name = "observedVertexColorTextBox";
             this.observedVertexColorTextBox.ReadOnly = true;
-            this.observedVertexColorTextBox.Size = new System.Drawing.Size(130, 20);
+            this.observedVertexColorTextBox.Size = new System.Drawing.Size(128, 20);
             this.observedVertexColorTextBox.TabIndex = 13;
             // 
             // normalColorTextBox
             // 
-            this.normalColorTextBox.Location = new System.Drawing.Point(3, 364);
+            this.normalColorTextBox.Location = new System.Drawing.Point(4, 319);
             this.normalColorTextBox.Name = "normalColorTextBox";
             this.normalColorTextBox.ReadOnly = true;
-            this.normalColorTextBox.Size = new System.Drawing.Size(130, 20);
+            this.normalColorTextBox.Size = new System.Drawing.Size(128, 20);
             this.normalColorTextBox.TabIndex = 12;
             // 
             // vertexColorTextBox
             // 
-            this.vertexColorTextBox.Location = new System.Drawing.Point(2, 300);
+            this.vertexColorTextBox.Location = new System.Drawing.Point(4, 264);
             this.vertexColorTextBox.Name = "vertexColorTextBox";
             this.vertexColorTextBox.ReadOnly = true;
-            this.vertexColorTextBox.Size = new System.Drawing.Size(130, 20);
+            this.vertexColorTextBox.Size = new System.Drawing.Size(128, 20);
             this.vertexColorTextBox.TabIndex = 11;
             // 
             // meshColorTextBox
             // 
-            this.meshColorTextBox.Location = new System.Drawing.Point(3, 236);
+            this.meshColorTextBox.Location = new System.Drawing.Point(4, 209);
             this.meshColorTextBox.Name = "meshColorTextBox";
             this.meshColorTextBox.ReadOnly = true;
-            this.meshColorTextBox.Size = new System.Drawing.Size(130, 20);
+            this.meshColorTextBox.Size = new System.Drawing.Size(128, 20);
             this.meshColorTextBox.TabIndex = 10;
             // 
             // plainColorTextBox
             // 
-            this.plainColorTextBox.Location = new System.Drawing.Point(3, 172);
+            this.plainColorTextBox.Location = new System.Drawing.Point(4, 154);
             this.plainColorTextBox.Name = "plainColorTextBox";
             this.plainColorTextBox.ReadOnly = true;
-            this.plainColorTextBox.Size = new System.Drawing.Size(130, 20);
+            this.plainColorTextBox.Size = new System.Drawing.Size(128, 20);
             this.plainColorTextBox.TabIndex = 9;
             // 
             // textColorTextBox
             // 
-            this.textColorTextBox.Location = new System.Drawing.Point(3, 108);
+            this.textColorTextBox.Location = new System.Drawing.Point(4, 99);
             this.textColorTextBox.Name = "textColorTextBox";
             this.textColorTextBox.ReadOnly = true;
-            this.textColorTextBox.Size = new System.Drawing.Size(130, 20);
+            this.textColorTextBox.Size = new System.Drawing.Size(128, 20);
             this.textColorTextBox.TabIndex = 8;
             // 
             // backColorTextBox
             // 
-            this.backColorTextBox.Location = new System.Drawing.Point(3, 44);
+            this.backColorTextBox.Location = new System.Drawing.Point(4, 44);
             this.backColorTextBox.Name = "backColorTextBox";
             this.backColorTextBox.ReadOnly = true;
-            this.backColorTextBox.Size = new System.Drawing.Size(130, 20);
+            this.backColorTextBox.Size = new System.Drawing.Size(128, 20);
             this.backColorTextBox.TabIndex = 7;
             // 
             // observedVertexColorButton
             // 
-            this.observedVertexColorButton.Location = new System.Drawing.Point(3, 454);
+            this.observedVertexColorButton.Location = new System.Drawing.Point(4, 565);
             this.observedVertexColorButton.Name = "observedVertexColorButton";
-            this.observedVertexColorButton.Size = new System.Drawing.Size(130, 23);
+            this.observedVertexColorButton.Size = new System.Drawing.Size(128, 23);
             this.observedVertexColorButton.TabIndex = 6;
-            this.observedVertexColorButton.Tag = "6";
+            this.observedVertexColorButton.Tag = "9";
             this.observedVertexColorButton.Text = "Observed Vertex";
             this.observedVertexColorButton.UseVisualStyleBackColor = true;
             this.observedVertexColorButton.Click += new System.EventHandler(this.ColorButton_Click);
             // 
             // normalColorButton
             // 
-            this.normalColorButton.Location = new System.Drawing.Point(3, 390);
+            this.normalColorButton.Location = new System.Drawing.Point(4, 345);
             this.normalColorButton.Name = "normalColorButton";
-            this.normalColorButton.Size = new System.Drawing.Size(130, 23);
+            this.normalColorButton.Size = new System.Drawing.Size(128, 23);
             this.normalColorButton.TabIndex = 5;
             this.normalColorButton.Tag = "5";
             this.normalColorButton.Text = "Normals";
@@ -544,9 +642,9 @@ namespace TriMM {
             // 
             // vertexColorButton
             // 
-            this.vertexColorButton.Location = new System.Drawing.Point(3, 326);
+            this.vertexColorButton.Location = new System.Drawing.Point(3, 290);
             this.vertexColorButton.Name = "vertexColorButton";
-            this.vertexColorButton.Size = new System.Drawing.Size(130, 23);
+            this.vertexColorButton.Size = new System.Drawing.Size(129, 23);
             this.vertexColorButton.TabIndex = 4;
             this.vertexColorButton.Tag = "4";
             this.vertexColorButton.Text = "Vertices";
@@ -555,7 +653,7 @@ namespace TriMM {
             // 
             // meshColorButton
             // 
-            this.meshColorButton.Location = new System.Drawing.Point(3, 262);
+            this.meshColorButton.Location = new System.Drawing.Point(3, 235);
             this.meshColorButton.Name = "meshColorButton";
             this.meshColorButton.Size = new System.Drawing.Size(130, 23);
             this.meshColorButton.TabIndex = 3;
@@ -566,7 +664,7 @@ namespace TriMM {
             // 
             // plainColorButton
             // 
-            this.plainColorButton.Location = new System.Drawing.Point(3, 198);
+            this.plainColorButton.Location = new System.Drawing.Point(3, 180);
             this.plainColorButton.Name = "plainColorButton";
             this.plainColorButton.Size = new System.Drawing.Size(130, 23);
             this.plainColorButton.TabIndex = 2;
@@ -577,7 +675,7 @@ namespace TriMM {
             // 
             // textColorButton
             // 
-            this.textColorButton.Location = new System.Drawing.Point(3, 134);
+            this.textColorButton.Location = new System.Drawing.Point(3, 125);
             this.textColorButton.Name = "textColorButton";
             this.textColorButton.Size = new System.Drawing.Size(130, 23);
             this.textColorButton.TabIndex = 1;
@@ -657,7 +755,6 @@ namespace TriMM {
         private System.Windows.Forms.Label clippingPlaneLabel;
         private System.Windows.Forms.TextBox observedTriangleColorTextBox;
         private System.Windows.Forms.Button observedTriangleButton;
-        private System.Windows.Forms.Label colorsLabel;
         private System.Windows.Forms.CheckBox smoothCheckBox;
         private System.Windows.Forms.CheckBox facetNormalsCheckBox;
         private System.Windows.Forms.CheckBox verticesCheckBox;
@@ -665,5 +762,14 @@ namespace TriMM {
         private System.Windows.Forms.CheckBox solidCheckBox;
         private System.Windows.Forms.ComboBox pickingModeComboBox;
         private System.Windows.Forms.Label pickingModeLabel;
+        private System.Windows.Forms.CheckBox vertexNormalsCheckBox;
+        private System.Windows.Forms.CheckBox axesCheckBox;
+        private System.Windows.Forms.TextBox zAxisColorTextBox;
+        private System.Windows.Forms.Button zAxisColorButton;
+        private System.Windows.Forms.TextBox yAxisColorTextBox;
+        private System.Windows.Forms.TextBox xAxisColorTextBox;
+        private System.Windows.Forms.Button yAxisColorButton;
+        private System.Windows.Forms.Button xAxisColorButton;
+        private System.Windows.Forms.Label colorsLabel;
     }
 }
