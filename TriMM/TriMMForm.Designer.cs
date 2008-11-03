@@ -14,6 +14,9 @@
 //
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// For more information and contact details look at STLNormalSwitchers website:
+// http://trimm.sourceforge.net/
 
 namespace TriMM {
     partial class TriMMForm {
@@ -91,6 +94,7 @@ namespace TriMM {
             this.label7 = new System.Windows.Forms.Label();
             this.distanceNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.edgeTabPage = new System.Windows.Forms.TabPage();
+            this.removeEdgeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).BeginInit();
@@ -484,6 +488,7 @@ namespace TriMM {
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
             this.infoToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.infoToolStripMenuItem.Text = "&Info";
+            this.infoToolStripMenuItem.Click += new System.EventHandler(this.InfoToolStripMenuItem_Click);
             // 
             // triangleLabel
             // 
@@ -607,7 +612,7 @@ namespace TriMM {
             this.vertexTabPage.Controls.Add(this.xNumericUpDown);
             this.vertexTabPage.Location = new System.Drawing.Point(4, 22);
             this.vertexTabPage.Name = "vertexTabPage";
-            this.vertexTabPage.Size = new System.Drawing.Size(231, 364);
+            this.vertexTabPage.Size = new System.Drawing.Size(231, 252);
             this.vertexTabPage.TabIndex = 2;
             this.vertexTabPage.Text = "Vertices";
             // 
@@ -656,6 +661,7 @@ namespace TriMM {
             // 
             // edgeTabPage
             // 
+            this.edgeTabPage.Controls.Add(this.removeEdgeButton);
             this.edgeTabPage.Controls.Add(this.e1NumericUpDown);
             this.edgeTabPage.Controls.Add(this.flipButton);
             this.edgeTabPage.Controls.Add(this.e2NumericUpDown);
@@ -664,6 +670,16 @@ namespace TriMM {
             this.edgeTabPage.Size = new System.Drawing.Size(231, 252);
             this.edgeTabPage.TabIndex = 3;
             this.edgeTabPage.Text = "Edges";
+            // 
+            // removeEdgeButton
+            // 
+            this.removeEdgeButton.Location = new System.Drawing.Point(6, 72);
+            this.removeEdgeButton.Name = "removeEdgeButton";
+            this.removeEdgeButton.Size = new System.Drawing.Size(219, 23);
+            this.removeEdgeButton.TabIndex = 3;
+            this.removeEdgeButton.Text = "Remove Selected Edge";
+            this.removeEdgeButton.UseVisualStyleBackColor = true;
+            this.removeEdgeButton.Click += new System.EventHandler(this.RemoveEdgeButton_Click);
             // 
             // TriMMForm
             // 
@@ -754,6 +770,7 @@ namespace TriMM {
         private System.Windows.Forms.Button moveAlongNormalButton;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown distanceNumericUpDown;
+        private System.Windows.Forms.Button removeEdgeButton;
     }
 }
 

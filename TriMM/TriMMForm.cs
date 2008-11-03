@@ -14,6 +14,9 @@
 //
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// For more information and contact details look at STLNormalSwitchers website:
+// http://trimm.sourceforge.net/
 
 using System;
 using System.Collections.Generic;
@@ -302,7 +305,7 @@ namespace TriMM {
                     tabControl1.Height = 390;
                     break;
                 case 2:
-                    tabControl1.Height = 100;
+                    tabControl1.Height = 129;
                     break;
             }
             this.Height = 144 + tabControl1.Height;
@@ -314,6 +317,12 @@ namespace TriMM {
         /// <param name="sender">exitToolStripMenuItem</param>
         /// <param name="e">Standard EventArgs</param>
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e) { this.Close(); }
+
+
+        private void InfoToolStripMenuItem_Click(object sender, EventArgs e) {
+            About about = new About();
+            about.ShowDialog();
+        }
 
         #endregion
 
@@ -779,6 +788,32 @@ namespace TriMM {
                     mesh.Finish(true, true);
                     RefreshControl();
                 }
+            }
+
+            Cursor.Current = Cursors.Default;
+        }
+
+        /// <summary>
+        /// Removes the Edge given by the two selected Vertices.
+        /// Also removes the incident Triangles.
+        /// </summary>
+        /// <param name="sender">removeEdgeButton</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void RemoveEdgeButton_Click(object sender, EventArgs e) {
+            Cursor.Current = Cursors.WaitCursor;
+
+            int ind1 = (int)e1NumericUpDown.Value;
+            int ind2 = (int)e2NumericUpDown.Value;
+            double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
+            Edge theEdge = new Edge(ind1, ind2, length);
+
+            if (mesh.Edges.ContainsKey(theEdge.Key)) {
+                List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
+                triangles.Sort();
+                for (int i = triangles.Count - 1; i >= 0; i--) { mesh.RemoveAt(triangles[i]); };
+
+                mesh.Finish(true, true);
+                RefreshControl();
             }
 
             Cursor.Current = Cursors.Default;
