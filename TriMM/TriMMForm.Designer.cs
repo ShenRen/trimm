@@ -43,6 +43,7 @@ namespace TriMM {
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TriMMForm));
             this.subdivideTriangleButton = new System.Windows.Forms.Button();
             this.transposeVertexButton = new System.Windows.Forms.Button();
             this.flipObservedTriangleButton = new System.Windows.Forms.Button();
@@ -690,6 +691,7 @@ namespace TriMM {
             this.Controls.Add(this.meshGroupBox);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "TriMMForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

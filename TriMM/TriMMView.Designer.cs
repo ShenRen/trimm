@@ -43,6 +43,7 @@ namespace TriMM {
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TriMMView));
             this.xScrollBar = new System.Windows.Forms.HScrollBar();
             this.yScrollBar = new System.Windows.Forms.VScrollBar();
             this.panel = new System.Windows.Forms.TableLayoutPanel();
@@ -704,6 +705,7 @@ namespace TriMM {
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 719);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(790, 753);
             this.Name = "TriMMView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
