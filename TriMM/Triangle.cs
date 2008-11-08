@@ -51,6 +51,8 @@ namespace TriMM {
         /// <returns>The index of the desired Vertex.</returns>
         public int this[int index] { get { return vertices[index]; } }
 
+        public List<int> Vertices { get { return vertices; } }
+
         /// <value>Gets the list of Edges or set it.</value>
         public List<Edge> Edges { get { return edges; } set { edges = value; } }
 

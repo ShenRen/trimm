@@ -116,7 +116,7 @@ namespace TriMM {
             for (int i = 0; i < this.vertices.Count; i++) {
                 if (cN) { vertices[i].Normal = new VectorND(0, 0, 0); }
                 vertices[i].Neighborhood.Clear();
-                vertices[i].AdjacentTriangles.Clear();
+                vertices[i].Triangles.Clear();
             }
         }
 
@@ -156,8 +156,13 @@ namespace TriMM {
 
             // Initializes maximum and minimum with the values of the first Triangle.
             for (int h = 0; h < 3; h++) {
-                min[h] = this[0].Min[h];
-                max[h] = this[0].Max[h];
+                if (this.Count > 0) {
+                    min[h] = this[0].Min[h];
+                    max[h] = this[0].Max[h];
+                } else {
+                    min[h] = 0;
+                    max[h] = 1;
+                }
             }
 
             for (int i = 0; i < this.Count; i++) {
@@ -217,6 +222,7 @@ namespace TriMM {
             edgeColorDist = temp / (edges.Count + 2);
             triangleColorDist = temp / (this.Count + 2);
 
+            if (this.Count == 0) { minEdgeLength = maxEdgeLength = 1; }
         }
 
         #endregion

@@ -34,7 +34,7 @@ namespace TriMM {
 
         private VectorND normal;
 
-        private List<int> adjacentTriangles = new List<int>();
+        private List<int> triangles = new List<int>();
         private Neighborhood neighborhood = new Neighborhood();
 
         #endregion
@@ -45,7 +45,7 @@ namespace TriMM {
         public VectorND Normal { get { return normal; } set { normal = value; } }
 
         /// <value>Gets the List of Triangles adjacent to this Vertex or sets it.</value>
-        public List<int> AdjacentTriangles { get { return adjacentTriangles; } set { adjacentTriangles = value; } }
+        public List<int> Triangles { get { return triangles; } set { triangles = value; } }
 
         /// <value>Gets the 1-Neighborhood (could be any Neighborhood, but is used as 1-Neighborhood) of this Vertex or sets it.</value>
         public Neighborhood Neighborhood { get { return neighborhood; } set { neighborhood = value; } }
@@ -74,7 +74,7 @@ namespace TriMM {
         /// If the given Triangle is not already in the list of adjacent Triangle, it is added.
         /// </summary>
         /// <param name="triangle">New adjacent Triangle.</param>
-        public void AddAdjacentTriangle(int triangle) { if (!adjacentTriangles.Contains(triangle)) { adjacentTriangles.Add(triangle); } }
+        public void AddAdjacentTriangle(int triangle) { if (!triangles.Contains(triangle)) { triangles.Add(triangle); } }
 
         #endregion
 

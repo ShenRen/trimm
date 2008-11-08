@@ -128,17 +128,14 @@ namespace TriMM {
 
 
         /// <summary>
-        /// Clears the information about the observed Vertex.
+        /// Clears the information about the observed Vertex and Triangle.
         /// </summary>
         private void ClearObserved() {
             control.Info.Clear();
             control.ObservedVertex = null;
             control.UseColorArray = false;
             observedVertex = -1;
-
-            xNumericUpDown.Value = 0;
-            yNumericUpDown.Value = 0;
-            zNumericUpDown.Value = 0;
+            observedTriangle = -1;
         }
 
 
@@ -383,8 +380,7 @@ namespace TriMM {
             for (int i = mesh.Count - 1; i >= 0; i--) { if (!mesh.IsTriangle(i)) { mesh.RemoveAt(i); } }
 
             mesh.Finish(true, true);
-            RefreshControl();
-            Cursor.Current = Cursors.Default;
+            RemoveSinglesButton_Click(sender, e);
         }
 
         /// <summary>
@@ -402,9 +398,7 @@ namespace TriMM {
                 if (equals.Count > 1) { mesh.RemoveAt(i); }
             }
             mesh.Finish(true, true);
-            RefreshControl();
-
-            Cursor.Current = Cursors.Default;
+            RemoveSinglesButton_Click(sender, e);
         }
 
         private void FlipAllTrianglesButton_Click(object sender, EventArgs e) {
@@ -460,9 +454,7 @@ namespace TriMM {
             mesh.Remove(remove);
 
             mesh.Finish(true, true);
-
-            RefreshControl();
-            Cursor.Current = Cursors.Default;
+            RemoveSinglesButton_Click(sender, e);
         }
 
         /// <summary>
@@ -475,11 +467,14 @@ namespace TriMM {
 
             ClearObserved();
 
-            Triangle newTriangle = new Triangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value);
-            mesh.Add(newTriangle);
-            mesh.Finish(true, true);
+            if (((int)aNumericUpDown.Value != -1) && ((int)bNumericUpDown.Value != -1) && ((int)cNumericUpDown.Value != -1)) {
+                Triangle newTriangle = new Triangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value);
+                mesh.Add(newTriangle);
+                mesh.Finish(true, true);
 
-            RefreshControl();
+                RefreshControl();
+            }
+
             Cursor.Current = Cursors.Default;
         }
 
@@ -602,7 +597,7 @@ namespace TriMM {
                 markedVertices.Sort();
 
                 for (int i = markedVertices.Count - 1; i >= 0; i--) {
-                    List<int> adjacent = mesh.Vertices[markedVertices[i]].AdjacentTriangles;
+                    List<int> adjacent = mesh.Vertices[markedVertices[i]].Triangles;
                     adjacent.Sort();
 
                     // Remove Vertex
@@ -639,7 +634,7 @@ namespace TriMM {
                 int remove = observedVertex;
                 ClearObserved();
 
-                List<int> adjacent = mesh.Vertices[remove].AdjacentTriangles;
+                List<int> adjacent = mesh.Vertices[remove].Triangles;
                 adjacent.Sort();
 
                 // Remove Vertex
@@ -744,49 +739,52 @@ namespace TriMM {
 
             int ind1 = (int)e1NumericUpDown.Value;
             int ind2 = (int)e2NumericUpDown.Value;
-            double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
-            Edge theEdge = new Edge(ind1, ind2, length);
 
-            if (mesh.Edges.ContainsKey(theEdge.Key)) {
-                List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
-                triangles.Sort();
+            if ((ind1 != -1) && (ind2 != -1)) {
+                double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
+                Edge theEdge = new Edge(ind1, ind2, length);
 
-                // Get the Triangles that Edge belongs to, connects the Vertices opposite the Edge with a new Edge and removes the old Edge.
-                if (triangles.Count == 2) {
-                    int o1 = mesh[triangles[0]].GetOppositeCorner(theEdge);
-                    int o2 = mesh[triangles[1]].GetOppositeCorner(theEdge);
+                if (mesh.Edges.ContainsKey(theEdge.Key)) {
+                    List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
+                    triangles.Sort();
 
-                    int triInd1 = mesh[triangles[0]].IndexOf(o1);
-                    int triInd2 = mesh[triangles[1]].IndexOf(o2);
+                    // Get the Triangles that Edge belongs to, connects the Vertices opposite the Edge with a new Edge and removes the old Edge.
+                    if (triangles.Count == 2) {
+                        int o1 = mesh[triangles[0]].GetOppositeCorner(theEdge);
+                        int o2 = mesh[triangles[1]].GetOppositeCorner(theEdge);
 
-                    Triangle tri1 = new Triangle(o1, mesh[triangles[0]][(triInd1 + 1) % 3], o2);
-                    Triangle tri1per1 = new Triangle(tri1[0], tri1[2], tri1[1]);
-                    Triangle tri1per2 = new Triangle(tri1[1], tri1[0], tri1[2]);
-                    Triangle tri1per3 = new Triangle(tri1[1], tri1[2], tri1[0]);
-                    Triangle tri1per4 = new Triangle(tri1[2], tri1[0], tri1[1]);
-                    Triangle tri1per5 = new Triangle(tri1[2], tri1[1], tri1[0]);
+                        int triInd1 = mesh[triangles[0]].IndexOf(o1);
+                        int triInd2 = mesh[triangles[1]].IndexOf(o2);
 
-                    Triangle tri2 = new Triangle(o2, mesh[triangles[1]][(triInd2 + 1) % 3], o1);
-                    Triangle tri2per1 = new Triangle(tri2[0], tri2[2], tri2[1]);
-                    Triangle tri2per2 = new Triangle(tri2[1], tri2[0], tri2[2]);
-                    Triangle tri2per3 = new Triangle(tri2[1], tri2[2], tri2[0]);
-                    Triangle tri2per4 = new Triangle(tri2[2], tri2[0], tri2[1]);
-                    Triangle tri2per5 = new Triangle(tri2[2], tri2[1], tri2[0]);
+                        Triangle tri1 = new Triangle(o1, mesh[triangles[0]][(triInd1 + 1) % 3], o2);
+                        Triangle tri1per1 = new Triangle(tri1[0], tri1[2], tri1[1]);
+                        Triangle tri1per2 = new Triangle(tri1[1], tri1[0], tri1[2]);
+                        Triangle tri1per3 = new Triangle(tri1[1], tri1[2], tri1[0]);
+                        Triangle tri1per4 = new Triangle(tri1[2], tri1[0], tri1[1]);
+                        Triangle tri1per5 = new Triangle(tri1[2], tri1[1], tri1[0]);
 
-                    bool isNotIn1 = true;
-                    bool isNotIn2 = true;
+                        Triangle tri2 = new Triangle(o2, mesh[triangles[1]][(triInd2 + 1) % 3], o1);
+                        Triangle tri2per1 = new Triangle(tri2[0], tri2[2], tri2[1]);
+                        Triangle tri2per2 = new Triangle(tri2[1], tri2[0], tri2[2]);
+                        Triangle tri2per3 = new Triangle(tri2[1], tri2[2], tri2[0]);
+                        Triangle tri2per4 = new Triangle(tri2[2], tri2[0], tri2[1]);
+                        Triangle tri2per5 = new Triangle(tri2[2], tri2[1], tri2[0]);
 
-                    if (mesh.Contains(tri1) || mesh.Contains(tri1per1) || mesh.Contains(tri1per2) || mesh.Contains(tri1per3) || mesh.Contains(tri1per4) || mesh.Contains(tri1per5)) { isNotIn1 = false; }
-                    if (mesh.Contains(tri2) || mesh.Contains(tri2per1) || mesh.Contains(tri2per2) || mesh.Contains(tri2per3) || mesh.Contains(tri2per4) || mesh.Contains(tri2per5)) { isNotIn2 = false; }
+                        bool isNotIn1 = true;
+                        bool isNotIn2 = true;
 
-                    if (isNotIn1 && (mesh.IsTriangle(o1, mesh[triangles[0]][(triInd1 + 1) % 3], o2))) { mesh.Add(tri1); }
-                    if (isNotIn2 && (mesh.IsTriangle(o2, mesh[triangles[1]][(triInd2 + 1) % 3], o1))) { mesh.Add(tri2); }
+                        if (mesh.Contains(tri1) || mesh.Contains(tri1per1) || mesh.Contains(tri1per2) || mesh.Contains(tri1per3) || mesh.Contains(tri1per4) || mesh.Contains(tri1per5)) { isNotIn1 = false; }
+                        if (mesh.Contains(tri2) || mesh.Contains(tri2per1) || mesh.Contains(tri2per2) || mesh.Contains(tri2per3) || mesh.Contains(tri2per4) || mesh.Contains(tri2per5)) { isNotIn2 = false; }
 
-                    mesh.RemoveAt(triangles[1]);
-                    mesh.RemoveAt(triangles[0]);
+                        if (isNotIn1 && (mesh.IsTriangle(o1, mesh[triangles[0]][(triInd1 + 1) % 3], o2))) { mesh.Add(tri1); }
+                        if (isNotIn2 && (mesh.IsTriangle(o2, mesh[triangles[1]][(triInd2 + 1) % 3], o1))) { mesh.Add(tri2); }
 
-                    mesh.Finish(true, true);
-                    RefreshControl();
+                        mesh.RemoveAt(triangles[1]);
+                        mesh.RemoveAt(triangles[0]);
+
+                        mesh.Finish(true, true);
+                        RefreshControl();
+                    }
                 }
             }
 
@@ -804,16 +802,19 @@ namespace TriMM {
 
             int ind1 = (int)e1NumericUpDown.Value;
             int ind2 = (int)e2NumericUpDown.Value;
-            double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
-            Edge theEdge = new Edge(ind1, ind2, length);
 
-            if (mesh.Edges.ContainsKey(theEdge.Key)) {
-                List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
-                triangles.Sort();
-                for (int i = triangles.Count - 1; i >= 0; i--) { mesh.RemoveAt(triangles[i]); };
+            if ((ind1 != -1) && (ind2 != -1)) {
+                double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
+                Edge theEdge = new Edge(ind1, ind2, length);
 
-                mesh.Finish(true, true);
-                RefreshControl();
+                if (mesh.Edges.ContainsKey(theEdge.Key)) {
+                    List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
+                    triangles.Sort();
+                    for (int i = triangles.Count - 1; i >= 0; i--) { mesh.RemoveAt(triangles[i]); };
+
+                    mesh.Finish(true, true);
+                    RemoveSinglesButton_Click(sender, e);
+                }
             }
 
             Cursor.Current = Cursors.Default;
