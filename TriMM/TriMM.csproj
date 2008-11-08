@@ -121,6 +121,21 @@
     </Compile>
     <Compile Include="VectorND.cs" />
     <Compile Include="Vertex.cs" />
+    <Compile Include="VertexNormalAlgorithms\AdjacentEdgesWeights.cs" />
+    <Compile Include="VertexNormalAlgorithms\ChenAndWu.cs" />
+    <Compile Include="VertexNormalAlgorithms\EdgeNormals.cs" />
+    <Compile Include="VertexNormalAlgorithms\ExtendedChenAndWu.cs" />
+    <Compile Include="VertexNormalAlgorithms\ExtendedThuermerAndWuethrich.cs" />
+    <Compile Include="VertexNormalAlgorithms\Gouraud.cs" />
+    <Compile Include="VertexNormalAlgorithms\InverseAdjacentEdgesWeight.cs" />
+    <Compile Include="VertexNormalAlgorithms\InverseEdgeNormals.cs" />
+    <Compile Include="VertexNormalAlgorithms\InverseExtendedThuermerAndWuethrich.cs" />
+    <Compile Include="VertexNormalAlgorithms\InverseTaubin.cs" />
+    <Compile Include="VertexNormalAlgorithms\IVertexNormalAlgorithm.cs" />
+    <Compile Include="VertexNormalAlgorithms\Max.cs" />
+    <Compile Include="VertexNormalAlgorithms\Rusinkiewicz.cs" />
+    <Compile Include="VertexNormalAlgorithms\Taubin.cs" />
+    <Compile Include="VertexNormalAlgorithms\ThuermerAndWuethrich.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LogoGross.ico" />

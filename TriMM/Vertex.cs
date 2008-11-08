@@ -33,6 +33,7 @@ namespace TriMM {
         #region Fields
 
         private VectorND normal;
+        private double area;
 
         private List<int> triangles = new List<int>();
         private Neighborhood neighborhood = new Neighborhood();
@@ -43,6 +44,9 @@ namespace TriMM {
 
         /// <value>Gets the normal vector of this Vertex or sets it.</value>
         public VectorND Normal { get { return normal; } set { normal = value; } }
+
+        /// <value>Gets the area closest to this Vertex or sets it.</value>
+        public double Area { get { return area; } set { area = value; } }
 
         /// <value>Gets the List of Triangles adjacent to this Vertex or sets it.</value>
         public List<int> Triangles { get { return triangles; } set { triangles = value; } }

@@ -197,6 +197,55 @@ namespace TriMM {
                         edges[edge.Key].Triangles.Add(i);
                     }
                 }
+
+                // Sets the areas closest to each corner of a Triangle.
+                // This was adapted from Szymon Rusinkiewicz C++ library trimesh2 (http://www.cs.princeton.edu/gfx/proj/trimesh2/).
+                VectorND[] e = new VectorND[3] { this[i, 2] - this[i, 1], this[i, 0] - this[i, 2], this[i, 1] - this[i, 0] };
+                double area = 0.5 * (e[0] % e[1]).Length();
+                double[] l2 = new double[3] { e[0].SquaredLength(), e[1].SquaredLength(), e[2].SquaredLength() };
+                double[] ew = new double[3] { l2[0] * (l2[1] + l2[2] - l2[0]), l2[1] * (l2[2] + l2[0] - l2[1]), l2[2] * (l2[0] + l2[1] - l2[2]) };
+
+                if (ew[0] <= 0.0f) {
+                    this[i].CornerAreas[1] = -0.25 * l2[2] * area / (e[0].Dot(e[2]));
+                    this[i].CornerAreas[2] = -0.25 * l2[1] * area / (e[0].Dot(e[1]));
+                    this[i].CornerAreas[0] = area - this[i].CornerAreas[1] - this[i].CornerAreas[2];
+                } else if (ew[1] <= 0.0f) {
+                    this[i].CornerAreas[2] = -0.25 * l2[0] * area / (e[1].Dot(e[0]));
+                    this[i].CornerAreas[0] = -0.25 * l2[2] * area / (e[1].Dot(e[2]));
+                    this[i].CornerAreas[1] = area - this[i].CornerAreas[2] - this[i].CornerAreas[0];
+                } else if (ew[2] <= 0.0f) {
+                    this[i].CornerAreas[0] = -0.25 * l2[1] * area / (e[2].Dot(e[1]));
+                    this[i].CornerAreas[1] = -0.25 * l2[0] * area / (e[2].Dot(e[0]));
+                    this[i].CornerAreas[2] = area - this[i].CornerAreas[0] - this[i].CornerAreas[1];
+                } else {
+                    double ewscale = 0.5 * area / (ew[0] + ew[1] + ew[2]);
+                    for (int j = 0; j < 3; j++) {
+                        this[i].CornerAreas[j] = ewscale * (ew[(j + 1) % 3] + ew[(j + 2) % 3]);
+                    }
+                }
+                // The area closest to each Vertex is increased by the calculated corner area.
+                this[i, 0].Area += this[i].CornerAreas[0];
+                this[i, 1].Area += this[i].CornerAreas[1];
+                this[i, 2].Area += this[i].CornerAreas[2];
+
+                // Calculate the area for each Triangle.
+                double a = this[i, 0].DistanceFrom(this[i, 1]);
+                double b = this[i, 1].DistanceFrom(this[i, 2]);
+                double c = this[i, 2].DistanceFrom(this[i, 0]);
+                double s = 0.5 * (a + b + c);
+                this[i].Area = Math.Sqrt(s * (s - a) * (s - b) * (s - c));
+
+                // Calculate the angles of each Triangle.
+                VectorND ab = this[i, 1] - this[i, 0];
+                VectorND ac = this[i, 2] - this[i, 0];
+                VectorND ba = this[i, 0] - this[i, 1];
+                VectorND bc = this[i, 2] - this[i, 1];
+                VectorND cb = this[i, 1] - this[i, 2];
+                VectorND ca = this[i, 0] - this[i, 2];
+
+                this[i].Angles[0] = Vertex.Angle(ab, ac);
+                this[i].Angles[1] = Vertex.Angle(ba, bc);
+                this[i].Angles[2] = Vertex.Angle(cb, ca);
             }
 
             if (verNormals) {
