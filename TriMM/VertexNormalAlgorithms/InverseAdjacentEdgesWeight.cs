@@ -23,7 +23,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// This algorithm uses the inverse of the average of the length of the Edges containing the current Vertex
     /// in the current adjacent Triangle as weights for the Triangle normal.
     /// </summary>
-    internal class InverseAdjacentEdgesWeights : IVertexNormalAlgorithm {
+    public class InverseAdjacentEdgesWeights : IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 

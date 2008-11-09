@@ -129,7 +129,6 @@
     <Compile Include="VertexNormalAlgorithms\Gouraud.cs" />
     <Compile Include="VertexNormalAlgorithms\InverseAdjacentEdgesWeight.cs" />
     <Compile Include="VertexNormalAlgorithms\InverseEdgeNormals.cs" />
-    <Compile Include="VertexNormalAlgorithms\InverseExtendedThuermerAndWuethrich.cs" />
     <Compile Include="VertexNormalAlgorithms\InverseTaubin.cs" />
     <Compile Include="VertexNormalAlgorithms\IVertexNormalAlgorithm.cs" />
     <Compile Include="VertexNormalAlgorithms\Max.cs" />

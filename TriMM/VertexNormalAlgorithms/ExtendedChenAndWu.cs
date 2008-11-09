@@ -26,7 +26,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// the centroid of the adjacent Triangle and the current Vertex.
     /// This extended version uses the triangle area as an additional weight.
     /// </summary>
-    internal class ExtendedChenAndWu : IVertexNormalAlgorithm {
+    public class ExtendedChenAndWu : IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 

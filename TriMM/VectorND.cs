@@ -63,12 +63,17 @@ namespace TriMM {
         #region Operators
 
         /// <summary>
-        /// Normalizes the VectorND to a length of 1.
+        /// Normalizes the VectorND to a length of 1. The VectorND (0,0,0) is normalized to (1,0,0).
         /// </summary>
         public void Normalize() {
             this.Round(14);
-            double l = 1 / Length();
-            for (int i = 0; i < this.Count; i++) { this[i] *= l; }
+            double length = Length();
+            if (length != 0) {
+                double l = 1 / Length();
+                for (int i = 0; i < this.Count; i++) { this[i] *= l; }
+            } else {
+                this[0] = 1; this[1] = 0; this[2] = 0;
+            }
         }
 
         /// <summary>

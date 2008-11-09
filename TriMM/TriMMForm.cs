@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using TriMM.VertexNormalAlgorithms;
 
 namespace TriMM {
     /// <summary>
@@ -44,12 +45,22 @@ namespace TriMM {
         private int observedVertex = -1;
         private int observedTriangle = -1;
 
+        private IVertexNormalAlgorithm[] vertexNormalAlgorithms = new IVertexNormalAlgorithm[] { new Gouraud(), new Max(), new Taubin(), new InverseTaubin(),
+            new ThuermerAndWuethrich(), new ExtendedThuermerAndWuethrich(), new ChenAndWu(), new ExtendedChenAndWu(), new Rusinkiewicz(),  
+            new AdjacentEdgesWeights(), new InverseAdjacentEdgesWeights(), new EdgeNormals(), new InverseEdgeNormals()};
+        private IVertexNormalAlgorithm selectedAlgorithm;
+
         #endregion
 
         #region Constructors
 
         /// <summary> Initializes the TriMMForm. </summary>
-        public TriMMForm() { InitializeComponent(); }
+        public TriMMForm() {
+            InitializeComponent();
+            normalComboBox.Items.AddRange(vertexNormalAlgorithms);
+            normalComboBox.SelectedIndex = 0;
+            selectedAlgorithm = vertexNormalAlgorithms[0];
+        }
 
         #endregion
 
@@ -152,11 +163,11 @@ namespace TriMM {
 
                 // Parses the file.
                 if (file.EndsWith(".off")) {
-                    mesh = OffParser.Parse(reader);
+                    mesh = OffParser.Parse(reader, selectedAlgorithm);
                 } else if (file.EndsWith(".stl")) {
-                    mesh = STLParser.Parse(reader);
+                    mesh = STLParser.Parse(reader, selectedAlgorithm);
                 } else if (file.EndsWith(".ply")) {
-                    mesh = PlyParser.Parse(reader);
+                    mesh = PlyParser.Parse(reader, selectedAlgorithm);
                 }
 
                 InitializeControl();
@@ -259,6 +270,7 @@ namespace TriMM {
             meshGroupBox.Visible = saveToolStripMenuItem.Enabled = closeToolStripMenuItem.Enabled
                 = showViewToolStripMenuItem.Enabled = tabControl1.Visible = false;
             aNumericUpDown.Value = bNumericUpDown.Value = cNumericUpDown.Value = e1NumericUpDown.Value = e2NumericUpDown.Value = 0;
+            normalComboBox.SelectedIndex = 0;
             mesh = null;
             if (control != null) {
                 control.DestroyContexts();
@@ -305,7 +317,7 @@ namespace TriMM {
                     tabControl1.Height = 129;
                     break;
             }
-            this.Height = 144 + tabControl1.Height;
+            this.Height = 182 + tabControl1.Height;
         }
 
         /// <summary>
@@ -379,7 +391,8 @@ namespace TriMM {
 
             for (int i = mesh.Count - 1; i >= 0; i--) { if (!mesh.IsTriangle(i)) { mesh.RemoveAt(i); } }
 
-            mesh.Finish(true, true);
+            mesh.Finish(true);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
             RemoveSinglesButton_Click(sender, e);
         }
 
@@ -397,12 +410,14 @@ namespace TriMM {
                 List<Triangle> equals = mesh.Where(t => t.Equals(mesh[i])).ToList();
                 if (equals.Count > 1) { mesh.RemoveAt(i); }
             }
-            mesh.Finish(true, true);
+            mesh.Finish(true);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
             RemoveSinglesButton_Click(sender, e);
         }
 
         private void FlipAllTrianglesButton_Click(object sender, EventArgs e) {
             mesh.FlipAllTriangles();
+            selectedAlgorithm.GetVertexNormals(ref mesh);
             RefreshControl();
             if (observedTriangle != -1) {
                 aNumericUpDown.Value = (decimal)mesh[observedTriangle][0];
@@ -414,6 +429,7 @@ namespace TriMM {
         private void FlipObservedTriangleButton_Click(object sender, EventArgs e) {
             if (observedTriangle != -1) {
                 mesh.FlipTriangle(observedTriangle);
+                selectedAlgorithm.GetVertexNormals(ref mesh);
                 RefreshControl();
                 aNumericUpDown.Value = (decimal)mesh[observedTriangle][0];
                 bNumericUpDown.Value = (decimal)mesh[observedTriangle][1];
@@ -425,6 +441,7 @@ namespace TriMM {
         private void SubdivideTriangleButton_Click(object sender, EventArgs e) {
             if (observedTriangle != -1) {
                 mesh.SubdivideTriangle(observedTriangle);
+                selectedAlgorithm.GetVertexNormals(ref mesh);
                 observedTriangle = -1;
                 RefreshControl();
             }
@@ -453,7 +470,8 @@ namespace TriMM {
             remove = new Triangle((int)cNumericUpDown.Value, (int)bNumericUpDown.Value, (int)aNumericUpDown.Value);
             mesh.Remove(remove);
 
-            mesh.Finish(true, true);
+            mesh.Finish(true);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
             RemoveSinglesButton_Click(sender, e);
         }
 
@@ -470,7 +488,8 @@ namespace TriMM {
             if (((int)aNumericUpDown.Value != -1) && ((int)bNumericUpDown.Value != -1) && ((int)cNumericUpDown.Value != -1)) {
                 Triangle newTriangle = new Triangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value);
                 mesh.Add(newTriangle);
-                mesh.Finish(true, true);
+                mesh.Finish(true);
+                selectedAlgorithm.GetVertexNormals(ref mesh);
 
                 RefreshControl();
             }
@@ -480,6 +499,7 @@ namespace TriMM {
 
         private void SubdivideButton_Click(object sender, EventArgs e) {
             mesh = TriangleMesh.Subdivide(mesh, 1);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
             RefreshControl();
         }
 
@@ -515,7 +535,8 @@ namespace TriMM {
                 }
             }
 
-            mesh.Finish(true, true);
+            mesh.Finish(true);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
 
             RefreshControl();
             Cursor.Current = Cursors.Default;
@@ -572,7 +593,8 @@ namespace TriMM {
             // Remove Vertices
             for (int i = remove.Count - 1; i >= 0; i--) { mesh.Vertices.RemoveAt(remove[i]); }
 
-            mesh.Finish(true, true);
+            mesh.Finish(true);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
             RefreshControl();
 
             Cursor.Current = Cursors.Default;
@@ -615,8 +637,9 @@ namespace TriMM {
                     }
                 }
 
-                if (markedVertices.Count != 0) { mesh.Finish(true, true); }
+                if (markedVertices.Count != 0) { mesh.Finish(true); }
             } while (markedVertices.Count != 0);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
 
             RefreshControl();
             Cursor.Current = Cursors.Default;
@@ -651,7 +674,8 @@ namespace TriMM {
                     for (int k = 0; k < 3; k++) { if (ordered[k] >= remove) { mesh[j].Replace(ordered[k], ordered[k] - 1); } }
                 }
 
-                mesh.Finish(true, true);
+                mesh.Finish(true);
+                selectedAlgorithm.GetVertexNormals(ref mesh);
                 RefreshControl();
             }
 
@@ -670,7 +694,8 @@ namespace TriMM {
                 mesh.Vertices[observedVertex] = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
 
                 ClearObserved();
-                mesh.Finish(true, true);
+                mesh.Finish(true);
+                selectedAlgorithm.GetVertexNormals(ref mesh);
                 RefreshControl();
             }
 
@@ -685,7 +710,8 @@ namespace TriMM {
                 mesh.Vertices[observedVertex] = (mesh.Vertices[observedVertex] + new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value)).ToVertex();
 
                 ClearObserved();
-                mesh.Finish(true, true);
+                mesh.Finish(true);
+                selectedAlgorithm.GetVertexNormals(ref mesh);
                 RefreshControl();
             }
 
@@ -705,7 +731,8 @@ namespace TriMM {
             Vertex newVertex = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
             mesh.Vertices.Add(newVertex);
 
-            mesh.Finish(true, true);
+            mesh.Finish(true);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
             RefreshControl();
 
             Cursor.Current = Cursors.Default;
@@ -718,7 +745,8 @@ namespace TriMM {
                 mesh.Vertices[observedVertex] = (mesh.Vertices[observedVertex] + (double)distanceNumericUpDown.Value * mesh.Vertices[observedVertex].Normal).ToVertex();
 
                 ClearObserved();
-                mesh.Finish(true, true);
+                mesh.Finish(true);
+                selectedAlgorithm.GetVertexNormals(ref mesh);
                 RefreshControl();
             }
 
@@ -782,7 +810,8 @@ namespace TriMM {
                         mesh.RemoveAt(triangles[1]);
                         mesh.RemoveAt(triangles[0]);
 
-                        mesh.Finish(true, true);
+                        mesh.Finish(true);
+                        selectedAlgorithm.GetVertexNormals(ref mesh);
                         RefreshControl();
                     }
                 }
@@ -812,7 +841,8 @@ namespace TriMM {
                     triangles.Sort();
                     for (int i = triangles.Count - 1; i >= 0; i--) { mesh.RemoveAt(triangles[i]); };
 
-                    mesh.Finish(true, true);
+                    mesh.Finish(true);
+                    selectedAlgorithm.GetVertexNormals(ref mesh);
                     RemoveSinglesButton_Click(sender, e);
                 }
             }
@@ -823,6 +853,14 @@ namespace TriMM {
         #endregion
 
         #endregion
+
+        private void NormalComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            if (mesh != null) {
+                selectedAlgorithm = vertexNormalAlgorithms[normalComboBox.SelectedIndex];
+                selectedAlgorithm.GetVertexNormals(ref mesh);
+                RefreshControl();
+            }
+        }
 
         #endregion
 

@@ -26,7 +26,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// Rusinkiewicz does not not use these weights for estimating Vertex normals, only for weighting
     /// the face curvatures. For the Vertex normals he uses the Max-algorithm.
     /// </summary>
-    internal class Rusinkiewicz : IVertexNormalAlgorithm {
+    public class Rusinkiewicz : IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 

@@ -25,7 +25,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// <summary>
     /// The Interface for all Vertex normal algorithms.
     /// </summary>
-    internal interface IVertexNormalAlgorithm {
+    public interface IVertexNormalAlgorithm {
 
         #region Properties
 

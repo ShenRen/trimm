@@ -24,7 +24,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// "Computing Vertex Normals from Polygonal Facets".
     /// The facet normals are weighted by the angle of the adjacent Triangle and (in addition) that Triangles area.
     /// </summary>
-    internal class ExtendedThuermerAndWuethrich : IVertexNormalAlgorithm {
+    public class ExtendedThuermerAndWuethrich : IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 

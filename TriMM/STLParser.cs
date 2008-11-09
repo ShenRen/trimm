@@ -25,6 +25,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
+using TriMM.VertexNormalAlgorithms;
 
 namespace TriMM {
     /// <summary>
@@ -38,13 +39,14 @@ namespace TriMM {
         /// Parse the given Stream.
         /// </summary>
         /// <param name="file">Stream to parse</param>
+        /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
         /// <returns>The parsed TriangleMesh</returns>
-        public static TriangleMesh Parse(StreamReader file) {
+        public static TriangleMesh Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
             // First test, if the stream is ASCII or binary
             if (TestIfASCII(file)) {
-                return ParseASCII(file);
+                return ParseASCII(file, normalAlgo);
             } else {
-                return ParseBinary(file);
+                return ParseBinary(file, normalAlgo);
             }
         }
 
@@ -65,8 +67,9 @@ namespace TriMM {
         /// software does not understand anything else.( http://en.wikipedia.org/wiki/STL_(file_format) )
         /// </remarks>
         /// <param name="file">Stream to parse</param>
+        /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
         /// <returns>The parsed TriangleMesh</returns>
-        private static TriangleMesh ParseBinary(StreamReader file) {
+        private static TriangleMesh ParseBinary(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
             TriangleMesh mesh = new TriangleMesh();
             BinaryReader binReader = new BinaryReader(file.BaseStream);
 
@@ -125,7 +128,8 @@ namespace TriMM {
                 binReader.Close();
             }
 
-            mesh.Finish(false, true);
+            mesh.Finish(false);
+            normalAlgo.GetVertexNormals(ref mesh);
             return mesh;
         }
 
@@ -133,8 +137,9 @@ namespace TriMM {
         /// Parse STL-ASCII-Format.
         /// </summary>
         /// <param name="file">Stream to parse</param>
+        /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
         /// <returns>The parsed TriangleMesh</returns>
-        private static TriangleMesh ParseASCII(StreamReader file) {
+        private static TriangleMesh ParseASCII(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
             TriangleMesh mesh = new TriangleMesh();
             String input = null;
             int count = 0;
@@ -194,7 +199,8 @@ namespace TriMM {
                 sr.Close();
             }
 
-            mesh.Finish(false, true);
+            mesh.Finish(false);
+            normalAlgo.GetVertexNormals(ref mesh);
             return mesh;
         }
 
@@ -227,7 +233,7 @@ namespace TriMM {
         /// </summary>
         /// <param name="filename">Path of the file to be saved</param>
         /// <param name="mesh">The TriangleMesh to be saved.</param>
-        internal static void WriteToASCII(string filename, TriangleMesh mesh) {
+        public static void WriteToASCII(string filename, TriangleMesh mesh) {
             StreamWriter sw = new StreamWriter(filename);
             try {
                 sw.WriteLine("solid ");
@@ -253,7 +259,7 @@ namespace TriMM {
         /// </summary>
         /// <param name="filename">Path of the file to be saved.</param>
         /// <param name="mesh">The TriangleMesh to be saved.</param>
-        internal static void WriteToBinary(string filename, TriangleMesh mesh) {
+        public static void WriteToBinary(string filename, TriangleMesh mesh) {
             FileStream fs = new FileStream(filename, FileMode.Create);
             BinaryWriter bw = new BinaryWriter(fs);
             try {

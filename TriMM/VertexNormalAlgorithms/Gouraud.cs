@@ -24,7 +24,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// "Continuous Shading of Curved Surfaces".
     /// The facet normals of the adjacent Triangles are all weighted equally.
     /// </summary>
-    internal class Gouraud : IVertexNormalAlgorithm{
+    public class Gouraud : IVertexNormalAlgorithm{
 
         #region IVertexNormalAlgorithm Member
 

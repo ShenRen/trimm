@@ -25,7 +25,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// of the normals of the adjacent Triangles weighted by the inverse area of the Triangle formed by the
     /// Triangles centroid and the Edge.
     /// </summary>
-    internal class InverseEdgeNormals : IVertexNormalAlgorithm {
+    public class InverseEdgeNormals : IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 

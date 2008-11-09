@@ -96,6 +96,8 @@ namespace TriMM {
             this.distanceNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.edgeTabPage = new System.Windows.Forms.TabPage();
             this.removeEdgeButton = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.normalComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).BeginInit();
@@ -481,13 +483,13 @@ namespace TriMM {
             // manualToolStripMenuItem
             // 
             this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            this.manualToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.manualToolStripMenuItem.Text = "&Manual";
             // 
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.infoToolStripMenuItem.Text = "&Info";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.InfoToolStripMenuItem_Click);
             // 
@@ -547,6 +549,7 @@ namespace TriMM {
             // 
             // meshGroupBox
             // 
+            this.meshGroupBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.meshGroupBox.Controls.Add(this.vertexLabel);
             this.meshGroupBox.Controls.Add(this.edgeLabel);
             this.meshGroupBox.Controls.Add(this.label5);
@@ -563,10 +566,11 @@ namespace TriMM {
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tabControl1.Controls.Add(this.triangleTabPage);
             this.tabControl1.Controls.Add(this.vertexTabPage);
             this.tabControl1.Controls.Add(this.edgeTabPage);
-            this.tabControl1.Location = new System.Drawing.Point(12, 104);
+            this.tabControl1.Location = new System.Drawing.Point(12, 142);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(239, 278);
@@ -682,11 +686,31 @@ namespace TriMM {
             this.removeEdgeButton.UseVisualStyleBackColor = true;
             this.removeEdgeButton.Click += new System.EventHandler(this.RemoveEdgeButton_Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(9, 112);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(89, 13);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Normal Algorithm:";
+            // 
+            // normalComboBox
+            // 
+            this.normalComboBox.FormattingEnabled = true;
+            this.normalComboBox.Location = new System.Drawing.Point(104, 109);
+            this.normalComboBox.Name = "normalComboBox";
+            this.normalComboBox.Size = new System.Drawing.Size(147, 21);
+            this.normalComboBox.TabIndex = 24;
+            this.normalComboBox.SelectedIndexChanged += new System.EventHandler(this.NormalComboBox_SelectedIndexChanged);
+            // 
             // TriMMForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 390);
+            this.ClientSize = new System.Drawing.Size(262, 428);
+            this.Controls.Add(this.normalComboBox);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.meshGroupBox);
             this.Controls.Add(this.menuStrip1);
@@ -773,6 +797,8 @@ namespace TriMM {
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown distanceNumericUpDown;
         private System.Windows.Forms.Button removeEdgeButton;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox normalComboBox;
     }
 }
 

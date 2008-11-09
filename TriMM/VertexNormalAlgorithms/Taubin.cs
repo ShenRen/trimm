@@ -24,7 +24,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// "Estimating The Tensor Of Curvature Of A Surface From A Polyhedral Approximation".
     /// This algorithm uses the area of a Triangle as weight for the normal vector.
     /// </summary>
-    internal class Taubin: IVertexNormalAlgorithm {
+    public class Taubin: IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 

@@ -26,7 +26,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// The facet normal vectors can be calculated from the neighbors and thus be
     /// eliminated in this calculation.
     /// </summary> 
-    internal class Max : IVertexNormalAlgorithm {
+    public class Max : IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 

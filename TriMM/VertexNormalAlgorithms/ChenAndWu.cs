@@ -25,7 +25,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// The weights are proportional to the inverse of the squared distance between
     /// the centroid of the adjacent Triangle and the current Vertex.
     /// </summary>
-    internal class ChenAndWu : IVertexNormalAlgorithm {
+    public class ChenAndWu : IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 

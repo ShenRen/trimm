@@ -25,6 +25,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
+using TriMM.VertexNormalAlgorithms;
 
 
 namespace TriMM {
@@ -108,13 +109,12 @@ namespace TriMM {
         /// <summary>
         /// Clears Neighborhoods etc. for reinitializing a TriangleMesh.
         /// </summary>
-        public void ClearRelations(bool cN) {
+        public void ClearRelations() {
             maxEdgeLength = 0;
             minEdgeLength = double.PositiveInfinity;
             edges.Clear();
             for (int i = 0; i < this.Count; i++) { this[i].Edges.Clear(); }
             for (int i = 0; i < this.vertices.Count; i++) {
-                if (cN) { vertices[i].Normal = new VectorND(0, 0, 0); }
                 vertices[i].Neighborhood.Clear();
                 vertices[i].Triangles.Clear();
             }
@@ -129,9 +129,8 @@ namespace TriMM {
         /// Calculates the angles of the Triangles.
         /// </summary>
         /// <param name="triNormals">If true, the Triangle normals and the centroid are calculated. If False, they are not calculated.</param>
-        /// <param name="verNormals">If true, the Vertex normals are calculated. If False, they are not calculated.</param>
-        public void Finish(bool triNormals, bool verNormals) {
-            ClearRelations(verNormals);
+        public void Finish(bool triNormals) {
+            ClearRelations();
 
             Edge edge;
             double edgeLength;
@@ -166,7 +165,6 @@ namespace TriMM {
             }
 
             for (int i = 0; i < this.Count; i++) {
-
                 if (triNormals) {
                     // Sets the Centroid for each Triangle.
                     this[i].Centroid = ((vertices[this[i][0]] + vertices[this[i][1]] + vertices[this[i][2]]) / 3).ToVertex();
@@ -178,8 +176,6 @@ namespace TriMM {
                     if (this[i].Min[j] < min[j]) { min[j] = this[i].Min[j]; }
                     if (this[i].Max[j] > max[j]) { max[j] = this[i].Max[j]; }
 
-                    // Calculates the Normal for each Vertex using the algorithm of Gouraud.
-                    if (verNormals) { this[i, j].Normal += this[i].Normal; }
                     // Sets the adjacent Triangles.
                     this[i, j].AddAdjacentTriangle(i);
                     // Sets the Neighborhood.
@@ -246,15 +242,6 @@ namespace TriMM {
                 this[i].Angles[0] = Vertex.Angle(ab, ac);
                 this[i].Angles[1] = Vertex.Angle(ba, bc);
                 this[i].Angles[2] = Vertex.Angle(cb, ca);
-            }
-
-            if (verNormals) {
-                // Normalizes the normal vector and sets a default value for Vertices that are not part of any Triangle.
-                for (int i = 0; i < vertices.Count; i++) {
-                    VectorND normal = vertices[i].Normal;
-                    VectorND empty = new VectorND(0, 0, 0);
-                    if (normal != empty) { normal.Normalize(); } else { normal = new VectorND(1, 0, 0); }
-                }
             }
 
             // The center is calculated.
@@ -329,12 +316,12 @@ namespace TriMM {
 
         public void FlipTriangle(int triangle) {
             this[triangle] = new Triangle(this[triangle][2], this[triangle][1], this[triangle][0]);
-            Finish(true, true);
+            Finish(true);
         }
 
         public void FlipAllTriangles() {
             for (int i = 0; i < this.Count; i++) { this[i] = new Triangle(this[i][2], this[i][1], this[i][0]); }
-            Finish(true, true);
+            Finish(true);
         }
 
         public void SubdivideTriangle(int triangle) {
@@ -357,7 +344,7 @@ namespace TriMM {
             this.Add(new Triangle(indices[1], indices[3], indices[5]));
             this.Add(new Triangle(indices[3], indices[4], indices[5]));
 
-            this.Finish(true, true);
+            this.Finish(true);
         }
 
         /// <summary>
@@ -583,7 +570,7 @@ namespace TriMM {
 
             newMesh.AddRange(oldTriangles.ToArray());
             newMesh.Vertices.AddRange(oldVertices.ToArray());
-            newMesh.Finish(true, true);
+            newMesh.Finish(true);
             return newMesh;
         }
 

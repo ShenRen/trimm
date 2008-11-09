@@ -22,6 +22,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
+using TriMM.VertexNormalAlgorithms;
 
 
 namespace TriMM {
@@ -38,8 +39,9 @@ namespace TriMM {
         /// The given StreamReader <paramref name="file"/> is parsed and the TriangleMesh returned.
         /// </summary>
         /// <param name="file">The *.OFF file to be parsed.</param>
+        /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
         /// <returns>The parsed TriangleMesh</returns>
-        public static TriangleMesh Parse(StreamReader file) {
+        public static TriangleMesh Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
             TriangleMesh triangleMesh = new TriangleMesh();
 
             // Temporary variables.
@@ -138,7 +140,8 @@ namespace TriMM {
             }
 
             // The TriangleMesh is complete and can be finalized.
-            if (vN) { triangleMesh.Finish(true, false); } else { triangleMesh.Finish(true, true); }
+            triangleMesh.Finish(true);
+            if (!vN) { normalAlgo.GetVertexNormals(ref triangleMesh); }
 
             return triangleMesh;
         }

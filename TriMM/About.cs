@@ -36,7 +36,7 @@ namespace TriMM {
         #region Properties
 
         /// <value> Gets the AssemblyTitle </value>
-        internal string AssemblyTitle {
+        public string AssemblyTitle {
             get {
                 // Get all title-attributes in this assembly
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
@@ -54,14 +54,14 @@ namespace TriMM {
         }
 
         /// <value> Gets the AssemblyVersion </value>
-        internal string AssemblyVersion {
+        public string AssemblyVersion {
             get {
                 return Assembly.GetExecutingAssembly().GetName().Version.ToString() + "alpha";
             }
         }
 
         /// <value> Gets the AssemblyDescription </value>
-        internal string AssemblyDescription {
+        public string AssemblyDescription {
             get {
                 // Get all description-attributes in this assembly
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
@@ -74,7 +74,7 @@ namespace TriMM {
         }
 
         /// <value> Gets the AssemblyProduct </value>
-        internal string AssemblyProduct {
+        public string AssemblyProduct {
             get {
                 // Get all product-attributes in this assembly
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
@@ -87,7 +87,7 @@ namespace TriMM {
         }
 
         /// <value> Gets the AssemblyCopyright </value>
-        internal string AssemblyCopyright {
+        public string AssemblyCopyright {
             get {
                 // Get all copyright-attributes in this assembly
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
@@ -100,7 +100,7 @@ namespace TriMM {
         }
 
         /// <value> Gets the AssemblyCompany </value>
-        internal string AssemblyCompany {
+        public string AssemblyCompany {
             get {
                 // Get all company-attributes in this assembly
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
@@ -119,7 +119,7 @@ namespace TriMM {
         /// <summary>
         /// Fills the Form with the information from AssemblyInfo.
         /// </summary>
-        internal About() {
+        public About() {
             InitializeComponent();
 
             // Initialize AboutBox to display productinformations from the Assemblyinformation.
