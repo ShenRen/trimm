@@ -875,7 +875,10 @@ namespace TriMM {
             Gl.glEnable(Gl.GL_LIGHTING);
         }
 
-
+        /// <summary>
+        /// Draw the Vertex normals als lines.
+        /// Lighting is disabled.
+        /// </summary>
         private void DrawVertexNormals() {
             Gl.glDisable(Gl.GL_LIGHTING);
             Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
@@ -890,7 +893,10 @@ namespace TriMM {
             Gl.glEnable(Gl.GL_LIGHTING);
         }
 
-
+        /// <summary>
+        /// Draws the coordinate axes as lines.
+        /// Lighting is disabled.
+        /// </summary>
         private void DrawAxes() {
             Gl.glDisable(Gl.GL_LIGHTING);
             Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
@@ -1000,7 +1006,7 @@ namespace TriMM {
             this.picking = false;
 
             // The VertexPicked event is thrown, passing the picked Vertices to the attached EventHandler.
-            if (VertexPicked != null) { VertexPicked(Helpers.UniqueSelection(color, vertexColorDist, vertexArray.Length / 3)); }
+            if (VertexPicked != null) { VertexPicked(ColorOGL.UniqueSelection(color, vertexColorDist, vertexArray.Length / 3)); }
         }
 
         /// <summary>
@@ -1052,7 +1058,7 @@ namespace TriMM {
             this.picking = false;
 
             // The TrianglePicked event is thrown, passing the picked Triangles to the attached EventHandler.
-            if (TrianglePicked != null) { TrianglePicked(Helpers.UniqueSelection(color, triangleColorDist, triangleArray.Length / 9)); }
+            if (TrianglePicked != null) { TrianglePicked(ColorOGL.UniqueSelection(color, triangleColorDist, triangleArray.Length / 9)); }
         }
 
         /// <summary>
@@ -1064,6 +1070,30 @@ namespace TriMM {
             if ((0 <= picked) && (picked < triangleArray.Length / 3)) {
                 if (TrianglePicked != null) { TrianglePicked(new List<int>(new int[1] { picked })); }
             }
+        }
+
+        /// <summary>
+        /// Calculates the bottom left corner and the width and height of a rectangle
+        /// given by two opposing corners (<paramref name="x1"/>, <paramref name="y1"/>)
+        /// and (<paramref name="x2"/>, <paramref name="y2"/>).
+        /// </summary>
+        /// <param name="x1">X-coordinate of the first corner</param>
+        /// <param name="y1">Y-coordinate of the first corner</param>
+        /// <param name="x2">X-coordinate of the second corner</param>
+        /// <param name="y2">Y-coordinate of the second corner</param>
+        /// <returns>[0]: X-coordinate of bottom left corner
+        /// [1]: Y-coordinate of bottom left corner
+        /// [2]: Width of picking rectangle
+        /// [3]: Height of picking rectangle</returns>
+        private int[] GetPickingRectangle(int x1, int y1, int x2, int y2) {
+            int[] rect = new int[4];
+
+            if (x1 <= x2) { rect[0] = x1; } else { rect[0] = x2; }
+            if (y1 <= y2) { rect[1] = y1; } else { rect[1] = y2; }
+            rect[2] = Math.Abs(x1 - x2) + 1; //width
+            rect[3] = Math.Abs(y1 - y2) + 1; //height
+
+            return rect;
         }
 
         #endregion
@@ -1080,7 +1110,7 @@ namespace TriMM {
         /// <param name="ev"> Standard MouseEventArgs </param>
         private void MouseDownEvent(object sender, MouseEventArgs ev) {
             if (ev.Button == MouseButtons.Left) {
-                int[] pickingRectangle = Helpers.GetPickingRectangle(ev.X, this.Height - ev.Y, ev.X, this.Height - ev.Y);
+                int[] pickingRectangle = GetPickingRectangle(ev.X, this.Height - ev.Y, ev.X, this.Height - ev.Y);
                 if (pickingMode == 1) {
                     this.PickVertex(pickingRectangle);
                 } else if (pickingMode == 2) {

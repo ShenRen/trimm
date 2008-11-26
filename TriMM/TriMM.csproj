@@ -65,7 +65,6 @@
     </Compile>
     <Compile Include="ColorOGL.cs" />
     <Compile Include="Edge.cs" />
-    <Compile Include="Helpers.cs" />
     <Compile Include="Neighborhood.cs" />
     <Compile Include="OffParser.cs" />
     <Compile Include="PlyParser.cs" />
@@ -81,7 +80,6 @@
     <Compile Include="STLParser.cs" />
     <Compile Include="Triangle.cs" />
     <Compile Include="TriangleMesh.cs" />
-    <Compile Include="TriangleMeshParser.cs" />
     <Compile Include="TriMMForm.cs">
       <SubType>Form</SubType>
     </Compile>

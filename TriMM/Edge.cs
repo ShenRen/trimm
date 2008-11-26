@@ -43,6 +43,7 @@ namespace TriMM {
 
         #region Properties
 
+        /// <value>Gets the index of the Vertex at the given position of the Edge.</value>
         public int this[int index]{get { return vertices[index]; } }
 
         /// <value>Gets the two Vertices connected by this Edge.</value>

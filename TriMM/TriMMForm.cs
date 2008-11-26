@@ -87,8 +87,8 @@ namespace TriMM {
             control.TriangleColorDist = mesh.TriangleColorDist;
             control.VertexPickingColors = mesh.GetVertexPickingColors();
             control.TrianglePickingColors = mesh.GetTrianglePickingColors();
-            control.ObservedRadius = (float)mesh.MinEdgeLength / 2;
-            control.PickingRadius = (float)mesh.MinEdgeLength / 2;
+            control.ObservedRadius = mesh.MinEdgeLength / 2;
+            control.PickingRadius = mesh.MinEdgeLength / 2;
             control.Center = mesh.Center;
             control.TriangleArray = mesh.GetTriangleArray();
             control.NormalArray = mesh.GetNormalArray();
@@ -121,8 +121,8 @@ namespace TriMM {
             control.TriangleColorDist = mesh.TriangleColorDist;
             control.VertexPickingColors = mesh.GetVertexPickingColors();
             control.TrianglePickingColors = mesh.GetTrianglePickingColors();
-            control.ObservedRadius = (float)mesh.MinEdgeLength / 2;
-            control.PickingRadius = (float)mesh.MinEdgeLength / 2;
+            control.ObservedRadius = mesh.MinEdgeLength / 2;
+            control.PickingRadius = mesh.MinEdgeLength / 2;
             control.Center = mesh.Center;
             control.TriangleArray = mesh.GetTriangleArray();
             control.NormalArray = mesh.GetNormalArray();
@@ -305,6 +305,11 @@ namespace TriMM {
             view = null;
         }
 
+        /// <summary>
+        /// Changes the size of the Form, when a different Tab is selected.
+        /// </summary>
+        /// <param name="sender">tabControl1</param>
+        /// <param name="e">Standard EventArgs</param>
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e) {
             switch (tabControl1.SelectedIndex) {
                 case 0:
@@ -327,7 +332,11 @@ namespace TriMM {
         /// <param name="e">Standard EventArgs</param>
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e) { this.Close(); }
 
-
+        /// <summary>
+        /// Shows the About dialog.
+        /// </summary>
+        /// <param name="sender">infoToolStripMenuItem</param>
+        /// <param name="e">Standard EventArgs</param>
         private void InfoToolStripMenuItem_Click(object sender, EventArgs e) {
             About about = new About();
             about.ShowDialog();
@@ -337,11 +346,10 @@ namespace TriMM {
 
         #region Visualization
 
-
         /// <summary>
         /// Shows information about the picked Vertex.
         /// </summary>
-        /// <param name="picked">The index of the picked Vertex</param>
+        /// <param name="picked">The index of the picked Vertex, or an empty list.</param>
         private void Control_VertexPicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
@@ -355,6 +363,10 @@ namespace TriMM {
             control.Refresh();
         }
 
+        /// <summary>
+        /// Shows information about the picked Triangle.
+        /// </summary>
+        /// <param name="picked">The index of the picked Triangle, or an empty list.</param>
         private void Control_TrianglePicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
@@ -380,10 +392,10 @@ namespace TriMM {
         #region Triangles
 
         /// <summary>
-        /// Removes Triangles, that are not really Triangles, because they have colinear corners.
+        /// Removes Triangles, that are not really Triangles, because they have three colinear Vertices.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">removeColinButton</param>
+        /// <param name="e">Standard EventArgs</param>
         private void RemoveColinButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
 
@@ -415,17 +427,11 @@ namespace TriMM {
             RemoveSinglesButton_Click(sender, e);
         }
 
-        private void FlipAllTrianglesButton_Click(object sender, EventArgs e) {
-            mesh.FlipAllTriangles();
-            selectedAlgorithm.GetVertexNormals(ref mesh);
-            RefreshControl();
-            if (observedTriangle != -1) {
-                aNumericUpDown.Value = (decimal)mesh[observedTriangle][0];
-                bNumericUpDown.Value = (decimal)mesh[observedTriangle][1];
-                cNumericUpDown.Value = (decimal)mesh[observedTriangle][2];
-            }
-        }
-
+        /// <summary>
+        /// Changes the orientation of the Triangle currently observed.
+        /// </summary>
+        /// <param name="sender">flipAllTrianglesButton</param>
+        /// <param name="e">Standard EventArgs</param>
         private void FlipObservedTriangleButton_Click(object sender, EventArgs e) {
             if (observedTriangle != -1) {
                 mesh.FlipTriangle(observedTriangle);
@@ -437,7 +443,27 @@ namespace TriMM {
             }
         }
 
+        /// <summary>
+        /// Changes the orientation of all Triangles.
+        /// </summary>
+        /// <param name="sender">flipAllTrianglesButton</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void FlipAllTrianglesButton_Click(object sender, EventArgs e) {
+            mesh.FlipAllTriangles();
+            selectedAlgorithm.GetVertexNormals(ref mesh);
+            RefreshControl();
+            if (observedTriangle != -1) {
+                aNumericUpDown.Value = (decimal)mesh[observedTriangle][0];
+                bNumericUpDown.Value = (decimal)mesh[observedTriangle][1];
+                cNumericUpDown.Value = (decimal)mesh[observedTriangle][2];
+            }
+        }
 
+        /// <summary>
+        /// Subdivides the Triangle currently observed.
+        /// </summary>
+        /// <param name="sender">subdivideTriangleButton</param>
+        /// <param name="e">Standard EventArgs</param>
         private void SubdivideTriangleButton_Click(object sender, EventArgs e) {
             if (observedTriangle != -1) {
                 mesh.SubdivideTriangle(observedTriangle);
@@ -445,6 +471,17 @@ namespace TriMM {
                 observedTriangle = -1;
                 RefreshControl();
             }
+        }
+
+        /// <summary>
+        /// Subdivides all Triangles, one subdivision-step at a time.
+        /// </summary>
+        /// <param name="sender">subdivideButton</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void SubdivideButton_Click(object sender, EventArgs e) {
+            mesh = TriangleMesh.Subdivide(mesh, 1);
+            selectedAlgorithm.GetVertexNormals(ref mesh);
+            RefreshControl();
         }
 
         /// <summary>
@@ -497,18 +534,12 @@ namespace TriMM {
             Cursor.Current = Cursors.Default;
         }
 
-        private void SubdivideButton_Click(object sender, EventArgs e) {
-            mesh = TriangleMesh.Subdivide(mesh, 1);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
-            RefreshControl();
-        }
-
         #endregion
 
         #region Vertices
 
         /// <summary>
-        /// Removes single Vertices, that are not part of any triangles.
+        /// Removes single Vertices that are not part of any triangles.
         /// </summary>
         /// <param name="sender">removeSinglesButton</param>
         /// <param name="e">Standard EventArgs</param>
@@ -543,7 +574,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Removes Vertices, that are in the mesh more than once.
+        /// Removes Vertices that are in the mesh more than once and adjusts the attached Triangles.
         /// </summary>
         /// <param name="sender">removeDoubleVertButton</param>
         /// <param name="e">Standard EventArgs</param>
@@ -685,8 +716,8 @@ namespace TriMM {
         /// <summary>
         /// Moves the observed Vertex to the values in the corresponding NumericUpDowns.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">moveObservedButton</param>
+        /// <param name="e">Standard EventArgs</param>
         private void MoveObservedButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
 
@@ -702,12 +733,37 @@ namespace TriMM {
             Cursor.Current = Cursors.Default;
         }
 
-
+        /// <summary>
+        /// Transposes the observed Vertex by the values in the x-, y- and zNumericUpDown.
+        /// </summary>
+        /// <param name="sender">transposeVertexButton</param>
+        /// <param name="e">Standard EventArgs</param>
         private void TransposeVertexButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
 
             if (observedVertex != -1) {
                 mesh.Vertices[observedVertex] = (mesh.Vertices[observedVertex] + new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value)).ToVertex();
+
+                ClearObserved();
+                mesh.Finish(true);
+                selectedAlgorithm.GetVertexNormals(ref mesh);
+                RefreshControl();
+            }
+
+            Cursor.Current = Cursors.Default;
+        }
+
+
+        /// <summary>
+        /// Moves the observed Vertex along its normalvector by the distance selected in the distanceNumericUpDown.
+        /// </summary>
+        /// <param name="sender">moveAlongNormalButton</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void MoveAlongNormalButton_Click(object sender, EventArgs e) {
+            Cursor.Current = Cursors.WaitCursor;
+
+            if (observedVertex != -1) {
+                mesh.Vertices[observedVertex] = (mesh.Vertices[observedVertex] + (double)distanceNumericUpDown.Value * mesh.Vertices[observedVertex].Normal).ToVertex();
 
                 ClearObserved();
                 mesh.Finish(true);
@@ -738,20 +794,6 @@ namespace TriMM {
             Cursor.Current = Cursors.Default;
         }
 
-        private void MoveAlongNormalButton_Click(object sender, EventArgs e) {
-            Cursor.Current = Cursors.WaitCursor;
-
-            if (observedVertex != -1) {
-                mesh.Vertices[observedVertex] = (mesh.Vertices[observedVertex] + (double)distanceNumericUpDown.Value * mesh.Vertices[observedVertex].Normal).ToVertex();
-
-                ClearObserved();
-                mesh.Finish(true);
-                selectedAlgorithm.GetVertexNormals(ref mesh);
-                RefreshControl();
-            }
-
-            Cursor.Current = Cursors.Default;
-        }
 
         #endregion
 
@@ -854,6 +896,11 @@ namespace TriMM {
 
         #endregion
 
+        /// <summary>
+        /// When a new VertexNormalAlgorithm is selected the normals are calculated and the TriMMControl is refreshed.
+        /// </summary>
+        /// <param name="sender">normalComboBox</param>
+        /// <param name="e">Standard EventArgs</param>
         private void NormalComboBox_SelectedIndexChanged(object sender, EventArgs e) {
             if (mesh != null) {
                 selectedAlgorithm = vertexNormalAlgorithms[normalComboBox.SelectedIndex];

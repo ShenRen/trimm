@@ -28,7 +28,8 @@ namespace TriMM {
 
     /// <summary>
     /// A Triangle stores the indices of its Vertices, its Edges, the angles at the Vertices,
-    /// its centroid (containing the normal vector and its extrema.
+    /// its centroid (containing the normal vector), its area, 
+    /// the Voronoi-areas of the Vertices within the Triangle and its extrema.
     /// </summary>
     public class Triangle {
 
@@ -54,6 +55,7 @@ namespace TriMM {
         /// <returns>The index of the desired Vertex.</returns>
         public int this[int index] { get { return vertices[index]; } }
 
+        /// <value>Gets the list of indices of the Vertices.</value>
         public List<int> Vertices { get { return vertices; } }
 
         /// <value>Gets the list of Edges or set it.</value>
@@ -68,7 +70,7 @@ namespace TriMM {
         /// <value>Gets the area or sets it.</value>
         public double Area { get { return area; } set { area = value; } }
 
-        /// <value>Gets the areas nearest to each corner or sets them.</value>
+        /// <value>Gets the areas closest to each corner or sets them.</value>
         public double[] CornerAreas { get { return cornerAreas; } set { cornerAreas = value; } }
 
         /// <value>Gets the angles at each corner or sets them.</value>
@@ -217,12 +219,10 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Just so that Visual Studio doesn't complain.
+        /// Just so Visual Studio doesn't complain.
         /// </summary>
         /// <returns>base.GetHashCode()</returns>
-        public override int GetHashCode() {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() { return base.GetHashCode(); }
 
         #region Static
 

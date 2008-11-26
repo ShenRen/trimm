@@ -27,9 +27,9 @@ using System.Collections.Generic;
 namespace TriMM {
 
     /// <summary>
-    /// A Form displaying an OGLControl and two ScrollBars to move the image,
+    /// A Form displaying a TriMMControl and two ScrollBars to move the image,
     /// as well as button to center the image again.
-    /// It also allows scaling and changing colors as well as making screenshots.
+    /// It also gives a choice of what to display and allows changing colors as well as making screenshots.
     /// </summary>
     public partial class TriMMView : Form {
 
@@ -133,13 +133,21 @@ namespace TriMM {
             control.Refresh();
         }
 
-
+        /// <summary>
+        /// Refreshes the TriMMControl, drawing the Vertex normals, if checked.
+        /// </summary>
+        /// <param name="sender">vertexNormalsCheckBox</param>
+        /// <param name="e">Standard EventArgs</param>
         private void VertexNormalsCheckBox_CheckedChanged(object sender, EventArgs e) {
             control.ShowVertexNormalVectors = vertexNormalsCheckBox.Checked;
             control.Refresh();
         }
 
-
+        /// <summary>
+        /// Refreshes the TriMMControl, drawing the coordinate axes, if checked.
+        /// </summary>
+        /// <param name="sender">axesCheckBox</param>
+        /// <param name="e">Standard EventArgs</param>
         private void AxesCheckBox_CheckedChanged(object sender, EventArgs e) {
             control.ShowAxes = axesCheckBox.Checked;
             control.Refresh();
@@ -188,7 +196,12 @@ namespace TriMM {
             control.Refresh();
         }
 
-
+        /// <summary>
+        /// Changes the picking mode, possible values: None, Vertex, Triangle,
+        /// and makes the necessary adjustments.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PickingModeComboBox_SelectedIndexChanged(object sender, EventArgs e) {
             control.PickingMode = pickingModeComboBox.SelectedIndex;
             observedNumericUpDown.Value = -1;
@@ -418,7 +431,10 @@ namespace TriMM {
             observedNumericUpDown.ValueChanged += ObservedNumericUpDown_ValueChanged;
         }
 
-
+        /// <summary>
+        /// Changes the observed Triangle to the one picked in the visualisation.
+        /// </summary>
+        /// <param name="picked">Index of the observed Triangle</param>
         private void Control_TrianglePicked(List<int> picked) {
             observedNumericUpDown.ValueChanged -= ObservedNumericUpDown_ValueChanged;
             if (picked.Count != 0) {
@@ -431,7 +447,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Sets the observedNumericUpDown to 0, when the picked Vertex is unpicked from the outside.
+        /// Sets the observedNumericUpDown to -1, when the PickCleared event was thrown somewhere else.
         /// </summary>
         private void Control_PickCleared() {
             observedNumericUpDown.ValueChanged -= ObservedNumericUpDown_ValueChanged;
@@ -440,7 +456,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// The OGLControl is set free, so that it is not destroyed with the View.
+        /// The TriMMControl is set free, so that it is not destroyed with the View.
         /// </summary>
         /// <param name="sender">Whatever closes the View</param>
         /// <param name="e">Standard FormClosingEventArgs</param>

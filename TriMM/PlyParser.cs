@@ -33,22 +33,47 @@ namespace TriMM {
     /// </summary>
     public static class PlyParser {
 
+        #region Structs
+
+        /// <summary>
+        /// This struct is used for storing the information about "elements" given in the header
+        /// of a *.PLY file for further processing.
+        /// </summary>
         private struct Element {
+
+            #region Fields
+
             public string name;
             public int count;
             public List<string> properties;
 
+            #endregion
+
+            #region Constructors
+
+            /// <summary>
+            /// The Constructor initializes the Element with a name and the number of such elements contained in the file.
+            /// A list for the properties of the element is initialized.
+            /// </summary>
+            /// <param name="name">Name of the Element.</param>
+            /// <param name="count">Number of such Elements in the file.</param>
             public Element(string name, int count) {
                 this.name = name;
                 this.count = count;
                 properties = new List<string>();
             }
+
+            #endregion
         }
+
+        #endregion
 
         #region Methods
 
         /// <summary>
         /// The given StreamReader <paramref name="file"/> is parsed and the TriangleMesh returned.
+        /// Currently only version 1.0 ASCII *.PLY files are supported, as I found no full documentation
+        /// of the binary versions so far.
         /// </summary>
         /// <param name="file">The *.PLY file to be parsed.</param>
         /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
@@ -71,14 +96,17 @@ namespace TriMM {
             NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
             numberFormatInfo.NumberDecimalSeparator = ".";
 
+            // The file must not be empty!
             input = file.ReadLine();
             if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
             input.Trim();
             inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            // The first word in the first line must be "ply"!
             if (inputList[0] != "ply") { throw new Exception("The file is not a PLY file, or it is broken!"); }
             input = file.ReadLine();
             input.Trim();
             inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            // There has to be more information than just "ply"!
             if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
 
             // The header is processed here.
@@ -89,12 +117,15 @@ namespace TriMM {
                     format = inputList[1];
                     version = inputList[2];
                 } else if (inputList[0] == "element") {
+                    // The Elements are read and stored. There need to be Elements called "vertex" and "face".
                     if (inputList.Length != 3) { throw new Exception("The file is not a PLY file, or it is broken!"); }
                     elements.Add(new Element(inputList[1], int.Parse(inputList[2])));
                 } else if (inputList[0] == "property") {
+                    // The properties of the Elements are stored with the elements.
                     elements[elements.Count - 1].properties.Add(input);
                 }
 
+                // There has to be more information than just the header, which must end with "end_header"!
                 input = file.ReadLine();
                 if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
                 input.Trim();
@@ -103,8 +134,12 @@ namespace TriMM {
 
             for (int i = 0; i < elements.Count; i++) {
                 Element el = elements[i];
+                // Vertices are needed for this program.
                 if (el.name == "vertex") {
                     vertices = el.count;
+                    // At least the x-, y- and z-coordinates of a Vertex are needed.
+                    // There could be more informations, but as there are no standard names for them in the original 
+                    // description of the PLY format, they are ignored by this program.
                     if (el.properties.Count < 3) {
                         throw new Exception("The file is not a PLY file, or it is broken!");
                     } else {
@@ -127,6 +162,7 @@ namespace TriMM {
                     }
                 } else if (el.name == "face") {
                     faces = el.count;
+                    // The faces need to be indices of the Vertices!
                     if (el.properties[0] != "property list uchar int vertex_index") { throw new Exception("The file is not a PLY file, or it is broken!"); }
                 }
             }
@@ -164,6 +200,9 @@ namespace TriMM {
                     // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
                     inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
+                    // Only triangles are allowed for this program.
+                    if (int.Parse(inputList[0]) != 3) { throw new Exception("At least one of the faces is not a triangle!"); }
+
                     // Only the Triangle is read and added to the owners TriangleMesh, everything else in the line is ignored.
                     triangleMesh.Add(new Triangle(int.Parse(inputList[1], numberFormatInfo), int.Parse(inputList[2], numberFormatInfo), int.Parse(inputList[3], numberFormatInfo)));
 
@@ -173,6 +212,7 @@ namespace TriMM {
 
             // The TriangleMesh is complete and can be finalized.
             triangleMesh.Finish(true);
+            // The Vertex normals are calculated with the chosen algorithm.
             normalAlgo.GetVertexNormals(ref triangleMesh);
 
             return triangleMesh;
@@ -180,7 +220,6 @@ namespace TriMM {
 
         /// <summary>
         /// Exports the data from the given TriangleMesh to the Stanford Triangle Format *.PLY.
-        /// If Vertex normals exist, they are written to that file as well.
         /// </summary>
         /// <param name="filename">Path to the file to be written.</param>
         /// <param name="triangleMesh">The TriangleMesh to be exported.</param>
@@ -201,7 +240,7 @@ namespace TriMM {
                 sw.WriteLine("property list uchar int vertex_index");
                 sw.WriteLine("end_header");
 
-                // The Vertices
+                // The Vertices.
                 for (int i = 0; i < triangleMesh.Vertices.Count; i++) {
                     sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
                 }

@@ -44,7 +44,9 @@
 //
 // For more information and contact details visit http://pavel.googlecode.com
 
+using System;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace TriMM {
 
@@ -220,6 +222,55 @@ namespace TriMM {
         /// </summary>
         /// <returns>(R;G;B)</returns>
         public override string ToString() { return "(" + rgbFloat[0] + ";" + rgbFloat[1] + ";" + rgbFloat[2] + ")"; }
+
+        #region Static
+
+        /// <summary>
+        /// Converts an Integer into a unique ColorOGL.
+        /// </summary>
+        /// <param name="index">Integer to be converted</param>
+        /// <returns>Color</returns>
+        public static ColorOGL GetColorFromInt(int index) {
+            ColorOGL color = new ColorOGL();
+            color.R = (float)(255 - index % 256) / 255;
+            color.G = (float)(255 - (int)((index - 256 * 256 * (int)(index / (256 * 256))) / 256)) / 255;
+            color.B = (float)(255 - (int)(index / (256 * 256))) / 255;
+
+            return color;
+        }
+
+        /// <summary>
+        /// Converts a float RGB color into a unique Integer.
+        /// </summary>
+        /// <param name="color">Color</param>
+        /// <returns>Corresponding Integer</returns>
+        public static int GetIntFromColor(ColorOGL color) {
+            return (int)(Math.Ceiling((1.0f - color.B) * 255) * 256 * 256 +
+                Math.Ceiling((1.0f - color.G) * 255) * 256 + Math.Ceiling((1.0f - color.R) * 255));
+        }
+
+        /// <summary>
+        /// Takes a float-array of RGB-colors and returns a list of the corresponding Vertices.
+        /// Every picked Vertices is added to the list only once.
+        /// </summary>
+        /// <param name="selected">Array of the picked Vertices</param>
+        /// <param name="colorDist">Distance between the colors</param>
+        /// <param name="max">Maximum possible index</param>
+        /// <returns>Unique list of selected triangles</returns>
+        public static List<int> UniqueSelection(float[] selected, int colorDist, int max) {
+            ColorOGL color = new ColorOGL();
+            List<int> unique = new List<int>();
+            int index;
+            for (int i = 0; i < selected.Length / 3; i++) {
+                color = new ColorOGL(selected[i * 3], selected[i * 3 + 1], selected[i * 3 + 2]);
+                index = GetIntFromColor(color) / colorDist;
+                if ((index < max) && (!unique.Contains(index))) { unique.Add(index); }
+            }
+
+            return unique;
+        }
+
+        #endregion
 
         #endregion
     }

@@ -26,7 +26,7 @@ namespace TriMM {
     [Serializable()]
 
     /// <summary>
-    /// A Vertex of the mesh. Can store the normal vector, a list of adjacent Triangles and a Neighborhood.
+    /// A Vertex of the mesh. Can store the normal vector, the Voronoi area, a list of adjacent Triangles and a Neighborhood.
     /// </summary>
     public class Vertex : VectorND {
 
@@ -45,7 +45,7 @@ namespace TriMM {
         /// <value>Gets the normal vector of this Vertex or sets it.</value>
         public VectorND Normal { get { return normal; } set { normal = value; } }
 
-        /// <value>Gets the area closest to this Vertex or sets it.</value>
+        /// <value>Gets the Voronoi area of this Vertex or sets it.</value>
         public double Area { get { return area; } set { area = value; } }
 
         /// <value>Gets the List of Triangles adjacent to this Vertex or sets it.</value>

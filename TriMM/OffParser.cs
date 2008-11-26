@@ -141,6 +141,7 @@ namespace TriMM {
 
             // The TriangleMesh is complete and can be finalized.
             triangleMesh.Finish(true);
+            // If there are no Vertex normals in the file, they are calculated with the chosen algorithm.
             if (!vN) { normalAlgo.GetVertexNormals(ref triangleMesh); }
 
             return triangleMesh;

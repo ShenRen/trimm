@@ -42,8 +42,7 @@ namespace TriMM {
 
         private List<Vertex> vertices = new List<Vertex>();
         private SortedList<decimal, Edge> edges = new SortedList<decimal, Edge>();
-        private double maxEdgeLength = 0;
-        private double minEdgeLength = double.PositiveInfinity;
+        private float minEdgeLength = float.PositiveInfinity;
 
         private float scale;
         private double[] center = new double[3] { 0, 0, 0 };
@@ -73,11 +72,8 @@ namespace TriMM {
         /// <value>Gets the list of all Edges.</value>
         public SortedList<decimal, Edge> Edges { get { return edges; } }
 
-        /// <value>Gets the length of the longest Edge in this TriangleMesh.</value>
-        public double MaxEdgeLength { get { return maxEdgeLength; } }
-
         /// <value>Gets the length of the shortest Edge in this TriangleMesh.</value>
-        public double MinEdgeLength { get { return minEdgeLength; } }
+        public float MinEdgeLength { get { return minEdgeLength; } }
 
         /// <value>Gets the scale used for drawing.</value>
         public float Scale { get { return scale; } }
@@ -110,8 +106,7 @@ namespace TriMM {
         /// Clears Neighborhoods etc. for reinitializing a TriangleMesh.
         /// </summary>
         public void ClearRelations() {
-            maxEdgeLength = 0;
-            minEdgeLength = double.PositiveInfinity;
+            minEdgeLength = float.PositiveInfinity;
             edges.Clear();
             for (int i = 0; i < this.Count; i++) { this[i].Edges.Clear(); }
             for (int i = 0; i < this.vertices.Count; i++) {
@@ -128,7 +123,8 @@ namespace TriMM {
         /// Determines the area nearest each Vertex of a Triangle and the area of the entire Triangle.
         /// Calculates the angles of the Triangles.
         /// </summary>
-        /// <param name="triNormals">If true, the Triangle normals and the centroid are calculated. If False, they are not calculated.</param>
+        /// <param name="triNormals">If true, the Triangle normals and the centroid are calculated.
+        /// If False, they are not calculated.</param>
         public void Finish(bool triNormals) {
             ClearRelations();
 
@@ -187,8 +183,7 @@ namespace TriMM {
                     if (!edges.ContainsKey(edge.Key)) {
                         edge.Triangles.Add(i);
                         edges.Add(edge.Key, edge);
-                        maxEdgeLength = (edgeLength > maxEdgeLength ? edgeLength : maxEdgeLength);
-                        minEdgeLength = (edgeLength < minEdgeLength ? edgeLength : minEdgeLength);
+                        minEdgeLength = (float)(edgeLength < minEdgeLength ? edgeLength : minEdgeLength);
                     } else {
                         edges[edge.Key].Triangles.Add(i);
                     }
@@ -219,19 +214,19 @@ namespace TriMM {
                         this[i].CornerAreas[j] = ewscale * (ew[(j + 1) % 3] + ew[(j + 2) % 3]);
                     }
                 }
-                // The area closest to each Vertex is increased by the calculated corner area.
+                // The Voronoi area of a Vertex is caclulated by summing up the calculated corner areas.
                 this[i, 0].Area += this[i].CornerAreas[0];
                 this[i, 1].Area += this[i].CornerAreas[1];
                 this[i, 2].Area += this[i].CornerAreas[2];
 
-                // Calculate the area for each Triangle.
+                // Calculates the area for each Triangle.
                 double a = this[i, 0].DistanceFrom(this[i, 1]);
                 double b = this[i, 1].DistanceFrom(this[i, 2]);
                 double c = this[i, 2].DistanceFrom(this[i, 0]);
                 double s = 0.5 * (a + b + c);
                 this[i].Area = Math.Sqrt(s * (s - a) * (s - b) * (s - c));
 
-                // Calculate the angles of each Triangle.
+                // Calculates the angles of each Triangle.
                 VectorND ab = this[i, 1] - this[i, 0];
                 VectorND ac = this[i, 2] - this[i, 0];
                 VectorND ba = this[i, 0] - this[i, 1];
@@ -258,7 +253,7 @@ namespace TriMM {
             edgeColorDist = temp / (edges.Count + 2);
             triangleColorDist = temp / (this.Count + 2);
 
-            if (this.Count == 0) { minEdgeLength = maxEdgeLength = 1; }
+            if (this.Count == 0) { minEdgeLength = 1; }
         }
 
         #endregion
@@ -266,10 +261,10 @@ namespace TriMM {
         #region Other Methods
 
         /// <summary>
-        /// Checks, whether the vertices really form a Triangle or are alligned.
+        /// Checks whether the Vertices really form a Triangle or are alligned.
         /// </summary>
         /// <param name="tri">Index of the Triangle to be checked.</param>
-        /// <returns>true, if the Vertices form a Triangle.</returns>
+        /// <returns>True, if the Vertices form a Triangle.</returns>
         public bool IsTriangle(int tri) {
             VectorND ab = this[tri, 1] - this[tri, 0];
             VectorND ac = this[tri, 2] - this[tri, 0];
@@ -281,12 +276,12 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Checks, whether the vertices really form a Triangle or are alligned.
+        /// Checks whether the Vertices really form a Triangle or are alligned.
         /// </summary>
         /// <param name="v0">Index of the first Vertex.</param>
         /// <param name="v1">Index of the second Vertex.</param>
         /// <param name="v2">Index of the third Vertex.</param>
-        /// <returns>true, if the vertices form a triangle</returns>
+        /// <returns>True, if the vertices form a triangle</returns>
         public bool IsTriangle(int v0, int v1, int v2) {
             VectorND ab = this.vertices[v1] - this.vertices[v0];
             VectorND ac = this.vertices[v2] - this.vertices[v0];
@@ -298,12 +293,12 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Checks, whether the vertices really form a Triangle or are alligned.
+        /// Checks whether the Vertices really form a Triangle or are alligned.
         /// </summary>
         /// <param name="v0">The first Vertex.</param>
         /// <param name="v1">The second Vertex.</param>
         /// <param name="v2">Third Vertex.</param>
-        /// <returns>true, if the vertices form a triangle</returns>
+        /// <returns>True, if the vertices form a triangle</returns>
         public bool IsTriangle(Vertex v0, Vertex v1, Vertex v2) {
             VectorND ab = v1 - v0;
             VectorND ac = v2 - v0;
@@ -314,16 +309,29 @@ namespace TriMM {
             } else { return true; }
         }
 
+        /// <summary>
+        /// Changes the orientation of the Triangle given by the index <paramref name="triangle"/>
+        /// and refreshes the TriangleMesh.
+        /// </summary>
+        /// <param name="triangle">Index of the Triangle to be flipped.</param>
         public void FlipTriangle(int triangle) {
             this[triangle] = new Triangle(this[triangle][2], this[triangle][1], this[triangle][0]);
             Finish(true);
         }
 
+        /// <summary>
+        /// Changes the orientation of all Triangles and refreshes the TriangleMesh.
+        /// </summary>
         public void FlipAllTriangles() {
             for (int i = 0; i < this.Count; i++) { this[i] = new Triangle(this[i][2], this[i][1], this[i][0]); }
             Finish(true);
         }
 
+        /// <summary>
+        /// Subdivides the Triangle given by the index <paramref name="triangle"/>
+        /// by connecting the midedge Vertices and refreshes the TriangleMesh.
+        /// </summary>
+        /// <param name="triangle"></param>
         public void SubdivideTriangle(int triangle) {
             Triangle tri = this[triangle];
             this.RemoveAt(triangle);
@@ -465,6 +473,13 @@ namespace TriMM {
             return vertexNormalVectorList.ToArray();
         }
 
+        /// <summary>
+        /// Gets an array to draw the mesh with one Triangle marked in a different color.
+        /// </summary>
+        /// <param name="index">Index of the Triangle to be colored as selected.</param>
+        /// <param name="all">Color of the unselected Triangles.</param>
+        /// <param name="selected">Color of the selected Triangles.</param>
+        /// <returns>A color array to draw the TriangleMesh with one marked Triangle.</returns>
         public float[] GetMarkedTriangleColorArray(int index, ColorOGL all, ColorOGL selected) {
             float[] colors = new float[this.Count * 9];
             for (int i = 0; i < this.Count; i++) {
@@ -491,7 +506,7 @@ namespace TriMM {
             List<float> pickingColors = new List<float>(vertices.Count * 3);
 
             for (int i = 0; i < vertices.Count; i++) {
-                color = Helpers.GetColorFromInt(i * vertexColorDist);
+                color = ColorOGL.GetColorFromInt(i * vertexColorDist);
                 pickingColors.AddRange(color.RGB);
             }
 
@@ -507,7 +522,7 @@ namespace TriMM {
             List<float> pickingColors = new List<float>(this.Count * 3);
 
             for (int i = 0; i < this.Count; i++) {
-                color = Helpers.GetColorFromInt(i * triangleColorDist);
+                color = ColorOGL.GetColorFromInt(i * triangleColorDist);
                 pickingColors.AddRange(color.RGB);
                 pickingColors.AddRange(color.RGB);
                 pickingColors.AddRange(color.RGB);
