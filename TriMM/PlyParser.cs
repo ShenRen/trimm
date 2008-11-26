@@ -72,8 +72,7 @@ namespace TriMM {
 
         /// <summary>
         /// The given StreamReader <paramref name="file"/> is parsed and the TriangleMesh returned.
-        /// Currently only version 1.0 ASCII *.PLY files are supported, as I found no full documentation
-        /// of the binary versions so far.
+        /// Possible formats are "ascii 1.0", "binary_little_endian 1.0" or "binary_big_endian 1.0".
         /// </summary>
         /// <param name="file">The *.PLY file to be parsed.</param>
         /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
@@ -82,13 +81,11 @@ namespace TriMM {
             TriangleMesh triangleMesh = new TriangleMesh();
 
             // Temporary variables.
-            Vertex vertex;
             String input = null;
-            int count = 0;
             int vertices = 0;
             int faces = 0;
-            string format;
-            string version;
+            string format = "";
+            string version = "";
             List<Element> elements = new List<Element>();
             String[] inputList;
 
@@ -167,6 +164,41 @@ namespace TriMM {
                 }
             }
 
+            if (format.ToLower() == "ascii") {
+                triangleMesh = ReadAscii(file, vertices, faces);
+            } else if (format.ToLower() == "binary_little_endian") {
+
+            } else if (format.ToLower() == "binary_big_endian") {
+
+            } else {
+                throw new Exception("This format is not supported!\n It has to be ascii 1.0, binary_little_endian 1.0 or binary_big_endian 1.0.");
+            }
+
+            // The Vertex normals are calculated with the chosen algorithm.
+            normalAlgo.GetVertexNormals(ref triangleMesh);
+
+            return triangleMesh;
+        }
+
+        /// <summary>
+        /// Reads *.PLY files stored in ASCII mode.
+        /// </summary>
+        /// <param name="file">The file to be read.</param>
+        /// <param name="vertices">The number of Vertices.</param>
+        /// <param name="faces">The number of Triangles.</param>
+        /// <returns>The finished TriangleMesh.</returns>
+        private static TriangleMesh ReadAscii(StreamReader file, int vertices, int faces) {
+            TriangleMesh triangleMesh = new TriangleMesh();
+
+            // Temporary variables.
+            Vertex vertex;
+            String input = null;
+            int count = 0;
+            String[] inputList;
+
+            // The numbers in the file must have the decimal separator ".".
+            NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
+            numberFormatInfo.NumberDecimalSeparator = ".";
 
             // The following lines in the file contain the Vertices.
             count = 0;
@@ -212,18 +244,48 @@ namespace TriMM {
 
             // The TriangleMesh is complete and can be finalized.
             triangleMesh.Finish(true);
-            // The Vertex normals are calculated with the chosen algorithm.
-            normalAlgo.GetVertexNormals(ref triangleMesh);
 
             return triangleMesh;
         }
 
         /// <summary>
-        /// Exports the data from the given TriangleMesh to the Stanford Triangle Format *.PLY.
+        /// Reads *.PLY files stored in binary little endian mode.
+        /// </summary>
+        /// <param name="file">The file to be read.</param>
+        /// <param name="vertices">The number of Vertices.</param>
+        /// <param name="faces">The number of Triangles.</param>
+        /// <returns>The finished TriangleMesh.</returns>
+        private static TriangleMesh ReadLittleBinary(StreamReader file, int vertices, int faces) {
+            TriangleMesh triangleMesh = new TriangleMesh();
+
+            // The TriangleMesh is complete and can be finalized.
+            triangleMesh.Finish(true);
+
+            return triangleMesh;
+        }
+
+        /// <summary>
+        /// Reads *.PLY files stored in binary big endian mode.
+        /// </summary>
+        /// <param name="file">The file to be read.</param>
+        /// <param name="vertices">The number of Vertices.</param>
+        /// <param name="faces">The number of Triangles.</param>
+        /// <returns>The finished TriangleMesh.</returns>
+        private static TriangleMesh ReadBigBinary(StreamReader file, int vertices, int faces) {
+            TriangleMesh triangleMesh = new TriangleMesh();
+
+            // The TriangleMesh is complete and can be finalized.
+            triangleMesh.Finish(true);
+
+            return triangleMesh;
+        }
+
+        /// <summary>
+        /// Exports the data from the given TriangleMesh to the Stanford Triangle Format *.PLY (ascii).
         /// </summary>
         /// <param name="filename">Path to the file to be written.</param>
         /// <param name="triangleMesh">The TriangleMesh to be exported.</param>
-        public static void WritePLY(string filename, TriangleMesh triangleMesh) {
+        public static void WriteAsciiPLY(string filename, TriangleMesh triangleMesh) {
             StreamWriter sw = new StreamWriter(filename);
 #if !DEBUG
             try {
@@ -232,6 +294,90 @@ namespace TriMM {
                 sw.WriteLine("ply");
                 sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
                 sw.WriteLine("format ascii 1.0");
+                sw.WriteLine("element vertex " + triangleMesh.Vertices.Count.ToString());
+                sw.WriteLine("property double x");
+                sw.WriteLine("property double y");
+                sw.WriteLine("property double z");
+                sw.WriteLine("element face " + triangleMesh.Count.ToString());
+                sw.WriteLine("property list uchar int vertex_index");
+                sw.WriteLine("end_header");
+
+                // The Vertices.
+                for (int i = 0; i < triangleMesh.Vertices.Count; i++) {
+                    sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
+                }
+
+                // The Triangles.
+                for (int j = 0; j < triangleMesh.Count; j++) {
+                    sw.WriteLine(3 + " " + triangleMesh[j][0] + " " + triangleMesh[j][1] + " " + triangleMesh[j][2]);
+                }
+#if !DEBUG
+            } catch (Exception exception) {
+                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } finally {
+#endif
+                sw.Close();
+#if !DEBUG
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Exports the data from the given TriangleMesh to the Stanford Triangle Format *.PLY (binary little endian).
+        /// </summary>
+        /// <param name="filename">Path to the file to be written.</param>
+        /// <param name="triangleMesh">The TriangleMesh to be exported.</param>
+        public static void WriteBinaryLittlePLY(string filename, TriangleMesh triangleMesh) {
+            StreamWriter sw = new StreamWriter(filename);
+#if !DEBUG
+            try {
+#endif
+                // The Header.
+                sw.WriteLine("ply");
+                sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
+                sw.WriteLine("format binary_little_endian 1.0");
+                sw.WriteLine("element vertex " + triangleMesh.Vertices.Count.ToString());
+                sw.WriteLine("property double x");
+                sw.WriteLine("property double y");
+                sw.WriteLine("property double z");
+                sw.WriteLine("element face " + triangleMesh.Count.ToString());
+                sw.WriteLine("property list uchar int vertex_index");
+                sw.WriteLine("end_header");
+
+                // The Vertices.
+                for (int i = 0; i < triangleMesh.Vertices.Count; i++) {
+                    sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
+                }
+
+                // The Triangles.
+                for (int j = 0; j < triangleMesh.Count; j++) {
+                    sw.WriteLine(3 + " " + triangleMesh[j][0] + " " + triangleMesh[j][1] + " " + triangleMesh[j][2]);
+                }
+#if !DEBUG
+            } catch (Exception exception) {
+                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } finally {
+#endif
+                sw.Close();
+#if !DEBUG
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Exports the data from the given TriangleMesh to the Stanford Triangle Format *.PLY (binary big endian).
+        /// </summary>
+        /// <param name="filename">Path to the file to be written.</param>
+        /// <param name="triangleMesh">The TriangleMesh to be exported.</param>
+        public static void WriteBinaryBigPLY(string filename, TriangleMesh triangleMesh) {
+            StreamWriter sw = new StreamWriter(filename);
+#if !DEBUG
+            try {
+#endif
+                // The Header.
+                sw.WriteLine("ply");
+                sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
+                sw.WriteLine("format binary_big_endian 1.0");
                 sw.WriteLine("element vertex " + triangleMesh.Vertices.Count.ToString());
                 sw.WriteLine("property double x");
                 sw.WriteLine("property double y");
