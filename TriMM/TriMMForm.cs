@@ -235,7 +235,7 @@ namespace TriMM {
                 sfd.AddExtension = true;
                 sfd.OverwritePrompt = true;
                 sfd.DefaultExt = "off";
-                sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl|PLY ASCII Files (*.ply)|*.ply|PLY Binary Files (little endian) (*.ply)|*.ply|PLY Binary Files (big endian) (*.ply)|*.ply";
+                sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl|PLY Files (ascii) (*.ply)|*.ply";
                 sfd.Title = "Save File";
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     if (sfd.FilterIndex == 1) {
@@ -245,12 +245,8 @@ namespace TriMM {
                     } else if (sfd.FilterIndex == 3) {
                         STLParser.WriteToBinary(sfd.FileName, mesh);
                     } else if (sfd.FilterIndex == 4) {
-                        PlyParser.WriteAsciiPLY(sfd.FileName, mesh);
-                    } else if (sfd.FilterIndex == 5) {
-                        PlyParser.WriteBinaryLittlePLY(sfd.FileName, mesh);
-                    } else if (sfd.FilterIndex == 6) {
-                        PlyParser.WriteBinaryBigPLY(sfd.FileName, mesh);
-                    }
+                        PlyParser.WritePLY(sfd.FileName, mesh);
+                    } 
                 }
 #if !DEBUG
             } catch (Exception exception) {

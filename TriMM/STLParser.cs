@@ -87,7 +87,9 @@ namespace TriMM {
             // 84 Byte for header+count, count * (size of data = 50 Bytes)
             if (binReader.BaseStream.Length != (84 + count * 50)) { throw new InvalidDataException(); }
 
+#if !DEBUG
             try {
+#endif
                 List<VectorND> normals = new List<VectorND>(count);
                 List<Vertex[]> triangles = new List<Vertex[]>(count);
 
@@ -121,12 +123,15 @@ namespace TriMM {
                     newTriangle.Centroid = centroid;
                     mesh.Add(newTriangle);
                 }
-
+#if !DEBUG
             } catch {
                 MessageBox.Show("Parser-Error", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
+#endif
                 binReader.Close();
+#if !DEBUG
             }
+#endif
 
             mesh.Finish(false);
             normalAlgo.GetVertexNormals(ref mesh);
@@ -154,7 +159,9 @@ namespace TriMM {
             List<Vertex[]> triangles = new List<Vertex[]>(count);
             Vertex[] tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
 
+#if !DEBUG
             try {
+#endif
                 while ((input = sr.ReadLine()) != null) {
                     input = input.Trim();
                     if (count == 4) {
@@ -192,13 +199,15 @@ namespace TriMM {
                     newTriangle.Centroid = centroid;
                     mesh.Add(newTriangle);
                 }
-
+#if !DEBUG
             } catch {
                 MessageBox.Show("Parser-Error", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
+#endif
                 sr.Close();
+#if !DEBUG
             }
-
+#endif
             mesh.Finish(false);
             normalAlgo.GetVertexNormals(ref mesh);
             return mesh;
@@ -235,7 +244,9 @@ namespace TriMM {
         /// <param name="mesh">The TriangleMesh to be saved.</param>
         public static void WriteToASCII(string filename, TriangleMesh mesh) {
             StreamWriter sw = new StreamWriter(filename);
+#if !DEBUG
             try {
+#endif
                 sw.WriteLine("solid ");
                 for (int i = 0; i < mesh.Count; i++) {
                     sw.WriteLine("  facet normal " + mesh[i].Normal[0] + " " + mesh[i].Normal[1] + " " + mesh[i].Normal[2] + " ");
@@ -247,11 +258,15 @@ namespace TriMM {
                     sw.WriteLine("  endfacet");
                 }
                 sw.WriteLine("endsolid ");
+#if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error");
+                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
+#endif
                 sw.Close();
+#if !DEBUG
             }
+#endif
         }
 
         /// <summary>
@@ -262,7 +277,9 @@ namespace TriMM {
         public static void WriteToBinary(string filename, TriangleMesh mesh) {
             FileStream fs = new FileStream(filename, FileMode.Create);
             BinaryWriter bw = new BinaryWriter(fs);
+#if !DEBUG
             try {
+#endif
                 byte abc = 0;
                 byte[] headerArr = new byte[80];
                 System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
@@ -284,13 +301,16 @@ namespace TriMM {
                     bw.Write(abc);
                     bw.Write(abc);
                 }
-
+#if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error");
+                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
+#endif
                 fs.Close();
                 bw.Close();
+#if !DEBUG
             }
+#endif
         }
 
         #endregion
