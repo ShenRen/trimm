@@ -168,6 +168,8 @@ namespace TriMM {
                     mesh = STLParser.Parse(reader, selectedAlgorithm);
                 } else if (file.EndsWith(".ply")) {
                     mesh = PlyParser.Parse(reader, selectedAlgorithm);
+                } else if (file.EndsWith(".obj")) {
+                    mesh = ObjParser.Parse(reader, selectedAlgorithm);
                 }
 
                 InitializeControl();
@@ -204,7 +206,7 @@ namespace TriMM {
 #endif
                 ofd.CheckFileExists = true;
                 ofd.DefaultExt = "off";
-                ofd.Filter = "OOGL Files (*.off)|*.off|STL Files (*.stl)|*.stl|PLY Files (*.ply)|*.ply";
+                ofd.Filter = "OOGL Files (*.off)|*.off|STL Files (*.stl)|*.stl|PLY Files (ascii) (*.ply)|*.ply|Wavefront OBJ Files (*.obj)|*.obj";
                 ofd.Multiselect = false;
                 ofd.Title = "Open File";
                 if (ofd.ShowDialog() == DialogResult.OK) {
@@ -235,7 +237,7 @@ namespace TriMM {
                 sfd.AddExtension = true;
                 sfd.OverwritePrompt = true;
                 sfd.DefaultExt = "off";
-                sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl|PLY Files (ascii) (*.ply)|*.ply";
+                sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl|PLY Files (ascii) (*.ply)|*.ply|Wavefront OBJ Files (*.obj)|*.obj";
                 sfd.Title = "Save File";
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     if (sfd.FilterIndex == 1) {
@@ -246,7 +248,9 @@ namespace TriMM {
                         STLParser.WriteToBinary(sfd.FileName, mesh);
                     } else if (sfd.FilterIndex == 4) {
                         PlyParser.WritePLY(sfd.FileName, mesh);
-                    } 
+                    } else if (sfd.FilterIndex == 5) {
+                        ObjParser.WriteOBJ(sfd.FileName, mesh);
+                    }
                 }
 #if !DEBUG
             } catch (Exception exception) {

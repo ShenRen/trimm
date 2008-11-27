@@ -66,6 +66,7 @@
     <Compile Include="ColorOGL.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="Neighborhood.cs" />
+    <Compile Include="ObjParser.cs" />
     <Compile Include="OffParser.cs" />
     <Compile Include="PlyParser.cs" />
     <Compile Include="TriMMControl.cs">
