@@ -77,6 +77,23 @@ namespace TriMM {
             cNumericUpDown.Maximum = mesh.Vertices.Count - 1;
             e1NumericUpDown.Maximum = mesh.Vertices.Count - 1;
             e2NumericUpDown.Maximum = mesh.Vertices.Count - 1;
+            if (mesh.Vertices.Count > 0) {
+                aNumericUpDown.Minimum = aNumericUpDown.Value = 0;
+                bNumericUpDown.Minimum = bNumericUpDown.Value = 0;
+                cNumericUpDown.Minimum = cNumericUpDown.Value = 0;
+            } else {
+                aNumericUpDown.Minimum = aNumericUpDown.Value = -1;
+                bNumericUpDown.Minimum = bNumericUpDown.Value = -1;
+                cNumericUpDown.Minimum = cNumericUpDown.Value = -1;
+            }
+            if (mesh.Edges.Count > 0) {
+                e1NumericUpDown.Minimum = e1NumericUpDown.Value = 0;
+                e2NumericUpDown.Minimum = e2NumericUpDown.Value = 0;
+            } else {
+                e1NumericUpDown.Minimum = e1NumericUpDown.Value = -1;
+                e2NumericUpDown.Minimum = e2NumericUpDown.Value = -1;
+            }
+
             vertexLabel.Text = mesh.Vertices.Count.ToString();
             triangleLabel.Text = mesh.Count.ToString();
             edgeLabel.Text = mesh.Edges.Count.ToString();
@@ -214,8 +231,8 @@ namespace TriMM {
                     OpenFile(ofd.FileName);
                 }
 #if !DEBUG
-            } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } catch {
+                MessageBox.Show("The file you picked is broken!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
                 ofd.Dispose();
@@ -272,7 +289,6 @@ namespace TriMM {
             if (view != null) { view.Close(); }
             meshGroupBox.Visible = saveToolStripMenuItem.Enabled = closeToolStripMenuItem.Enabled
                 = showViewToolStripMenuItem.Enabled = tabControl1.Visible = false;
-            aNumericUpDown.Value = bNumericUpDown.Value = cNumericUpDown.Value = e1NumericUpDown.Value = e2NumericUpDown.Value = 0;
             normalComboBox.SelectedIndex = 0;
             mesh = null;
             if (control != null) {
@@ -282,9 +298,9 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Opens a new OGLView, if none exists, or focuses the existing TriMMView.
-        /// When the OGLView is opened the visualGroupBox is shown and new options for interaction are available.
-        /// The OGLView is located next to this Form. An EventHandler for the FormClosed event is bound.
+        /// Opens a new TriMMView, if none exists, or focuses the existing TriMMView.
+        /// When the TriMMView is opened the visualGroupBox is shown and new options for interaction are available.
+        /// The TriMMView is located next to this Form. An EventHandler for the FormClosed event is bound.
         /// </summary>
         /// <param name="sender">showViewToolStripMenuItem</param>
         /// <param name="e">Standard EventArgs</param>
@@ -298,7 +314,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// When the OGLView is closed, several CheckBoxes are reset and view is set to null.
+        /// When the TriMMView is closed, several CheckBoxes are reset and view is set to null.
         /// The EventHandler for the FormClosed event is also unbound.
         /// </summary>
         /// <param name="sender">View</param>
@@ -344,6 +360,13 @@ namespace TriMM {
             About about = new About();
             about.ShowDialog();
         }
+
+        /// <summary>
+        /// Clean up, when the TriMMForm is closed.
+        /// </summary>
+        /// <param name="sender">TriMMForm</param>
+        /// <param name="e">Standard FormClosingEventArgs</param>
+        private void TriMMForm_FormClosing(object sender, FormClosingEventArgs e) { CloseFile(sender, e); }
 
         #endregion
 
@@ -607,6 +630,7 @@ namespace TriMM {
                 if (!added) {
                     List<int> next = new List<int>();
                     next.Add(i);
+                    equivalent.Add(next);
                 }
             }
 
@@ -669,9 +693,10 @@ namespace TriMM {
                         ordered.Sort();
                         for (int k = 0; k < 3; k++) { if (ordered[k] >= markedVertices[i]) { mesh[j].Replace(ordered[k], ordered[k] - 1); } }
                     }
+
+                    mesh.Finish(true);
                 }
 
-                if (markedVertices.Count != 0) { mesh.Finish(true); }
             } while (markedVertices.Count != 0);
             selectedAlgorithm.GetVertexNormals(ref mesh);
 
@@ -913,6 +938,7 @@ namespace TriMM {
         }
 
         #endregion
+
 
     }
 }

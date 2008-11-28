@@ -483,13 +483,13 @@ namespace TriMM {
             // manualToolStripMenuItem
             // 
             this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            this.manualToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.manualToolStripMenuItem.Text = "&Manual";
             // 
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.infoToolStripMenuItem.Text = "&Info";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.InfoToolStripMenuItem_Click);
             // 
@@ -720,6 +720,7 @@ namespace TriMM {
             this.Name = "TriMMForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "TriMM";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TriMMForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).EndInit();
