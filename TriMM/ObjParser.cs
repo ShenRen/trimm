@@ -30,6 +30,8 @@ namespace TriMM {
     /// <summary>
     /// The ObjParser allows parsing files in Wavefronts *.OBJ format.
     /// Only triangle meshes are supported.
+    /// Information other than that about the Vertices, the vertex normals and the faces is lost.
+    /// 
     /// </summary>
     public static class ObjParser {
 
@@ -70,24 +72,39 @@ namespace TriMM {
                     inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     if (inputList[0] == "v") {
+                        // Vertices must start with the letter "v" and contain three coordinates.
                         vertex = new Vertex(double.Parse(inputList[1], NumberStyles.Float, numberFormatInfo),
                            double.Parse(inputList[2], NumberStyles.Float, numberFormatInfo), double.Parse(inputList[3], NumberStyles.Float, numberFormatInfo));
                         triangleMesh.Vertices.Add(vertex);
                         vertices++;
                     } else if (inputList[0] == "vn") {
+                        // Vertex normals must start with the letters "vn" and contain three coordinates.
+                        // There must be one Vertex normal for every Vertex.
                         normal = new VectorND(double.Parse(inputList[1], NumberStyles.Float, numberFormatInfo),
                            double.Parse(inputList[2], NumberStyles.Float, numberFormatInfo), double.Parse(inputList[3], NumberStyles.Float, numberFormatInfo));
                         triangleMesh.Vertices[normals].Normal = normal;
                         normals++;
                     } else if (inputList[0] == "f") {
+                        // Triangles must start with the letter "f" and contain three indices of Vertices.
                         if (inputList[1].Contains("/")) {
+                            // The OBJ format allows entering information about the Vertices (v), the texture (vt) and the normal vectors at the Vertices (vn) in the form v/vt/vn.
+                            // Only the Vertex informations are used, as no texture is supported by this program and the normal vectors are attached to the Vertices directly.
                             a = int.Parse(inputList[1].Substring(0, inputList[1].IndexOf('/')), numberFormatInfo) - 1;
                             b = int.Parse(inputList[2].Substring(0, inputList[2].IndexOf('/')), numberFormatInfo) - 1;
                             c = int.Parse(inputList[3].Substring(0, inputList[3].IndexOf('/')), numberFormatInfo) - 1;
                         } else {
+                            // The simple version only gives information about the Vertices.
                             a = int.Parse(inputList[1], numberFormatInfo) - 1;
                             b = int.Parse(inputList[2], numberFormatInfo) - 1;
                             c = int.Parse(inputList[3], numberFormatInfo) - 1;
+                        }
+
+                        // The OBJ format allows refering to the indices of the Vertices with a negative number indicating the position of the Vertex above the face.
+                        // This notation must be used consistently, so if (a < 0) so are b and c.
+                        if (a < 0) {
+                            a += triangleMesh.Vertices.Count;
+                            b += triangleMesh.Vertices.Count;
+                            c += triangleMesh.Vertices.Count;
                         }
                         triangleMesh.Add(new Triangle(a, b, c));
                     }
@@ -98,6 +115,7 @@ namespace TriMM {
                 // The TriangleMesh is complete and can be finalized.
                 triangleMesh.Finish(true);
                 // If there are no Vertex normals in the file, they are calculated with the chosen algorithm.
+                // If there were Vertex normals missing for some Vertices, all are calculated.
                 if (vertices != normals) { normalAlgo.GetVertexNormals(ref triangleMesh); }
 
 #if !DEBUG
@@ -141,12 +159,22 @@ namespace TriMM {
                 }
 
                 // The Triangles.
-                for (int j = 0; j < triangleMesh.Count; j++) {
-                    a = triangleMesh[j][0] + 1;
-                    b = triangleMesh[j][1] + 1;
-                    c = triangleMesh[j][2] + 1;
-                    sw.WriteLine("f " + a + "//" + a + " " + b + "//" + b + " " + c + "//" + c);
+                if (normals) {
+                    for (int j = 0; j < triangleMesh.Count; j++) {
+                        a = triangleMesh[j][0] + 1;
+                        b = triangleMesh[j][1] + 1;
+                        c = triangleMesh[j][2] + 1;
+                        sw.WriteLine("f " + a + "//" + a + " " + b + "//" + b + " " + c + "//" + c);
+                    }
+                } else {
+                    for (int j = 0; j < triangleMesh.Count; j++) {
+                        a = triangleMesh[j][0] + 1;
+                        b = triangleMesh[j][1] + 1;
+                        c = triangleMesh[j][2] + 1;
+                        sw.WriteLine("f " + a +  " " + b + " " + c);
+                    }
                 }
+
 #if !DEBUG
             } catch (Exception exception) {
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
