@@ -56,7 +56,7 @@ namespace TriMM {
         /// <value> Gets the AssemblyVersion </value>
         public string AssemblyVersion {
             get {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString() + "alpha";
+                return Assembly.GetExecutingAssembly().GetName().Version.ToString() + " beta";
             }
         }
 

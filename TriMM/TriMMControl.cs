@@ -174,7 +174,10 @@ namespace TriMM {
 
         #region OpenGL Settings
 
-        /// <value>Sets the scale and adjusts the light position.</value>
+        /// <value>Sets the zoom value.</value>
+        public float Zoom { set { zoom = value; } }
+
+        /// <value>Gets the scale or sets it and adjusts the light position.</value>
         public float MyScale {
             get { return scale; }
             set {
@@ -276,6 +279,7 @@ namespace TriMM {
         /// <value>Gets the information to be displayed in the top left corner or sets it.</value>
         public List<string> Info { get { return info; } set { info = value; } }
 
+        /// <value>Sets the picking mode (0=none, 1=vertex, 2=triangle).</value>
         public int PickingMode { set { pickingMode = value; } }
 
         /// <value>Set to true, if the color array should used.</value>

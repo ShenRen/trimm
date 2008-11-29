@@ -143,6 +143,7 @@ namespace TriMM {
             control.Center = mesh.Center;
             control.TriangleArray = mesh.GetTriangleArray();
             control.NormalArray = mesh.GetNormalArray();
+            control.Zoom = 0;
             control.MyScale = mesh.Scale;
             control.VertexArray = mesh.GetVertexArray();
             control.EdgeArray = mesh.GetEdgeArray();
@@ -332,7 +333,7 @@ namespace TriMM {
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e) {
             switch (tabControl1.SelectedIndex) {
                 case 0:
-                    tabControl1.Height = 278;
+                    tabControl1.Height = 308;
                     break;
                 case 1:
                     tabControl1.Height = 390;
@@ -505,9 +506,14 @@ namespace TriMM {
         /// <param name="sender">subdivideButton</param>
         /// <param name="e">Standard EventArgs</param>
         private void SubdivideButton_Click(object sender, EventArgs e) {
+            Cursor.Current = Cursors.WaitCursor;
+
+            ClearObserved();
             mesh = TriangleMesh.Subdivide(mesh, 1);
             selectedAlgorithm.GetVertexNormals(ref mesh);
             RefreshControl();
+            
+            Cursor.Current = Cursors.Default;
         }
 
         /// <summary>
@@ -938,7 +944,6 @@ namespace TriMM {
         }
 
         #endregion
-
 
     }
 }

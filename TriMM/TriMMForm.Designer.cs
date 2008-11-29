@@ -98,6 +98,7 @@ namespace TriMM {
             this.removeEdgeButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.normalComboBox = new System.Windows.Forms.ComboBox();
+            this.subdivideButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).BeginInit();
@@ -312,7 +313,7 @@ namespace TriMM {
             // 
             // addTriangleButton
             // 
-            this.addTriangleButton.Location = new System.Drawing.Point(6, 219);
+            this.addTriangleButton.Location = new System.Drawing.Point(6, 248);
             this.addTriangleButton.Name = "addTriangleButton";
             this.addTriangleButton.Size = new System.Drawing.Size(219, 23);
             this.addTriangleButton.TabIndex = 9;
@@ -332,7 +333,7 @@ namespace TriMM {
             // 
             // removeTriangleButton
             // 
-            this.removeTriangleButton.Location = new System.Drawing.Point(6, 190);
+            this.removeTriangleButton.Location = new System.Drawing.Point(6, 219);
             this.removeTriangleButton.Name = "removeTriangleButton";
             this.removeTriangleButton.Size = new System.Drawing.Size(219, 23);
             this.removeTriangleButton.TabIndex = 8;
@@ -573,13 +574,14 @@ namespace TriMM {
             this.tabControl1.Location = new System.Drawing.Point(12, 142);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(239, 278);
+            this.tabControl1.Size = new System.Drawing.Size(239, 308);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Visible = false;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
             // 
             // triangleTabPage
             // 
+            this.triangleTabPage.Controls.Add(this.subdivideButton);
             this.triangleTabPage.Controls.Add(this.subdivideTriangleButton);
             this.triangleTabPage.Controls.Add(this.removeColinButton);
             this.triangleTabPage.Controls.Add(this.removeDoubleButton);
@@ -593,7 +595,7 @@ namespace TriMM {
             this.triangleTabPage.Location = new System.Drawing.Point(4, 22);
             this.triangleTabPage.Name = "triangleTabPage";
             this.triangleTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.triangleTabPage.Size = new System.Drawing.Size(231, 252);
+            this.triangleTabPage.Size = new System.Drawing.Size(231, 282);
             this.triangleTabPage.TabIndex = 1;
             this.triangleTabPage.Text = "Triangles";
             // 
@@ -704,11 +706,21 @@ namespace TriMM {
             this.normalComboBox.TabIndex = 24;
             this.normalComboBox.SelectedIndexChanged += new System.EventHandler(this.NormalComboBox_SelectedIndexChanged);
             // 
+            // subdivideButton
+            // 
+            this.subdivideButton.Location = new System.Drawing.Point(7, 190);
+            this.subdivideButton.Name = "subdivideButton";
+            this.subdivideButton.Size = new System.Drawing.Size(218, 23);
+            this.subdivideButton.TabIndex = 10;
+            this.subdivideButton.Text = "Subdivide All Triangles";
+            this.subdivideButton.UseVisualStyleBackColor = true;
+            this.subdivideButton.Click += new System.EventHandler(this.SubdivideButton_Click);
+            // 
             // TriMMForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 428);
+            this.ClientSize = new System.Drawing.Size(262, 458);
             this.Controls.Add(this.normalComboBox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.tabControl1);
@@ -800,6 +812,7 @@ namespace TriMM {
         private System.Windows.Forms.Button removeEdgeButton;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox normalComboBox;
+        private System.Windows.Forms.Button subdivideButton;
     }
 }
 
