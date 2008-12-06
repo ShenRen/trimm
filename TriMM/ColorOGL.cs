@@ -192,39 +192,6 @@ namespace TriMM {
             return colorTable;
         }
 
-        #endregion
-
-        /// <summary>
-        /// Returns the color converted to System.Drawing.Color.
-        /// </summary>
-        /// <returns>The color as System.Drawing.Color</returns>
-        public Color ToColor() { return Color.FromArgb((int)(rgbFloat[0] * 255), (int)(rgbFloat[1] * 255), (int)(rgbFloat[2] * 255)); }
-
-        /// <summary>
-        /// Calculates the linear interpolation between two Colors,
-        /// this color being dist=0, the other being dist=1
-        /// </summary>
-        /// <param name="other">Other Color</param>
-        /// <param name="dist">Keep this between 0 and 1 please</param>
-        /// <returns>Interpolated Color</returns>
-        public ColorOGL Interpolate(ColorOGL other, float dist) {
-            ColorOGL c = new ColorOGL();
-            for (int i = 0; i < 3; i++) {
-                c.rgbFloat[i] = this.rgbFloat[i] + (other.rgbFloat[i] - this.rgbFloat[i]) * dist;
-                if (c.rgbFloat[i] > 1.0f) { c.rgbFloat[i] = 1.0f; } else if (c.rgbFloat[i] < 0.0f) { c.rgbFloat[i] = 0.0f; }
-            }
-            c.color = ColorFromFloat(c.rgbFloat);
-            return c;
-        }
-
-        /// <summary>
-        /// Returns a string representing the color (R;G;B).
-        /// </summary>
-        /// <returns>(R;G;B)</returns>
-        public override string ToString() { return "(" + rgbFloat[0] + ";" + rgbFloat[1] + ";" + rgbFloat[2] + ")"; }
-
-        #region Static
-
         /// <summary>
         /// Converts an Integer into a unique ColorOGL.
         /// </summary>
@@ -271,6 +238,35 @@ namespace TriMM {
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns the color converted to System.Drawing.Color.
+        /// </summary>
+        /// <returns>The color as System.Drawing.Color</returns>
+        public Color ToColor() { return Color.FromArgb((int)(rgbFloat[0] * 255), (int)(rgbFloat[1] * 255), (int)(rgbFloat[2] * 255)); }
+
+        /// <summary>
+        /// Calculates the linear interpolation between two Colors,
+        /// this color being dist=0, the other being dist=1
+        /// </summary>
+        /// <param name="other">Other Color</param>
+        /// <param name="dist">Keep this between 0 and 1 please</param>
+        /// <returns>Interpolated Color</returns>
+        public ColorOGL Interpolate(ColorOGL other, float dist) {
+            ColorOGL c = new ColorOGL();
+            for (int i = 0; i < 3; i++) {
+                c.rgbFloat[i] = this.rgbFloat[i] + (other.rgbFloat[i] - this.rgbFloat[i]) * dist;
+                if (c.rgbFloat[i] > 1.0f) { c.rgbFloat[i] = 1.0f; } else if (c.rgbFloat[i] < 0.0f) { c.rgbFloat[i] = 0.0f; }
+            }
+            c.color = ColorFromFloat(c.rgbFloat);
+            return c;
+        }
+
+        /// <summary>
+        /// Returns a string representing the color (R;G;B).
+        /// </summary>
+        /// <returns>(R;G;B)</returns>
+        public override string ToString() { return "(" + rgbFloat[0] + ";" + rgbFloat[1] + ";" + rgbFloat[2] + ")"; }
 
         #endregion
     }

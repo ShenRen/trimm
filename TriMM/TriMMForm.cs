@@ -43,6 +43,7 @@ namespace TriMM {
         private TriMMControl control;
 
         private int observedVertex = -1;
+        private int observedEdge = -1;
         private int observedTriangle = -1;
 
         private IVertexNormalAlgorithm[] vertexNormalAlgorithms = new IVertexNormalAlgorithm[] { new Gouraud(), new Max(), new Taubin(), new InverseTaubin(),
@@ -101,8 +102,11 @@ namespace TriMM {
 
             control.ShowMesh = true;
             control.VertexColorDist = mesh.VertexColorDist;
+            control.EdgeColorDist = mesh.EdgeColorDist;
             control.TriangleColorDist = mesh.TriangleColorDist;
             control.VertexPickingColors = mesh.GetVertexPickingColors();
+            control.EdgePickingColors = mesh.GetEdgePickingColors();
+            control.EdgePickingArray = mesh.GetEdgePickingArray();
             control.TrianglePickingColors = mesh.GetTrianglePickingColors();
             control.ObservedRadius = mesh.MinEdgeLength / 2;
             control.PickingRadius = mesh.MinEdgeLength / 2;
@@ -117,6 +121,7 @@ namespace TriMM {
             control.SmoothNormalArray = mesh.GetSmoothNormalArray();
 
             control.VertexPicked += new VertexPickedEventHandler(Control_VertexPicked);
+            control.EdgePicked += new EdgePickedEventHandler(Control_EdgePicked);
             control.TrianglePicked += new TrianglePickedEventHandler(Control_TrianglePicked);
         }
 
@@ -135,8 +140,11 @@ namespace TriMM {
             edgeLabel.Text = mesh.Edges.Count.ToString();
 
             control.VertexColorDist = mesh.VertexColorDist;
+            control.EdgeColorDist = mesh.EdgeColorDist;
             control.TriangleColorDist = mesh.TriangleColorDist;
             control.VertexPickingColors = mesh.GetVertexPickingColors();
+            control.EdgePickingColors = mesh.GetEdgePickingColors();
+            control.EdgePickingArray = mesh.GetEdgePickingArray();
             control.TrianglePickingColors = mesh.GetTrianglePickingColors();
             control.ObservedRadius = mesh.MinEdgeLength / 2;
             control.PickingRadius = mesh.MinEdgeLength / 2;
@@ -164,6 +172,7 @@ namespace TriMM {
             control.ObservedVertex = null;
             control.UseColorArray = false;
             observedVertex = -1;
+            observedEdge = -1;
             observedTriangle = -1;
         }
 
@@ -386,6 +395,24 @@ namespace TriMM {
                 xNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][0];
                 yNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][1];
                 zNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][2];
+            }
+            control.Refresh();
+        }
+
+        /// <summary>
+        /// Shows information about the picked Edge.
+        /// </summary>
+        /// <param name="picked">The index of the picked Edge, or an empty list.</param>
+        private void Control_EdgePicked(List<int> picked) {
+            ClearObserved();
+            if (picked.Count != 0) {
+                control.Info.Add("Edge " + picked[0] + " = " + mesh.Edges.Values[picked[0]].ToString());
+                control.Info.Add("Vertex " + mesh.Edges.Values[picked[0]][0] + " = " + mesh.Vertices[mesh.Edges.Values[picked[0]][0]].ToString());
+                control.Info.Add("Vertex " + mesh.Edges.Values[picked[0]][1] + " = " + mesh.Vertices[mesh.Edges.Values[picked[0]][1]].ToString());
+                control.ObservedEdge = picked[0];
+                observedEdge = picked[0];
+                e1NumericUpDown.Value = (decimal)mesh.Edges.Values[picked[0]][0];
+                e2NumericUpDown.Value = (decimal)mesh.Edges.Values[picked[0]][1];
             }
             control.Refresh();
         }

@@ -140,6 +140,12 @@ namespace TriMM {
         }
 
         /// <summary>
+        /// Returns the Edge as a string.
+        /// </summary>
+        /// <returns>Edge as a string</returns>
+        public override string ToString() { return "[" + vertices[0] + ", " + vertices[1] + "]"; }
+
+        /// <summary>
         /// Returns true, if the Keys of this Edge and the Edge compared to it are equal.
         /// </summary>
         /// <param name="other">Another Edge</param>

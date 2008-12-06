@@ -215,6 +215,7 @@ namespace TriMM {
             this.pickingModeComboBox.Items.AddRange(new object[] {
             "None",
             "Vertex",
+            "Edge",
             "Triangle"});
             this.pickingModeComboBox.Location = new System.Drawing.Point(92, 65);
             this.pickingModeComboBox.Name = "pickingModeComboBox";

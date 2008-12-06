@@ -514,6 +514,58 @@ namespace TriMM {
         }
 
         /// <summary>
+        /// Gets an array containing a different color for each Edge for picking.
+        /// </summary>
+        /// <returns>Picking colors array.</returns>
+        public float[] GetEdgePickingColors() {
+            ColorOGL color;
+            List<float> pickingColors = new List<float>(edges.Count * 3);
+
+            for (int i = 0; i < edges.Count; i++) {
+                color = ColorOGL.GetColorFromInt(i * edgeColorDist);
+                pickingColors.AddRange(color.RGB);
+            }
+
+            return pickingColors.ToArray();
+        }
+
+        /// <summary>
+        /// Gets an array containing, in this order, the rotation angle, the x value of the rotation axis,
+        /// the y value of the roation axis and the length of the Edge to be drawn.
+        /// </summary>
+        /// <returns></returns>
+        public double[] GetEdgePickingArray() {
+            List<double> list = new List<double>(edges.Count * 4);
+            VectorND axis;
+            double angle, length;
+
+            for (int i = 0; i < edges.Count; i++) {
+                axis = vertices[edges.Values[i].Vertices[1]] - vertices[edges.Values[i].Vertices[0]];
+                length = axis.Length();
+
+                // Rotation Angle
+                if (Math.Abs(axis[2]) < 0.000000001) {
+                    angle = 180 / Math.PI * Math.Acos(axis[0] / length);
+                    if (axis[1] <= 0) { angle = -angle; }
+
+                } else {
+                    angle = 180 / Math.PI * Math.Acos(axis[2] / length);
+                    if (axis[2] <= 0) { angle = -angle; }
+                }
+                list.Add(angle);
+
+                // Rotation Axis
+                list.Add(-axis[1] * axis[2]);
+                list.Add(axis[0] * axis[2]);
+
+                // Length of the Edge to be drawn.
+                list.Add(length);
+            }
+
+            return list.ToArray();
+        }
+
+        /// <summary>
         /// Gets an array containing a different color for each Vertex for picking.
         /// </summary>
         /// <returns>Picking colors array.</returns>

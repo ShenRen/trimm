@@ -65,6 +65,12 @@ namespace TriMM {
     public delegate void VertexPickedEventHandler(List<int> picked);
 
     /// <summary>
+    /// An EventHandler for the EdgePicked Event. This alerts the owner of Edges being picked.
+    /// </summary>
+    /// <param name="picked">A list of indices of picked Vertices.</param>
+    public delegate void EdgePickedEventHandler(List<int> picked);
+
+    /// <summary>
     /// An EventHandler for the TrianglePicked Event. This alerts the owner of Triangles being picked.
     /// </summary>
     /// <param name="picked">A list of indices of picked Triangles.</param>
@@ -95,6 +101,7 @@ namespace TriMM {
         private double[] center = new double[3] { 0, 0, 0 };
 
         private int vertexColorDist;
+        private int edgeColorDist;
         private int triangleColorDist;
 
         // Font Settings
@@ -123,6 +130,7 @@ namespace TriMM {
         private ColorOGL zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
 
         private Vertex observedVertex;
+        private int observedEdge = -1;
         private float observedRadius = 0.1f;
         private float pickingRadius = 0.1f;
         private List<string> info = new List<string>();
@@ -143,6 +151,8 @@ namespace TriMM {
         #region Drawing Arrays
 
         private float[] vertexPickingColors;
+        private float[] edgePickingColors;
+        private double[] edgePickingArray;
         private float[] trianglePickingColors;
         private float[] colorArray;
         private double[] triangleArray;
@@ -159,6 +169,9 @@ namespace TriMM {
 
         /// <value>The event thrown when a Vertex is picked.</value>
         public event VertexPickedEventHandler VertexPicked;
+
+        /// <value>The event thrown when an Edge is picked.</value>
+        public event EdgePickedEventHandler EdgePicked;
 
         /// <value>The event thrown when a Triangle is picked.</value>
         public event TrianglePickedEventHandler TrianglePicked;
@@ -201,6 +214,12 @@ namespace TriMM {
         /// depending on the number of Vertices in the TriangleMesh.
         /// </value>
         public int VertexColorDist { set { vertexColorDist = value; } }
+
+        /// <value>
+        /// Sets edgeColorDist. edgeColorDist is used to space the picking colors with the maximum possible distance,
+        /// depending on the number of Edges in the TriangleMesh.
+        /// </value>
+        public int EdgeColorDist { set { edgeColorDist = value; } }
 
         /// <value>
         /// Sets triangleColorDist. triangleColorDist is used to space the picking colors with the maximum possible distance,
@@ -270,6 +289,14 @@ namespace TriMM {
             }
         }
 
+        /// <value>Sets the currently observed Edge.</value>
+        public int ObservedEdge {
+            set {
+                observedEdge = value;
+                if ((observedEdge == -1) && (PickCleared != null)) { PickCleared(); }
+            }
+        }
+
         /// <value>Gets the radius of the sphere drawn around the observed Vertex or sets it.</value>
         public float ObservedRadius { get { return observedRadius; } set { observedRadius = value; } }
 
@@ -279,7 +306,7 @@ namespace TriMM {
         /// <value>Gets the information to be displayed in the top left corner or sets it.</value>
         public List<string> Info { get { return info; } set { info = value; } }
 
-        /// <value>Sets the picking mode (0=none, 1=vertex, 2=triangle).</value>
+        /// <value>Sets the picking mode (0=none, 1=vertex, 2=edge, 3=triangle).</value>
         public int PickingMode { set { pickingMode = value; } }
 
         /// <value>Set to true, if the color array should used.</value>
@@ -313,19 +340,25 @@ namespace TriMM {
         /// <value>Sets the vertexPickingColors.</value>
         public float[] VertexPickingColors { set { vertexPickingColors = value; } }
 
+        /// <value>Sets the edgePickingColors.</value>
+        public float[] EdgePickingColors { set { edgePickingColors = value; } }
+
+        /// <value>Sets the edgePickingArray.</value>
+        public double[] EdgePickingArray { set { edgePickingArray = value; } }
+
         /// <value>Sets the trianglePickingColors.</value>
         public float[] TrianglePickingColors { set { trianglePickingColors = value; } }
 
         /// <value>Sets the colorArray.</value>
         public float[] ColorArray { set { colorArray = value; } }
 
-        /// <value>Sets the array of all Vertices of all Triangles.</value>
+        /// <value>Gets the array of all Vertices of all Triangles or sets it.</value>
         public double[] TriangleArray { get { return triangleArray; } set { triangleArray = value; } }
 
-        /// <value>Sets the array of Edges.</value>
-        public double[] EdgeArray { set { edgeArray = value; } }
+        /// <value>Gets the array of Edges or sets it.</value>
+        public double[] EdgeArray { get { return edgeArray; } set { edgeArray = value; } }
 
-        /// <value>Sets the array of Vertices.</value>
+        /// <value>Gets the array of Vertices or sets it.</value>
         public double[] VertexArray { get { return vertexArray; } set { vertexArray = value; } }
 
         /// <value>Sets the array of normal vectors of all triangles expanded to all corners.</value>
@@ -779,7 +812,7 @@ namespace TriMM {
             Gl.glRotatef(this.yRot, 0.0f, 1.0f, 0.0f);
             Gl.glRotatef(this.zRot, 0.0f, 0.0f, 1.0f);
             Gl.glTranslated(-center[0], -center[1], -center[2]);
-
+            
             if (!picking || (pickingMode == 0)) {
                 if (showModell) { DrawModell(); }
                 if (showMesh) { DrawMesh(); }
@@ -788,10 +821,13 @@ namespace TriMM {
                 if (showVertexNormalVectors) { DrawVertexNormals(); }
                 if (showAxes) { DrawAxes(); }
                 if (observedVertex != null) { DrawObservedVertex(); }
+                if (observedEdge != -1) { DrawObservedEdge(); }
                 if (info.Count > 0) { DrawInfo(); }
             } else if (picking && (pickingMode == 1)) {
                 DrawPickingVertices();
             } else if (picking && (pickingMode == 2)) {
+                DrawPickingEdges();
+            } else if (picking && (pickingMode == 3)) {
                 DrawPickingTriangles();
             }
             Gl.glPopMatrix();
@@ -940,6 +976,28 @@ namespace TriMM {
         }
 
         /// <summary>
+        /// Draws the observed Vertex as a white sphere.
+        /// </summary>
+        private void DrawObservedEdge() {
+            Glu.GLUquadric quadobj = Glu.gluNewQuadric();
+            Glu.gluQuadricDrawStyle(quadobj, Glu.GLU_FILL);
+            Gl.glPushMatrix();
+
+            Gl.glColor3fv(observedVertexColor.RGB);
+            Gl.glTranslated(edgeArray[6 * observedEdge], edgeArray[6 * observedEdge + 1], edgeArray[6 * observedEdge + 2]);    // Translates to the first Vertex
+            if (Math.Abs(edgeArray[6 * observedEdge + 5] - edgeArray[6 * observedEdge + 2]) < 0.000000001) {
+                Gl.glRotated(90.0, 0, 1, 0.0);			                    // Rotates & aligns with x-axis
+                Gl.glRotated(edgePickingArray[4 * observedEdge], -1.0, 0.0, 0.0);		// Rotates to second Vertex in x-y plane
+            } else {
+                Gl.glRotated(edgePickingArray[4 * observedEdge], edgePickingArray[4 * observedEdge + 1], edgePickingArray[4 * observedEdge + 2], 0.0); // Rotates about rotation vector
+            }
+            Glu.gluCylinder(quadobj, 0.1 * observedRadius, 0.1 * observedRadius, edgePickingArray[4 * observedEdge + 3], 10, 10);      // Draws cylinder
+
+            Gl.glPopMatrix();
+            Glu.gluDeleteQuadric(quadobj);
+        }
+
+        /// <summary>
         /// Draws the strings contained in info to the top left corner.
         /// This can for example be used to display the curvature information for a Vertex.
         /// Lighting is disabled.
@@ -963,6 +1021,8 @@ namespace TriMM {
         #endregion
 
         #region Picking
+
+        #region Vertices
 
         /// <summary>
         /// Draws a sphere for every Vertex.
@@ -1023,6 +1083,80 @@ namespace TriMM {
             }
         }
 
+        #endregion
+
+        #region Edges
+
+        /// <summary>
+        /// Draws a cylinder for every Edge.
+        /// All cylinders have different colors depending on the Edge they represent.
+        /// The picked Edge can be determined by the detected color.
+        /// </summary>
+        private void DrawPickingEdges() {
+            Glu.GLUquadric quadobj = Glu.gluNewQuadric();
+            Glu.gluQuadricDrawStyle(quadobj, Glu.GLU_FILL);
+
+            for (int i = 0; i < edgeArray.Length / 6; i++) {
+                PushMatrices();
+
+                Gl.glColor3f(edgePickingColors[i * 3], edgePickingColors[i * 3 + 1], edgePickingColors[i * 3 + 2]);
+                Gl.glTranslated(edgeArray[6 * i], edgeArray[6 * i + 1], edgeArray[6 * i + 2]);    // Translates to the first Vertex
+
+                if (Math.Abs(edgeArray[6 * i + 5] - edgeArray[6 * i + 2]) < 0.000000001) {
+                    Gl.glRotated(90.0, 0, 1, 0.0);			                    // Rotates & aligns with x-axis
+                    Gl.glRotated(edgePickingArray[4 * i], -1.0, 0.0, 0.0);		// Rotates to second Vertex in x-y plane
+                } else {
+                    Gl.glRotated(edgePickingArray[4 * i], edgePickingArray[4 * i + 1], edgePickingArray[4 * i + 2], 0.0);  // Rotates about rotation vector
+                }
+
+                Glu.gluCylinder(quadobj, 0.1 * pickingRadius, 0.1 * pickingRadius, edgePickingArray[4 * i + 3], 10, 10);      // Draws cylinder v = Länge des Zylinders
+                PopMatrices();
+            }
+            Glu.gluDeleteQuadric(quadobj);
+        }
+
+        /// <summary>
+        /// Reads the color of the pixel at the given position and picks the corresponding Edge.
+        /// </summary>
+        /// <param name="rect">Contains, in this order,
+        /// the X- and Y-coordinates of the lower left corner of the picking rectangle
+        /// and its width and height.</param>
+        /// <param name="additive">True, if the selected Edge is to be added to the selection</param>
+        private void PickEdge(int[] rect) {
+            Gl.glDisable(Gl.GL_LIGHTING);
+            Gl.glDisable(Gl.GL_LIGHT0);
+            Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
+            this.picking = true;
+
+            float[] color = new float[3 * rect[2] * rect[3]];
+
+            RenderScene();
+            Gl.glReadBuffer(Gl.GL_BACK);
+            Gl.glReadPixels(rect[0], rect[1], rect[2], rect[3], Gl.GL_RGB, Gl.GL_FLOAT, color);
+
+            Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
+            Gl.glEnable(Gl.GL_LIGHTING);
+            Gl.glEnable(Gl.GL_LIGHT0);
+            this.picking = false;
+
+            // The EdgePicked event is thrown, passing the picked Edges to the attached EventHandler.
+            if (EdgePicked != null) { EdgePicked(ColorOGL.UniqueSelection(color, edgeColorDist, edgeArray.Length / 6)); }
+        }
+
+        /// <summary>
+        /// Picks the Edge determined by the given integer.
+        /// </summary>
+        /// <param name="picked">Index of the picked Edge</param>
+        public void PickEdge(int picked) {
+            if ((0 <= picked) && (picked < edgeArray.Length / 6)) {
+                if (EdgePicked != null) { EdgePicked(new List<int>(new int[1] { picked })); }
+            }
+        }
+
+        #endregion
+
+        #region Triangles
+
         /// <summary>
         /// Draws the modell with a different color for every Triangle.
         /// The picked Triangle can be determined by the detected color.
@@ -1076,6 +1210,8 @@ namespace TriMM {
             }
         }
 
+        #endregion
+
         /// <summary>
         /// Calculates the bottom left corner and the width and height of a rectangle
         /// given by two opposing corners (<paramref name="x1"/>, <paramref name="y1"/>)
@@ -1118,6 +1254,8 @@ namespace TriMM {
                 if (pickingMode == 1) {
                     this.PickVertex(pickingRectangle);
                 } else if (pickingMode == 2) {
+                    this.PickEdge(pickingRectangle);
+                } else if (pickingMode == 3) {
                     this.PickTriangle(pickingRectangle);
                 }
             }

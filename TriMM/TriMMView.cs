@@ -65,6 +65,7 @@ namespace TriMM {
             observedTriangleColorTextBox.Text = control.ObservedTriangleColor.ToString();
 
             this.control.VertexPicked += new VertexPickedEventHandler(Control_VertexPicked);
+            this.control.EdgePicked += new EdgePickedEventHandler(Control_EdgePicked);
             this.control.TrianglePicked += new TrianglePickedEventHandler(Control_TrianglePicked);
             this.control.PickCleared += new PickClearedEventHandler(Control_PickCleared);
 
@@ -82,6 +83,8 @@ namespace TriMM {
             if (pickingModeComboBox.SelectedIndex == 1) {
                 observedNumericUpDown.Maximum = (decimal)(control.VertexArray.Length / 3) - 1;
             } else if (pickingModeComboBox.SelectedIndex == 2) {
+                observedNumericUpDown.Maximum = (decimal)(control.EdgeArray.Length / 6) - 1;
+            } else if (pickingModeComboBox.SelectedIndex == 3) {
                 observedNumericUpDown.Maximum = (decimal)(control.TriangleArray.Length / 9) - 1;
             }
             radiusNumericUpDown.Value = (decimal)control.ObservedRadius;
@@ -197,7 +200,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Changes the picking mode, possible values: None, Vertex, Triangle,
+        /// Changes the picking mode, possible values: None, Vertex, Edge, Triangle,
         /// and makes the necessary adjustments.
         /// </summary>
         /// <param name="sender"></param>
@@ -209,6 +212,9 @@ namespace TriMM {
                 observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = false;
             } else if (pickingModeComboBox.SelectedIndex == 1) {
                 observedNumericUpDown.Maximum = (decimal)(control.VertexArray.Length / 3) - 1;
+                observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = true;
+            } else if (pickingModeComboBox.SelectedIndex == 2) {
+                observedNumericUpDown.Maximum = (decimal)(control.EdgeArray.Length / 6) - 1;
                 observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = true;
             } else {
                 observedNumericUpDown.Maximum = (decimal)(control.TriangleArray.Length / 9) - 1;
@@ -231,6 +237,8 @@ namespace TriMM {
                 if (pickingModeComboBox.SelectedIndex == 1) {
                     control.PickVertex((int)observedNumericUpDown.Value);
                 } else if (pickingModeComboBox.SelectedIndex == 2) {
+                    control.PickEdge((int)observedNumericUpDown.Value);
+                } else if (pickingModeComboBox.SelectedIndex == 3) {
                     control.PickTriangle((int)observedNumericUpDown.Value);
                 }
             }
@@ -419,8 +427,23 @@ namespace TriMM {
         /// <summary>
         /// Changes the observed Vertex to the one picked in the visualisation.
         /// </summary>
-        /// <param name="picked">Index of the observed Vertices</param>
+        /// <param name="picked">Index of the observed Vertex</param>
         private void Control_VertexPicked(List<int> picked) {
+            observedNumericUpDown.ValueChanged -= ObservedNumericUpDown_ValueChanged;
+            if (picked.Count != 0) {
+                observedNumericUpDown.Value = picked[0];
+            } else {
+                observedNumericUpDown.Value = -1;
+            }
+            control.Refresh();
+            observedNumericUpDown.ValueChanged += ObservedNumericUpDown_ValueChanged;
+        }
+
+        /// <summary>
+        /// Changes the observed Edge to the one picked in the visualisation.
+        /// </summary>
+        /// <param name="picked">Index of the observed Edge</param>
+        void Control_EdgePicked(List<int> picked) {
             observedNumericUpDown.ValueChanged -= ObservedNumericUpDown_ValueChanged;
             if (picked.Count != 0) {
                 observedNumericUpDown.Value = picked[0];
