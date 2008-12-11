@@ -170,6 +170,7 @@ namespace TriMM {
         private void ClearObserved() {
             control.Info.Clear();
             control.ObservedVertex = null;
+            control.ObservedEdge = -1;
             control.UseColorArray = false;
             observedVertex = -1;
             observedEdge = -1;
@@ -302,7 +303,7 @@ namespace TriMM {
             normalComboBox.SelectedIndex = 0;
             mesh = null;
             if (control != null) {
-                control.DestroyContexts();
+                control.Dispose();
                 control = null;
             }
         }
@@ -348,7 +349,7 @@ namespace TriMM {
                     tabControl1.Height = 390;
                     break;
                 case 2:
-                    tabControl1.Height = 129;
+                    tabControl1.Height = 159;
                     break;
             }
             this.Height = 182 + tabControl1.Height;
@@ -370,13 +371,6 @@ namespace TriMM {
             About about = new About();
             about.ShowDialog();
         }
-
-        /// <summary>
-        /// Clean up, when the TriMMForm is closed.
-        /// </summary>
-        /// <param name="sender">TriMMForm</param>
-        /// <param name="e">Standard FormClosingEventArgs</param>
-        private void TriMMForm_FormClosing(object sender, FormClosingEventArgs e) { CloseFile(sender, e); }
 
         #endregion
 
@@ -539,7 +533,7 @@ namespace TriMM {
             mesh = TriangleMesh.Subdivide(mesh, 1);
             selectedAlgorithm.GetVertexNormals(ref mesh);
             RefreshControl();
-            
+
             Cursor.Current = Cursors.Default;
         }
 
@@ -868,6 +862,8 @@ namespace TriMM {
         private void FlipButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
 
+            ClearObserved();
+
             int ind1 = (int)e1NumericUpDown.Value;
             int ind2 = (int)e2NumericUpDown.Value;
 
@@ -924,13 +920,15 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Removes the Edge given by the two selected Vertices.
-        /// Also removes the incident Triangles.
+        /// Subdivides the selected Edge by adding the midedge Vertex
+        /// and subdividing the incident Triangles with the new Vertex.
         /// </summary>
-        /// <param name="sender">removeEdgeButton</param>
+        /// <param name="sender">subdivideEdgeButton</param>
         /// <param name="e">Standard EventArgs</param>
-        private void RemoveEdgeButton_Click(object sender, EventArgs e) {
+        private void SubdivideEdgeButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
+
+            ClearObserved();
 
             int ind1 = (int)e1NumericUpDown.Value;
             int ind2 = (int)e2NumericUpDown.Value;
@@ -942,7 +940,50 @@ namespace TriMM {
                 if (mesh.Edges.ContainsKey(theEdge.Key)) {
                     List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
                     triangles.Sort();
-                    for (int i = triangles.Count - 1; i >= 0; i--) { mesh.RemoveAt(triangles[i]); };
+                    Vertex midedge = (0.5 * (mesh.Vertices[ind1] + mesh.Vertices[ind2])).ToVertex();
+                    mesh.Vertices.Add(midedge);
+
+                    for (int i = triangles.Count - 1; i >= 0; i--) {
+                        Triangle replace = new Triangle(mesh[triangles[i]][0], mesh[triangles[i]][1], mesh[triangles[i]][2]);
+                        replace.Replace(ind1, mesh.Vertices.Count - 1);
+                        mesh.Add(replace);
+                        replace = new Triangle(mesh[triangles[i]][0], mesh[triangles[i]][1], mesh[triangles[i]][2]);
+                        replace.Replace(ind2, mesh.Vertices.Count - 1);
+                        mesh.Add(replace);
+                        mesh.RemoveAt(triangles[i]);
+                    }
+
+                    mesh.Finish(true);
+                    selectedAlgorithm.GetVertexNormals(ref mesh);
+                    RemoveSinglesButton_Click(sender, e);
+                }
+            }
+
+            Cursor.Current = Cursors.Default;
+        }
+
+        /// <summary>
+        /// Removes the Edge given by the two selected Vertices.
+        /// Also removes the incident Triangles.
+        /// </summary>
+        /// <param name="sender">removeEdgeButton</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void RemoveEdgeButton_Click(object sender, EventArgs e) {
+            Cursor.Current = Cursors.WaitCursor;
+
+            ClearObserved();
+
+            int ind1 = (int)e1NumericUpDown.Value;
+            int ind2 = (int)e2NumericUpDown.Value;
+
+            if ((ind1 != -1) && (ind2 != -1)) {
+                double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
+                Edge theEdge = new Edge(ind1, ind2, length);
+
+                if (mesh.Edges.ContainsKey(theEdge.Key)) {
+                    List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
+                    triangles.Sort();
+                    for (int i = triangles.Count - 1; i >= 0; i--) { mesh.RemoveAt(triangles[i]); }
 
                     mesh.Finish(true);
                     selectedAlgorithm.GetVertexNormals(ref mesh);

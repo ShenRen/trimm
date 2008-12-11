@@ -90,6 +90,7 @@ namespace TriMM {
             this.meshGroupBox = new System.Windows.Forms.GroupBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.triangleTabPage = new System.Windows.Forms.TabPage();
+            this.subdivideButton = new System.Windows.Forms.Button();
             this.vertexTabPage = new System.Windows.Forms.TabPage();
             this.moveAlongNormalButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -98,7 +99,7 @@ namespace TriMM {
             this.removeEdgeButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.normalComboBox = new System.Windows.Forms.ComboBox();
-            this.subdivideButton = new System.Windows.Forms.Button();
+            this.subdivideEdgeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).BeginInit();
@@ -599,6 +600,16 @@ namespace TriMM {
             this.triangleTabPage.TabIndex = 1;
             this.triangleTabPage.Text = "Triangles";
             // 
+            // subdivideButton
+            // 
+            this.subdivideButton.Location = new System.Drawing.Point(7, 190);
+            this.subdivideButton.Name = "subdivideButton";
+            this.subdivideButton.Size = new System.Drawing.Size(218, 23);
+            this.subdivideButton.TabIndex = 10;
+            this.subdivideButton.Text = "Subdivide All Triangles";
+            this.subdivideButton.UseVisualStyleBackColor = true;
+            this.subdivideButton.Click += new System.EventHandler(this.SubdivideButton_Click);
+            // 
             // vertexTabPage
             // 
             this.vertexTabPage.Controls.Add(this.moveAlongNormalButton);
@@ -619,7 +630,7 @@ namespace TriMM {
             this.vertexTabPage.Controls.Add(this.xNumericUpDown);
             this.vertexTabPage.Location = new System.Drawing.Point(4, 22);
             this.vertexTabPage.Name = "vertexTabPage";
-            this.vertexTabPage.Size = new System.Drawing.Size(231, 252);
+            this.vertexTabPage.Size = new System.Drawing.Size(231, 282);
             this.vertexTabPage.TabIndex = 2;
             this.vertexTabPage.Text = "Vertices";
             // 
@@ -668,19 +679,20 @@ namespace TriMM {
             // 
             // edgeTabPage
             // 
+            this.edgeTabPage.Controls.Add(this.subdivideEdgeButton);
             this.edgeTabPage.Controls.Add(this.removeEdgeButton);
             this.edgeTabPage.Controls.Add(this.e1NumericUpDown);
             this.edgeTabPage.Controls.Add(this.flipButton);
             this.edgeTabPage.Controls.Add(this.e2NumericUpDown);
             this.edgeTabPage.Location = new System.Drawing.Point(4, 22);
             this.edgeTabPage.Name = "edgeTabPage";
-            this.edgeTabPage.Size = new System.Drawing.Size(231, 252);
+            this.edgeTabPage.Size = new System.Drawing.Size(231, 282);
             this.edgeTabPage.TabIndex = 3;
             this.edgeTabPage.Text = "Edges";
             // 
             // removeEdgeButton
             // 
-            this.removeEdgeButton.Location = new System.Drawing.Point(6, 72);
+            this.removeEdgeButton.Location = new System.Drawing.Point(6, 101);
             this.removeEdgeButton.Name = "removeEdgeButton";
             this.removeEdgeButton.Size = new System.Drawing.Size(219, 23);
             this.removeEdgeButton.TabIndex = 3;
@@ -706,15 +718,15 @@ namespace TriMM {
             this.normalComboBox.TabIndex = 24;
             this.normalComboBox.SelectedIndexChanged += new System.EventHandler(this.NormalComboBox_SelectedIndexChanged);
             // 
-            // subdivideButton
+            // subdivideEdgeButton
             // 
-            this.subdivideButton.Location = new System.Drawing.Point(7, 190);
-            this.subdivideButton.Name = "subdivideButton";
-            this.subdivideButton.Size = new System.Drawing.Size(218, 23);
-            this.subdivideButton.TabIndex = 10;
-            this.subdivideButton.Text = "Subdivide All Triangles";
-            this.subdivideButton.UseVisualStyleBackColor = true;
-            this.subdivideButton.Click += new System.EventHandler(this.SubdivideButton_Click);
+            this.subdivideEdgeButton.Location = new System.Drawing.Point(6, 72);
+            this.subdivideEdgeButton.Name = "subdivideEdgeButton";
+            this.subdivideEdgeButton.Size = new System.Drawing.Size(219, 23);
+            this.subdivideEdgeButton.TabIndex = 4;
+            this.subdivideEdgeButton.Text = "Subdivide Selected Edge";
+            this.subdivideEdgeButton.UseVisualStyleBackColor = true;
+            this.subdivideEdgeButton.Click += new System.EventHandler(this.SubdivideEdgeButton_Click);
             // 
             // TriMMForm
             // 
@@ -732,7 +744,6 @@ namespace TriMM {
             this.Name = "TriMMForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "TriMM";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TriMMForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).EndInit();
@@ -813,6 +824,7 @@ namespace TriMM {
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox normalComboBox;
         private System.Windows.Forms.Button subdivideButton;
+        private System.Windows.Forms.Button subdivideEdgeButton;
     }
 }
 
