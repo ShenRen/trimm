@@ -40,14 +40,12 @@ namespace TriMM {
         /// </summary>
         /// <param name="file">Stream to parse</param>
         /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
-        /// <returns>The parsed TriangleMesh</returns>
-        public static TriangleMesh Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
-            // First test, if the stream is ASCII or binary
-            if (TestIfASCII(file)) {
-                return ParseASCII(file, normalAlgo);
-            } else {
-                return ParseBinary(file, normalAlgo);
-            }
+        public static void Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
+            TriMM.Mesh = new TriangleMesh();
+            TriMM.Mesh.VertexNormalAlgorithm = normalAlgo;
+            
+            // Test, if the stream is ASCII or binary
+            if (TestIfASCII(file)) {ParseASCII(file);} else { ParseBinary(file);}
         }
 
         /// <summary>
@@ -67,10 +65,7 @@ namespace TriMM {
         /// software does not understand anything else.( http://en.wikipedia.org/wiki/STL_(file_format) )
         /// </remarks>
         /// <param name="file">Stream to parse</param>
-        /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
-        /// <returns>The parsed TriangleMesh</returns>
-        private static TriangleMesh ParseBinary(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
-            TriangleMesh mesh = new TriangleMesh();
+        private static void ParseBinary(StreamReader file) {
             BinaryReader binReader = new BinaryReader(file.BaseStream);
 
             // Set stream back to zero.
@@ -90,62 +85,57 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-                List<VectorND> normals = new List<VectorND>(count);
-                List<Vertex[]> triangles = new List<Vertex[]>(count);
+            List<VectorND> normals = new List<VectorND>(count);
+            List<Vertex[]> triangles = new List<Vertex[]>(count);
 
-                // Read the records
-                for (int i = 0; i < count; i++) {
-                    Vertex[] tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
+            // Read the records
+            for (int i = 0; i < count; i++) {
+                Vertex[] tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
 
-                    // Normal/vertices
+                // Normal/vertices
 
-                    // First one is the normal
-                    normals.Add(new VectorND((double)binReader.ReadSingle(), (double)binReader.ReadSingle(), (double)binReader.ReadSingle()));
+                // First one is the normal
+                normals.Add(new VectorND((double)binReader.ReadSingle(), (double)binReader.ReadSingle(), (double)binReader.ReadSingle()));
 
-                    // Next three are vertices
-                    for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { tmp[j][k] = (double)binReader.ReadSingle(); } }
-                    triangles.Add(tmp);
-                    mesh.Vertices = mesh.Vertices.Union(tmp).ToList();
+                // Next three are vertices
+                for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { tmp[j][k] = (double)binReader.ReadSingle(); } }
+                triangles.Add(tmp);
+                TriMM.Mesh.Vertices = TriMM.Mesh.Vertices.Union(tmp).ToList();
 
-                    // Last two bytes are only to fill up to 50 bytes
-                    binReader.Read(charBuf, 0, 2);
-                }
+                // Last two bytes are only to fill up to 50 bytes
+                binReader.Read(charBuf, 0, 2);
+            }
 
-                // Adds the Triangles with the given normals to the mesh, calculating their centroid.
-                for (int i = 0; i < count; i++) {
-                    int ind0 = mesh.Vertices.IndexOf(triangles[i][0]);
-                    int ind1 = mesh.Vertices.IndexOf(triangles[i][1]);
-                    int ind2 = mesh.Vertices.IndexOf(triangles[i][2]);
-                    Vertex centroid = Triangle.GetCentroidOf(triangles[i][0], triangles[i][1], triangles[i][2]);
-                    centroid.Normal = normals[i];
+            // Adds the Triangles with the given normals to the mesh, calculating their centroid.
+            for (int i = 0; i < count; i++) {
+                int ind0 = TriMM.Mesh.Vertices.IndexOf(triangles[i][0]);
+                int ind1 = TriMM.Mesh.Vertices.IndexOf(triangles[i][1]);
+                int ind2 = TriMM.Mesh.Vertices.IndexOf(triangles[i][2]);
+                Vertex centroid = Triangle.GetCentroidOf(triangles[i][0], triangles[i][1], triangles[i][2]);
+                centroid.Normal = normals[i];
 
-                    Triangle newTriangle = new Triangle(ind0, ind1, ind2);
-                    newTriangle.Centroid = centroid;
-                    mesh.Add(newTriangle);
-                }
+                Triangle newTriangle = new Triangle(ind0, ind1, ind2);
+                newTriangle.Centroid = centroid;
+                TriMM.Mesh.Add(newTriangle);
+            }
 #if !DEBUG
             } catch {
                 MessageBox.Show("Parser-Error", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
-                binReader.Close();
+            binReader.Close();
 #if !DEBUG
             }
 #endif
 
-            mesh.Finish(false);
-            normalAlgo.GetVertexNormals(ref mesh);
-            return mesh;
+            TriMM.Mesh.Finish(false, true);
         }
 
         /// <summary>
         /// Parse STL-ASCII-Format.
         /// </summary>
         /// <param name="file">Stream to parse</param>
-        /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
-        /// <returns>The parsed TriangleMesh</returns>
-        private static TriangleMesh ParseASCII(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
-            TriangleMesh mesh = new TriangleMesh();
+        private static void ParseASCII(StreamReader file) {
             String input = null;
             int count = 0;
 
@@ -162,55 +152,53 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-                while ((input = sr.ReadLine()) != null) {
-                    input = input.Trim();
-                    if (count == 4) {
-                        count = 0;
-                        triangles.Add(tmp);
-                        tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
-                    }
-
-                    // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
-                    String[] v = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (v.Length > 0) {
-                        if (v[0].ToLower() == "vertex") {
-                            // Parse string, NumberStyles.Float secures that different formats can be parsed
-                            // such as: "-2.23454e-001" (exponential format)
-                            for (int i = 0; i < 3; i++) { tmp[count - 1][i] = double.Parse(v[i + 1], NumberStyles.Float, numberFormatInfo); }
-                            if (!mesh.Vertices.Contains(tmp[count - 1])) { mesh.Vertices.Add(tmp[count - 1]); }
-                            count++;
-                        } else if (v[0].ToLower() == "facet") {
-                            normals.Add(new VectorND(double.Parse(v[2], NumberStyles.Float, numberFormatInfo),
-                                double.Parse(v[3], NumberStyles.Float, numberFormatInfo), double.Parse(v[4], NumberStyles.Float, numberFormatInfo)));
-                            count++;
-                        }
-                    }
+            while ((input = sr.ReadLine()) != null) {
+                input = input.Trim();
+                if (count == 4) {
+                    count = 0;
+                    triangles.Add(tmp);
+                    tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
                 }
 
-                // Adds the Triangles with the given normals to the mesh, calculating their centroid.
-                for (int i = 0; i < normals.Count; i++) {
-                    int ind0 = mesh.Vertices.IndexOf(triangles[i][0]);
-                    int ind1 = mesh.Vertices.IndexOf(triangles[i][1]);
-                    int ind2 = mesh.Vertices.IndexOf(triangles[i][2]);
-                    Vertex centroid = Triangle.GetCentroidOf(triangles[i][0], triangles[i][1], triangles[i][2]);
-                    centroid.Normal = normals[i];
-
-                    Triangle newTriangle = new Triangle(ind0, ind1, ind2);
-                    newTriangle.Centroid = centroid;
-                    mesh.Add(newTriangle);
+                // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
+                String[] v = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (v.Length > 0) {
+                    if (v[0].ToLower() == "vertex") {
+                        // Parse string, NumberStyles.Float secures that different formats can be parsed
+                        // such as: "-2.23454e-001" (exponential format)
+                        for (int i = 0; i < 3; i++) { tmp[count - 1][i] = double.Parse(v[i + 1], NumberStyles.Float, numberFormatInfo); }
+                        if (!TriMM.Mesh.Vertices.Contains(tmp[count - 1])) { TriMM.Mesh.Vertices.Add(tmp[count - 1]); }
+                        count++;
+                    } else if (v[0].ToLower() == "facet") {
+                        normals.Add(new VectorND(double.Parse(v[2], NumberStyles.Float, numberFormatInfo),
+                            double.Parse(v[3], NumberStyles.Float, numberFormatInfo), double.Parse(v[4], NumberStyles.Float, numberFormatInfo)));
+                        count++;
+                    }
                 }
+            }
+
+            // Adds the Triangles with the given normals to the mesh, calculating their centroid.
+            for (int i = 0; i < normals.Count; i++) {
+                int ind0 = TriMM.Mesh.Vertices.IndexOf(triangles[i][0]);
+                int ind1 = TriMM.Mesh.Vertices.IndexOf(triangles[i][1]);
+                int ind2 = TriMM.Mesh.Vertices.IndexOf(triangles[i][2]);
+                Vertex centroid = Triangle.GetCentroidOf(triangles[i][0], triangles[i][1], triangles[i][2]);
+                centroid.Normal = normals[i];
+
+                Triangle newTriangle = new Triangle(ind0, ind1, ind2);
+                newTriangle.Centroid = centroid;
+                TriMM.Mesh.Add(newTriangle);
+            }
 #if !DEBUG
             } catch {
                 MessageBox.Show("Parser-Error", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
-                sr.Close();
+            sr.Close();
 #if !DEBUG
             }
 #endif
-            mesh.Finish(false);
-            normalAlgo.GetVertexNormals(ref mesh);
-            return mesh;
+            TriMM.Mesh.Finish(false, true);
         }
 
         /// <summary>
@@ -241,29 +229,28 @@ namespace TriMM {
         /// Writes the data (normal vectors and vertices of the triangles) to the chosen file in ASCII-mode.
         /// </summary>
         /// <param name="filename">Path of the file to be saved</param>
-        /// <param name="mesh">The TriangleMesh to be saved.</param>
-        public static void WriteToASCII(string filename, TriangleMesh mesh) {
+        public static void WriteToASCII(string filename) {
             StreamWriter sw = new StreamWriter(filename);
 #if !DEBUG
             try {
 #endif
-                sw.WriteLine("solid ");
-                for (int i = 0; i < mesh.Count; i++) {
-                    sw.WriteLine("  facet normal " + mesh[i].Normal[0] + " " + mesh[i].Normal[1] + " " + mesh[i].Normal[2] + " ");
-                    sw.WriteLine("    outer loop");
-                    for (int j = 0; j < 3; j++) {
-                        sw.WriteLine("      vertex " + mesh[i, j][0] + " " + mesh[i, j][1] + " " + mesh[i, j][2] + " ");
-                    }
-                    sw.WriteLine("    endloop");
-                    sw.WriteLine("  endfacet");
+            sw.WriteLine("solid ");
+            for (int i = 0; i < TriMM.Mesh.Count; i++) {
+                sw.WriteLine("  facet normal " + TriMM.Mesh[i].Normal[0] + " " + TriMM.Mesh[i].Normal[1] + " " + TriMM.Mesh[i].Normal[2] + " ");
+                sw.WriteLine("    outer loop");
+                for (int j = 0; j < 3; j++) {
+                    sw.WriteLine("      vertex " + TriMM.Mesh[i, j][0] + " " + TriMM.Mesh[i, j][1] + " " + TriMM.Mesh[i, j][2] + " ");
                 }
-                sw.WriteLine("endsolid ");
+                sw.WriteLine("    endloop");
+                sw.WriteLine("  endfacet");
+            }
+            sw.WriteLine("endsolid ");
 #if !DEBUG
             } catch (Exception exception) {
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
-                sw.Close();
+            sw.Close();
 #if !DEBUG
             }
 #endif
@@ -273,41 +260,40 @@ namespace TriMM {
         /// Writes the data (normal vectors and vertices of the triangles) to the chosen file in binary-mode.
         /// </summary>
         /// <param name="filename">Path of the file to be saved.</param>
-        /// <param name="mesh">The TriangleMesh to be saved.</param>
-        public static void WriteToBinary(string filename, TriangleMesh mesh) {
+        public static void WriteToBinary(string filename) {
             FileStream fs = new FileStream(filename, FileMode.Create);
             BinaryWriter bw = new BinaryWriter(fs);
 #if !DEBUG
             try {
 #endif
-                byte abc = 0;
-                byte[] headerArr = new byte[80];
-                System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-                encoding.GetBytes("This file was generated by TriMM!").CopyTo(headerArr, 0);
+            byte abc = 0;
+            byte[] headerArr = new byte[80];
+            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+            encoding.GetBytes("This file was generated by TriMM!").CopyTo(headerArr, 0);
 
-                for (int c = 0; c < 80; c++) { bw.Write(headerArr[c]); }
+            for (int c = 0; c < 80; c++) { bw.Write(headerArr[c]); }
 
-                bw.Write((UInt32)(mesh.Count));
+            bw.Write((UInt32)(TriMM.Mesh.Count));
 
-                for (int i = 0; i < mesh.Count; i++) {
+            for (int i = 0; i < TriMM.Mesh.Count; i++) {
 
-                    // Normal vector
-                    for (int j = 0; j < 3; j++) { bw.Write((float)mesh[i].Normal[j]); }
+                // Normal vector
+                for (int j = 0; j < 3; j++) { bw.Write((float)TriMM.Mesh[i].Normal[j]); }
 
-                    // Next three are vertices
-                    for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { bw.Write((float)mesh[i, j][k]); } }
+                // Next three are vertices
+                for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { bw.Write((float)TriMM.Mesh[i, j][k]); } }
 
-                    // Last two bytes are only to fill up to 50 bytes
-                    bw.Write(abc);
-                    bw.Write(abc);
-                }
+                // Last two bytes are only to fill up to 50 bytes
+                bw.Write(abc);
+                bw.Write(abc);
+            }
 #if !DEBUG
             } catch (Exception exception) {
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } finally {
 #endif
-                fs.Close();
-                bw.Close();
+            fs.Close();
+            bw.Close();
 #if !DEBUG
             }
 #endif

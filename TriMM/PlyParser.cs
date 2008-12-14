@@ -77,9 +77,9 @@ namespace TriMM {
         /// </summary>
         /// <param name="file">The *.PLY file to be parsed.</param>
         /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
-        /// <returns>The parsed TriangleMesh</returns>
-        public static TriangleMesh Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
-            TriangleMesh triangleMesh = new TriangleMesh();
+        public static void Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
+            TriMM.Mesh = new TriangleMesh();
+            TriMM.Mesh.VertexNormalAlgorithm = normalAlgo;
 
             // Temporary variables.
             String input = null;
@@ -182,7 +182,7 @@ namespace TriMM {
                     vertex = new Vertex(double.Parse(inputList[0], NumberStyles.Float, numberFormatInfo),
                         double.Parse(inputList[1], NumberStyles.Float, numberFormatInfo), double.Parse(inputList[2], NumberStyles.Float, numberFormatInfo));
 
-                    triangleMesh.Vertices.Add(vertex);
+                    TriMM.Mesh.Vertices.Add(vertex);
 
                     count++;
                 }
@@ -203,26 +203,22 @@ namespace TriMM {
                     if (int.Parse(inputList[0]) != 3) { throw new Exception("At least one of the faces is not a triangle!"); }
 
                     // Only the Triangle is read and added to the owners TriangleMesh, everything else in the line is ignored.
-                    triangleMesh.Add(new Triangle(int.Parse(inputList[1], numberFormatInfo), int.Parse(inputList[2], numberFormatInfo), int.Parse(inputList[3], numberFormatInfo)));
+                    TriMM.Mesh.Add(new Triangle(int.Parse(inputList[1], numberFormatInfo), int.Parse(inputList[2], numberFormatInfo), int.Parse(inputList[3], numberFormatInfo)));
 
                     count++;
                 }
             }
 
             // The TriangleMesh is complete and can be finalized.
-            triangleMesh.Finish(true);
             // The Vertex normals are calculated with the chosen algorithm.
-            normalAlgo.GetVertexNormals(ref triangleMesh);
-
-            return triangleMesh;
+            TriMM.Mesh.Finish(true, true);
         }
 
         /// <summary>
         /// Exports the data from the given TriangleMesh to the Stanford Triangle Format *.PLY (ascii).
         /// </summary>
         /// <param name="filename">Path to the file to be written.</param>
-        /// <param name="triangleMesh">The TriangleMesh to be exported.</param>
-        public static void WritePLY(string filename, TriangleMesh triangleMesh) {
+        public static void WritePLY(string filename) {
             StreamWriter sw = new StreamWriter(filename);
 #if !DEBUG
             try {
@@ -231,22 +227,22 @@ namespace TriMM {
                 sw.WriteLine("ply");
                 sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
                 sw.WriteLine("format ascii 1.0");
-                sw.WriteLine("element vertex " + triangleMesh.Vertices.Count.ToString());
+                sw.WriteLine("element vertex " + TriMM.Mesh.Vertices.Count.ToString());
                 sw.WriteLine("property double x");
                 sw.WriteLine("property double y");
                 sw.WriteLine("property double z");
-                sw.WriteLine("element face " + triangleMesh.Count.ToString());
+                sw.WriteLine("element face " + TriMM.Mesh.Count.ToString());
                 sw.WriteLine("property list uchar int vertex_index");
                 sw.WriteLine("end_header");
 
                 // The Vertices.
-                for (int i = 0; i < triangleMesh.Vertices.Count; i++) {
-                    sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
+                for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
+                    sw.WriteLine(TriMM.Mesh.Vertices[i][0] + " " + TriMM.Mesh.Vertices[i][1] + " " + TriMM.Mesh.Vertices[i][2]);
                 }
 
                 // The Triangles.
-                for (int j = 0; j < triangleMesh.Count; j++) {
-                    sw.WriteLine(3 + " " + triangleMesh[j][0] + " " + triangleMesh[j][1] + " " + triangleMesh[j][2]);
+                for (int j = 0; j < TriMM.Mesh.Count; j++) {
+                    sw.WriteLine(3 + " " + TriMM.Mesh[j][0] + " " + TriMM.Mesh[j][1] + " " + TriMM.Mesh[j][2]);
                 }
 #if !DEBUG
             } catch (Exception exception) {

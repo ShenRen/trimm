@@ -42,21 +42,20 @@ namespace TriMM.VertexNormalAlgorithms {
         /// Calculates the Vertex normals as an average of the normals of the normals of the adjacent Edges,
         /// that are calculated as the average of the normals of the adjacent Triangles weighted by the inverse of their area.
         /// </summary>
-        /// <param name="mesh">The TriangleMesh to calculate the vertex normals for.</param>
-        public void GetVertexNormals(ref TriangleMesh mesh) {
-            for (int i = 0; i < mesh.Vertices.Count; i++) {
-                Vertex vertex = mesh.Vertices[i];
+        public void GetVertexNormals() {
+            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
+                Vertex vertex = TriMM.Mesh.Vertices[i];
                 vertex.Normal = new VectorND(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
-                    Triangle triangle = mesh[vertex.Triangles[j]];
+                    Triangle triangle = TriMM.Mesh[vertex.Triangles[j]];
                     int[] neighbors = triangle.GetNeighborsOf(i);
                     double weight = 1 /
-                        (VectorND.Distance(mesh.Vertices[i], mesh.Vertices[neighbors[0]])
-                        * Triangle.GetAreaOf(vertex, triangle.Centroid, mesh.Vertices[neighbors[0]]));
+                        (VectorND.Distance(TriMM.Mesh.Vertices[i], TriMM.Mesh.Vertices[neighbors[0]])
+                        * Triangle.GetAreaOf(vertex, triangle.Centroid, TriMM.Mesh.Vertices[neighbors[0]]));
                     weight += 1 /
-                        (VectorND.Distance(mesh.Vertices[i], mesh.Vertices[neighbors[1]])
-                        * Triangle.GetAreaOf(vertex, triangle.Centroid, mesh.Vertices[neighbors[1]]));
+                        (VectorND.Distance(TriMM.Mesh.Vertices[i], TriMM.Mesh.Vertices[neighbors[1]])
+                        * Triangle.GetAreaOf(vertex, triangle.Centroid, TriMM.Mesh.Vertices[neighbors[1]]));
                     vertex.Normal += weight * triangle.Normal;
                 }
                 vertex.Normal.Normalize();

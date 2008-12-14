@@ -37,19 +37,12 @@ namespace TriMM {
 
         #region Fields
 
-        private TriangleMesh mesh;
-
         private TriMMView view;
         private TriMMControl control;
-
-        private int observedVertex = -1;
-        private int observedEdge = -1;
-        private int observedTriangle = -1;
 
         private IVertexNormalAlgorithm[] vertexNormalAlgorithms = new IVertexNormalAlgorithm[] { new Gouraud(), new Max(), new Taubin(), new InverseTaubin(),
             new ThuermerAndWuethrich(), new ExtendedThuermerAndWuethrich(), new ChenAndWu(), new ExtendedChenAndWu(), new Rusinkiewicz(),  
             new AdjacentEdgesWeights(), new InverseAdjacentEdgesWeights(), new EdgeNormals(), new InverseEdgeNormals()};
-        private IVertexNormalAlgorithm selectedAlgorithm;
 
         #endregion
 
@@ -60,7 +53,6 @@ namespace TriMM {
             InitializeComponent();
             normalComboBox.Items.AddRange(vertexNormalAlgorithms);
             normalComboBox.SelectedIndex = 0;
-            selectedAlgorithm = vertexNormalAlgorithms[0];
         }
 
         #endregion
@@ -73,12 +65,12 @@ namespace TriMM {
         private void InitializeControl() {
             control = new TriMMControl();
 
-            aNumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            bNumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            cNumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            e1NumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            e2NumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            if (mesh.Vertices.Count > 0) {
+            aNumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            bNumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            cNumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            e1NumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            e2NumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            if (TriMM.Mesh.Vertices.Count > 0) {
                 aNumericUpDown.Minimum = aNumericUpDown.Value = 0;
                 bNumericUpDown.Minimum = bNumericUpDown.Value = 0;
                 cNumericUpDown.Minimum = cNumericUpDown.Value = 0;
@@ -87,7 +79,7 @@ namespace TriMM {
                 bNumericUpDown.Minimum = bNumericUpDown.Value = -1;
                 cNumericUpDown.Minimum = cNumericUpDown.Value = -1;
             }
-            if (mesh.Edges.Count > 0) {
+            if (TriMM.Mesh.Edges.Count > 0) {
                 e1NumericUpDown.Minimum = e1NumericUpDown.Value = 0;
                 e2NumericUpDown.Minimum = e2NumericUpDown.Value = 0;
             } else {
@@ -95,30 +87,13 @@ namespace TriMM {
                 e2NumericUpDown.Minimum = e2NumericUpDown.Value = -1;
             }
 
-            vertexLabel.Text = mesh.Vertices.Count.ToString();
-            triangleLabel.Text = mesh.Count.ToString();
-            edgeLabel.Text = mesh.Edges.Count.ToString();
-
+            vertexLabel.Text = TriMM.Mesh.Vertices.Count.ToString();
+            triangleLabel.Text = TriMM.Mesh.Count.ToString();
+            edgeLabel.Text = TriMM.Mesh.Edges.Count.ToString();
 
             control.ShowMesh = true;
-            control.VertexColorDist = mesh.VertexColorDist;
-            control.EdgeColorDist = mesh.EdgeColorDist;
-            control.TriangleColorDist = mesh.TriangleColorDist;
-            control.VertexPickingColors = mesh.GetVertexPickingColors();
-            control.EdgePickingColors = mesh.GetEdgePickingColors();
-            control.EdgePickingArray = mesh.GetEdgePickingArray();
-            control.TrianglePickingColors = mesh.GetTrianglePickingColors();
-            control.ObservedRadius = mesh.MinEdgeLength / 2;
-            control.PickingRadius = mesh.MinEdgeLength / 2;
-            control.Center = mesh.Center;
-            control.TriangleArray = mesh.GetTriangleArray();
-            control.NormalArray = mesh.GetNormalArray();
-            control.MyScale = mesh.Scale;
-            control.VertexArray = mesh.GetVertexArray();
-            control.EdgeArray = mesh.GetEdgeArray();
-            control.FacetNormalVectorArray = mesh.GetFacetNormalVectorArray();
-            control.VertexNormalVectorArray = mesh.GetVertexNormalVectorArray();
-            control.SmoothNormalArray = mesh.GetSmoothNormalArray();
+            control.ObservedRadius = TriMM.Mesh.MinEdgeLength / 2;
+            control.InitLight();
 
             control.VertexPicked += new VertexPickedEventHandler(Control_VertexPicked);
             control.EdgePicked += new EdgePickedEventHandler(Control_EdgePicked);
@@ -130,34 +105,18 @@ namespace TriMM {
         /// Refreshes the values of the control.
         /// </summary>
         private void RefreshControl() {
-            aNumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            bNumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            cNumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            e1NumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            e2NumericUpDown.Maximum = mesh.Vertices.Count - 1;
-            vertexLabel.Text = mesh.Vertices.Count.ToString();
-            triangleLabel.Text = mesh.Count.ToString();
-            edgeLabel.Text = mesh.Edges.Count.ToString();
+            aNumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            bNumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            cNumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            e1NumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            e2NumericUpDown.Maximum = TriMM.Mesh.Vertices.Count - 1;
+            vertexLabel.Text = TriMM.Mesh.Vertices.Count.ToString();
+            triangleLabel.Text = TriMM.Mesh.Count.ToString();
+            edgeLabel.Text = TriMM.Mesh.Edges.Count.ToString();
 
-            control.VertexColorDist = mesh.VertexColorDist;
-            control.EdgeColorDist = mesh.EdgeColorDist;
-            control.TriangleColorDist = mesh.TriangleColorDist;
-            control.VertexPickingColors = mesh.GetVertexPickingColors();
-            control.EdgePickingColors = mesh.GetEdgePickingColors();
-            control.EdgePickingArray = mesh.GetEdgePickingArray();
-            control.TrianglePickingColors = mesh.GetTrianglePickingColors();
-            control.ObservedRadius = mesh.MinEdgeLength / 2;
-            control.PickingRadius = mesh.MinEdgeLength / 2;
-            control.Center = mesh.Center;
-            control.TriangleArray = mesh.GetTriangleArray();
-            control.NormalArray = mesh.GetNormalArray();
+            control.ObservedRadius = TriMM.Mesh.MinEdgeLength / 2;
             control.Zoom = 0;
-            control.MyScale = mesh.Scale;
-            control.VertexArray = mesh.GetVertexArray();
-            control.EdgeArray = mesh.GetEdgeArray();
-            control.FacetNormalVectorArray = mesh.GetFacetNormalVectorArray();
-            control.VertexNormalVectorArray = mesh.GetVertexNormalVectorArray();
-            control.SmoothNormalArray = mesh.GetSmoothNormalArray();
+            control.InitLight();
 
             control.Refresh();
             if (view != null) { view.RefreshView(); }
@@ -169,12 +128,12 @@ namespace TriMM {
         /// </summary>
         private void ClearObserved() {
             control.Info.Clear();
-            control.ObservedVertex = null;
-            control.ObservedEdge = -1;
+            TriMM.Mesh.ObservedVertex = -1;
+            TriMM.Mesh.ObservedEdge = -1;
             control.UseColorArray = false;
-            observedVertex = -1;
-            observedEdge = -1;
-            observedTriangle = -1;
+            TriMM.Mesh.ObservedVertex = -1;
+            TriMM.Mesh.ObservedEdge = -1;
+            TriMM.Mesh.ObservedTriangle = -1;
         }
 
 
@@ -191,13 +150,13 @@ namespace TriMM {
 
                 // Parses the file.
                 if (file.EndsWith(".off")) {
-                    mesh = OffParser.Parse(reader, selectedAlgorithm);
+                    OffParser.Parse(reader, vertexNormalAlgorithms[normalComboBox.SelectedIndex]);
                 } else if (file.EndsWith(".stl")) {
-                    mesh = STLParser.Parse(reader, selectedAlgorithm);
+                    STLParser.Parse(reader, vertexNormalAlgorithms[normalComboBox.SelectedIndex]);
                 } else if (file.EndsWith(".ply")) {
-                    mesh = PlyParser.Parse(reader, selectedAlgorithm);
+                    PlyParser.Parse(reader, vertexNormalAlgorithms[normalComboBox.SelectedIndex]);
                 } else if (file.EndsWith(".obj")) {
-                    mesh = ObjParser.Parse(reader, selectedAlgorithm);
+                    ObjParser.Parse(reader, vertexNormalAlgorithms[normalComboBox.SelectedIndex]);
                 }
 
                 InitializeControl();
@@ -269,15 +228,15 @@ namespace TriMM {
                 sfd.Title = "Save File";
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     if (sfd.FilterIndex == 1) {
-                        OffParser.WriteOFF(sfd.FileName, mesh);
+                        OffParser.WriteOFF(sfd.FileName);
                     } else if (sfd.FilterIndex == 2) {
-                        STLParser.WriteToASCII(sfd.FileName, mesh);
+                        STLParser.WriteToASCII(sfd.FileName);
                     } else if (sfd.FilterIndex == 3) {
-                        STLParser.WriteToBinary(sfd.FileName, mesh);
+                        STLParser.WriteToBinary(sfd.FileName);
                     } else if (sfd.FilterIndex == 4) {
-                        PlyParser.WritePLY(sfd.FileName, mesh);
+                        PlyParser.WritePLY(sfd.FileName);
                     } else if (sfd.FilterIndex == 5) {
-                        ObjParser.WriteOBJ(sfd.FileName, mesh);
+                        ObjParser.WriteOBJ(sfd.FileName);
                     }
                 }
 #if !DEBUG
@@ -301,7 +260,7 @@ namespace TriMM {
             meshGroupBox.Visible = saveToolStripMenuItem.Enabled = closeToolStripMenuItem.Enabled
                 = showViewToolStripMenuItem.Enabled = tabControl1.Visible = false;
             normalComboBox.SelectedIndex = 0;
-            mesh = null;
+            TriMM.Mesh = null;
             if (control != null) {
                 control.Dispose();
                 control = null;
@@ -383,12 +342,11 @@ namespace TriMM {
         private void Control_VertexPicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
-                control.Info.Add("Vertex " + picked[0] + " = " + mesh.Vertices[picked[0]].ToString());
-                control.ObservedVertex = mesh.Vertices[picked[0]];
-                observedVertex = picked[0];
-                xNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][0];
-                yNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][1];
-                zNumericUpDown.Value = (decimal)mesh.Vertices[picked[0]][2];
+                control.Info.Add("Vertex " + picked[0] + " = " + TriMM.Mesh.Vertices[picked[0]].ToString());
+                TriMM.Mesh.ObservedVertex = picked[0];
+                xNumericUpDown.Value = (decimal)TriMM.Mesh.Vertices[picked[0]][0];
+                yNumericUpDown.Value = (decimal)TriMM.Mesh.Vertices[picked[0]][1];
+                zNumericUpDown.Value = (decimal)TriMM.Mesh.Vertices[picked[0]][2];
             }
             control.Refresh();
         }
@@ -400,13 +358,12 @@ namespace TriMM {
         private void Control_EdgePicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
-                control.Info.Add("Edge " + picked[0] + " = " + mesh.Edges.Values[picked[0]].ToString());
-                control.Info.Add("Vertex " + mesh.Edges.Values[picked[0]][0] + " = " + mesh.Vertices[mesh.Edges.Values[picked[0]][0]].ToString());
-                control.Info.Add("Vertex " + mesh.Edges.Values[picked[0]][1] + " = " + mesh.Vertices[mesh.Edges.Values[picked[0]][1]].ToString());
-                control.ObservedEdge = picked[0];
-                observedEdge = picked[0];
-                e1NumericUpDown.Value = (decimal)mesh.Edges.Values[picked[0]][0];
-                e2NumericUpDown.Value = (decimal)mesh.Edges.Values[picked[0]][1];
+                control.Info.Add("Edge " + picked[0] + " = " + TriMM.Mesh.Edges.Values[picked[0]].ToString());
+                control.Info.Add("Vertex " + TriMM.Mesh.Edges.Values[picked[0]][0] + " = " + TriMM.Mesh.Vertices[TriMM.Mesh.Edges.Values[picked[0]][0]].ToString());
+                control.Info.Add("Vertex " + TriMM.Mesh.Edges.Values[picked[0]][1] + " = " + TriMM.Mesh.Vertices[TriMM.Mesh.Edges.Values[picked[0]][1]].ToString());
+                TriMM.Mesh.ObservedEdge = picked[0];
+                e1NumericUpDown.Value = (decimal)TriMM.Mesh.Edges.Values[picked[0]][0];
+                e2NumericUpDown.Value = (decimal)TriMM.Mesh.Edges.Values[picked[0]][1];
             }
             control.Refresh();
         }
@@ -418,16 +375,16 @@ namespace TriMM {
         private void Control_TrianglePicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
-                control.Info.Add("Triangle " + picked[0] + " = (" + mesh[picked[0]][0] + ", " + mesh[picked[0]][1] + ", " + mesh[picked[0]][2] + ")");
-                control.Info.Add("Vertex " + mesh[picked[0]][0] + " = " + mesh[picked[0], 0].ToString());
-                control.Info.Add("Vertex " + mesh[picked[0]][1] + " = " + mesh[picked[0], 1].ToString());
-                control.Info.Add("Vertex " + mesh[picked[0]][2] + " = " + mesh[picked[0], 2].ToString());
-                observedTriangle = picked[0];
-                control.ColorArray = mesh.GetMarkedTriangleColorArray(picked[0], control.PlainColor, control.ObservedTriangleColor);
+                control.Info.Add("Triangle " + picked[0] + " = (" + TriMM.Mesh[picked[0]][0] + ", " + TriMM.Mesh[picked[0]][1] + ", " + TriMM.Mesh[picked[0]][2] + ")");
+                control.Info.Add("Vertex " + TriMM.Mesh[picked[0]][0] + " = " + TriMM.Mesh[picked[0], 0].ToString());
+                control.Info.Add("Vertex " + TriMM.Mesh[picked[0]][1] + " = " + TriMM.Mesh[picked[0], 1].ToString());
+                control.Info.Add("Vertex " + TriMM.Mesh[picked[0]][2] + " = " + TriMM.Mesh[picked[0], 2].ToString());
+                TriMM.Mesh.ObservedTriangle = picked[0];
+                TriMM.Mesh.SetMarkedTriangleColorArray(picked[0], control.PlainColor, control.ObservedTriangleColor);
                 control.UseColorArray = true;
-                aNumericUpDown.Value = (decimal)mesh[picked[0]][0];
-                bNumericUpDown.Value = (decimal)mesh[picked[0]][1];
-                cNumericUpDown.Value = (decimal)mesh[picked[0]][2];
+                aNumericUpDown.Value = (decimal)TriMM.Mesh[picked[0]][0];
+                bNumericUpDown.Value = (decimal)TriMM.Mesh[picked[0]][1];
+                cNumericUpDown.Value = (decimal)TriMM.Mesh[picked[0]][2];
             }
             control.Refresh();
 
@@ -449,10 +406,9 @@ namespace TriMM {
 
             ClearObserved();
 
-            for (int i = mesh.Count - 1; i >= 0; i--) { if (!mesh.IsTriangle(i)) { mesh.RemoveAt(i); } }
+            for (int i = TriMM.Mesh.Count - 1; i >= 0; i--) { if (!TriMM.Mesh.IsTriangle(i)) { TriMM.Mesh.RemoveAt(i); } }
 
-            mesh.Finish(true);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
+            TriMM.Mesh.Finish(true,true);
             RemoveSinglesButton_Click(sender, e);
         }
 
@@ -466,12 +422,11 @@ namespace TriMM {
 
             ClearObserved();
 
-            for (int i = mesh.Count - 1; i >= 0; i--) {
-                List<Triangle> equals = mesh.Where(t => t.Equals(mesh[i])).ToList();
-                if (equals.Count > 1) { mesh.RemoveAt(i); }
+            for (int i = TriMM.Mesh.Count - 1; i >= 0; i--) {
+                List<Triangle> equals = TriMM.Mesh.Where(t => t.Equals(TriMM.Mesh[i])).ToList();
+                if (equals.Count > 1) { TriMM.Mesh.RemoveAt(i); }
             }
-            mesh.Finish(true);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
+            TriMM.Mesh.Finish(true, true);
             RemoveSinglesButton_Click(sender, e);
         }
 
@@ -481,13 +436,12 @@ namespace TriMM {
         /// <param name="sender">flipAllTrianglesButton</param>
         /// <param name="e">Standard EventArgs</param>
         private void FlipObservedTriangleButton_Click(object sender, EventArgs e) {
-            if (observedTriangle != -1) {
-                mesh.FlipTriangle(observedTriangle);
-                selectedAlgorithm.GetVertexNormals(ref mesh);
+            if (TriMM.Mesh.ObservedTriangle != -1) {
+                TriMM.Mesh.FlipTriangle(TriMM.Mesh.ObservedTriangle);
                 RefreshControl();
-                aNumericUpDown.Value = (decimal)mesh[observedTriangle][0];
-                bNumericUpDown.Value = (decimal)mesh[observedTriangle][1];
-                cNumericUpDown.Value = (decimal)mesh[observedTriangle][2];
+                aNumericUpDown.Value = (decimal)TriMM.Mesh[TriMM.Mesh.ObservedTriangle][0];
+                bNumericUpDown.Value = (decimal)TriMM.Mesh[TriMM.Mesh.ObservedTriangle][1];
+                cNumericUpDown.Value = (decimal)TriMM.Mesh[TriMM.Mesh.ObservedTriangle][2];
             }
         }
 
@@ -497,13 +451,12 @@ namespace TriMM {
         /// <param name="sender">flipAllTrianglesButton</param>
         /// <param name="e">Standard EventArgs</param>
         private void FlipAllTrianglesButton_Click(object sender, EventArgs e) {
-            mesh.FlipAllTriangles();
-            selectedAlgorithm.GetVertexNormals(ref mesh);
+            TriMM.Mesh.FlipAllTriangles();
             RefreshControl();
-            if (observedTriangle != -1) {
-                aNumericUpDown.Value = (decimal)mesh[observedTriangle][0];
-                bNumericUpDown.Value = (decimal)mesh[observedTriangle][1];
-                cNumericUpDown.Value = (decimal)mesh[observedTriangle][2];
+            if (TriMM.Mesh.ObservedTriangle != -1) {
+                aNumericUpDown.Value = (decimal)TriMM.Mesh[TriMM.Mesh.ObservedTriangle][0];
+                bNumericUpDown.Value = (decimal)TriMM.Mesh[TriMM.Mesh.ObservedTriangle][1];
+                cNumericUpDown.Value = (decimal)TriMM.Mesh[TriMM.Mesh.ObservedTriangle][2];
             }
         }
 
@@ -513,10 +466,9 @@ namespace TriMM {
         /// <param name="sender">subdivideTriangleButton</param>
         /// <param name="e">Standard EventArgs</param>
         private void SubdivideTriangleButton_Click(object sender, EventArgs e) {
-            if (observedTriangle != -1) {
-                mesh.SubdivideTriangle(observedTriangle);
-                selectedAlgorithm.GetVertexNormals(ref mesh);
-                observedTriangle = -1;
+            if (TriMM.Mesh.ObservedTriangle != -1) {
+                TriMM.Mesh.SubdivideTriangle(TriMM.Mesh.ObservedTriangle);
+                TriMM.Mesh.ObservedTriangle = -1;
                 RefreshControl();
             }
         }
@@ -530,8 +482,7 @@ namespace TriMM {
             Cursor.Current = Cursors.WaitCursor;
 
             ClearObserved();
-            mesh = TriangleMesh.Subdivide(mesh, 1);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
+            TriMM.Mesh = TriangleMesh.Subdivide(TriMM.Mesh, 1);
             RefreshControl();
 
             Cursor.Current = Cursors.Default;
@@ -548,20 +499,19 @@ namespace TriMM {
             ClearObserved();
 
             Triangle remove = new Triangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value);
-            mesh.Remove(remove);
+            TriMM.Mesh.Remove(remove);
             remove = new Triangle((int)aNumericUpDown.Value, (int)cNumericUpDown.Value, (int)bNumericUpDown.Value);
-            mesh.Remove(remove);
+            TriMM.Mesh.Remove(remove);
             remove = new Triangle((int)bNumericUpDown.Value, (int)aNumericUpDown.Value, (int)cNumericUpDown.Value);
-            mesh.Remove(remove);
+            TriMM.Mesh.Remove(remove);
             remove = new Triangle((int)bNumericUpDown.Value, (int)cNumericUpDown.Value, (int)aNumericUpDown.Value);
-            mesh.Remove(remove);
+            TriMM.Mesh.Remove(remove);
             remove = new Triangle((int)cNumericUpDown.Value, (int)aNumericUpDown.Value, (int)bNumericUpDown.Value);
-            mesh.Remove(remove);
+            TriMM.Mesh.Remove(remove);
             remove = new Triangle((int)cNumericUpDown.Value, (int)bNumericUpDown.Value, (int)aNumericUpDown.Value);
-            mesh.Remove(remove);
+            TriMM.Mesh.Remove(remove);
 
-            mesh.Finish(true);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
+            TriMM.Mesh.Finish(true, true);
             RemoveSinglesButton_Click(sender, e);
         }
 
@@ -577,9 +527,8 @@ namespace TriMM {
 
             if (((int)aNumericUpDown.Value != -1) && ((int)bNumericUpDown.Value != -1) && ((int)cNumericUpDown.Value != -1)) {
                 Triangle newTriangle = new Triangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value);
-                mesh.Add(newTriangle);
-                mesh.Finish(true);
-                selectedAlgorithm.GetVertexNormals(ref mesh);
+                TriMM.Mesh.Add(newTriangle);
+                TriMM.Mesh.Finish(true, true);
 
                 RefreshControl();
             }
@@ -603,24 +552,23 @@ namespace TriMM {
 
             List<int> markedVertices = new List<int>();
 
-            for (int i = 0; i < mesh.Vertices.Count; i++) { if (mesh.Vertices[i].Neighborhood.Count == 0) { markedVertices.Add(i); } }
+            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) { if (TriMM.Mesh.Vertices[i].Neighborhood.Count == 0) { markedVertices.Add(i); } }
             markedVertices.Sort();
 
             for (int i = markedVertices.Count - 1; i >= 0; i--) {
                 // Remove Vertex
-                mesh.Vertices.RemoveAt(markedVertices[i]);
+                TriMM.Mesh.Vertices.RemoveAt(markedVertices[i]);
 
                 // Adjust Triangles
-                for (int j = 0; j < mesh.Count; j++) {
+                for (int j = 0; j < TriMM.Mesh.Count; j++) {
                     List<int> ordered = new List<int>();
-                    for (int k = 0; k < 3; k++) { ordered.Add(mesh[j][k]); }
+                    for (int k = 0; k < 3; k++) { ordered.Add(TriMM.Mesh[j][k]); }
                     ordered.Sort();
-                    for (int k = 0; k < 3; k++) { if (ordered[k] >= markedVertices[i]) { mesh[j].Replace(ordered[k], ordered[k] - 1); } }
+                    for (int k = 0; k < 3; k++) { if (ordered[k] >= markedVertices[i]) { TriMM.Mesh[j].Replace(ordered[k], ordered[k] - 1); } }
                 }
             }
 
-            mesh.Finish(true);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
+            TriMM.Mesh.Finish(true,true);
 
             RefreshControl();
             Cursor.Current = Cursors.Default;
@@ -645,10 +593,10 @@ namespace TriMM {
             bool added;
 
             // Find equivalent Vertices.
-            for (int i = 1; i < mesh.Vertices.Count; i++) {
+            for (int i = 1; i < TriMM.Mesh.Vertices.Count; i++) {
                 added = false;
                 for (int j = 0; j < equivalent.Count; j++) {
-                    if (mesh.Vertices[i].Equals(mesh.Vertices[equivalent[j][0]])) {
+                    if (TriMM.Mesh.Vertices[i].Equals(TriMM.Mesh.Vertices[equivalent[j][0]])) {
                         equivalent[j].Add(i);
                         added = true;
                         break;
@@ -670,16 +618,15 @@ namespace TriMM {
                     remove.Add(equivalent[i][j]);
 
                     // Adjust Triangles
-                    for (int k = 0; k < mesh.Count; k++) { if (mesh[k].Contains(equivalent[i][j])) { mesh[k].Replace(equivalent[i][j], equivalent[i][0]); } }
+                    for (int k = 0; k < TriMM.Mesh.Count; k++) { if (TriMM.Mesh[k].Contains(equivalent[i][j])) { TriMM.Mesh[k].Replace(equivalent[i][j], equivalent[i][0]); } }
                 }
             }
 
             remove.Sort();
             // Remove Vertices
-            for (int i = remove.Count - 1; i >= 0; i--) { mesh.Vertices.RemoveAt(remove[i]); }
+            for (int i = remove.Count - 1; i >= 0; i--) { TriMM.Mesh.Vertices.RemoveAt(remove[i]); }
 
-            mesh.Finish(true);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
+            TriMM.Mesh.Finish(true, true);
             RefreshControl();
 
             Cursor.Current = Cursors.Default;
@@ -700,32 +647,31 @@ namespace TriMM {
             do {
                 markedVertices = new List<int>();
 
-                for (int i = 0; i < mesh.Vertices.Count; i++) { if (mesh.Vertices[i].Neighborhood.Count == 2) { markedVertices.Add(i); } }
+                for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) { if (TriMM.Mesh.Vertices[i].Neighborhood.Count == 2) { markedVertices.Add(i); } }
                 markedVertices.Sort();
 
                 for (int i = markedVertices.Count - 1; i >= 0; i--) {
-                    List<int> adjacent = mesh.Vertices[markedVertices[i]].Triangles;
+                    List<int> adjacent = TriMM.Mesh.Vertices[markedVertices[i]].Triangles;
                     adjacent.Sort();
 
                     // Remove Vertex
-                    mesh.Vertices.RemoveAt(markedVertices[i]);
+                    TriMM.Mesh.Vertices.RemoveAt(markedVertices[i]);
 
                     // Remove Triangles attached to this Vertex.
-                    for (int j = adjacent.Count - 1; j >= 0; j--) { mesh.RemoveAt(adjacent[j]); }
+                    for (int j = adjacent.Count - 1; j >= 0; j--) { TriMM.Mesh.RemoveAt(adjacent[j]); }
 
                     // Adjust Triangles
-                    for (int j = 0; j < mesh.Count; j++) {
+                    for (int j = 0; j < TriMM.Mesh.Count; j++) {
                         List<int> ordered = new List<int>();
-                        for (int k = 0; k < 3; k++) { ordered.Add(mesh[j][k]); }
+                        for (int k = 0; k < 3; k++) { ordered.Add(TriMM.Mesh[j][k]); }
                         ordered.Sort();
-                        for (int k = 0; k < 3; k++) { if (ordered[k] >= markedVertices[i]) { mesh[j].Replace(ordered[k], ordered[k] - 1); } }
+                        for (int k = 0; k < 3; k++) { if (ordered[k] >= markedVertices[i]) { TriMM.Mesh[j].Replace(ordered[k], ordered[k] - 1); } }
                     }
 
-                    mesh.Finish(true);
+                    TriMM.Mesh.Finish(true, true);
                 }
 
             } while (markedVertices.Count != 0);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
 
             RefreshControl();
             Cursor.Current = Cursors.Default;
@@ -739,29 +685,28 @@ namespace TriMM {
         private void RemoveObservedButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
 
-            if (observedVertex != -1) {
-                int remove = observedVertex;
+            if (TriMM.Mesh.ObservedVertex != -1) {
+                int remove = TriMM.Mesh.ObservedVertex;
                 ClearObserved();
 
-                List<int> adjacent = mesh.Vertices[remove].Triangles;
+                List<int> adjacent = TriMM.Mesh.Vertices[remove].Triangles;
                 adjacent.Sort();
 
                 // Remove Vertex
-                mesh.Vertices.RemoveAt(remove);
+                TriMM.Mesh.Vertices.RemoveAt(remove);
 
                 // Remove Triangles attached to this Vertex.
-                for (int j = adjacent.Count - 1; j >= 0; j--) { mesh.RemoveAt(adjacent[j]); }
+                for (int j = adjacent.Count - 1; j >= 0; j--) { TriMM.Mesh.RemoveAt(adjacent[j]); }
 
                 // Adjust Triangles
-                for (int j = 0; j < mesh.Count; j++) {
+                for (int j = 0; j < TriMM.Mesh.Count; j++) {
                     List<int> ordered = new List<int>();
-                    for (int k = 0; k < 3; k++) { ordered.Add(mesh[j][k]); }
+                    for (int k = 0; k < 3; k++) { ordered.Add(TriMM.Mesh[j][k]); }
                     ordered.Sort();
-                    for (int k = 0; k < 3; k++) { if (ordered[k] >= remove) { mesh[j].Replace(ordered[k], ordered[k] - 1); } }
+                    for (int k = 0; k < 3; k++) { if (ordered[k] >= remove) { TriMM.Mesh[j].Replace(ordered[k], ordered[k] - 1); } }
                 }
 
-                mesh.Finish(true);
-                selectedAlgorithm.GetVertexNormals(ref mesh);
+                TriMM.Mesh.Finish(true, true);
                 RefreshControl();
             }
 
@@ -776,12 +721,11 @@ namespace TriMM {
         private void MoveObservedButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
 
-            if (observedVertex != -1) {
-                mesh.Vertices[observedVertex] = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
+            if (TriMM.Mesh.ObservedVertex != -1) {
+                TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex] = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
 
                 ClearObserved();
-                mesh.Finish(true);
-                selectedAlgorithm.GetVertexNormals(ref mesh);
+                TriMM.Mesh.Finish(true, true);
                 RefreshControl();
             }
 
@@ -796,12 +740,11 @@ namespace TriMM {
         private void TransposeVertexButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
 
-            if (observedVertex != -1) {
-                mesh.Vertices[observedVertex] = (mesh.Vertices[observedVertex] + new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value)).ToVertex();
+            if (TriMM.Mesh.ObservedVertex != -1) {
+                TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex] = (TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex] + new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value)).ToVertex();
 
                 ClearObserved();
-                mesh.Finish(true);
-                selectedAlgorithm.GetVertexNormals(ref mesh);
+                TriMM.Mesh.Finish(true, true);
                 RefreshControl();
             }
 
@@ -817,12 +760,11 @@ namespace TriMM {
         private void MoveAlongNormalButton_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
 
-            if (observedVertex != -1) {
-                mesh.Vertices[observedVertex] = (mesh.Vertices[observedVertex] + (double)distanceNumericUpDown.Value * mesh.Vertices[observedVertex].Normal).ToVertex();
+            if (TriMM.Mesh.ObservedVertex != -1) {
+                TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex] = (TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex] + (double)distanceNumericUpDown.Value * TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex].Normal).ToVertex();
 
                 ClearObserved();
-                mesh.Finish(true);
-                selectedAlgorithm.GetVertexNormals(ref mesh);
+                TriMM.Mesh.Finish(true, true);
                 RefreshControl();
             }
 
@@ -840,10 +782,9 @@ namespace TriMM {
             ClearObserved();
 
             Vertex newVertex = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
-            mesh.Vertices.Add(newVertex);
+            TriMM.Mesh.Vertices.Add(newVertex);
 
-            mesh.Finish(true);
-            selectedAlgorithm.GetVertexNormals(ref mesh);
+            TriMM.Mesh.Finish(true, true);
             RefreshControl();
 
             Cursor.Current = Cursors.Default;
@@ -868,29 +809,29 @@ namespace TriMM {
             int ind2 = (int)e2NumericUpDown.Value;
 
             if ((ind1 != -1) && (ind2 != -1)) {
-                double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
+                double length = VectorND.Distance(TriMM.Mesh.Vertices[ind1], TriMM.Mesh.Vertices[ind2]);
                 Edge theEdge = new Edge(ind1, ind2, length);
 
-                if (mesh.Edges.ContainsKey(theEdge.Key)) {
-                    List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
+                if (TriMM.Mesh.Edges.ContainsKey(theEdge.Key)) {
+                    List<int> triangles = TriMM.Mesh.Edges[theEdge.Key].Triangles;
                     triangles.Sort();
 
                     // Get the Triangles that Edge belongs to, connects the Vertices opposite the Edge with a new Edge and removes the old Edge.
                     if (triangles.Count == 2) {
-                        int o1 = mesh[triangles[0]].GetOppositeCorner(theEdge);
-                        int o2 = mesh[triangles[1]].GetOppositeCorner(theEdge);
+                        int o1 = TriMM.Mesh[triangles[0]].GetOppositeCorner(theEdge);
+                        int o2 = TriMM.Mesh[triangles[1]].GetOppositeCorner(theEdge);
 
-                        int triInd1 = mesh[triangles[0]].IndexOf(o1);
-                        int triInd2 = mesh[triangles[1]].IndexOf(o2);
+                        int triInd1 = TriMM.Mesh[triangles[0]].IndexOf(o1);
+                        int triInd2 = TriMM.Mesh[triangles[1]].IndexOf(o2);
 
-                        Triangle tri1 = new Triangle(o1, mesh[triangles[0]][(triInd1 + 1) % 3], o2);
+                        Triangle tri1 = new Triangle(o1, TriMM.Mesh[triangles[0]][(triInd1 + 1) % 3], o2);
                         Triangle tri1per1 = new Triangle(tri1[0], tri1[2], tri1[1]);
                         Triangle tri1per2 = new Triangle(tri1[1], tri1[0], tri1[2]);
                         Triangle tri1per3 = new Triangle(tri1[1], tri1[2], tri1[0]);
                         Triangle tri1per4 = new Triangle(tri1[2], tri1[0], tri1[1]);
                         Triangle tri1per5 = new Triangle(tri1[2], tri1[1], tri1[0]);
 
-                        Triangle tri2 = new Triangle(o2, mesh[triangles[1]][(triInd2 + 1) % 3], o1);
+                        Triangle tri2 = new Triangle(o2, TriMM.Mesh[triangles[1]][(triInd2 + 1) % 3], o1);
                         Triangle tri2per1 = new Triangle(tri2[0], tri2[2], tri2[1]);
                         Triangle tri2per2 = new Triangle(tri2[1], tri2[0], tri2[2]);
                         Triangle tri2per3 = new Triangle(tri2[1], tri2[2], tri2[0]);
@@ -900,17 +841,16 @@ namespace TriMM {
                         bool isNotIn1 = true;
                         bool isNotIn2 = true;
 
-                        if (mesh.Contains(tri1) || mesh.Contains(tri1per1) || mesh.Contains(tri1per2) || mesh.Contains(tri1per3) || mesh.Contains(tri1per4) || mesh.Contains(tri1per5)) { isNotIn1 = false; }
-                        if (mesh.Contains(tri2) || mesh.Contains(tri2per1) || mesh.Contains(tri2per2) || mesh.Contains(tri2per3) || mesh.Contains(tri2per4) || mesh.Contains(tri2per5)) { isNotIn2 = false; }
+                        if (TriMM.Mesh.Contains(tri1) || TriMM.Mesh.Contains(tri1per1) || TriMM.Mesh.Contains(tri1per2) || TriMM.Mesh.Contains(tri1per3) || TriMM.Mesh.Contains(tri1per4) || TriMM.Mesh.Contains(tri1per5)) { isNotIn1 = false; }
+                        if (TriMM.Mesh.Contains(tri2) || TriMM.Mesh.Contains(tri2per1) || TriMM.Mesh.Contains(tri2per2) || TriMM.Mesh.Contains(tri2per3) || TriMM.Mesh.Contains(tri2per4) || TriMM.Mesh.Contains(tri2per5)) { isNotIn2 = false; }
 
-                        if (isNotIn1 && (mesh.IsTriangle(o1, mesh[triangles[0]][(triInd1 + 1) % 3], o2))) { mesh.Add(tri1); }
-                        if (isNotIn2 && (mesh.IsTriangle(o2, mesh[triangles[1]][(triInd2 + 1) % 3], o1))) { mesh.Add(tri2); }
+                        if (isNotIn1 && (TriMM.Mesh.IsTriangle(o1, TriMM.Mesh[triangles[0]][(triInd1 + 1) % 3], o2))) { TriMM.Mesh.Add(tri1); }
+                        if (isNotIn2 && (TriMM.Mesh.IsTriangle(o2, TriMM.Mesh[triangles[1]][(triInd2 + 1) % 3], o1))) { TriMM.Mesh.Add(tri2); }
 
-                        mesh.RemoveAt(triangles[1]);
-                        mesh.RemoveAt(triangles[0]);
+                        TriMM.Mesh.RemoveAt(triangles[1]);
+                        TriMM.Mesh.RemoveAt(triangles[0]);
 
-                        mesh.Finish(true);
-                        selectedAlgorithm.GetVertexNormals(ref mesh);
+                        TriMM.Mesh.Finish(true, true);
                         RefreshControl();
                     }
                 }
@@ -934,27 +874,26 @@ namespace TriMM {
             int ind2 = (int)e2NumericUpDown.Value;
 
             if ((ind1 != -1) && (ind2 != -1)) {
-                double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
+                double length = VectorND.Distance(TriMM.Mesh.Vertices[ind1], TriMM.Mesh.Vertices[ind2]);
                 Edge theEdge = new Edge(ind1, ind2, length);
 
-                if (mesh.Edges.ContainsKey(theEdge.Key)) {
-                    List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
+                if (TriMM.Mesh.Edges.ContainsKey(theEdge.Key)) {
+                    List<int> triangles = TriMM.Mesh.Edges[theEdge.Key].Triangles;
                     triangles.Sort();
-                    Vertex midedge = (0.5 * (mesh.Vertices[ind1] + mesh.Vertices[ind2])).ToVertex();
-                    mesh.Vertices.Add(midedge);
+                    Vertex midedge = (0.5 * (TriMM.Mesh.Vertices[ind1] + TriMM.Mesh.Vertices[ind2])).ToVertex();
+                    TriMM.Mesh.Vertices.Add(midedge);
 
                     for (int i = triangles.Count - 1; i >= 0; i--) {
-                        Triangle replace = new Triangle(mesh[triangles[i]][0], mesh[triangles[i]][1], mesh[triangles[i]][2]);
-                        replace.Replace(ind1, mesh.Vertices.Count - 1);
-                        mesh.Add(replace);
-                        replace = new Triangle(mesh[triangles[i]][0], mesh[triangles[i]][1], mesh[triangles[i]][2]);
-                        replace.Replace(ind2, mesh.Vertices.Count - 1);
-                        mesh.Add(replace);
-                        mesh.RemoveAt(triangles[i]);
+                        Triangle replace = new Triangle(TriMM.Mesh[triangles[i]][0], TriMM.Mesh[triangles[i]][1], TriMM.Mesh[triangles[i]][2]);
+                        replace.Replace(ind1, TriMM.Mesh.Vertices.Count - 1);
+                        TriMM.Mesh.Add(replace);
+                        replace = new Triangle(TriMM.Mesh[triangles[i]][0], TriMM.Mesh[triangles[i]][1], TriMM.Mesh[triangles[i]][2]);
+                        replace.Replace(ind2, TriMM.Mesh.Vertices.Count - 1);
+                        TriMM.Mesh.Add(replace);
+                        TriMM.Mesh.RemoveAt(triangles[i]);
                     }
 
-                    mesh.Finish(true);
-                    selectedAlgorithm.GetVertexNormals(ref mesh);
+                    TriMM.Mesh.Finish(true, true);
                     RemoveSinglesButton_Click(sender, e);
                 }
             }
@@ -977,16 +916,15 @@ namespace TriMM {
             int ind2 = (int)e2NumericUpDown.Value;
 
             if ((ind1 != -1) && (ind2 != -1)) {
-                double length = VectorND.Distance(mesh.Vertices[ind1], mesh.Vertices[ind2]);
+                double length = VectorND.Distance(TriMM.Mesh.Vertices[ind1], TriMM.Mesh.Vertices[ind2]);
                 Edge theEdge = new Edge(ind1, ind2, length);
 
-                if (mesh.Edges.ContainsKey(theEdge.Key)) {
-                    List<int> triangles = mesh.Edges[theEdge.Key].Triangles;
+                if (TriMM.Mesh.Edges.ContainsKey(theEdge.Key)) {
+                    List<int> triangles = TriMM.Mesh.Edges[theEdge.Key].Triangles;
                     triangles.Sort();
-                    for (int i = triangles.Count - 1; i >= 0; i--) { mesh.RemoveAt(triangles[i]); }
+                    for (int i = triangles.Count - 1; i >= 0; i--) { TriMM.Mesh.RemoveAt(triangles[i]); }
 
-                    mesh.Finish(true);
-                    selectedAlgorithm.GetVertexNormals(ref mesh);
+                    TriMM.Mesh.Finish(true, true);
                     RemoveSinglesButton_Click(sender, e);
                 }
             }
@@ -1004,9 +942,9 @@ namespace TriMM {
         /// <param name="sender">normalComboBox</param>
         /// <param name="e">Standard EventArgs</param>
         private void NormalComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-            if (mesh != null) {
-                selectedAlgorithm = vertexNormalAlgorithms[normalComboBox.SelectedIndex];
-                selectedAlgorithm.GetVertexNormals(ref mesh);
+            if (TriMM.Mesh != null) {
+                TriMM.Mesh.VertexNormalAlgorithm = vertexNormalAlgorithms[normalComboBox.SelectedIndex];
+                TriMM.Mesh.Finish(true, true);
                 RefreshControl();
             }
         }

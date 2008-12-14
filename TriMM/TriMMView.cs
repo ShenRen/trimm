@@ -67,7 +67,7 @@ namespace TriMM {
             this.control.VertexPicked += new VertexPickedEventHandler(Control_VertexPicked);
             this.control.EdgePicked += new EdgePickedEventHandler(Control_EdgePicked);
             this.control.TrianglePicked += new TrianglePickedEventHandler(Control_TrianglePicked);
-            this.control.PickCleared += new PickClearedEventHandler(Control_PickCleared);
+            TriMM.Mesh.PickCleared += new PickClearedEventHandler(PickCleared);
 
             this.Show();
         }
@@ -81,11 +81,11 @@ namespace TriMM {
         /// </summary>
         public void RefreshView() {
             if (pickingModeComboBox.SelectedIndex == 1) {
-                observedNumericUpDown.Maximum = (decimal)(control.VertexArray.Length / 3) - 1;
+                observedNumericUpDown.Maximum = (decimal)(TriMM.Mesh.Vertices.Count) - 1;
             } else if (pickingModeComboBox.SelectedIndex == 2) {
-                observedNumericUpDown.Maximum = (decimal)(control.EdgeArray.Length / 6) - 1;
+                observedNumericUpDown.Maximum = (decimal)(TriMM.Mesh.Edges.Count) - 1;
             } else if (pickingModeComboBox.SelectedIndex == 3) {
-                observedNumericUpDown.Maximum = (decimal)(control.TriangleArray.Length / 9) - 1;
+                observedNumericUpDown.Maximum = (decimal)(TriMM.Mesh.Count) - 1;
             }
             radiusNumericUpDown.Value = (decimal)control.ObservedRadius;
             observedNumericUpDown.Value = -1;
@@ -173,7 +173,7 @@ namespace TriMM {
         /// <param name="sender">xScrollBar</param>
         /// <param name="e">Standard ScrollEventArgs</param>
         private void XScrollBar_Scroll(object sender, ScrollEventArgs e) {
-            control.Origin[0] = -control.MyScale * xScrollBar.Value / 10000;
+            control.Origin[0] = -TriMM.Mesh.Scale * xScrollBar.Value / 10000;
             control.Refresh();
         }
 
@@ -184,7 +184,7 @@ namespace TriMM {
         /// <param name="sender">yScrollBar</param>
         /// <param name="e">Standard ScrollEventArgs</param>
         private void YScrollBar_Scroll(object sender, ScrollEventArgs e) {
-            control.Origin[1] = control.MyScale * yScrollBar.Value / 10000;
+            control.Origin[1] = TriMM.Mesh.Scale * yScrollBar.Value / 10000;
             control.Refresh();
         }
 
@@ -211,13 +211,13 @@ namespace TriMM {
             if (pickingModeComboBox.SelectedIndex == 0) {
                 observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = false;
             } else if (pickingModeComboBox.SelectedIndex == 1) {
-                observedNumericUpDown.Maximum = (decimal)(control.VertexArray.Length / 3) - 1;
+                observedNumericUpDown.Maximum = (decimal)(TriMM.Mesh.Vertices.Count) - 1;
                 observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = true;
             } else if (pickingModeComboBox.SelectedIndex == 2) {
-                observedNumericUpDown.Maximum = (decimal)(control.EdgeArray.Length / 6) - 1;
+                observedNumericUpDown.Maximum = (decimal)(TriMM.Mesh.Edges.Count) - 1;
                 observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = true;
             } else {
-                observedNumericUpDown.Maximum = (decimal)(control.TriangleArray.Length / 9) - 1;
+                observedNumericUpDown.Maximum = (decimal)(TriMM.Mesh.Count) - 1;
                 observedLabel.Visible = observedNumericUpDown.Visible = clearObservedButton.Visible = true;
                 radiusLabel.Visible = radiusNumericUpDown.Visible = false;
             }
@@ -230,7 +230,7 @@ namespace TriMM {
         /// <param name="e">Standard EventArgs</param>
         private void ObservedNumericUpDown_ValueChanged(object sender, EventArgs e) {
             if (observedNumericUpDown.Value == -1) {
-                control.ObservedVertex = null;
+                TriMM.Mesh.ObservedVertex = -1;
                 control.Info.Clear();
                 control.UseColorArray = false;
             } else {
@@ -472,7 +472,7 @@ namespace TriMM {
         /// <summary>
         /// Sets the observedNumericUpDown to -1, when the PickCleared event was thrown somewhere else.
         /// </summary>
-        private void Control_PickCleared() {
+        private void PickCleared() {
             observedNumericUpDown.ValueChanged -= ObservedNumericUpDown_ValueChanged;
             observedNumericUpDown.Value = -1;
             observedNumericUpDown.ValueChanged += ObservedNumericUpDown_ValueChanged;

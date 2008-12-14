@@ -41,17 +41,16 @@ namespace TriMM.VertexNormalAlgorithms {
         /// weighted by the average of the length of the Edges containing the current Vertex
         /// in the current adjacent Triangle.
         /// </summary>
-        /// <param name="mesh">The TriangleMesh to calculate the vertex normals for.</param>
-        public void GetVertexNormals(ref TriangleMesh mesh) {
-            for (int i = 0; i < mesh.Vertices.Count; i++) {
-                Vertex vertex = mesh.Vertices[i];
+        public void GetVertexNormals() {
+            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
+                Vertex vertex = TriMM.Mesh.Vertices[i];
                 vertex.Normal = new VectorND(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
-                    Triangle triangle = mesh[vertex.Triangles[j]];
+                    Triangle triangle = TriMM.Mesh[vertex.Triangles[j]];
                     int[] neighbors = triangle.GetNeighborsOf(i);
-                    double weight = (VectorND.Distance(mesh.Vertices[i], mesh.Vertices[neighbors[0]])
-                        + VectorND.Distance(mesh.Vertices[i], mesh.Vertices[neighbors[1]])) / 2;
+                    double weight = (VectorND.Distance(TriMM.Mesh.Vertices[i], TriMM.Mesh.Vertices[neighbors[0]])
+                        + VectorND.Distance(TriMM.Mesh.Vertices[i], TriMM.Mesh.Vertices[neighbors[1]])) / 2;
                     vertex.Normal += triangle.Normal * weight;
                 }
                 vertex.Normal.Normalize();

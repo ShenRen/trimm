@@ -76,11 +76,6 @@ namespace TriMM {
     /// <param name="picked">A list of indices of picked Triangles.</param>
     public delegate void TrianglePickedEventHandler(List<int> picked);
 
-    /// <summary>
-    /// An EventHandler for the PickCleared Event. Alerts the owner of the clearing of the selection.
-    /// </summary>
-    public delegate void PickClearedEventHandler();
-
     #endregion
 
     /// <summary>
@@ -93,16 +88,9 @@ namespace TriMM {
         #region OpenGL Settings
 
         private float zoom;
-        private float scale;
         private float xRot, yRot, zRot, xDiff, yDiff, zDiff;
         private float clippingPlane = 1.1f;
-
         private float[] origin = new float[2] { 0, 0 };
-        private double[] center = new double[3] { 0, 0, 0 };
-
-        private int vertexColorDist;
-        private int edgeColorDist;
-        private int triangleColorDist;
 
         // Font Settings
         private Font baseFont = new Font("Roman", 12);
@@ -129,10 +117,7 @@ namespace TriMM {
         private ColorOGL yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
         private ColorOGL zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
 
-        private Vertex observedVertex;
-        private int observedEdge = -1;
         private float observedRadius = 0.1f;
-        private float pickingRadius = 0.1f;
         private List<string> info = new List<string>();
 
         private bool picking = false;
@@ -148,23 +133,6 @@ namespace TriMM {
 
         #endregion
 
-        #region Drawing Arrays
-
-        private float[] vertexPickingColors;
-        private float[] edgePickingColors;
-        private double[] edgePickingArray;
-        private float[] trianglePickingColors;
-        private float[] colorArray;
-        private double[] triangleArray;
-        private double[] edgeArray;
-        private double[] vertexArray;
-        private double[] normalArray;
-        private double[] smoothNormalArray;
-        private double[] facetNormalVectorArray;
-        private double[] vertexNormalVectorArray;
-
-        #endregion
-
         #region Events
 
         /// <value>The event thrown when a Vertex is picked.</value>
@@ -175,9 +143,6 @@ namespace TriMM {
 
         /// <value>The event thrown when a Triangle is picked.</value>
         public event TrianglePickedEventHandler TrianglePicked;
-
-        /// <value>The event thrown when all Vertices are unpicked.</value>
-        public event PickClearedEventHandler PickCleared;
 
         #endregion
 
@@ -190,42 +155,11 @@ namespace TriMM {
         /// <value>Sets the zoom value.</value>
         public float Zoom { set { zoom = value; } }
 
-        /// <value>Gets the scale or sets it and adjusts the light position.</value>
-        public float MyScale {
-            get { return scale; }
-            set {
-                scale = value;
-                float[] lightPosition = { 20.0f * scale, -20.0f * scale, 100.0f * scale, 1.0f };
-                Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, lightPosition);
-            }
-        }
-
         /// <value>Sets the position of the z-axis clipping plane.</value>
         public float ClippingPlane { set { clippingPlane = value; } }
 
         /// <value>Gets the point the camera looks at or sets it.</value>
         public float[] Origin { get { return origin; } set { origin = value; } }
-
-        /// <value>Sets the center of the object.</value>
-        public double[] Center { set { center = value; } }
-
-        /// <value>
-        /// Sets vertexColorDist. vertexColorDist is used to space the picking colors with the maximum possible distance,
-        /// depending on the number of Vertices in the TriangleMesh.
-        /// </value>
-        public int VertexColorDist { set { vertexColorDist = value; } }
-
-        /// <value>
-        /// Sets edgeColorDist. edgeColorDist is used to space the picking colors with the maximum possible distance,
-        /// depending on the number of Edges in the TriangleMesh.
-        /// </value>
-        public int EdgeColorDist { set { edgeColorDist = value; } }
-
-        /// <value>
-        /// Sets triangleColorDist. triangleColorDist is used to space the picking colors with the maximum possible distance,
-        /// depending on the number of Triangles in the TriangleMesh.
-        /// </value>
-        public int TriangleColorDist { set { triangleColorDist = value; } }
 
         /// <value>Gets the baseFont or set it</value>
         public Font BaseFont {
@@ -281,27 +215,8 @@ namespace TriMM {
         /// <value>Gets the color for the z-axis or sets it.</value>
         public ColorOGL ZAxisColor { get { return zAxisColor; } set { zAxisColor = value; } }
 
-        /// <value>Sets the currently observed Vertex.</value>
-        public Vertex ObservedVertex {
-            set {
-                observedVertex = value;
-                if ((observedVertex == null) && (PickCleared != null)) { PickCleared(); }
-            }
-        }
-
-        /// <value>Sets the currently observed Edge.</value>
-        public int ObservedEdge {
-            set {
-                observedEdge = value;
-                if ((observedEdge == -1) && (PickCleared != null)) { PickCleared(); }
-            }
-        }
-
         /// <value>Gets the radius of the sphere drawn around the observed Vertex or sets it.</value>
         public float ObservedRadius { get { return observedRadius; } set { observedRadius = value; } }
-
-        /// <value>Sets the radius of the spheres drawn drawn for picking.</value>
-        public float PickingRadius { set { pickingRadius = value; } }
 
         /// <value>Gets the information to be displayed in the top left corner or sets it.</value>
         public List<string> Info { get { return info; } set { info = value; } }
@@ -332,46 +247,6 @@ namespace TriMM {
 
         /// <value>If true, the coordinate-axes are drawn.</value>
         public bool ShowAxes { set { showAxes = value; } }
-
-        #endregion
-
-        #region Drawing Arrays
-
-        /// <value>Sets the vertexPickingColors.</value>
-        public float[] VertexPickingColors { set { vertexPickingColors = value; } }
-
-        /// <value>Sets the edgePickingColors.</value>
-        public float[] EdgePickingColors { set { edgePickingColors = value; } }
-
-        /// <value>Sets the edgePickingArray.</value>
-        public double[] EdgePickingArray { set { edgePickingArray = value; } }
-
-        /// <value>Sets the trianglePickingColors.</value>
-        public float[] TrianglePickingColors { set { trianglePickingColors = value; } }
-
-        /// <value>Sets the colorArray.</value>
-        public float[] ColorArray { set { colorArray = value; } }
-
-        /// <value>Gets the array of all Vertices of all Triangles or sets it.</value>
-        public double[] TriangleArray { get { return triangleArray; } set { triangleArray = value; } }
-
-        /// <value>Gets the array of Edges or sets it.</value>
-        public double[] EdgeArray { get { return edgeArray; } set { edgeArray = value; } }
-
-        /// <value>Gets the array of Vertices or sets it.</value>
-        public double[] VertexArray { get { return vertexArray; } set { vertexArray = value; } }
-
-        /// <value>Sets the array of normal vectors of all triangles expanded to all corners.</value>
-        public double[] NormalArray { set { normalArray = value; } }
-
-        /// <value>Sets the array of normal vectors of all Vertices of all Triangles.</value>
-        public double[] SmoothNormalArray { set { smoothNormalArray = value; } }
-
-        /// <value>Sets the array of normal vectors of all Triangles as lines.</value>
-        public double[] FacetNormalVectorArray { set { facetNormalVectorArray = value; } }
-
-        /// <value>Sets the array of normal vectors of all Triangles as lines.</value>
-        public double[] VertexNormalVectorArray { set { vertexNormalVectorArray = value; } }
 
         #endregion
 
@@ -433,6 +308,14 @@ namespace TriMM {
             Gl.glEnable(Gl.GL_LIGHTING);
             Gl.glEnable(Gl.GL_LIGHT0);
             Gl.glEnable(Gl.GL_CLIP_PLANE0);
+        }
+
+        /// <summary>
+        /// Initializes the position of the light using the models scale.
+        /// </summary>
+        public void InitLight() {
+            float[] lightPosition = { 20.0f * TriMM.Mesh.Scale, -20.0f * TriMM.Mesh.Scale, 100.0f * TriMM.Mesh.Scale, 1.0f };
+            Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, lightPosition);
         }
 
         /// <summary>
@@ -677,8 +560,8 @@ namespace TriMM {
             Gl.glViewport(0, 0, this.Width, this.Height);
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
-            Gl.glOrtho((-scale + zoom) * WindowAspect, (scale - zoom) * WindowAspect,
-                -scale + zoom, scale - zoom, -2 * scale, 2 * scale);
+            Gl.glOrtho((-TriMM.Mesh.Scale + zoom) * WindowAspect, (TriMM.Mesh.Scale - zoom) * WindowAspect,
+                -TriMM.Mesh.Scale + zoom, TriMM.Mesh.Scale - zoom, -2 * TriMM.Mesh.Scale, 2 * TriMM.Mesh.Scale);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
             Gl.glLoadIdentity();
             Gl.glFlush();
@@ -698,7 +581,7 @@ namespace TriMM {
             zDiff = 0.0f;
             pickingMode = 0;
             clippingPlane = 1.1f;
-            observedRadius = pickingRadius;
+            observedRadius = TriMM.Mesh.MinEdgeLength / 2;
 
             this.Refresh();
         }
@@ -796,9 +679,9 @@ namespace TriMM {
         private void RenderScene() {
             this.SetView();
             if ((clippingPlane == -1.1f) || (clippingPlane == 1.1f)) {
-                Gl.glClipPlane(Gl.GL_CLIP_PLANE0, new double[] { 0.0, 0.0, 1.0, 2 * clippingPlane * scale });
+                Gl.glClipPlane(Gl.GL_CLIP_PLANE0, new double[] { 0.0, 0.0, 1.0, 2 * clippingPlane * TriMM.Mesh.Scale });
             } else {
-                Gl.glClipPlane(Gl.GL_CLIP_PLANE0, new double[] { 0.0, 0.0, 1.0, clippingPlane * scale / 2 });
+                Gl.glClipPlane(Gl.GL_CLIP_PLANE0, new double[] { 0.0, 0.0, 1.0, clippingPlane * TriMM.Mesh.Scale / 2 });
             }
 
             Gl.glLoadIdentity();
@@ -811,8 +694,8 @@ namespace TriMM {
             Gl.glRotatef(-this.xRot, 1.0f, 0.0f, 0.0f);
             Gl.glRotatef(this.yRot, 0.0f, 1.0f, 0.0f);
             Gl.glRotatef(this.zRot, 0.0f, 0.0f, 1.0f);
-            Gl.glTranslated(-center[0], -center[1], -center[2]);
-            
+            Gl.glTranslated(-TriMM.Mesh.Center[0], -TriMM.Mesh.Center[1], -TriMM.Mesh.Center[2]);
+
             if (!picking || (pickingMode == 0)) {
                 if (showModell) { DrawModell(); }
                 if (showMesh) { DrawMesh(); }
@@ -820,8 +703,8 @@ namespace TriMM {
                 if (showFacetNormalVectors) { DrawFacetNormals(); }
                 if (showVertexNormalVectors) { DrawVertexNormals(); }
                 if (showAxes) { DrawAxes(); }
-                if (observedVertex != null) { DrawObservedVertex(); }
-                if (observedEdge != -1) { DrawObservedEdge(); }
+                if (TriMM.Mesh.ObservedVertex != -1) { DrawObservedVertex(); }
+                if (TriMM.Mesh.ObservedEdge != -1) { DrawObservedEdge(); }
                 if (info.Count > 0) { DrawInfo(); }
             } else if (picking && (pickingMode == 1)) {
                 DrawPickingVertices();
@@ -838,25 +721,25 @@ namespace TriMM {
         /// </summary>
         private void DrawModell() {
             Gl.glLineWidth(1.0f);
-            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, triangleArray);
+            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.TriangleArray);
 
             if (smooth) {
                 // Vertex normals are used.
-                Gl.glNormalPointer(Gl.GL_DOUBLE, 0, smoothNormalArray);
+                Gl.glNormalPointer(Gl.GL_DOUBLE, 0, TriMM.Mesh.SmoothNormalArray);
             } else {
                 // The Triangle normals are expanded to the corners of the Triangles.
-                Gl.glNormalPointer(Gl.GL_DOUBLE, 0, normalArray);
+                Gl.glNormalPointer(Gl.GL_DOUBLE, 0, TriMM.Mesh.NormalArray);
             }
             if (useColorArray) {
                 Gl.glEnableClientState(Gl.GL_COLOR_ARRAY);
 
-                Gl.glColorPointer(3, Gl.GL_FLOAT, 0, colorArray);
-                Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, triangleArray.Length / 3);
+                Gl.glColorPointer(3, Gl.GL_FLOAT, 0, TriMM.Mesh.ColorArray);
+                Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 3 * TriMM.Mesh.Count);
 
                 Gl.glDisableClientState(Gl.GL_COLOR_ARRAY);
             } else {
                 Gl.glColor3fv(plainColor.RGB);
-                Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, triangleArray.Length / 3);
+                Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 3 * TriMM.Mesh.Count);
             }
         }
 
@@ -871,8 +754,8 @@ namespace TriMM {
             Gl.glLineWidth(1.0f);
             Gl.glColor3fv(meshColor.RGB);
 
-            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, edgeArray);
-            Gl.glDrawArrays(Gl.GL_LINES, 0, edgeArray.Length / 3);
+            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.EdgeArray);
+            Gl.glDrawArrays(Gl.GL_LINES, 0, 2 * TriMM.Mesh.Edges.Count);
 
             Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
             Gl.glEnable(Gl.GL_LIGHTING);
@@ -890,8 +773,8 @@ namespace TriMM {
             Gl.glPointSize(3.0f);
             Gl.glColor3fv(vertexColor.RGB);
 
-            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, vertexArray);
-            Gl.glDrawArrays(Gl.GL_POINTS, 0, vertexArray.Length / 3);
+            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.VertexArray);
+            Gl.glDrawArrays(Gl.GL_POINTS, 0, TriMM.Mesh.Vertices.Count);
 
             Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
             Gl.glEnable(Gl.GL_LIGHTING);
@@ -908,8 +791,8 @@ namespace TriMM {
             Gl.glLineWidth(1.5f);
             Gl.glColor3fv(normalColor.RGB);
 
-            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, facetNormalVectorArray);
-            Gl.glDrawArrays(Gl.GL_LINES, 0, facetNormalVectorArray.Length / 3);
+            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.FacetNormalVectorArray);
+            Gl.glDrawArrays(Gl.GL_LINES, 0, 2 * TriMM.Mesh.Count);
 
             Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
             Gl.glEnable(Gl.GL_LIGHTING);
@@ -926,8 +809,8 @@ namespace TriMM {
             Gl.glLineWidth(1.5f);
             Gl.glColor3fv(normalColor.RGB);
 
-            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, vertexNormalVectorArray);
-            Gl.glDrawArrays(Gl.GL_LINES, 0, vertexNormalVectorArray.Length / 3);
+            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.VertexNormalVectorArray);
+            Gl.glDrawArrays(Gl.GL_LINES, 0, 2 * TriMM.Mesh.Vertices.Count);
 
             Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
             Gl.glEnable(Gl.GL_LIGHTING);
@@ -946,13 +829,13 @@ namespace TriMM {
             Gl.glBegin(Gl.GL_LINES);
             Gl.glColor3fv(xAxisColor.RGB);
             Gl.glVertex3f(0.0f, 0.0f, 0.0f);
-            Gl.glVertex3f(1.05f * scale, 0.0f, 0.0f);
+            Gl.glVertex3f(1.05f * TriMM.Mesh.Scale, 0.0f, 0.0f);
             Gl.glColor3fv(yAxisColor.RGB);
             Gl.glVertex3f(0.0f, 0.0f, 0.0f);
-            Gl.glVertex3f(0.0f, 1.05f * scale, 0.0f);
+            Gl.glVertex3f(0.0f, 1.05f * TriMM.Mesh.Scale, 0.0f);
             Gl.glColor3fv(zAxisColor.RGB);
             Gl.glVertex3f(0.0f, 0.0f, 0.0f);
-            Gl.glVertex3f(0.0f, 0.0f, 1.05f * scale);
+            Gl.glVertex3f(0.0f, 0.0f, 1.05f * TriMM.Mesh.Scale);
             Gl.glEnd();
 
             Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
@@ -968,7 +851,7 @@ namespace TriMM {
             Gl.glPushMatrix();
 
             Gl.glColor3fv(observedVertexColor.RGB);
-            Gl.glTranslated(observedVertex[0], observedVertex[1], observedVertex[2]);
+            Gl.glTranslated(TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex][0], TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex][1], TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex][2]);
             Glu.gluSphere(quadobj, observedRadius, 40, 40);
 
             Gl.glPopMatrix();
@@ -984,14 +867,14 @@ namespace TriMM {
             Gl.glPushMatrix();
 
             Gl.glColor3fv(observedVertexColor.RGB);
-            Gl.glTranslated(edgeArray[6 * observedEdge], edgeArray[6 * observedEdge + 1], edgeArray[6 * observedEdge + 2]);    // Translates to the first Vertex
-            if (Math.Abs(edgeArray[6 * observedEdge + 5] - edgeArray[6 * observedEdge + 2]) < 0.000000001) {
+            Gl.glTranslated(TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge], TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge + 1], TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge + 2]);    // Translates to the first Vertex
+            if (Math.Abs(TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge + 5] - TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge + 2]) < 0.000000001) {
                 Gl.glRotated(90.0, 0, 1, 0.0);			                    // Rotates & aligns with x-axis
-                Gl.glRotated(edgePickingArray[4 * observedEdge], -1.0, 0.0, 0.0);		// Rotates to second Vertex in x-y plane
+                Gl.glRotated(TriMM.Mesh.EdgePickingArray[4 * TriMM.Mesh.ObservedEdge], -1.0, 0.0, 0.0);		// Rotates to second Vertex in x-y plane
             } else {
-                Gl.glRotated(edgePickingArray[4 * observedEdge], edgePickingArray[4 * observedEdge + 1], edgePickingArray[4 * observedEdge + 2], 0.0); // Rotates about rotation vector
+                Gl.glRotated(TriMM.Mesh.EdgePickingArray[4 * TriMM.Mesh.ObservedEdge], TriMM.Mesh.EdgePickingArray[4 * TriMM.Mesh.ObservedEdge + 1], TriMM.Mesh.EdgePickingArray[4 * TriMM.Mesh.ObservedEdge + 2], 0.0); // Rotates about rotation vector
             }
-            Glu.gluCylinder(quadobj, 0.1 * observedRadius, 0.1 * observedRadius, edgePickingArray[4 * observedEdge + 3], 10, 10);      // Draws cylinder
+            Glu.gluCylinder(quadobj, 0.1 * observedRadius, 0.1 * observedRadius, TriMM.Mesh.EdgePickingArray[4 * TriMM.Mesh.ObservedEdge + 3], 10, 10);      // Draws cylinder
 
             Gl.glPopMatrix();
             Glu.gluDeleteQuadric(quadobj);
@@ -1033,12 +916,12 @@ namespace TriMM {
             Glu.GLUquadric quadobj = Glu.gluNewQuadric();
             Glu.gluQuadricDrawStyle(quadobj, Glu.GLU_FILL);
 
-            for (int i = 0; i < vertexArray.Length / 3; i++) {
+            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
                 Gl.glPushMatrix();
 
-                Gl.glColor3f(vertexPickingColors[i * 3], vertexPickingColors[i * 3 + 1], vertexPickingColors[i * 3 + 2]);
-                Gl.glTranslated(vertexArray[i * 3], vertexArray[i * 3 + 1], vertexArray[i * 3 + 2]);
-                Glu.gluSphere(quadobj, pickingRadius, 40, 40);
+                Gl.glColor3f(TriMM.Mesh.VertexPickingColors[i * 3], TriMM.Mesh.VertexPickingColors[i * 3 + 1], TriMM.Mesh.VertexPickingColors[i * 3 + 2]);
+                Gl.glTranslated(TriMM.Mesh.VertexArray[i * 3], TriMM.Mesh.VertexArray[i * 3 + 1], TriMM.Mesh.VertexArray[i * 3 + 2]);
+                Glu.gluSphere(quadobj, TriMM.Mesh.MinEdgeLength / 2, 40, 40);
 
                 Gl.glPopMatrix();
             }
@@ -1070,7 +953,7 @@ namespace TriMM {
             this.picking = false;
 
             // The VertexPicked event is thrown, passing the picked Vertices to the attached EventHandler.
-            if (VertexPicked != null) { VertexPicked(ColorOGL.UniqueSelection(color, vertexColorDist, vertexArray.Length / 3)); }
+            if (VertexPicked != null) { VertexPicked(ColorOGL.UniqueSelection(color, TriMM.Mesh.VertexColorDist, TriMM.Mesh.Vertices.Count)); }
         }
 
         /// <summary>
@@ -1078,7 +961,7 @@ namespace TriMM {
         /// </summary>
         /// <param name="picked">Index of the picked Vertex</param>
         public void PickVertex(int picked) {
-            if ((0 <= picked) && (picked < vertexArray.Length / 3)) {
+            if ((0 <= picked) && (picked < TriMM.Mesh.Vertices.Count)) {
                 if (VertexPicked != null) { VertexPicked(new List<int>(new int[1] { picked })); }
             }
         }
@@ -1096,20 +979,20 @@ namespace TriMM {
             Glu.GLUquadric quadobj = Glu.gluNewQuadric();
             Glu.gluQuadricDrawStyle(quadobj, Glu.GLU_FILL);
 
-            for (int i = 0; i < edgeArray.Length / 6; i++) {
+            for (int i = 0; i < TriMM.Mesh.Edges.Count; i++) {
                 PushMatrices();
 
-                Gl.glColor3f(edgePickingColors[i * 3], edgePickingColors[i * 3 + 1], edgePickingColors[i * 3 + 2]);
-                Gl.glTranslated(edgeArray[6 * i], edgeArray[6 * i + 1], edgeArray[6 * i + 2]);    // Translates to the first Vertex
+                Gl.glColor3f(TriMM.Mesh.EdgePickingColors[i * 3], TriMM.Mesh.EdgePickingColors[i * 3 + 1], TriMM.Mesh.EdgePickingColors[i * 3 + 2]);
+                Gl.glTranslated(TriMM.Mesh.EdgeArray[6 * i], TriMM.Mesh.EdgeArray[6 * i + 1], TriMM.Mesh.EdgeArray[6 * i + 2]);    // Translates to the first Vertex
 
-                if (Math.Abs(edgeArray[6 * i + 5] - edgeArray[6 * i + 2]) < 0.000000001) {
+                if (Math.Abs(TriMM.Mesh.EdgeArray[6 * i + 5] - TriMM.Mesh.EdgeArray[6 * i + 2]) < 0.000000001) {
                     Gl.glRotated(90.0, 0, 1, 0.0);			                    // Rotates & aligns with x-axis
-                    Gl.glRotated(edgePickingArray[4 * i], -1.0, 0.0, 0.0);		// Rotates to second Vertex in x-y plane
+                    Gl.glRotated(TriMM.Mesh.EdgePickingArray[4 * i], -1.0, 0.0, 0.0);		// Rotates to second Vertex in x-y plane
                 } else {
-                    Gl.glRotated(edgePickingArray[4 * i], edgePickingArray[4 * i + 1], edgePickingArray[4 * i + 2], 0.0);  // Rotates about rotation vector
+                    Gl.glRotated(TriMM.Mesh.EdgePickingArray[4 * i], TriMM.Mesh.EdgePickingArray[4 * i + 1], TriMM.Mesh.EdgePickingArray[4 * i + 2], 0.0);  // Rotates about rotation vector
                 }
 
-                Glu.gluCylinder(quadobj, 0.1 * pickingRadius, 0.1 * pickingRadius, edgePickingArray[4 * i + 3], 10, 10);      // Draws cylinder v = Länge des Zylinders
+                Glu.gluCylinder(quadobj, 0.05 * TriMM.Mesh.MinEdgeLength, 0.05 * TriMM.Mesh.MinEdgeLength, TriMM.Mesh.EdgePickingArray[4 * i + 3], 10, 10);      // Draws cylinder v = Länge des Zylinders
                 PopMatrices();
             }
             Glu.gluDeleteQuadric(quadobj);
@@ -1140,7 +1023,7 @@ namespace TriMM {
             this.picking = false;
 
             // The EdgePicked event is thrown, passing the picked Edges to the attached EventHandler.
-            if (EdgePicked != null) { EdgePicked(ColorOGL.UniqueSelection(color, edgeColorDist, edgeArray.Length / 6)); }
+            if (EdgePicked != null) { EdgePicked(ColorOGL.UniqueSelection(color, TriMM.Mesh.EdgeColorDist, TriMM.Mesh.Edges.Count)); }
         }
 
         /// <summary>
@@ -1148,7 +1031,7 @@ namespace TriMM {
         /// </summary>
         /// <param name="picked">Index of the picked Edge</param>
         public void PickEdge(int picked) {
-            if ((0 <= picked) && (picked < edgeArray.Length / 6)) {
+            if ((0 <= picked) && (picked < TriMM.Mesh.Edges.Count)) {
                 if (EdgePicked != null) { EdgePicked(new List<int>(new int[1] { picked })); }
             }
         }
@@ -1163,13 +1046,13 @@ namespace TriMM {
         /// </summary>
         private void DrawPickingTriangles() {
             Gl.glLineWidth(1.0f);
-            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, triangleArray);
-            Gl.glNormalPointer(Gl.GL_DOUBLE, 0, normalArray);
+            Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.TriangleArray);
+            Gl.glNormalPointer(Gl.GL_DOUBLE, 0, TriMM.Mesh.NormalArray);
 
             Gl.glEnableClientState(Gl.GL_COLOR_ARRAY);
 
-            Gl.glColorPointer(3, Gl.GL_FLOAT, 0, trianglePickingColors);
-            Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, triangleArray.Length / 3);
+            Gl.glColorPointer(3, Gl.GL_FLOAT, 0, TriMM.Mesh.TrianglePickingColors);
+            Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 3 * TriMM.Mesh.Count);
 
             Gl.glDisableClientState(Gl.GL_COLOR_ARRAY);
         }
@@ -1196,7 +1079,7 @@ namespace TriMM {
             this.picking = false;
 
             // The TrianglePicked event is thrown, passing the picked Triangles to the attached EventHandler.
-            if (TrianglePicked != null) { TrianglePicked(ColorOGL.UniqueSelection(color, triangleColorDist, triangleArray.Length / 9)); }
+            if (TrianglePicked != null) { TrianglePicked(ColorOGL.UniqueSelection(color, TriMM.Mesh.TriangleColorDist, 3 * TriMM.Mesh.Count)); }
         }
 
         /// <summary>
@@ -1205,7 +1088,7 @@ namespace TriMM {
         /// <param name="picked">Index of the picked Triangle</param>
         /// <param name="additive">True, if the selected Triangle is to be added to the selection.</param>
         public void PickTriangle(int picked) {
-            if ((0 <= picked) && (picked < triangleArray.Length / 3)) {
+            if ((0 <= picked) && (picked < TriMM.Mesh.Count)) {
                 if (TrianglePicked != null) { TrianglePicked(new List<int>(new int[1] { picked })); }
             }
         }
@@ -1237,7 +1120,6 @@ namespace TriMM {
         }
 
         #endregion
-
 
         /// <summary>
         /// Destroys the contexts when the TriMMControl is disposed.
@@ -1296,12 +1178,12 @@ namespace TriMM {
         /// <param name="sender"> The mouse wheel </param>
         /// <param name="ev"> Standard MouseEventArgs </param>
         private void MouseWheelEvent(object sender, MouseEventArgs ev) {
-            if (this.zoom + scale * ev.Delta / 10000 < scale) {
-                this.zoom += scale * ev.Delta / 10000;
+            if (this.zoom + TriMM.Mesh.Scale * ev.Delta / 10000 < TriMM.Mesh.Scale) {
+                this.zoom += TriMM.Mesh.Scale * ev.Delta / 10000;
                 this.SetView();
                 this.Invalidate();
-            } else if (this.zoom + scale * ev.Delta / 100000 < scale) {
-                this.zoom += scale * ev.Delta / 100000;
+            } else if (this.zoom + TriMM.Mesh.Scale * ev.Delta / 100000 < TriMM.Mesh.Scale) {
+                this.zoom += TriMM.Mesh.Scale * ev.Delta / 100000;
                 this.SetView();
                 this.Invalidate();
             }

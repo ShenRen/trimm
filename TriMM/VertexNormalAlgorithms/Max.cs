@@ -47,20 +47,19 @@ namespace TriMM.VertexNormalAlgorithms {
         /// (More exact, since the calculation of the angle requires calculating an arcus cosine.)
         /// The cross product of the neighbors is calculated and divided by the product of their length instead.
         /// </summary>
-        /// <param name="mesh">The TriangleMesh to calculate the vertex normals for.</param>
-        public void GetVertexNormals(ref TriangleMesh mesh) {
+        public void GetVertexNormals() {
             VectorND pro1, pro2;
             double factor;
             int[] neighbors;
 
-            for (int i = 0; i < mesh.Vertices.Count; i++) {
-                Vertex vertex = mesh.Vertices[i];
+            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
+                Vertex vertex = TriMM.Mesh.Vertices[i];
                 vertex.Normal = new VectorND(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
-                    neighbors = mesh[vertex.Triangles[j]].GetNeighborsOf(i);
-                    pro1 = mesh.Vertices[neighbors[0]] - vertex;
-                    pro2 = mesh.Vertices[neighbors[1]] - vertex;
+                    neighbors = TriMM.Mesh[vertex.Triangles[j]].GetNeighborsOf(i);
+                    pro1 = TriMM.Mesh.Vertices[neighbors[0]] - vertex;
+                    pro2 = TriMM.Mesh.Vertices[neighbors[1]] - vertex;
                     factor = pro1.SquaredLength() * pro2.SquaredLength();
                     vertex.Normal += (pro1 % pro2) / factor;
                 }

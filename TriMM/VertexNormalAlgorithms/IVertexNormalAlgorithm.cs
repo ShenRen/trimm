@@ -40,8 +40,7 @@ namespace TriMM.VertexNormalAlgorithms {
         /// The main method of the algorithm. It takes a reference to a TriangleMesh and
         /// calculates the normal vector for every Vertex in the given TriangleMesh.
         /// </summary>
-        /// <param name="mesh">The TriangleMesh to calculate the vertex normals for.</param>
-        void GetVertexNormals(ref TriangleMesh mesh);
+        void GetVertexNormals();
 
         #endregion
     }

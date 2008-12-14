@@ -30,6 +30,19 @@ namespace TriMM {
     /// </summary>
     public static class TriMM {
 
+        #region Fields
+
+        private static TriangleMesh mesh;
+
+        #endregion
+
+        #region Properties
+
+        /// <value>Gets or sets the global TriangleMesh</value>
+        public static TriangleMesh Mesh { get { return mesh; } set { mesh = value; } }
+
+        #endregion
+
         #region Methods
 
         /// <summary>

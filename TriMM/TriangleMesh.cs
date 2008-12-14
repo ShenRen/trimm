@@ -32,6 +32,11 @@ namespace TriMM {
     [Serializable()]
 
     /// <summary>
+    /// An EventHandler for the PickCleared Event. Alerts the owner of the clearing of the selection.
+    /// </summary>
+    public delegate void PickClearedEventHandler();
+
+    /// <summary>
     /// The main datastructure containing all informations about the triangle mesh.
     /// It is a list of Triangles, with an additional list of Vertices and a SortedList of Edges.
     /// Some values needed for drawing the mesh are also stored.
@@ -50,9 +55,38 @@ namespace TriMM {
         private int vertexColorDist;
         private int edgeColorDist;
         private int triangleColorDist;
-
         private double minColorScale = 1;
         private double maxColorScale = 1;
+
+        private int observedVertex = -1;
+        private int observedEdge = -1;
+        private int observedTriangle = -1;
+
+        private IVertexNormalAlgorithm vertexNormalAlgorithm;
+
+        #region Drawing Arrays
+
+        private float[] vertexPickingColors;
+        private float[] edgePickingColors;
+        private double[] edgePickingArray;
+        private float[] trianglePickingColors;
+        private float[] colorArray;
+        private double[] triangleArray;
+        private double[] edgeArray;
+        private double[] vertexArray;
+        private double[] normalArray;
+        private double[] smoothNormalArray;
+        private double[] facetNormalVectorArray;
+        private double[] vertexNormalVectorArray;
+
+        #endregion
+
+        #region Events
+
+        /// <value>The event thrown when all Vertices are unpicked.</value>
+        public event PickClearedEventHandler PickCleared;
+
+        #endregion
 
         #endregion
 
@@ -96,6 +130,70 @@ namespace TriMM {
         /// <value>Gets the distance between two picking colors for the Triangles.</value>
         public int TriangleColorDist { get { return triangleColorDist; } }
 
+        /// <value>Gets the index of the observed Vertex or sets it.</value>
+        public int ObservedVertex {
+            get { return observedVertex; }
+            set {
+                observedVertex = value;
+                if ((observedVertex == -1) && (PickCleared != null)) { PickCleared(); }
+            }
+        }
+
+        /// <value>Gets the index of the observed Triangle or sets it.</value>
+        public int ObservedTriangle { get { return observedTriangle; } set { observedTriangle = value; } }
+
+        /// <value>Gets the index of the observed Edge or sets it.</value>
+        public int ObservedEdge {
+            get { return observedEdge; }
+            set {
+                observedEdge = value;
+                if ((observedEdge == -1) && (PickCleared != null)) { PickCleared(); }
+            }
+        }
+
+        /// <value>Sets the VertexNormalAlgorithm to be used.</value>
+        public IVertexNormalAlgorithm VertexNormalAlgorithm { set { vertexNormalAlgorithm = value; } }
+
+        #region Drawing Arrays
+
+        /// <value>Gets the vertexPickingColors.</value>
+        public float[] VertexPickingColors { get { return vertexPickingColors; } }
+
+        /// <value>Gets the edgePickingColors.</value>
+        public float[] EdgePickingColors { get { return edgePickingColors; } }
+
+        /// <value>Gets the edgePickingArray.</value>
+        public double[] EdgePickingArray { get { return edgePickingArray; } }
+
+        /// <value>Gets the trianglePickingColors.</value>
+        public float[] TrianglePickingColors { get { return trianglePickingColors; } }
+
+        /// <value>Gets the colorArray.</value>
+        public float[] ColorArray { get { return colorArray; } }
+
+        /// <value>Gets the array of all Vertices of all Triangles.</value>
+        public double[] TriangleArray { get { return triangleArray; } }
+
+        /// <value>Gets the array of Edges</value>
+        public double[] EdgeArray { get { return edgeArray; } }
+
+        /// <value>Gets the array of Vertices.</value>
+        public double[] VertexArray { get { return vertexArray; } }
+
+        /// <value>Gets the array of normal vectors of all triangles expanded to all corners.</value>
+        public double[] NormalArray { get { return normalArray; } }
+
+        /// <value>Gets the array of normal vectors of all Vertices of all Triangles.</value>
+        public double[] SmoothNormalArray { get { return smoothNormalArray; } }
+
+        /// <value>Gets the array of normal vectors of all Triangles as lines.</value>
+        public double[] FacetNormalVectorArray { get { return facetNormalVectorArray; } }
+
+        /// <value>Gets the array of normal vectors of all Triangles as lines.</value>
+        public double[] VertexNormalVectorArray { get { return vertexNormalVectorArray; } }
+
+        #endregion
+
         #endregion
 
         #region Methods
@@ -125,7 +223,8 @@ namespace TriMM {
         /// </summary>
         /// <param name="triNormals">If true, the Triangle normals and the centroid are calculated.
         /// If False, they are not calculated.</param>
-        public void Finish(bool triNormals) {
+        /// <param name="verNormals">If true, the Vertex normals are calculated with the chosen VertexNormalAlgorithm.</param>
+        public void Finish(bool triNormals, bool verNormals) {
             ClearRelations();
 
             Edge edge;
@@ -254,7 +353,229 @@ namespace TriMM {
             triangleColorDist = temp / (this.Count + 2);
 
             if (this.Count == 0) { minEdgeLength = 1; }
+
+            if (verNormals) { vertexNormalAlgorithm.GetVertexNormals(); }
+
+            SetArrays();
         }
+
+        #endregion
+
+        #region Array Setters
+
+        /// <summary>
+        /// Sets all arrays used for drawing the modell.
+        /// </summary>
+        public void SetArrays() {
+            SetTriangleArray();
+            SetNormalArray();
+            SetSmoothNormalArray();
+            SetEdgeArray();
+            SetVertexArray();
+            SetFacetNormalVectorArray();
+            SetVertexNormalVectorArray();
+            SetVertexPickingColors();
+            SetEdgePickingColors();
+            SetEdgePickingArray();
+            SetTrianglePickingColors();
+        }
+
+        /// <summary>
+        /// Sets the Triangles in an array.
+        /// </summary>
+        public void SetTriangleArray() {
+            List<double> triangleList = new List<double>(9 * this.Count);
+
+            for (int i = 0; i < this.Count; i++) { for (int j = 0; j < 3; j++) { triangleList.AddRange(this[i, j]); } }
+
+            triangleArray = triangleList.ToArray();
+        }
+
+        /// <summary>
+        /// Sets the facet (Triangle) normals as an array expanded to the Vertices of the mesh.
+        /// </summary>
+        public void SetNormalArray() {
+            List<double> normalList = new List<double>(9 * this.Count);
+
+            for (int i = 0; i < this.Count; i++) { for (int j = 0; j < 3; j++) { normalList.AddRange(this[i].Normal); } }
+
+            normalArray = normalList.ToArray();
+        }
+
+        /// <summary>
+        /// Sets the Vertex normals as an array.
+        /// </summary>
+        public void SetSmoothNormalArray() {
+            List<double> smoothNormalList = new List<double>(9 * this.Count);
+
+            for (int i = 0; i < this.Count; i++) { for (int j = 0; j < 3; j++) { smoothNormalList.AddRange(this[i, j].Normal); } }
+
+            smoothNormalArray = smoothNormalList.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the EdgeArray for drawing the mesh in the OGLControl.
+        /// The components of the two Vertices of each Edge are stored consecutively
+        /// and used to draw a line between them in the OGLControl.
+        /// </summary>
+        public void SetEdgeArray() {
+            List<double> edgeList = new List<double>(6 * edges.Count);
+
+            for (int i = 0; i < edges.Count; i++) {
+                edgeList.AddRange(vertices[edges.Values[i].Vertices[0]]);
+                edgeList.AddRange(vertices[edges.Values[i].Vertices[1]]);
+            }
+
+            edgeArray = edgeList.ToArray();
+        }
+
+
+        /// <summary>
+        /// Sets the array for drawing the Vertices.
+        /// </summary>
+        public void SetVertexArray() {
+            List<double> vertexList = new List<double>(3 * vertices.Count);
+
+            for (int i = 0; i < vertices.Count; i++) { vertexList.AddRange(vertices[i]); }
+
+            vertexArray = vertexList.ToArray();
+        }
+
+        /// <summary>
+        /// Sets the array for drawing the facet (Triangle) normals as lines.
+        /// </summary>
+        public void SetFacetNormalVectorArray() {
+            List<double> faceNormalVectorList = new List<double>(this.Count * 6);
+            VectorND temp;
+
+            for (int i = 0; i < this.Count; i++) {
+                temp = this[i].Centroid + (this.Scale / 50) * this[i].Normal;
+                faceNormalVectorList.AddRange(this[i].Centroid);
+                faceNormalVectorList.AddRange(temp);
+            }
+
+            facetNormalVectorArray = faceNormalVectorList.ToArray();
+        }
+
+        /// <summary>
+        /// Sets the array for drawing the Vertex normals as lines.
+        /// </summary>
+        public void SetVertexNormalVectorArray() {
+            List<double> vertexNormalVectorList = new List<double>(vertices.Count * 6);
+            VectorND temp;
+
+            for (int i = 0; i < vertices.Count; i++) {
+                temp = vertices[i] + (this.Scale / 50) * vertices[i].Normal;
+                vertexNormalVectorList.AddRange(vertices[i]);
+                vertexNormalVectorList.AddRange(temp);
+            }
+
+            vertexNormalVectorArray = vertexNormalVectorList.ToArray();
+        }
+
+        /// <summary>
+        /// Sets an array to draw the mesh with one Triangle marked in a different color.
+        /// </summary>
+        /// <param name="index">Index of the Triangle to be colored as selected.</param>
+        /// <param name="all">Color of the unselected Triangles.</param>
+        /// <param name="selected">Color of the selected Triangles.</param>
+        public void SetMarkedTriangleColorArray(int index, ColorOGL all, ColorOGL selected) {
+            colorArray = new float[this.Count * 9];
+            for (int i = 0; i < this.Count; i++) {
+                if (i == index) {
+                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = selected.R;
+                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = selected.G;
+                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = selected.B;
+                } else {
+                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = all.R;
+                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = all.G;
+                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = all.B;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets an array containing a different color for each Vertex for picking.
+        /// </summary>
+        public void SetVertexPickingColors() {
+            ColorOGL color;
+            List<float> pickingColors = new List<float>(vertices.Count * 3);
+
+            for (int i = 0; i < vertices.Count; i++) {
+                color = ColorOGL.GetColorFromInt(i * vertexColorDist);
+                pickingColors.AddRange(color.RGB);
+            }
+
+            vertexPickingColors = pickingColors.ToArray();
+        }
+
+        /// <summary>
+        /// Sets an array containing a different color for each Edge for picking.
+        /// </summary>
+        public void SetEdgePickingColors() {
+            ColorOGL color;
+            List<float> pickingColors = new List<float>(edges.Count * 3);
+
+            for (int i = 0; i < edges.Count; i++) {
+                color = ColorOGL.GetColorFromInt(i * edgeColorDist);
+                pickingColors.AddRange(color.RGB);
+            }
+
+            edgePickingColors = pickingColors.ToArray();
+        }
+
+        /// <summary>
+        /// Sets an array containing, in this order, the rotation angle, the x value of the rotation axis,
+        /// the y value of the roation axis and the length of the Edge to be drawn.
+        /// </summary>
+        public void SetEdgePickingArray() {
+            List<double> edgePickingList = new List<double>(edges.Count * 4);
+            VectorND axis;
+            double angle, length;
+
+            for (int i = 0; i < edges.Count; i++) {
+                axis = vertices[edges.Values[i].Vertices[1]] - vertices[edges.Values[i].Vertices[0]];
+                length = axis.Length();
+
+                // Rotation Angle
+                if (Math.Abs(axis[2]) < 0.000000001) {
+                    angle = 180 / Math.PI * Math.Acos(axis[0] / length);
+                    if (axis[1] <= 0) { angle = -angle; }
+
+                } else {
+                    angle = 180 / Math.PI * Math.Acos(axis[2] / length);
+                    if (axis[2] <= 0) { angle = -angle; }
+                }
+                edgePickingList.Add(angle);
+
+                // Rotation Axis
+                edgePickingList.Add(-axis[1] * axis[2]);
+                edgePickingList.Add(axis[0] * axis[2]);
+
+                // Length of the Edge to be drawn.
+                edgePickingList.Add(length);
+            }
+
+            edgePickingArray = edgePickingList.ToArray();
+        }
+
+        /// <summary>
+        /// Sets an array containing a different color for each Vertex for picking.
+        /// </summary>
+        public void SetTrianglePickingColors() {
+            ColorOGL color;
+            List<float> pickingColors = new List<float>(this.Count * 3);
+
+            for (int i = 0; i < this.Count; i++) {
+                color = ColorOGL.GetColorFromInt(i * triangleColorDist);
+                pickingColors.AddRange(color.RGB);
+                pickingColors.AddRange(color.RGB);
+                pickingColors.AddRange(color.RGB);
+            }
+
+            trianglePickingColors = pickingColors.ToArray();
+        }
+
 
         #endregion
 
@@ -316,7 +637,7 @@ namespace TriMM {
         /// <param name="triangle">Index of the Triangle to be flipped.</param>
         public void FlipTriangle(int triangle) {
             this[triangle] = new Triangle(this[triangle][2], this[triangle][1], this[triangle][0]);
-            Finish(true);
+            Finish(true, true);
         }
 
         /// <summary>
@@ -324,7 +645,7 @@ namespace TriMM {
         /// </summary>
         public void FlipAllTriangles() {
             for (int i = 0; i < this.Count; i++) { this[i] = new Triangle(this[i][2], this[i][1], this[i][0]); }
-            Finish(true);
+            Finish(true, true);
         }
 
         /// <summary>
@@ -352,7 +673,7 @@ namespace TriMM {
             this.Add(new Triangle(indices[1], indices[3], indices[5]));
             this.Add(new Triangle(indices[3], indices[4], indices[5]));
 
-            this.Finish(true);
+            this.Finish(true, true);
         }
 
         /// <summary>
@@ -368,221 +689,6 @@ namespace TriMM {
             object clone = formatter.Deserialize(stream);
             return clone as TriangleMesh;
         }
-
-        #endregion
-
-        #region Array Getters
-
-        /// <summary>
-        /// Gets the Triangles in an array.
-        /// </summary>
-        /// <returns>The Triangles in an array.</returns>
-        public double[] GetTriangleArray() {
-            List<double> triangleList = new List<double>(9 * this.Count);
-
-            for (int i = 0; i < this.Count; i++) { for (int j = 0; j < 3; j++) { triangleList.AddRange(this[i, j]); } }
-
-            return triangleList.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the facet (Triangle) normals as an array expanded to the Vertices of the mesh.
-        /// </summary>
-        /// <returns>The facet normals as an array.</returns>
-        public double[] GetNormalArray() {
-            List<double> normalList = new List<double>(9 * this.Count);
-
-            for (int i = 0; i < this.Count; i++) { for (int j = 0; j < 3; j++) { normalList.AddRange(this[i].Normal); } }
-
-            return normalList.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the Vertex normals as an array.
-        /// </summary>
-        /// <returns>The Vertex normals as an array.</returns>
-        public double[] GetSmoothNormalArray() {
-            List<double> smoothNormalList = new List<double>(9 * this.Count);
-
-            for (int i = 0; i < this.Count; i++) { for (int j = 0; j < 3; j++) { smoothNormalList.AddRange(this[i, j].Normal); } }
-
-            return smoothNormalList.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the EdgeArray for drawing the mesh in the OGLControl.
-        /// The components of the two Vertices of each Edge are stored consecutively
-        /// and used to draw a line between them in the OGLControl.
-        /// </summary>
-        /// <returns>The array of the Edges</returns>
-        public double[] GetEdgeArray() {
-            List<double> asList = new List<double>(3 * edges.Count);
-
-            for (int i = 0; i < edges.Count; i++) {
-                asList.AddRange(vertices[edges.Values[i].Vertices[0]]);
-                asList.AddRange(vertices[edges.Values[i].Vertices[1]]);
-            }
-
-            return asList.ToArray();
-        }
-
-
-        /// <summary>
-        /// Gets the array for drawing the Vertices.
-        /// </summary>
-        /// <returns>The array of the Vertices</returns>
-        public double[] GetVertexArray() {
-            List<double> asList = new List<double>(3 * vertices.Count);
-
-            for (int i = 0; i < vertices.Count; i++) { asList.AddRange(vertices[i]); }
-
-            return asList.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the array for drawing the facet (Triangle) normals as lines.
-        /// </summary>
-        /// <returns>The array of the endpoints of the facet (Triangle) normals</returns>
-        public double[] GetFacetNormalVectorArray() {
-            List<double> faceNormalVectorList = new List<double>(this.Count * 6);
-            VectorND temp;
-
-            for (int i = 0; i < this.Count; i++) {
-                temp = this[i].Centroid + (this.Scale / 50) * this[i].Normal;
-                faceNormalVectorList.AddRange(this[i].Centroid);
-                faceNormalVectorList.AddRange(temp);
-            }
-
-            return faceNormalVectorList.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the array for drawing the Vertex normals as lines.
-        /// </summary>
-        /// <returns>The array of the endpoints of the Vertex normals</returns>
-        public double[] GetVertexNormalVectorArray() {
-            List<double> vertexNormalVectorList = new List<double>(vertices.Count * 6);
-            VectorND temp;
-
-            for (int i = 0; i < vertices.Count; i++) {
-                temp = vertices[i] + (this.Scale / 50) * vertices[i].Normal;
-                vertexNormalVectorList.AddRange(vertices[i]);
-                vertexNormalVectorList.AddRange(temp);
-            }
-
-            return vertexNormalVectorList.ToArray();
-        }
-
-        /// <summary>
-        /// Gets an array to draw the mesh with one Triangle marked in a different color.
-        /// </summary>
-        /// <param name="index">Index of the Triangle to be colored as selected.</param>
-        /// <param name="all">Color of the unselected Triangles.</param>
-        /// <param name="selected">Color of the selected Triangles.</param>
-        /// <returns>A color array to draw the TriangleMesh with one marked Triangle.</returns>
-        public float[] GetMarkedTriangleColorArray(int index, ColorOGL all, ColorOGL selected) {
-            float[] colors = new float[this.Count * 9];
-            for (int i = 0; i < this.Count; i++) {
-                if (i == index) {
-                    colors[i * 9] = colors[i * 9 + 3] = colors[i * 9 + 6] = selected.R;
-                    colors[i * 9 + 1] = colors[i * 9 + 4] = colors[i * 9 + 7] = selected.G;
-                    colors[i * 9 + 2] = colors[i * 9 + 5] = colors[i * 9 + 8] = selected.B;
-                } else {
-                    colors[i * 9] = colors[i * 9 + 3] = colors[i * 9 + 6] = all.R;
-                    colors[i * 9 + 1] = colors[i * 9 + 4] = colors[i * 9 + 7] = all.G;
-                    colors[i * 9 + 2] = colors[i * 9 + 5] = colors[i * 9 + 8] = all.B;
-                }
-            }
-
-            return colors;
-        }
-
-        /// <summary>
-        /// Gets an array containing a different color for each Vertex for picking.
-        /// </summary>
-        /// <returns>Picking colors array.</returns>
-        public float[] GetVertexPickingColors() {
-            ColorOGL color;
-            List<float> pickingColors = new List<float>(vertices.Count * 3);
-
-            for (int i = 0; i < vertices.Count; i++) {
-                color = ColorOGL.GetColorFromInt(i * vertexColorDist);
-                pickingColors.AddRange(color.RGB);
-            }
-
-            return pickingColors.ToArray();
-        }
-
-        /// <summary>
-        /// Gets an array containing a different color for each Edge for picking.
-        /// </summary>
-        /// <returns>Picking colors array.</returns>
-        public float[] GetEdgePickingColors() {
-            ColorOGL color;
-            List<float> pickingColors = new List<float>(edges.Count * 3);
-
-            for (int i = 0; i < edges.Count; i++) {
-                color = ColorOGL.GetColorFromInt(i * edgeColorDist);
-                pickingColors.AddRange(color.RGB);
-            }
-
-            return pickingColors.ToArray();
-        }
-
-        /// <summary>
-        /// Gets an array containing, in this order, the rotation angle, the x value of the rotation axis,
-        /// the y value of the roation axis and the length of the Edge to be drawn.
-        /// </summary>
-        /// <returns></returns>
-        public double[] GetEdgePickingArray() {
-            List<double> list = new List<double>(edges.Count * 4);
-            VectorND axis;
-            double angle, length;
-
-            for (int i = 0; i < edges.Count; i++) {
-                axis = vertices[edges.Values[i].Vertices[1]] - vertices[edges.Values[i].Vertices[0]];
-                length = axis.Length();
-
-                // Rotation Angle
-                if (Math.Abs(axis[2]) < 0.000000001) {
-                    angle = 180 / Math.PI * Math.Acos(axis[0] / length);
-                    if (axis[1] <= 0) { angle = -angle; }
-
-                } else {
-                    angle = 180 / Math.PI * Math.Acos(axis[2] / length);
-                    if (axis[2] <= 0) { angle = -angle; }
-                }
-                list.Add(angle);
-
-                // Rotation Axis
-                list.Add(-axis[1] * axis[2]);
-                list.Add(axis[0] * axis[2]);
-
-                // Length of the Edge to be drawn.
-                list.Add(length);
-            }
-
-            return list.ToArray();
-        }
-
-        /// <summary>
-        /// Gets an array containing a different color for each Vertex for picking.
-        /// </summary>
-        /// <returns>Picking colors array.</returns>
-        public float[] GetTrianglePickingColors() {
-            ColorOGL color;
-            List<float> pickingColors = new List<float>(this.Count * 3);
-
-            for (int i = 0; i < this.Count; i++) {
-                color = ColorOGL.GetColorFromInt(i * triangleColorDist);
-                pickingColors.AddRange(color.RGB);
-                pickingColors.AddRange(color.RGB);
-                pickingColors.AddRange(color.RGB);
-            }
-
-            return pickingColors.ToArray();
-        }
-
 
         #endregion
 
@@ -637,7 +743,7 @@ namespace TriMM {
 
             newMesh.AddRange(oldTriangles.ToArray());
             newMesh.Vertices.AddRange(oldVertices.ToArray());
-            newMesh.Finish(true);
+            newMesh.Finish(true, true);
             return newMesh;
         }
 

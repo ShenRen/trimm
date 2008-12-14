@@ -40,9 +40,9 @@ namespace TriMM {
         /// </summary>
         /// <param name="file">The *.OFF file to be parsed.</param>
         /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
-        /// <returns>The parsed TriangleMesh</returns>
-        public static TriangleMesh Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
-            TriangleMesh triangleMesh = new TriangleMesh();
+        public static void Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
+            TriMM.Mesh = new TriangleMesh();
+            TriMM.Mesh.VertexNormalAlgorithm = normalAlgo;
 
             // Temporary variables.
             Vertex vertex;
@@ -115,7 +115,7 @@ namespace TriMM {
                             double.Parse(v[4], NumberStyles.Float, numberFormatInfo), double.Parse(v[5], NumberStyles.Float, numberFormatInfo));
                         vertex.Normal = normal;
                     }
-                    triangleMesh.Vertices.Add(vertex);
+                    TriMM.Mesh.Vertices.Add(vertex);
 
                     count++;
                 }
@@ -133,18 +133,19 @@ namespace TriMM {
                     String[] v = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Only the Triangle is read and added to the owners TriangleMesh, everything else in the line is ignored.
-                    triangleMesh.Add(new Triangle(int.Parse(v[1], numberFormatInfo), int.Parse(v[2], numberFormatInfo), int.Parse(v[3], numberFormatInfo)));
+                    TriMM.Mesh.Add(new Triangle(int.Parse(v[1], numberFormatInfo), int.Parse(v[2], numberFormatInfo), int.Parse(v[3], numberFormatInfo)));
 
                     count++;
                 }
             }
 
             // The TriangleMesh is complete and can be finalized.
-            triangleMesh.Finish(true);
             // If there are no Vertex normals in the file, they are calculated with the chosen algorithm.
-            if (!vN) { normalAlgo.GetVertexNormals(ref triangleMesh); }
-
-            return triangleMesh;
+            if (!vN) {
+                TriMM.Mesh.Finish(true, true);
+            } else {
+                TriMM.Mesh.Finish(true, false);
+            }
         }
 
         /// <summary>
@@ -152,12 +153,11 @@ namespace TriMM {
         /// If Vertex normals exist, they are written to that file as well.
         /// </summary>
         /// <param name="filename">Path to the file to be written.</param>
-        /// <param name="triangleMesh">The TriangleMesh to be exported.</param>
-        public static void WriteOFF(string filename, TriangleMesh triangleMesh) {
+        public static void WriteOFF(string filename) {
             bool normals = false;
 
             // The TriangleMesh contains Vertex normals.
-            if (triangleMesh.Vertices[0].Normal != null) { normals = true; }
+            if (TriMM.Mesh.Vertices[0].Normal != null) { normals = true; }
 
             StreamWriter sw = new StreamWriter(filename);
 #if !DEBUG
@@ -166,21 +166,21 @@ namespace TriMM {
                 // The Header.
                 sw.WriteLine("# Written by the TriMM OffParser (by Christian Moritz)");
                 if (normals) { sw.WriteLine("NOFF"); } else { sw.WriteLine("OFF"); }
-                sw.WriteLine(triangleMesh.Vertices.Count + " " + triangleMesh.Count + " " + triangleMesh.Edges.Count);
+                sw.WriteLine(TriMM.Mesh.Vertices.Count + " " + TriMM.Mesh.Count + " " + TriMM.Mesh.Edges.Count);
 
                 // The Vertices
-                for (int i = 0; i < triangleMesh.Vertices.Count; i++) {
+                for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
                     if (normals) {
-                        sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2] + " "
-                            + triangleMesh.Vertices[i].Normal[0] + " " + triangleMesh.Vertices[i].Normal[1] + " " + triangleMesh.Vertices[i].Normal[2]);
+                        sw.WriteLine(TriMM.Mesh.Vertices[i][0] + " " + TriMM.Mesh.Vertices[i][1] + " " + TriMM.Mesh.Vertices[i][2] + " "
+                            + TriMM.Mesh.Vertices[i].Normal[0] + " " + TriMM.Mesh.Vertices[i].Normal[1] + " " + TriMM.Mesh.Vertices[i].Normal[2]);
                     } else {
-                        sw.WriteLine(triangleMesh.Vertices[i][0] + " " + triangleMesh.Vertices[i][1] + " " + triangleMesh.Vertices[i][2]);
+                        sw.WriteLine(TriMM.Mesh.Vertices[i][0] + " " + TriMM.Mesh.Vertices[i][1] + " " + TriMM.Mesh.Vertices[i][2]);
                     }
                 }
 
                 // The Triangles.
-                for (int j = 0; j < triangleMesh.Count; j++) {
-                    sw.WriteLine(3 + " " + triangleMesh[j][0] + " " + triangleMesh[j][1] + " " + triangleMesh[j][2]);
+                for (int j = 0; j < TriMM.Mesh.Count; j++) {
+                    sw.WriteLine(3 + " " + TriMM.Mesh[j][0] + " " + TriMM.Mesh[j][1] + " " + TriMM.Mesh[j][2]);
                 }
 #if !DEBUG
             } catch (Exception exception) {
