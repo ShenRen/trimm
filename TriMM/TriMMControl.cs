@@ -117,7 +117,7 @@ namespace TriMM {
         private ColorOGL yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
         private ColorOGL zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
 
-        private float observedRadius = 0.1f;
+        private double observedRadius = 0.1f;
         private List<string> info = new List<string>();
 
         private bool picking = false;
@@ -125,7 +125,7 @@ namespace TriMM {
         private bool useColorArray = false;
         private bool smooth = false;
         private bool showModell = true;
-        private bool showMesh = false;
+        private bool showMesh = true;
         private bool showVertices = false;
         private bool showFacetNormalVectors = false;
         private bool showVertexNormalVectors = false;
@@ -216,7 +216,7 @@ namespace TriMM {
         public ColorOGL ZAxisColor { get { return zAxisColor; } set { zAxisColor = value; } }
 
         /// <value>Gets the radius of the sphere drawn around the observed Vertex or sets it.</value>
-        public float ObservedRadius { get { return observedRadius; } set { observedRadius = value; } }
+        public double ObservedRadius { get { return observedRadius; } set { observedRadius = value; } }
 
         /// <value>Gets the information to be displayed in the top left corner or sets it.</value>
         public List<string> Info { get { return info; } set { info = value; } }
@@ -258,7 +258,7 @@ namespace TriMM {
         #region Constructors
 
         /// <summary>
-        /// Initializes the OGLControl and binds the needed events.
+        /// Initializes the TriMMControl and binds the needed events.
         /// </summary>
         public TriMMControl() {
             this.InitStyles();
@@ -269,6 +269,7 @@ namespace TriMM {
             this.MouseWheel += this.MouseWheelEvent;
             this.MouseDown += this.MouseDownEvent;
             this.MouseMove += this.MouseMoveEvent;
+            TriMM.Mesh.ScaleChanged += new ScaleChangedEventHandler(Mesh_ScaleChanged);
         }
 
         #endregion
@@ -308,14 +309,6 @@ namespace TriMM {
             Gl.glEnable(Gl.GL_LIGHTING);
             Gl.glEnable(Gl.GL_LIGHT0);
             Gl.glEnable(Gl.GL_CLIP_PLANE0);
-        }
-
-        /// <summary>
-        /// Initializes the position of the light using the models scale.
-        /// </summary>
-        public void InitLight() {
-            float[] lightPosition = { 20.0f * TriMM.Mesh.Scale, -20.0f * TriMM.Mesh.Scale, 100.0f * TriMM.Mesh.Scale, 1.0f };
-            Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, lightPosition);
         }
 
         /// <summary>
@@ -1187,6 +1180,15 @@ namespace TriMM {
                 this.SetView();
                 this.Invalidate();
             }
+        }
+
+        /// <summary>
+        /// Changes the light position and resets the zoom, when the models scale is changed.
+        /// </summary>
+        private void Mesh_ScaleChanged() {
+            float[] lightPosition = { 20.0f * TriMM.Mesh.Scale, -20.0f * TriMM.Mesh.Scale, 100.0f * TriMM.Mesh.Scale, 1.0f };
+            Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, lightPosition);
+            zoom = 0.0f;
         }
 
         /// <summary>

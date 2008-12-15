@@ -42,9 +42,9 @@ namespace TriMM {
         #region Constructors
 
         /// <summary>
-        /// Initializes the View with the OGLControl.
+        /// Initializes the View with the TriMMControl.
         /// </summary>
-        /// <param name="control">Reference to the OGLControl to be displayed</param>
+        /// <param name="control">Reference to the TriMMControl to be displayed</param>
         public TriMMView(TriMMControl control) {
             InitializeComponent();
             this.control = control;
@@ -68,6 +68,7 @@ namespace TriMM {
             this.control.EdgePicked += new EdgePickedEventHandler(Control_EdgePicked);
             this.control.TrianglePicked += new TrianglePickedEventHandler(Control_TrianglePicked);
             TriMM.Mesh.PickCleared += new PickClearedEventHandler(PickCleared);
+            TriMM.Mesh.MinEdgeLengthChanged += new MinEdgeLengthChangedEventHandler(Mesh_MinEdgeLengthChanged);
 
             this.Show();
         }
@@ -94,7 +95,6 @@ namespace TriMM {
         #endregion
 
         #region Event Handling Stuff
-
 
         /// <summary>
         /// Refreshes the TriMMControl, drawing the modell as a full, shaded object, if checked.
@@ -273,7 +273,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Resets rotation, translation, scaling and zoom values in the OGLControl.
+        /// Resets rotation, translation, scaling and zoom values in the TriMMControl.
         /// </summary>
         /// <param name="sender">resetViewButton</param>
         /// <param name="e">Standard EventArgs</param>
@@ -292,7 +292,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Makes a screenshot of the image displayed in the OGLControl and
+        /// Makes a screenshot of the image displayed in the TriMMControl and
         /// saves it as a *.png, *.bmp or *.jpg file the user chooses.
         /// </summary>
         /// <param name="sender">screenshotbutton</param>
@@ -477,6 +477,13 @@ namespace TriMM {
             observedNumericUpDown.Value = -1;
             observedNumericUpDown.ValueChanged += ObservedNumericUpDown_ValueChanged;
         }
+
+        /// <summary>
+        /// Changes the value of the radiusNumericUpDown, when the minimum Edge length in the mesh is changed.
+        /// Because of the change to the radiusNumericUpDown the TriMMControl is also notified of the change.
+        /// </summary>
+        /// <param name="newLength">The new minimum length.</param>
+        private void Mesh_MinEdgeLengthChanged(double newLength) { radiusNumericUpDown.Value = (decimal)newLength / 2; }
 
         /// <summary>
         /// The TriMMControl is set free, so that it is not destroyed with the View.

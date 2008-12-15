@@ -91,10 +91,6 @@ namespace TriMM {
             triangleLabel.Text = TriMM.Mesh.Count.ToString();
             edgeLabel.Text = TriMM.Mesh.Edges.Count.ToString();
 
-            control.ShowMesh = true;
-            control.ObservedRadius = TriMM.Mesh.MinEdgeLength / 2;
-            control.InitLight();
-
             control.VertexPicked += new VertexPickedEventHandler(Control_VertexPicked);
             control.EdgePicked += new EdgePickedEventHandler(Control_EdgePicked);
             control.TrianglePicked += new TrianglePickedEventHandler(Control_TrianglePicked);
@@ -114,10 +110,6 @@ namespace TriMM {
             triangleLabel.Text = TriMM.Mesh.Count.ToString();
             edgeLabel.Text = TriMM.Mesh.Edges.Count.ToString();
 
-            control.ObservedRadius = TriMM.Mesh.MinEdgeLength / 2;
-            control.Zoom = 0;
-            control.InitLight();
-
             control.Refresh();
             if (view != null) { view.RefreshView(); }
         }
@@ -128,8 +120,6 @@ namespace TriMM {
         /// </summary>
         private void ClearObserved() {
             control.Info.Clear();
-            TriMM.Mesh.ObservedVertex = -1;
-            TriMM.Mesh.ObservedEdge = -1;
             control.UseColorArray = false;
             TriMM.Mesh.ObservedVertex = -1;
             TriMM.Mesh.ObservedEdge = -1;
@@ -251,7 +241,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Destroys the OGLControl and resets the GUI-elements.
+        /// Destroys the TriMMControl and resets the GUI-elements.
         /// </summary>
         /// <param name="sender">closeToolStripMenuItem</param>
         /// <param name="e">Standard EventArgs</param>

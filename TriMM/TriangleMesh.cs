@@ -31,10 +31,24 @@ using TriMM.VertexNormalAlgorithms;
 namespace TriMM {
     [Serializable()]
 
+    #region EventHandler
+
     /// <summary>
-    /// An EventHandler for the PickCleared Event. Alerts the owner of the clearing of the selection.
+    /// An EventHandler for the PickCleared Event. Alerts anyone who wants to know of the clearing of the selection.
     /// </summary>
     public delegate void PickClearedEventHandler();
+
+    /// <summary>
+    /// An EventHandler for the ScaleChanged Event. Alerts anyone who wants to know of changes to the scale.
+    /// </summary>
+    public delegate void ScaleChangedEventHandler();
+
+    /// <summary>
+    /// An EventHandler for the MinEdgeLengthChanged Event. Alerts anyone who wants to know of changes to the length of the shortest Edge.
+    /// </summary>
+    public delegate void MinEdgeLengthChangedEventHandler(double newLength);
+
+    #endregion
 
     /// <summary>
     /// The main datastructure containing all informations about the triangle mesh.
@@ -47,7 +61,6 @@ namespace TriMM {
 
         private List<Vertex> vertices = new List<Vertex>();
         private SortedList<decimal, Edge> edges = new SortedList<decimal, Edge>();
-        private float minEdgeLength = float.PositiveInfinity;
 
         private float scale;
         private double[] center = new double[3] { 0, 0, 0 };
@@ -86,15 +99,21 @@ namespace TriMM {
         /// <value>The event thrown when all Vertices are unpicked.</value>
         public event PickClearedEventHandler PickCleared;
 
+        /// <value>The event thrown when the scale is changed.</value>
+        public event ScaleChangedEventHandler ScaleChanged;
+
+        /// <value>The event thrown when the length of the shortest Edge is changed.</value>
+        public event MinEdgeLengthChangedEventHandler MinEdgeLengthChanged;
+
         #endregion
 
         #endregion
 
         #region Properties
 
-        /// <summary>
+        /// <value>
         /// Gets the Vertex at Index <paramref name="index2"/> in the Triangle of Index  <paramref name="index1"/> .
-        /// </summary>
+        /// </value>
         /// <param name="index1">Triangle index</param>
         /// <param name="index2">Corner index</param>
         /// <returns><paramref name="index2"/> Vertex in Triangle <paramref name="index1"/>.</returns>
@@ -106,8 +125,11 @@ namespace TriMM {
         /// <value>Gets the list of all Edges.</value>
         public SortedList<decimal, Edge> Edges { get { return edges; } }
 
-        /// <value>Gets the length of the shortest Edge in this TriangleMesh.</value>
-        public float MinEdgeLength { get { return minEdgeLength; } }
+        /// <value>
+        /// Gets the length of the shortest Edge in this TriangleMesh.
+        /// The Edges are sorted by length, so the first Edge always belongs to the set of shortest Edges.
+        /// </value>
+        public double MinEdgeLength { get { return edges.Values[0].Length; } }
 
         /// <value>Gets the scale used for drawing.</value>
         public float Scale { get { return scale; } }
@@ -115,10 +137,10 @@ namespace TriMM {
         /// <value>Gets the centroid of the object as a float array.</value>
         public double[] Center { get { return center; } }
 
-        /// <value>Gets the limits of the minCurvature color scale displayed in the OGLControl.</value>
+        /// <value>Gets the limits of the minCurvature color scale displayed in the TriMMControl.</value>
         public double MinColorScale { get { return minColorScale; } }
 
-        /// <value>Gets the limits of the maxCurvature color scale displayed in the OGLControl.</value>
+        /// <value>Gets the limits of the maxCurvature color scale displayed in the TriMMControl.</value>
         public double MaxColorScale { get { return maxColorScale; } }
 
         /// <value>Gets the distance between two picking colors for the Vertices.</value>
@@ -204,7 +226,6 @@ namespace TriMM {
         /// Clears Neighborhoods etc. for reinitializing a TriangleMesh.
         /// </summary>
         public void ClearRelations() {
-            minEdgeLength = float.PositiveInfinity;
             edges.Clear();
             for (int i = 0; i < this.Count; i++) { this[i].Edges.Clear(); }
             for (int i = 0; i < this.vertices.Count; i++) {
@@ -225,6 +246,8 @@ namespace TriMM {
         /// If False, they are not calculated.</param>
         /// <param name="verNormals">If true, the Vertex normals are calculated with the chosen VertexNormalAlgorithm.</param>
         public void Finish(bool triNormals, bool verNormals) {
+            double oldMinLength = 0;
+            if (edges.Count != 0) { oldMinLength = edges.Values[0].Length; }
             ClearRelations();
 
             Edge edge;
@@ -282,7 +305,6 @@ namespace TriMM {
                     if (!edges.ContainsKey(edge.Key)) {
                         edge.Triangles.Add(i);
                         edges.Add(edge.Key, edge);
-                        minEdgeLength = (float)(edgeLength < minEdgeLength ? edgeLength : minEdgeLength);
                     } else {
                         edges[edge.Key].Triangles.Add(i);
                     }
@@ -337,22 +359,27 @@ namespace TriMM {
                 this[i].Angles[1] = Vertex.Angle(ba, bc);
                 this[i].Angles[2] = Vertex.Angle(cb, ca);
             }
+            if (edges.Count != 0) {
+                if ((oldMinLength != edges.Values[0].Length) && (MinEdgeLengthChanged != null)) { MinEdgeLengthChanged(edges.Values[0].Length); }
+            } else {
+                MinEdgeLengthChanged(0);
+            }
 
             // The center is calculated.
             for (int i = 0; i < 3; i++) { center[i] = 0.5 * (max[i] + min[i]); }
 
             // The scale is the maximum size in one coordinate direction. It is used for drawing.
+            float oldScale = scale;
             scale = max[0] - min[0];
             if (max[1] - min[1] > scale) { scale = max[1] - min[1]; }
             if (max[2] - min[2] > scale) { scale = max[2] - min[2]; }
+            if ((oldScale != scale) && (ScaleChanged != null)) { ScaleChanged(); }
 
             // The colorDist is used to space the picking colors.
             int temp = 256 * 256 * 256;
             vertexColorDist = temp / (vertices.Count + 2);
             edgeColorDist = temp / (edges.Count + 2);
             triangleColorDist = temp / (this.Count + 2);
-
-            if (this.Count == 0) { minEdgeLength = 1; }
 
             if (verNormals) { vertexNormalAlgorithm.GetVertexNormals(); }
 
@@ -414,9 +441,9 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Gets the EdgeArray for drawing the mesh in the OGLControl.
+        /// Gets the EdgeArray for drawing the mesh in the TriMMControl.
         /// The components of the two Vertices of each Edge are stored consecutively
-        /// and used to draw a line between them in the OGLControl.
+        /// and used to draw a line between them in the TriMMControl.
         /// </summary>
         public void SetEdgeArray() {
             List<double> edgeList = new List<double>(6 * edges.Count);
