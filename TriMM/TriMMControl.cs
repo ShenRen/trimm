@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// For more information and contact details look at STLNormalSwitchers website:
+// For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 //
 //
@@ -105,31 +105,11 @@ namespace TriMM {
 
         #region Display Settings
 
-        private ColorOGL clearColor = new ColorOGL(Color.Black);
-        private ColorOGL textColor = new ColorOGL();
-        private ColorOGL plainColor = new ColorOGL(0.0f, 0.8f, 0.8f);
-        private ColorOGL meshColor = new ColorOGL(0.5f, 0.5f, 0.5f);
-        private ColorOGL vertexColor = new ColorOGL(0.8f, 0.8f, 0.0f);
-        private ColorOGL normalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
-        private ColorOGL observedVertexColor = new ColorOGL();
-        private ColorOGL observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
-        private ColorOGL xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
-        private ColorOGL yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
-        private ColorOGL zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
-
         private double observedRadius = 0.1f;
         private List<string> info = new List<string>();
 
         private bool picking = false;
-        private int pickingMode = 0;
         private bool useColorArray = false;
-        private bool smooth = false;
-        private bool showModell = true;
-        private bool showMesh = true;
-        private bool showVertices = false;
-        private bool showFacetNormalVectors = false;
-        private bool showVertexNormalVectors = false;
-        private bool showAxes = false;
 
         #endregion
 
@@ -176,77 +156,14 @@ namespace TriMM {
 
         #region Display Settings
 
-        /// <value>Gets the background color or sets it.</value>
-        public ColorOGL ClearColor {
-            get { return clearColor; }
-            set {
-                clearColor = value;
-                Gl.glClearColor(clearColor.R, clearColor.G, clearColor.B, 1.0f);
-            }
-        }
-
-        /// <value>Gets the color for the info text or sets it.</value>
-        public ColorOGL TextColor { get { return textColor; } set { textColor = value; } }
-
-        /// <value>Gets the plain color for displaying the modell or sets it.</value>
-        public ColorOGL PlainColor { get { return plainColor; } set { plainColor = value; } }
-
-        /// <value>Gets the color for the mesh lines or sets it.</value>
-        public ColorOGL MeshColor { get { return meshColor; } set { meshColor = value; } }
-
-        /// <value>Gets the color for displaying the Vertices or sets it.</value>
-        public ColorOGL VertexColor { get { return vertexColor; } set { vertexColor = value; } }
-
-        /// <value>Gets the color for displaying the normals or sets it.</value>
-        public ColorOGL NormalColor { get { return normalColor; } set { normalColor = value; } }
-
-        /// <value>Gets the color for the sphere around the observed Vertex or sets it.</value>
-        public ColorOGL ObservedVertexColor { get { return observedVertexColor; } set { observedVertexColor = value; } }
-
-        /// <value>Gets the color for the sphere around the observed Vertex or sets it.</value>
-        public ColorOGL ObservedTriangleColor { get { return observedTriangleColor; } set { observedTriangleColor = value; } }
-
-        /// <value>Gets the color for the x-axis or sets it.</value>
-        public ColorOGL XAxisColor { get { return xAxisColor; } set { xAxisColor = value; } }
-
-        /// <value>Gets the color for the y-axis or sets it.</value>
-        public ColorOGL YAxisColor { get { return yAxisColor; } set { yAxisColor = value; } }
-
-        /// <value>Gets the color for the z-axis or sets it.</value>
-        public ColorOGL ZAxisColor { get { return zAxisColor; } set { zAxisColor = value; } }
-
         /// <value>Gets the radius of the sphere drawn around the observed Vertex or sets it.</value>
         public double ObservedRadius { get { return observedRadius; } set { observedRadius = value; } }
 
         /// <value>Gets the information to be displayed in the top left corner or sets it.</value>
         public List<string> Info { get { return info; } set { info = value; } }
 
-        /// <value>Sets the picking mode (0=none, 1=vertex, 2=edge, 3=triangle).</value>
-        public int PickingMode { set { pickingMode = value; } }
-
         /// <value>Set to true, if the color array should used.</value>
         public bool UseColorArray { set { useColorArray = value; } }
-
-        /// <value>If true, the modell is drawn smooth.</value>
-        public bool Smooth { set { smooth = value; } }
-
-        /// <value>If true, the modell is drawn as a solid object.</value>
-        public bool ShowModell { set { showModell = value; } }
-
-        /// <value>If true, the modell is drawn as a mesh.</value>
-        public bool ShowMesh { set { showMesh = value; } }
-
-        /// <value>If true, the Vertices of the modell are drawn.</value>
-        public bool ShowVertices { set { showVertices = value; } }
-
-        /// <value>If true, the Triangle normal vectors of the modell are drawn.</value>
-        public bool ShowFacetNormalVectors { set { showFacetNormalVectors = value; } }
-
-        /// <value>If true, the Vertex normal vectors of the modell are drawn.</value>
-        public bool ShowVertexNormalVectors { set { showVertexNormalVectors = value; } }
-
-        /// <value>If true, the coordinate-axes are drawn.</value>
-        public bool ShowAxes { set { showAxes = value; } }
 
         #endregion
 
@@ -270,6 +187,7 @@ namespace TriMM {
             this.MouseDown += this.MouseDownEvent;
             this.MouseMove += this.MouseMoveEvent;
             TriMM.Mesh.ScaleChanged += new ScaleChangedEventHandler(Mesh_ScaleChanged);
+            TriMM.Settings.BackColorChanged += new BackColorChangedEventHandler(Settings_BackColorChanged);
         }
 
         #endregion
@@ -282,7 +200,7 @@ namespace TriMM {
         /// Initialize the properties of OpenGL.
         /// </summary>
         private void InitOpenGL() {
-            Gl.glClearColor(clearColor.R, clearColor.G, clearColor.B, 1.0f);
+            Gl.glClearColor(TriMM.Settings.BackColor.R, TriMM.Settings.BackColor.G, TriMM.Settings.BackColor.B, 1.0f);
             Gl.glShadeModel(Gl.GL_SMOOTH);
 
             Gl.glEnable(Gl.GL_LINE_SMOOTH);
@@ -572,29 +490,8 @@ namespace TriMM {
             xDiff = 0.0f;
             yDiff = 0.0f;
             zDiff = 0.0f;
-            pickingMode = 0;
             clippingPlane = 1.1f;
             observedRadius = TriMM.Mesh.MinEdgeLength / 2;
-
-            this.Refresh();
-        }
-
-        /// <summary>
-        /// Resets the colors to the standard values.
-        /// </summary>
-        public void ResetColors() {
-            clearColor = new ColorOGL(Color.Black);
-            Gl.glClearColor(clearColor.R, clearColor.G, clearColor.B, 1.0f);
-            textColor = new ColorOGL();
-            plainColor = new ColorOGL(0.0f, 0.8f, 0.8f);
-            meshColor = new ColorOGL(0.5f, 0.5f, 0.5f);
-            vertexColor = new ColorOGL(0.8f, 0.8f, 0.0f);
-            normalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
-            xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
-            yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
-            zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
-            observedVertexColor = new ColorOGL();
-            observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
 
             this.Refresh();
         }
@@ -689,21 +586,21 @@ namespace TriMM {
             Gl.glRotatef(this.zRot, 0.0f, 0.0f, 1.0f);
             Gl.glTranslated(-TriMM.Mesh.Center[0], -TriMM.Mesh.Center[1], -TriMM.Mesh.Center[2]);
 
-            if (!picking || (pickingMode == 0)) {
-                if (showModell) { DrawModell(); }
-                if (showMesh) { DrawMesh(); }
-                if (showVertices) { DrawVertices(); }
-                if (showFacetNormalVectors) { DrawFacetNormals(); }
-                if (showVertexNormalVectors) { DrawVertexNormals(); }
-                if (showAxes) { DrawAxes(); }
+            if (!picking || (TriMM.Settings.PickingMode == 0)) {
+                if (TriMM.Settings.Solid) { DrawModell(); }
+                if (TriMM.Settings.Mesh) { DrawMesh(); }
+                if (TriMM.Settings.Vertices) { DrawVertices(); }
+                if (TriMM.Settings.TriangleNormalVectors) { DrawFacetNormals(); }
+                if (TriMM.Settings.VertexNormalVectors) { DrawVertexNormals(); }
+                if (TriMM.Settings.Axes) { DrawAxes(); }
                 if (TriMM.Mesh.ObservedVertex != -1) { DrawObservedVertex(); }
                 if (TriMM.Mesh.ObservedEdge != -1) { DrawObservedEdge(); }
                 if (info.Count > 0) { DrawInfo(); }
-            } else if (picking && (pickingMode == 1)) {
+            } else if (picking && (TriMM.Settings.PickingMode == 1)) {
                 DrawPickingVertices();
-            } else if (picking && (pickingMode == 2)) {
+            } else if (picking && (TriMM.Settings.PickingMode == 2)) {
                 DrawPickingEdges();
-            } else if (picking && (pickingMode == 3)) {
+            } else if (picking && (TriMM.Settings.PickingMode == 3)) {
                 DrawPickingTriangles();
             }
             Gl.glPopMatrix();
@@ -716,7 +613,7 @@ namespace TriMM {
             Gl.glLineWidth(1.0f);
             Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.TriangleArray);
 
-            if (smooth) {
+            if (TriMM.Settings.Smooth) {
                 // Vertex normals are used.
                 Gl.glNormalPointer(Gl.GL_DOUBLE, 0, TriMM.Mesh.SmoothNormalArray);
             } else {
@@ -731,7 +628,7 @@ namespace TriMM {
 
                 Gl.glDisableClientState(Gl.GL_COLOR_ARRAY);
             } else {
-                Gl.glColor3fv(plainColor.RGB);
+                Gl.glColor3fv(TriMM.Settings.PlainColor.RGB);
                 Gl.glDrawArrays(Gl.GL_TRIANGLES, 0, 3 * TriMM.Mesh.Count);
             }
         }
@@ -745,7 +642,7 @@ namespace TriMM {
             Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
 
             Gl.glLineWidth(1.0f);
-            Gl.glColor3fv(meshColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.MeshColor.RGB);
 
             Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.EdgeArray);
             Gl.glDrawArrays(Gl.GL_LINES, 0, 2 * TriMM.Mesh.Edges.Count);
@@ -764,7 +661,7 @@ namespace TriMM {
             Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
 
             Gl.glPointSize(3.0f);
-            Gl.glColor3fv(vertexColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.VertexColor.RGB);
 
             Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.VertexArray);
             Gl.glDrawArrays(Gl.GL_POINTS, 0, TriMM.Mesh.Vertices.Count);
@@ -782,7 +679,7 @@ namespace TriMM {
             Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
 
             Gl.glLineWidth(1.5f);
-            Gl.glColor3fv(normalColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.NormalColor.RGB);
 
             Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.FacetNormalVectorArray);
             Gl.glDrawArrays(Gl.GL_LINES, 0, 2 * TriMM.Mesh.Count);
@@ -800,7 +697,7 @@ namespace TriMM {
             Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
 
             Gl.glLineWidth(1.5f);
-            Gl.glColor3fv(normalColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.NormalColor.RGB);
 
             Gl.glVertexPointer(3, Gl.GL_DOUBLE, 0, TriMM.Mesh.VertexNormalVectorArray);
             Gl.glDrawArrays(Gl.GL_LINES, 0, 2 * TriMM.Mesh.Vertices.Count);
@@ -820,13 +717,13 @@ namespace TriMM {
             Gl.glLineWidth(1.5f);
 
             Gl.glBegin(Gl.GL_LINES);
-            Gl.glColor3fv(xAxisColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.XAxisColor.RGB);
             Gl.glVertex3f(0.0f, 0.0f, 0.0f);
             Gl.glVertex3f(1.05f * TriMM.Mesh.Scale, 0.0f, 0.0f);
-            Gl.glColor3fv(yAxisColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.YAxisColor.RGB);
             Gl.glVertex3f(0.0f, 0.0f, 0.0f);
             Gl.glVertex3f(0.0f, 1.05f * TriMM.Mesh.Scale, 0.0f);
-            Gl.glColor3fv(zAxisColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.ZAxisColor.RGB);
             Gl.glVertex3f(0.0f, 0.0f, 0.0f);
             Gl.glVertex3f(0.0f, 0.0f, 1.05f * TriMM.Mesh.Scale);
             Gl.glEnd();
@@ -843,7 +740,7 @@ namespace TriMM {
             Glu.gluQuadricDrawStyle(quadobj, Glu.GLU_FILL);
             Gl.glPushMatrix();
 
-            Gl.glColor3fv(observedVertexColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.ObservedVertexColor.RGB);
             Gl.glTranslated(TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex][0], TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex][1], TriMM.Mesh.Vertices[TriMM.Mesh.ObservedVertex][2]);
             Glu.gluSphere(quadobj, observedRadius, 40, 40);
 
@@ -859,7 +756,7 @@ namespace TriMM {
             Glu.gluQuadricDrawStyle(quadobj, Glu.GLU_FILL);
             Gl.glPushMatrix();
 
-            Gl.glColor3fv(observedVertexColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.ObservedVertexColor.RGB);
             Gl.glTranslated(TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge], TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge + 1], TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge + 2]);    // Translates to the first Vertex
             if (Math.Abs(TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge + 5] - TriMM.Mesh.EdgeArray[6 * TriMM.Mesh.ObservedEdge + 2]) < 0.000000001) {
                 Gl.glRotated(90.0, 0, 1, 0.0);			                    // Rotates & aligns with x-axis
@@ -885,7 +782,7 @@ namespace TriMM {
             this.SetupProjectionFlat();
             Gl.glDisable(Gl.GL_DEPTH_TEST);
 
-            Gl.glColor3fv(textColor.RGB);
+            Gl.glColor3fv(TriMM.Settings.TextColor.RGB);
             for (int i = 0; i < info.Count; i++) { this.PrintText(0.027f, 0.973f - i * 0.024f, 0.0f, 0.024f, info[i]); }
 
             Gl.glEnable(Gl.GL_DEPTH_TEST);
@@ -1135,11 +1032,11 @@ namespace TriMM {
         private void MouseDownEvent(object sender, MouseEventArgs ev) {
             if (ev.Button == MouseButtons.Left) {
                 int[] pickingRectangle = GetPickingRectangle(ev.X, this.Height - ev.Y, ev.X, this.Height - ev.Y);
-                if (pickingMode == 1) {
+                if (TriMM.Settings.PickingMode == 1) {
                     this.PickVertex(pickingRectangle);
-                } else if (pickingMode == 2) {
+                } else if (TriMM.Settings.PickingMode == 2) {
                     this.PickEdge(pickingRectangle);
-                } else if (pickingMode == 3) {
+                } else if (TriMM.Settings.PickingMode == 3) {
                     this.PickTriangle(pickingRectangle);
                 }
             }
@@ -1190,6 +1087,11 @@ namespace TriMM {
             Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, lightPosition);
             zoom = 0.0f;
         }
+
+        /// <summary>
+        /// Changes OpenGls ClearColor, when the background color in the global settings is changed.
+        /// </summary>
+        private void Settings_BackColorChanged() { Gl.glClearColor(TriMM.Settings.BackColor.R, TriMM.Settings.BackColor.G, TriMM.Settings.BackColor.B, 1.0f); }
 
         /// <summary>
         /// Handles the MouseEnter event to focus this Control.

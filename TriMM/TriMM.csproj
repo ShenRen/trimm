@@ -69,6 +69,13 @@
     <Compile Include="ObjParser.cs" />
     <Compile Include="OffParser.cs" />
     <Compile Include="PlyParser.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TriMMControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -91,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TriMMForm.resx">
       <DependentUpon>TriMMForm.cs</DependentUpon>
@@ -137,6 +147,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LogoGross.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

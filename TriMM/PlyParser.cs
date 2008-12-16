@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// For more information and contact details look at STLNormalSwitchers website:
+// For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
 using System;
@@ -72,7 +72,7 @@ namespace TriMM {
         #region Methods
 
         /// <summary>
-        /// The given StreamReader <paramref name="file"/> is parsed and the TriangleMesh returned.
+        /// The given StreamReader <paramref name="file"/> is parsed and the TriangleMesh built.
         /// Only the ASCII version of PLY is supported and only triangle meshes are allowed.
         /// </summary>
         /// <param name="file">The *.PLY file to be parsed.</param>

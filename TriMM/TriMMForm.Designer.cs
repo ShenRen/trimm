@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// For more information and contact details look at STLNormalSwitchers website:
+// For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
 namespace TriMM {
@@ -96,10 +96,11 @@ namespace TriMM {
             this.label7 = new System.Windows.Forms.Label();
             this.distanceNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.edgeTabPage = new System.Windows.Forms.TabPage();
+            this.subdivideEdgeButton = new System.Windows.Forms.Button();
             this.removeEdgeButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.normalComboBox = new System.Windows.Forms.ComboBox();
-            this.subdivideEdgeButton = new System.Windows.Forms.Button();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.e1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.e2NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xNumericUpDown)).BeginInit();
@@ -411,7 +412,8 @@ namespace TriMM {
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.showViewToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(262, 24);
@@ -433,7 +435,7 @@ namespace TriMM {
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
@@ -441,7 +443,7 @@ namespace TriMM {
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
@@ -449,19 +451,19 @@ namespace TriMM {
             // 
             this.closeToolStripMenuItem.Enabled = false;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.CloseFile);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(108, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -690,6 +692,16 @@ namespace TriMM {
             this.edgeTabPage.TabIndex = 3;
             this.edgeTabPage.Text = "Edges";
             // 
+            // subdivideEdgeButton
+            // 
+            this.subdivideEdgeButton.Location = new System.Drawing.Point(6, 72);
+            this.subdivideEdgeButton.Name = "subdivideEdgeButton";
+            this.subdivideEdgeButton.Size = new System.Drawing.Size(219, 23);
+            this.subdivideEdgeButton.TabIndex = 4;
+            this.subdivideEdgeButton.Text = "Subdivide Selected Edge";
+            this.subdivideEdgeButton.UseVisualStyleBackColor = true;
+            this.subdivideEdgeButton.Click += new System.EventHandler(this.SubdivideEdgeButton_Click);
+            // 
             // removeEdgeButton
             // 
             this.removeEdgeButton.Location = new System.Drawing.Point(6, 101);
@@ -718,15 +730,12 @@ namespace TriMM {
             this.normalComboBox.TabIndex = 24;
             this.normalComboBox.SelectedIndexChanged += new System.EventHandler(this.NormalComboBox_SelectedIndexChanged);
             // 
-            // subdivideEdgeButton
+            // settingsToolStripMenuItem
             // 
-            this.subdivideEdgeButton.Location = new System.Drawing.Point(6, 72);
-            this.subdivideEdgeButton.Name = "subdivideEdgeButton";
-            this.subdivideEdgeButton.Size = new System.Drawing.Size(219, 23);
-            this.subdivideEdgeButton.TabIndex = 4;
-            this.subdivideEdgeButton.Text = "Subdivide Selected Edge";
-            this.subdivideEdgeButton.UseVisualStyleBackColor = true;
-            this.subdivideEdgeButton.Click += new System.EventHandler(this.SubdivideEdgeButton_Click);
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.settingsToolStripMenuItem.Text = "S&ettings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // TriMMForm
             // 
@@ -825,6 +834,7 @@ namespace TriMM {
         private System.Windows.Forms.ComboBox normalComboBox;
         private System.Windows.Forms.Button subdivideButton;
         private System.Windows.Forms.Button subdivideEdgeButton;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
 

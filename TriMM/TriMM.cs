@@ -15,10 +15,11 @@
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// For more information and contact details look at STLNormalSwitchers website:
+// For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -33,6 +34,7 @@ namespace TriMM {
         #region Fields
 
         private static TriangleMesh mesh;
+        private static Settings settings;
 
         #endregion
 
@@ -40,6 +42,9 @@ namespace TriMM {
 
         /// <value>Gets or sets the global TriangleMesh</value>
         public static TriangleMesh Mesh { get { return mesh; } set { mesh = value; } }
+
+        /// <value>Gets or sets the global Settings</value>
+        public static Settings Settings { get { return settings; } set { settings = value; } }
 
         #endregion
 
@@ -52,6 +57,12 @@ namespace TriMM {
         public static void Main() {
             Application.EnableVisualStyles();
             Application.CurrentCulture = new CultureInfo("en-US");
+            FileInfo fi = new FileInfo("default.set");
+            if (fi.Exists) {
+                settings = new Settings("default.set");
+            } else {
+                settings = new Settings();
+            }
             Application.Run(new TriMMForm());
         }
         #endregion

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// For more information and contact details look at STLNormalSwitchers website:
+// For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
 using System;
@@ -504,19 +504,17 @@ namespace TriMM {
         /// Sets an array to draw the mesh with one Triangle marked in a different color.
         /// </summary>
         /// <param name="index">Index of the Triangle to be colored as selected.</param>
-        /// <param name="all">Color of the unselected Triangles.</param>
-        /// <param name="selected">Color of the selected Triangles.</param>
-        public void SetMarkedTriangleColorArray(int index, ColorOGL all, ColorOGL selected) {
+        public void SetMarkedTriangleColorArray(int index) {
             colorArray = new float[this.Count * 9];
             for (int i = 0; i < this.Count; i++) {
                 if (i == index) {
-                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = selected.R;
-                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = selected.G;
-                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = selected.B;
+                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = TriMM.Settings.ObservedTriangleColor.R;
+                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = TriMM.Settings.ObservedTriangleColor.G;
+                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = TriMM.Settings.ObservedTriangleColor.B;
                 } else {
-                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = all.R;
-                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = all.G;
-                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = all.B;
+                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = TriMM.Settings.PlainColor.R;
+                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = TriMM.Settings.PlainColor.G;
+                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = TriMM.Settings.PlainColor.B;
                 }
             }
         }

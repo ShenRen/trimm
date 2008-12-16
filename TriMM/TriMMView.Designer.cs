@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// For more information and contact details look at STLNormalSwitchers website:
+// For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
 namespace TriMM {
@@ -55,7 +55,7 @@ namespace TriMM {
             this.pickingModeLabel = new System.Windows.Forms.Label();
             this.smoothCheckBox = new System.Windows.Forms.CheckBox();
             this.clippingPlaneLabel = new System.Windows.Forms.Label();
-            this.facetNormalsCheckBox = new System.Windows.Forms.CheckBox();
+            this.triangleNormalsCheckBox = new System.Windows.Forms.CheckBox();
             this.verticesCheckBox = new System.Windows.Forms.CheckBox();
             this.meshCheckBox = new System.Windows.Forms.CheckBox();
             this.clippingPlaneNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -169,7 +169,7 @@ namespace TriMM {
             this.controlPanel.Controls.Add(this.pickingModeLabel);
             this.controlPanel.Controls.Add(this.smoothCheckBox);
             this.controlPanel.Controls.Add(this.clippingPlaneLabel);
-            this.controlPanel.Controls.Add(this.facetNormalsCheckBox);
+            this.controlPanel.Controls.Add(this.triangleNormalsCheckBox);
             this.controlPanel.Controls.Add(this.verticesCheckBox);
             this.controlPanel.Controls.Add(this.meshCheckBox);
             this.controlPanel.Controls.Add(this.clippingPlaneNumericUpDown);
@@ -253,16 +253,16 @@ namespace TriMM {
             this.clippingPlaneLabel.TabIndex = 27;
             this.clippingPlaneLabel.Text = "Clipping Plane:";
             // 
-            // facetNormalsCheckBox
+            // triangleNormalsCheckBox
             // 
-            this.facetNormalsCheckBox.AutoSize = true;
-            this.facetNormalsCheckBox.Location = new System.Drawing.Point(14, 30);
-            this.facetNormalsCheckBox.Name = "facetNormalsCheckBox";
-            this.facetNormalsCheckBox.Size = new System.Drawing.Size(105, 17);
-            this.facetNormalsCheckBox.TabIndex = 23;
-            this.facetNormalsCheckBox.Text = "Triangle Normals";
-            this.facetNormalsCheckBox.UseVisualStyleBackColor = true;
-            this.facetNormalsCheckBox.CheckedChanged += new System.EventHandler(this.FacetNormalsCheckBox_CheckedChanged);
+            this.triangleNormalsCheckBox.AutoSize = true;
+            this.triangleNormalsCheckBox.Location = new System.Drawing.Point(14, 30);
+            this.triangleNormalsCheckBox.Name = "triangleNormalsCheckBox";
+            this.triangleNormalsCheckBox.Size = new System.Drawing.Size(105, 17);
+            this.triangleNormalsCheckBox.TabIndex = 23;
+            this.triangleNormalsCheckBox.Text = "Triangle Normals";
+            this.triangleNormalsCheckBox.UseVisualStyleBackColor = true;
+            this.triangleNormalsCheckBox.CheckedChanged += new System.EventHandler(this.TriangleNormalsCheckBox_CheckedChanged);
             // 
             // verticesCheckBox
             // 
@@ -762,7 +762,7 @@ namespace TriMM {
         private System.Windows.Forms.TextBox observedTriangleColorTextBox;
         private System.Windows.Forms.Button observedTriangleButton;
         private System.Windows.Forms.CheckBox smoothCheckBox;
-        private System.Windows.Forms.CheckBox facetNormalsCheckBox;
+        private System.Windows.Forms.CheckBox triangleNormalsCheckBox;
         private System.Windows.Forms.CheckBox verticesCheckBox;
         private System.Windows.Forms.CheckBox meshCheckBox;
         private System.Windows.Forms.CheckBox solidCheckBox;

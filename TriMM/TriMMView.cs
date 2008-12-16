@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// For more information and contact details look at STLNormalSwitchers website:
+// For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
 using System;
@@ -52,23 +52,35 @@ namespace TriMM {
             ColorPanelButton_Click(new object(), new EventArgs());
             pickingModeComboBox.SelectedIndex = 0;
 
-            backColorTextBox.Text = control.ClearColor.ToString();
-            textColorTextBox.Text = control.TextColor.ToString();
-            plainColorTextBox.Text = control.PlainColor.ToString();
-            meshColorTextBox.Text = control.MeshColor.ToString();
-            vertexColorTextBox.Text = control.VertexColor.ToString();
-            normalColorTextBox.Text = control.NormalColor.ToString();
-            xAxisColorTextBox.Text = control.XAxisColor.ToString();
-            yAxisColorTextBox.Text = control.YAxisColor.ToString();
-            zAxisColorTextBox.Text = control.ZAxisColor.ToString();
-            observedVertexColorTextBox.Text = control.ObservedVertexColor.ToString();
-            observedTriangleColorTextBox.Text = control.ObservedTriangleColor.ToString();
+            // Colors
+            backColorTextBox.Text = TriMM.Settings.BackColor.ToString();
+            textColorTextBox.Text = TriMM.Settings.TextColor.ToString();
+            plainColorTextBox.Text = TriMM.Settings.PlainColor.ToString();
+            meshColorTextBox.Text = TriMM.Settings.MeshColor.ToString();
+            vertexColorTextBox.Text = TriMM.Settings.VertexColor.ToString();
+            normalColorTextBox.Text = TriMM.Settings.NormalColor.ToString();
+            xAxisColorTextBox.Text = TriMM.Settings.XAxisColor.ToString();
+            yAxisColorTextBox.Text = TriMM.Settings.YAxisColor.ToString();
+            zAxisColorTextBox.Text = TriMM.Settings.ZAxisColor.ToString();
+            observedVertexColorTextBox.Text = TriMM.Settings.ObservedVertexColor.ToString();
+            observedTriangleColorTextBox.Text = TriMM.Settings.ObservedTriangleColor.ToString();
+
+            // Display
+            smoothCheckBox.Checked = TriMM.Settings.Smooth;
+            solidCheckBox.Checked = TriMM.Settings.Solid;
+            meshCheckBox.Checked = TriMM.Settings.Mesh;
+            verticesCheckBox.Checked = TriMM.Settings.Vertices;
+            axesCheckBox.Checked = TriMM.Settings.Axes;
+            triangleNormalsCheckBox.Checked = TriMM.Settings.TriangleNormalVectors;
+            vertexNormalsCheckBox.Checked = TriMM.Settings.VertexNormalVectors;
+            pickingModeComboBox.SelectedIndex = TriMM.Settings.PickingMode;
 
             this.control.VertexPicked += new VertexPickedEventHandler(Control_VertexPicked);
             this.control.EdgePicked += new EdgePickedEventHandler(Control_EdgePicked);
             this.control.TrianglePicked += new TrianglePickedEventHandler(Control_TrianglePicked);
             TriMM.Mesh.PickCleared += new PickClearedEventHandler(PickCleared);
             TriMM.Mesh.MinEdgeLengthChanged += new MinEdgeLengthChangedEventHandler(Mesh_MinEdgeLengthChanged);
+            TriMM.Settings.SettingsChanged += new SettingsChangedEventHandler(Settings_SettingsChanged);
 
             this.Show();
         }
@@ -97,74 +109,53 @@ namespace TriMM {
         #region Event Handling Stuff
 
         /// <summary>
-        /// Refreshes the TriMMControl, drawing the modell as a full, shaded object, if checked.
+        /// Changes the setting for drawing the modell as a solid object.
         /// </summary>
         /// <param name="sender">solidCheckBox</param>
         /// <param name="e">Standard EventArgs</param>
-        private void SolidCheckBox_CheckedChanged(object sender, EventArgs e) {
-            control.ShowModell = solidCheckBox.Checked;
-            control.Refresh();
-        }
+        private void SolidCheckBox_CheckedChanged(object sender, EventArgs e) { TriMM.Settings.Solid = solidCheckBox.Checked; }
 
         /// <summary>
-        /// Refreshes the TriMMControl, drawing the modell as a mesh, if checked.
+        /// Changes the setting for drawing the modells mesh.
         /// </summary>
         /// <param name="sender">meshCheckBox</param>
         /// <param name="e">Standard EventArgs</param>
-        private void MeshCheckBox_CheckedChanged(object sender, EventArgs e) {
-            control.ShowMesh = meshCheckBox.Checked;
-            control.Refresh();
-        }
+        private void MeshCheckBox_CheckedChanged(object sender, EventArgs e) { TriMM.Settings.Mesh = meshCheckBox.Checked; }
 
         /// <summary>
-        /// Refreshes the TriMMControl, drawing the Vertices of the modell, if checked.
+        /// Changes the setting for drawing the modells vertices.
         /// </summary>
         /// <param name="sender">verticesCheckBox</param>
         /// <param name="e">Standard EventArgs</param>
-        private void VerticesCheckBox_CheckedChanged(object sender, EventArgs e) {
-            control.ShowVertices = verticesCheckBox.Checked;
-            control.Refresh();
-        }
+        private void VerticesCheckBox_CheckedChanged(object sender, EventArgs e) { TriMM.Settings.Vertices = verticesCheckBox.Checked; }
 
         /// <summary>
-        /// Refreshes the TriMMControl, drawing the Triangle normals, if checked.
+        /// Changes the setting for drawing the triangle normals.
         /// </summary>
         /// <param name="sender">facetNormalsCheckBox</param>
         /// <param name="e">Standard EventArgs</param>
-        private void FacetNormalsCheckBox_CheckedChanged(object sender, EventArgs e) {
-            control.ShowFacetNormalVectors = facetNormalsCheckBox.Checked;
-            control.Refresh();
-        }
+        private void TriangleNormalsCheckBox_CheckedChanged(object sender, EventArgs e) { TriMM.Settings.TriangleNormalVectors = triangleNormalsCheckBox.Checked; }
 
         /// <summary>
-        /// Refreshes the TriMMControl, drawing the Vertex normals, if checked.
+        /// Changes the setting for drawing the Vertex normals.
         /// </summary>
         /// <param name="sender">vertexNormalsCheckBox</param>
         /// <param name="e">Standard EventArgs</param>
-        private void VertexNormalsCheckBox_CheckedChanged(object sender, EventArgs e) {
-            control.ShowVertexNormalVectors = vertexNormalsCheckBox.Checked;
-            control.Refresh();
-        }
+        private void VertexNormalsCheckBox_CheckedChanged(object sender, EventArgs e) { TriMM.Settings.VertexNormalVectors = vertexNormalsCheckBox.Checked; }
 
         /// <summary>
-        /// Refreshes the TriMMControl, drawing the coordinate axes, if checked.
+        /// Changes the setting for drawing the coordinate axes.
         /// </summary>
         /// <param name="sender">axesCheckBox</param>
         /// <param name="e">Standard EventArgs</param>
-        private void AxesCheckBox_CheckedChanged(object sender, EventArgs e) {
-            control.ShowAxes = axesCheckBox.Checked;
-            control.Refresh();
-        }
+        private void AxesCheckBox_CheckedChanged(object sender, EventArgs e) { TriMM.Settings.Axes = axesCheckBox.Checked; }
 
         /// <summary>
-        /// Refreshes the TriMMControl, drawing it smooth using the Vertex normals, if checked.
+        /// Changes the setting for drawing the modell with or without the vertex normals.
         /// </summary>
         /// <param name="sender">smoothCheckBox</param>
         /// <param name="e">Standard EventArgs</param>
-        private void SmoothCheckBox_CheckedChanged(object sender, EventArgs e) {
-            control.Smooth = smoothCheckBox.Checked;
-            control.Refresh();
-        }
+        private void SmoothCheckBox_CheckedChanged(object sender, EventArgs e) { TriMM.Settings.Smooth = smoothCheckBox.Checked; }
 
         /// <summary>
         /// The image is translated into the opposite direction of the ScrollBar movement,
@@ -203,10 +194,10 @@ namespace TriMM {
         /// Changes the picking mode, possible values: None, Vertex, Edge, Triangle,
         /// and makes the necessary adjustments.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">pickingModeComboBox</param>
+        /// <param name="e">Standard EventArgs</param>
         private void PickingModeComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-            control.PickingMode = pickingModeComboBox.SelectedIndex;
+            TriMM.Settings.PickingMode = pickingModeComboBox.SelectedIndex;
             observedNumericUpDown.Value = -1;
             if (pickingModeComboBox.SelectedIndex == 0) {
                 observedLabel.Visible = observedNumericUpDown.Visible = radiusLabel.Visible = radiusNumericUpDown.Visible = clearObservedButton.Visible = false;
@@ -286,9 +277,8 @@ namespace TriMM {
             clippingPlaneNumericUpDown.ValueChanged -= ClippingPlaneNumericUpDown_ValueChanged;
             clippingPlaneNumericUpDown.Value = (decimal)1.1;
             clippingPlaneNumericUpDown.ValueChanged += ClippingPlaneNumericUpDown_ValueChanged;
-            solidCheckBox.Checked = meshCheckBox.Checked = true;
-            verticesCheckBox.Checked = facetNormalsCheckBox.Checked = vertexNormalsCheckBox.Checked = smoothCheckBox.Checked = axesCheckBox.Checked = false;
-            control.Refresh();
+
+            TriMM.Settings.SetToStandardDisplay();
         }
 
         /// <summary>
@@ -355,52 +345,39 @@ namespace TriMM {
 
                 switch (((Button)sender).Tag.ToString()) {
                     case "0":
-                        control.ClearColor = newColor;
-                        backColorTextBox.Text = control.ClearColor.ToString();
+                        TriMM.Settings.BackColor = newColor;
                         break;
                     case "1":
-                        control.TextColor = newColor;
-                        textColorTextBox.Text = control.TextColor.ToString();
+                        TriMM.Settings.TextColor = newColor;
                         break;
                     case "2":
-                        control.PlainColor = newColor;
-                        plainColorTextBox.Text = control.PlainColor.ToString();
+                        TriMM.Settings.PlainColor = newColor;
                         break;
                     case "3":
-                        control.MeshColor = newColor;
-                        meshColorTextBox.Text = control.MeshColor.ToString();
+                        TriMM.Settings.MeshColor = newColor;
                         break;
                     case "4":
-                        control.VertexColor = newColor;
-                        vertexColorTextBox.Text = control.VertexColor.ToString();
+                        TriMM.Settings.VertexColor = newColor;
                         break;
                     case "5":
-                        control.NormalColor = newColor;
-                        normalColorTextBox.Text = control.NormalColor.ToString();
+                        TriMM.Settings.NormalColor = newColor;
                         break;
                     case "6":
-                        control.XAxisColor = newColor;
-                        xAxisColorTextBox.Text = control.XAxisColor.ToString();
+                        TriMM.Settings.XAxisColor = newColor;
                         break;
                     case "7":
-                        control.YAxisColor = newColor;
-                        yAxisColorTextBox.Text = control.YAxisColor.ToString();
+                        TriMM.Settings.YAxisColor = newColor;
                         break;
                     case "8":
-                        control.ZAxisColor = newColor;
-                        zAxisColorTextBox.Text = control.ZAxisColor.ToString();
+                        TriMM.Settings.ZAxisColor = newColor;
                         break;
                     case "9":
-                        control.ObservedVertexColor = newColor;
-                        observedVertexColorTextBox.Text = control.ObservedVertexColor.ToString();
+                        TriMM.Settings.ObservedVertexColor = newColor;
                         break;
                     case "10":
-                        control.ObservedTriangleColor = newColor;
-                        observedTriangleColorTextBox.Text = control.ObservedTriangleColor.ToString();
+                        TriMM.Settings.ObservedTriangleColor = newColor;
                         break;
                 }
-
-                control.Refresh();
             }
         }
 
@@ -409,20 +386,7 @@ namespace TriMM {
         /// </summary>
         /// <param name="sender">standardColorsButton</param>
         /// <param name="e">Standard EventArgs</param>
-        private void StandardColorsButton_Click(object sender, EventArgs e) {
-            control.ResetColors();
-            backColorTextBox.Text = control.ClearColor.ToString();
-            textColorTextBox.Text = control.TextColor.ToString();
-            plainColorTextBox.Text = control.PlainColor.ToString();
-            meshColorTextBox.Text = control.MeshColor.ToString();
-            vertexColorTextBox.Text = control.VertexColor.ToString();
-            normalColorTextBox.Text = control.NormalColor.ToString();
-            xAxisColorTextBox.Text = control.XAxisColor.ToString();
-            yAxisColorTextBox.Text = control.YAxisColor.ToString();
-            zAxisColorTextBox.Text = control.ZAxisColor.ToString();
-            observedVertexColorTextBox.Text = control.ObservedVertexColor.ToString();
-            observedTriangleColorTextBox.Text = control.ObservedTriangleColor.ToString();
-        }
+        private void StandardColorsButton_Click(object sender, EventArgs e) { TriMM.Settings.SetToStandardColors(); }
 
         /// <summary>
         /// Changes the observed Vertex to the one picked in the visualisation.
@@ -484,6 +448,36 @@ namespace TriMM {
         /// </summary>
         /// <param name="newLength">The new minimum length.</param>
         private void Mesh_MinEdgeLengthChanged(double newLength) { radiusNumericUpDown.Value = (decimal)newLength / 2; }
+
+        /// <summary>
+        /// Refreshes the settings within the TriMMView, when the Settings are changed.
+        /// </summary>
+        private void Settings_SettingsChanged() {
+            // Colors
+            backColorTextBox.Text = TriMM.Settings.BackColor.ToString();
+            textColorTextBox.Text = TriMM.Settings.TextColor.ToString();
+            plainColorTextBox.Text = TriMM.Settings.PlainColor.ToString();
+            meshColorTextBox.Text = TriMM.Settings.MeshColor.ToString();
+            vertexColorTextBox.Text = TriMM.Settings.VertexColor.ToString();
+            normalColorTextBox.Text = TriMM.Settings.NormalColor.ToString();
+            xAxisColorTextBox.Text = TriMM.Settings.XAxisColor.ToString();
+            yAxisColorTextBox.Text = TriMM.Settings.YAxisColor.ToString();
+            zAxisColorTextBox.Text = TriMM.Settings.ZAxisColor.ToString();
+            observedVertexColorTextBox.Text = TriMM.Settings.ObservedVertexColor.ToString();
+            observedTriangleColorTextBox.Text = TriMM.Settings.ObservedTriangleColor.ToString();
+
+            // Display
+            smoothCheckBox.Checked = TriMM.Settings.Smooth;
+            solidCheckBox.Checked = TriMM.Settings.Solid;
+            meshCheckBox.Checked = TriMM.Settings.Mesh;
+            verticesCheckBox.Checked = TriMM.Settings.Vertices;
+            axesCheckBox.Checked = TriMM.Settings.Axes;
+            triangleNormalsCheckBox.Checked = TriMM.Settings.TriangleNormalVectors;
+            vertexNormalsCheckBox.Checked = TriMM.Settings.VertexNormalVectors;
+            pickingModeComboBox.SelectedIndex = TriMM.Settings.PickingMode;
+
+            control.Refresh();
+        }
 
         /// <summary>
         /// The TriMMControl is set free, so that it is not destroyed with the View.

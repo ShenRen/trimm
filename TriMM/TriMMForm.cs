@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// For more information and contact details look at STLNormalSwitchers website:
+// For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
 using System;
@@ -258,6 +258,13 @@ namespace TriMM {
         }
 
         /// <summary>
+        /// Closes the Form.
+        /// </summary>
+        /// <param name="sender">exitToolStripMenuItem</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e) { this.Close(); }
+
+        /// <summary>
         /// Opens a new TriMMView, if none exists, or focuses the existing TriMMView.
         /// When the TriMMView is opened the visualGroupBox is shown and new options for interaction are available.
         /// The TriMMView is located next to this Form. An EventHandler for the FormClosed event is bound.
@@ -285,6 +292,26 @@ namespace TriMM {
         }
 
         /// <summary>
+        /// Opens the SettingsForm to change the standard Settings.
+        /// </summary>
+        /// <param name="sender">settingsToolStripMenuItem</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e) {
+            SettingsForm sform = new SettingsForm();
+            sform.ShowDialog();
+        }
+
+        /// <summary>
+        /// Shows the About dialog.
+        /// </summary>
+        /// <param name="sender">infoToolStripMenuItem</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void InfoToolStripMenuItem_Click(object sender, EventArgs e) {
+            About about = new About();
+            about.ShowDialog();
+        }
+
+        /// <summary>
         /// Changes the size of the Form, when a different Tab is selected.
         /// </summary>
         /// <param name="sender">tabControl1</param>
@@ -302,23 +329,6 @@ namespace TriMM {
                     break;
             }
             this.Height = 182 + tabControl1.Height;
-        }
-
-        /// <summary>
-        /// Closes the Form.
-        /// </summary>
-        /// <param name="sender">exitToolStripMenuItem</param>
-        /// <param name="e">Standard EventArgs</param>
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e) { this.Close(); }
-
-        /// <summary>
-        /// Shows the About dialog.
-        /// </summary>
-        /// <param name="sender">infoToolStripMenuItem</param>
-        /// <param name="e">Standard EventArgs</param>
-        private void InfoToolStripMenuItem_Click(object sender, EventArgs e) {
-            About about = new About();
-            about.ShowDialog();
         }
 
         #endregion
@@ -370,7 +380,7 @@ namespace TriMM {
                 control.Info.Add("Vertex " + TriMM.Mesh[picked[0]][1] + " = " + TriMM.Mesh[picked[0], 1].ToString());
                 control.Info.Add("Vertex " + TriMM.Mesh[picked[0]][2] + " = " + TriMM.Mesh[picked[0], 2].ToString());
                 TriMM.Mesh.ObservedTriangle = picked[0];
-                TriMM.Mesh.SetMarkedTriangleColorArray(picked[0], control.PlainColor, control.ObservedTriangleColor);
+                TriMM.Mesh.SetMarkedTriangleColorArray(picked[0]);
                 control.UseColorArray = true;
                 aNumericUpDown.Value = (decimal)TriMM.Mesh[picked[0]][0];
                 bNumericUpDown.Value = (decimal)TriMM.Mesh[picked[0]][1];
