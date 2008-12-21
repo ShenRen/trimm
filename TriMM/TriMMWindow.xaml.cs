@@ -271,7 +271,7 @@ namespace TriMM {
             normalComboBox.SelectedIndex = 0;
             TriMMApp.Mesh = null;
             if (TriMMApp.Control != null) {
-                TriMMApp.Control.Dispose();
+                TriMMApp.Control.DestroyContexts();
                 TriMMApp.Control = null;
             }
         }
@@ -982,13 +982,11 @@ namespace TriMM {
         private void Settings_NormalAlgoChanged() { normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo; }
 
         /// <summary>
-        /// Closes the TriMMView when the TriMMWindow is closed.
+        /// Cleans up when the TriMMWindow is closed.
         /// </summary>
         /// <param name="sender">The TriMMWindow</param>
         /// <param name="e">Standard CancelEventArgs</param>
-        private void Window_Closing(object sender, CancelEventArgs e) {
-            if (view != null) { view.Close(); }
-        }
+        private void Window_Closing(object sender, CancelEventArgs e) { CloseFile(sender, new RoutedEventArgs()); }
 
         #endregion
 

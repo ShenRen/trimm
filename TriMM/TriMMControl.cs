@@ -1048,14 +1048,6 @@ namespace TriMM {
 
         #endregion
 
-        /// <summary>
-        /// Destroys the contexts when the TriMMControl is disposed.
-        /// </summary>
-        protected override void Dispose(bool disposing) {
-            DestroyContexts();
-            base.Dispose(disposing);
-        }
-
         #endregion
 
         #region Event Handling Stuff

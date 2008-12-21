@@ -2,18 +2,18 @@
     xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="TriMM" Height="577" Width="300" WindowStyle="ThreeDBorderWindow" MinWidth="300" MinHeight="0" MaxHeight="1000" MaxWidth="300" SizeToContent="Height" ResizeMode="CanMinimize" Visibility="Visible" Top="0" Left="0" Closing="Window_Closing">
+    Title="TriMM" Height="577" Width="300" WindowStyle="ThreeDBorderWindow" MinWidth="300" MinHeight="0" MaxHeight="1000" MaxWidth="300" SizeToContent="Height" ResizeMode="CanMinimize" Visibility="Visible" Top="0" Left="0" Closing="Window_Closing" Background="GhostWhite">
     <Grid Height="Auto" VerticalAlignment="Top">
-        <Menu Height="23" Name="menu" VerticalAlignment="Top" Background="Transparent" Visibility="Visible">
-            <MenuItem Header="File" Name="fileMenuItem" TabIndex="0" IsTabStop="False">
-                <MenuItem Header="Open" Name="openMenuItem" Click="OpenMenuItem_Click" />
-                <MenuItem Focusable="True" Header="Save" Name="saveMenuItem" Visibility="Collapsed" Click="SaveMenuItem_Click" />
-                <MenuItem Focusable="True" Header="Close" Name="closeMenuItem" Visibility="Collapsed" Click="CloseFile" />
-                <Separator />
-                <MenuItem Header="Exit" Name="exitMenuItem" Click="ExitMenuItem_Click" />
+        <Menu Height="23" Name="menu" VerticalAlignment="Top" Background="CornflowerBlue" Visibility="Visible">
+            <MenuItem Header="File" Name="fileMenuItem" TabIndex="0" IsTabStop="False" Background="CornflowerBlue">
+                <MenuItem Header="Open" Name="openMenuItem" Click="OpenMenuItem_Click" Background="GhostWhite" />
+                <MenuItem Focusable="True" Header="Save" Name="saveMenuItem" Visibility="Collapsed" Click="SaveMenuItem_Click" Background="GhostWhite" />
+                <MenuItem Focusable="True" Header="Close" Name="closeMenuItem" Visibility="Collapsed" Click="CloseFile" Background="GhostWhite" />
+                <Separator Background="CornflowerBlue" Foreground="Black" />
+                <MenuItem Header="Exit" Name="exitMenuItem" Click="ExitMenuItem_Click" Background="GhostWhite" />
             </MenuItem>
-            <MenuItem Header="View" Name="viewMenuItem" Visibility="Collapsed" Click="ViewMenuItem_Click" />
-            <MenuItem Header="Settings" Name="settingsMenuItem" Click="SettingsMenuItem_Click" />
+            <MenuItem Header="View" Name="viewMenuItem" Visibility="Collapsed" Click="ViewMenuItem_Click" Background="CornflowerBlue" />
+            <MenuItem Header="Settings" Name="settingsMenuItem" Click="SettingsMenuItem_Click" Background="CornflowerBlue" />
             <MenuItem Header="Help" Name="helpMenuItem">
                 <MenuItem Header="Info" Name="infoMenuItem" Click="InfoMenuItem_Click" />
             </MenuItem>
@@ -63,8 +63,8 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <ToolBarTray Height="26" Margin="0,29,0,0" Name="toolBarTray1" VerticalAlignment="Top" Background="Transparent">
-            <ToolBar Name="normalAlgoToolBar" IsTabStop="True" ToolTip="Choose the algorithm for calculating the vertex normals." Background="Transparent">
+        <ToolBarTray Height="26" Margin="0,23,0,0" Name="toolBarTray1" VerticalAlignment="Top" Background="SkyBlue">
+            <ToolBar Name="normalAlgoToolBar" IsTabStop="True" ToolTip="Choose the algorithm for calculating the vertex normals." Background="SkyBlue">
                 <Label Height="23" Margin="0,0,0,0" Name="normalAlgorithmLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="101">Normal Algorithm:</Label>
                 <ComboBox Height="23" Margin="0,0,0,0" Width="155" Name="normalComboBox" VerticalAlignment="Top" HorizontalAlignment="Stretch" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="0" />
             </ToolBar>

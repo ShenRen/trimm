@@ -20,6 +20,7 @@
 
 using System;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Documents;
 using System.Reflection;
 using System.IO;
@@ -58,20 +59,19 @@ namespace TriMM {
         public About() {
             InitializeComponent();
             this.Icon = TriMMApp.Image;
-
             versionLabel.Content = String.Format("Version: {0}", AssemblyVersion) + " beta";
             authorLabel.Content = String.Format(AssemblyCopyright);
-            string content = File.ReadAllText("license.txt");
+
             FlowDocument doc = new FlowDocument();
-            doc.FontSize = 12;
+            doc.FontSize = 11;
+            doc.FontFamily = new FontFamily("Tahoma");
             Paragraph para = new Paragraph();
 
-            string[] lines = content.Split(new[] { "\r\n" }, StringSplitOptions.None);
+            string[] lines = Properties.Resources.license.Split(new[] { "\r\n" }, StringSplitOptions.None);
             foreach (string line in lines) {
                 para.Inlines.Add(new Run(line));
                 para.Inlines.Add(new LineBreak());
             }
-
             doc.Blocks.Add(para);
             licenseViewer.Document = doc;
         }

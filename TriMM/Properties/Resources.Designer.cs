@@ -60,6 +60,28 @@ namespace TriMM.Properties {
             }
         }
         
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die                     GNU GENERAL PUBLIC LICENSE
+        ///                     Version 3, 29 June 2007
+        ///
+        ///Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;
+        ///Everyone is permitted to copy and distribute verbatim copies
+        ///of this license document, but changing it is not allowed.
+        ///
+        ///                            Preamble
+        ///
+        /// The GNU General Public License is a free, copyleft license for
+        ///software and other kinds of works.
+        ///
+        /// The licenses for most software and other practical works are
+        ///designed to take a [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string license {
+            get {
+                return ResourceManager.GetString("license", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Icon LogoGross {
             get {
                 object obj = ResourceManager.GetObject("LogoGross", resourceCulture);
