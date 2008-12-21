@@ -768,6 +768,7 @@ namespace TriMM {
 
             newMesh.AddRange(oldTriangles.ToArray());
             newMesh.Vertices.AddRange(oldVertices.ToArray());
+            newMesh.vertexNormalAlgorithm = mesh.vertexNormalAlgorithm;
             newMesh.Finish(true, true);
             return newMesh;
         }
