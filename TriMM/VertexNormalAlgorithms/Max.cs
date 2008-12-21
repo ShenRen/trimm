@@ -52,14 +52,14 @@ namespace TriMM.VertexNormalAlgorithms {
             double factor;
             int[] neighbors;
 
-            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
-                Vertex vertex = TriMM.Mesh.Vertices[i];
+            for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
+                Vertex vertex = TriMMApp.Mesh.Vertices[i];
                 vertex.Normal = new VectorND(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
-                    neighbors = TriMM.Mesh[vertex.Triangles[j]].GetNeighborsOf(i);
-                    pro1 = TriMM.Mesh.Vertices[neighbors[0]] - vertex;
-                    pro2 = TriMM.Mesh.Vertices[neighbors[1]] - vertex;
+                    neighbors = TriMMApp.Mesh[vertex.Triangles[j]].GetNeighborsOf(i);
+                    pro1 = TriMMApp.Mesh.Vertices[neighbors[0]] - vertex;
+                    pro2 = TriMMApp.Mesh.Vertices[neighbors[1]] - vertex;
                     factor = pro1.SquaredLength() * pro2.SquaredLength();
                     vertex.Normal += (pro1 % pro2) / factor;
                 }

@@ -1,0 +1,8 @@
+﻿<Application x:Class="TriMM.TriMMApp"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    StartupUri="TriMMWindow.xaml" x:Name="TriMM">
+    <Application.Resources>
+
+    </Application.Resources>
+</Application>

@@ -1,0 +1,68 @@
+﻿<Window x:Class="TriMM.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="TriMM Settings" Height="321" Width="494" WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize">
+    <Grid>
+        <Menu Height="22" Name="menu1" VerticalAlignment="Top">
+            <MenuItem Header="Load Settings" Name="loadSettingsMenuItem" Click="LoadSettingsMenuItem_Click" />
+            <MenuItem Header="Save Settings" Name="saveSettingsMenuItem" Click="SaveSettingsMenuItem_Click" />
+            <MenuItem Header="Load Default" Name="loadDefaultMenuItem" Click="LoadDefaultMenuItem_Click" />
+            <MenuItem Header="Load Standard" Name="loadStandardMenuItem" Click="LoadStandardMenuItem_Click" />
+            <MenuItem Header="Make Standard" Name="makeStandardMenuItem" Click="MakeStandardMenuItem_Click" />
+        </Menu>
+        <ToolBarTray Height="26" Margin="0,29,0,0" Name="toolBarTray1" VerticalAlignment="Top" Background="Transparent">
+            <ToolBar Name="normalAlgoToolBar" IsTabStop="True" ToolTip="Choose the algorithm for calculating the vertex normals." Background="Transparent">
+                <Label Height="23" Margin="0,0,0,0" Name="normalAlgorithmLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="101">Normal Algorithm:</Label>
+                <ComboBox Height="23" Margin="0,0,0,0" Width="160" Name="normalComboBox" VerticalAlignment="Top" HorizontalAlignment="Stretch" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="0" />
+            </ToolBar>
+        </ToolBarTray>
+        <GroupBox Header="Colors" Margin="0,61,0,0" Name="groupBox1" Height="83" VerticalAlignment="Top">
+            <Grid>
+                <Button Height="23" HorizontalAlignment="Right" Margin="0,35,101,0" Name="standardColorsButton" VerticalAlignment="Top" Width="88">Load Standard</Button>
+                <Button Height="23" HorizontalAlignment="Right" Margin="0,35,5,0" Name="makeStandardColorsButton" VerticalAlignment="Top" Width="90">Make Standard</Button>
+                <Button Height="23" Margin="0,35,195,0" Name="defaultColorsButton" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100">Load Default</Button>
+                <TextBox Margin="147,6,35,0" Name="colorTextBox" Height="22.723" VerticalAlignment="Top" IsEnabled="True" IsReadOnly="True" />
+                <Button Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" Name="colorButton" VerticalAlignment="Top" Width="23" Click="ColorButton_Click"></Button>
+                <ComboBox Height="23" Margin="6,6,0,0" Name="colorComboBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" SelectedIndex="0" SelectionChanged="ColorComboBox_SelectionChanged">
+                    <ComboBoxItem>Background</ComboBoxItem>
+                    <ComboBoxItem>Text</ComboBoxItem>
+                    <ComboBoxItem>Solid</ComboBoxItem>
+                    <ComboBoxItem>Mesh</ComboBoxItem>
+                    <ComboBoxItem>Vertices</ComboBoxItem>
+                    <ComboBoxItem>Triangle Normals</ComboBoxItem>
+                    <ComboBoxItem>Vertex Normals</ComboBoxItem>
+                    <ComboBoxItem>X-Axis</ComboBoxItem>
+                    <ComboBoxItem>Y-Axis</ComboBoxItem>
+                    <ComboBoxItem>Z-Axis</ComboBoxItem>
+                    <ComboBoxItem>Observed Vertex</ComboBoxItem>
+                    <ComboBoxItem>Observed Edge</ComboBoxItem>
+                    <ComboBoxItem>Observed Triangle</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Display" Name="groupBox2" Height="132" VerticalAlignment="Top" Margin="0,150,0,0">
+            <Grid>
+                <Button HorizontalAlignment="Right" Margin="0,0,101,6" Name="standardDisplayButton" Width="88" Height="23" VerticalAlignment="Bottom" Click="StandardDisplayButton_Click">Load Standard</Button>
+                <Button HorizontalAlignment="Right" Margin="0,0,5,6" Name="makeStandardDisplayButton" Width="90" Height="23" VerticalAlignment="Bottom" Click="MakeStandardDisplayButton_Click">Make Standard</Button>
+                <Button Margin="0,0,195,6" Name="defaultDisplayButton" Height="23" VerticalAlignment="Bottom" Click="DefaultDisplayButton_Click" HorizontalAlignment="Right" Width="100">Load Default</Button>
+                <CheckBox Height="16" HorizontalAlignment="Left" Margin="6,6,0,0" Name="smoothCheckBox" VerticalAlignment="Top" Width="56" Checked="SmoothCheckBox_Checked" Unchecked="SmoothCheckBox_Checked">Smooth</CheckBox>
+                <CheckBox Height="16" Margin="138,6,0,0" Name="solidCheckBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Checked="SolidCheckBox_Checked" Unchecked="SolidCheckBox_Checked">Solid</CheckBox>
+                <CheckBox Height="16" Margin="0,6,138,0" Name="meshCheckBox" VerticalAlignment="Top" Checked="MeshCheckBox_Checked" Unchecked="MeshCheckBox_Checked" HorizontalAlignment="Right" Width="50">Mesh</CheckBox>
+                <CheckBox HorizontalAlignment="Right" Margin="0,6,6,0" Name="verticesCheckBox" Width="65" Height="15.723" VerticalAlignment="Top" Checked="VerticesCheckBox_Checked" Unchecked="VerticesCheckBox_Checked">Vertices</CheckBox>
+                <CheckBox Margin="6,28,0,0" Name="triangleNormalsCheckBox" Height="15.723" VerticalAlignment="Top" Checked="TriangleNormalsCheckBox_Checked" Unchecked="TriangleNormalsCheckBox_Checked" HorizontalAlignment="Left" Width="103">Triangle Normals</CheckBox>
+                <CheckBox Margin="115,28,0,0" Name="vertexNormalsCheckBox" Height="15.723" VerticalAlignment="Top" Checked="VertexNormalsCheckBox_Checked" Unchecked="VertexNormalsCheckBox_Checked" HorizontalAlignment="Left" Width="103">Vertex Normals</CheckBox>
+                <CheckBox Height="16" Margin="0,28,145,0" Name="xAxisCheckBox" VerticalAlignment="Top" Checked="XAxisCheckBox_Checked" Unchecked="XAxisCheckBox_Checked" HorizontalAlignment="Right" Width="62">X-Axis</CheckBox>
+                <CheckBox HorizontalAlignment="Right" Margin="0,28,77,0" Name="yAxisCheckBox" Width="62" Checked="YAxisCheckBox_Checked" Unchecked="YAxisCheckBox_Checked" Height="16" VerticalAlignment="Top">Y-Axis</CheckBox>
+                <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,28,9,0" Name="zAxisCheckBox" VerticalAlignment="Top" Width="62" Checked="ZAxisCheckBox_Checked" Unchecked="ZAxisCheckBox_Checked">Z-Axis</CheckBox>
+                <Label Margin="6,50,0,0" Name="pickingModeLabel" HorizontalAlignment="Left" Width="80" Height="22.723" VerticalAlignment="Top">Picking Mode:</Label>
+                <ComboBox Margin="115,50,0,0" Name="pickingModeComboBox" SelectedIndex="-1" SelectionChanged="PickingModeComboBox_SelectionChanged" HorizontalAlignment="Left" Width="120" Height="22.723" VerticalAlignment="Top">
+                    <ComboBoxItem>None</ComboBoxItem>
+                    <ComboBoxItem>Vertices</ComboBoxItem>
+                    <ComboBoxItem>Edges</ComboBoxItem>
+                    <ComboBoxItem>Triangles</ComboBoxItem>
+                </ComboBox>
+                
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

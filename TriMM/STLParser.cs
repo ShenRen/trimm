@@ -21,11 +21,10 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Documents;
 using System.Globalization;
-using TriMM.VertexNormalAlgorithms;
 
 namespace TriMM {
     /// <summary>
@@ -39,10 +38,8 @@ namespace TriMM {
         /// Parse the given Stream.
         /// </summary>
         /// <param name="file">Stream to parse</param>
-        /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
-        public static void Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
-            TriMM.Mesh = new TriangleMesh();
-            TriMM.Mesh.VertexNormalAlgorithm = normalAlgo;
+        public static void Parse(StreamReader file) {
+            TriMMApp.Mesh = new TriangleMesh();
             
             // Test, if the stream is ASCII or binary
             if (TestIfASCII(file)) {ParseASCII(file);} else { ParseBinary(file);}
@@ -100,7 +97,7 @@ namespace TriMM {
                 // Next three are vertices
                 for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { tmp[j][k] = (double)binReader.ReadSingle(); } }
                 triangles.Add(tmp);
-                TriMM.Mesh.Vertices = TriMM.Mesh.Vertices.Union(tmp).ToList();
+                TriMMApp.Mesh.Vertices = TriMMApp.Mesh.Vertices.Union(tmp).ToList();
 
                 // Last two bytes are only to fill up to 50 bytes
                 binReader.Read(charBuf, 0, 2);
@@ -108,19 +105,19 @@ namespace TriMM {
 
             // Adds the Triangles with the given normals to the mesh, calculating their centroid.
             for (int i = 0; i < count; i++) {
-                int ind0 = TriMM.Mesh.Vertices.IndexOf(triangles[i][0]);
-                int ind1 = TriMM.Mesh.Vertices.IndexOf(triangles[i][1]);
-                int ind2 = TriMM.Mesh.Vertices.IndexOf(triangles[i][2]);
+                int ind0 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][0]);
+                int ind1 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][1]);
+                int ind2 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][2]);
                 Vertex centroid = Triangle.GetCentroidOf(triangles[i][0], triangles[i][1], triangles[i][2]);
                 centroid.Normal = normals[i];
 
                 Triangle newTriangle = new Triangle(ind0, ind1, ind2);
                 newTriangle.Centroid = centroid;
-                TriMM.Mesh.Add(newTriangle);
+                TriMMApp.Mesh.Add(newTriangle);
             }
 #if !DEBUG
             } catch {
-                MessageBox.Show("Parser-Error", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Parser-Error", "", MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
             binReader.Close();
@@ -128,7 +125,7 @@ namespace TriMM {
             }
 #endif
 
-            TriMM.Mesh.Finish(false, true);
+            TriMMApp.Mesh.Finish(false, true);
         }
 
         /// <summary>
@@ -167,7 +164,7 @@ namespace TriMM {
                         // Parse string, NumberStyles.Float secures that different formats can be parsed
                         // such as: "-2.23454e-001" (exponential format)
                         for (int i = 0; i < 3; i++) { tmp[count - 1][i] = double.Parse(v[i + 1], NumberStyles.Float, numberFormatInfo); }
-                        if (!TriMM.Mesh.Vertices.Contains(tmp[count - 1])) { TriMM.Mesh.Vertices.Add(tmp[count - 1]); }
+                        if (!TriMMApp.Mesh.Vertices.Contains(tmp[count - 1])) { TriMMApp.Mesh.Vertices.Add(tmp[count - 1]); }
                         count++;
                     } else if (v[0].ToLower() == "facet") {
                         normals.Add(new VectorND(double.Parse(v[2], NumberStyles.Float, numberFormatInfo),
@@ -179,26 +176,26 @@ namespace TriMM {
 
             // Adds the Triangles with the given normals to the mesh, calculating their centroid.
             for (int i = 0; i < normals.Count; i++) {
-                int ind0 = TriMM.Mesh.Vertices.IndexOf(triangles[i][0]);
-                int ind1 = TriMM.Mesh.Vertices.IndexOf(triangles[i][1]);
-                int ind2 = TriMM.Mesh.Vertices.IndexOf(triangles[i][2]);
+                int ind0 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][0]);
+                int ind1 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][1]);
+                int ind2 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][2]);
                 Vertex centroid = Triangle.GetCentroidOf(triangles[i][0], triangles[i][1], triangles[i][2]);
                 centroid.Normal = normals[i];
 
                 Triangle newTriangle = new Triangle(ind0, ind1, ind2);
                 newTriangle.Centroid = centroid;
-                TriMM.Mesh.Add(newTriangle);
+                TriMMApp.Mesh.Add(newTriangle);
             }
 #if !DEBUG
             } catch {
-                MessageBox.Show("Parser-Error", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Parser-Error", "", MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
             sr.Close();
 #if !DEBUG
             }
 #endif
-            TriMM.Mesh.Finish(false, true);
+            TriMMApp.Mesh.Finish(false, true);
         }
 
         /// <summary>
@@ -235,11 +232,11 @@ namespace TriMM {
             try {
 #endif
             sw.WriteLine("solid ");
-            for (int i = 0; i < TriMM.Mesh.Count; i++) {
-                sw.WriteLine("  facet normal " + TriMM.Mesh[i].Normal[0] + " " + TriMM.Mesh[i].Normal[1] + " " + TriMM.Mesh[i].Normal[2] + " ");
+            for (int i = 0; i < TriMMApp.Mesh.Count; i++) {
+                sw.WriteLine("  facet normal " + TriMMApp.Mesh[i].Normal[0] + " " + TriMMApp.Mesh[i].Normal[1] + " " + TriMMApp.Mesh[i].Normal[2] + " ");
                 sw.WriteLine("    outer loop");
                 for (int j = 0; j < 3; j++) {
-                    sw.WriteLine("      vertex " + TriMM.Mesh[i, j][0] + " " + TriMM.Mesh[i, j][1] + " " + TriMM.Mesh[i, j][2] + " ");
+                    sw.WriteLine("      vertex " + TriMMApp.Mesh[i, j][0] + " " + TriMMApp.Mesh[i, j][1] + " " + TriMMApp.Mesh[i, j][2] + " ");
                 }
                 sw.WriteLine("    endloop");
                 sw.WriteLine("  endfacet");
@@ -247,7 +244,7 @@ namespace TriMM {
             sw.WriteLine("endsolid ");
 #if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
             sw.Close();
@@ -273,15 +270,15 @@ namespace TriMM {
 
             for (int c = 0; c < 80; c++) { bw.Write(headerArr[c]); }
 
-            bw.Write((UInt32)(TriMM.Mesh.Count));
+            bw.Write((UInt32)(TriMMApp.Mesh.Count));
 
-            for (int i = 0; i < TriMM.Mesh.Count; i++) {
+            for (int i = 0; i < TriMMApp.Mesh.Count; i++) {
 
                 // Normal vector
-                for (int j = 0; j < 3; j++) { bw.Write((float)TriMM.Mesh[i].Normal[j]); }
+                for (int j = 0; j < 3; j++) { bw.Write((float)TriMMApp.Mesh[i].Normal[j]); }
 
                 // Next three are vertices
-                for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { bw.Write((float)TriMM.Mesh[i, j][k]); } }
+                for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { bw.Write((float)TriMMApp.Mesh[i, j][k]); } }
 
                 // Last two bytes are only to fill up to 50 bytes
                 bw.Write(abc);
@@ -289,7 +286,7 @@ namespace TriMM {
             }
 #if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
             fs.Close();

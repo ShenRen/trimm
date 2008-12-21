@@ -21,7 +21,10 @@
 using System;
 using System.IO;
 using System.Drawing;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media.Imaging;
 using System.Globalization;
 
 namespace TriMM {
@@ -33,6 +36,12 @@ namespace TriMM {
     /// Alerts listeners of changes to the Settings.
     /// </summary>
     public delegate void SettingsChangedEventHandler();
+
+    /// <summary>
+    /// An EventHandler for the NormalAlgoChanged Event.
+    /// Alerts listeners of changes to the choice of the Vertex normal algorithm.
+    /// </summary>
+    public delegate void NormalAlgoChangedEventHandler();
 
     /// <summary>
     /// An EventHandler for the BackColorChanged Event.
@@ -51,16 +60,20 @@ namespace TriMM {
 
         #region Standards
 
+        private int sNormalAlgo;
+
         #region Colors
 
         private ColorOGL sBackColor;
         private ColorOGL sTextColor;
-        private ColorOGL sPlainColor;
+        private ColorOGL sSolidColor;
         private ColorOGL sMeshColor;
         private ColorOGL sVertexColor;
-        private ColorOGL sNormalColor;
+        private ColorOGL sTriNormalColor;
+        private ColorOGL sVertNormalColor;
         private ColorOGL sObservedVertexColor;
         private ColorOGL sObservedTriangleColor;
+        private ColorOGL sObservedEdgeColor;
         private ColorOGL sXAxisColor;
         private ColorOGL sYAxisColor;
         private ColorOGL sZAxisColor;
@@ -76,22 +89,28 @@ namespace TriMM {
         private bool sVertices;
         private bool sTriangleNormalVectors;
         private bool sVertexNormalVectors;
-        private bool sAxes;
+        private bool sXAxis;
+        private bool sYAxis;
+        private bool sZAxis;
 
         #endregion
 
         #endregion
+
+        private int normalAlgo;
 
         #region Colors
 
         private ColorOGL backColor;
         private ColorOGL textColor;
-        private ColorOGL plainColor;
+        private ColorOGL solidColor;
         private ColorOGL meshColor;
         private ColorOGL vertexColor;
-        private ColorOGL normalColor;
+        private ColorOGL triNormalColor;
+        private ColorOGL vertNormalColor;
         private ColorOGL observedVertexColor;
         private ColorOGL observedTriangleColor;
+        private ColorOGL observedEdgeColor;
         private ColorOGL xAxisColor;
         private ColorOGL yAxisColor;
         private ColorOGL zAxisColor;
@@ -107,7 +126,9 @@ namespace TriMM {
         private bool vertices;
         private bool triangleNormalVectors;
         private bool vertexNormalVectors;
-        private bool axes;
+        private bool xAxis;
+        private bool yAxis;
+        private bool zAxis;
 
         #endregion
 
@@ -115,6 +136,9 @@ namespace TriMM {
 
         /// <value>The event thrown when the Settings are changed.</value>
         public event SettingsChangedEventHandler SettingsChanged;
+
+        /// <value>The event thrown when the Settings are changed.</value>
+        public event NormalAlgoChangedEventHandler NormalAlgoChanged;
 
         /// <value>The event thrown when the background color is changed.</value>
         public event BackColorChangedEventHandler BackColorChanged;
@@ -125,74 +149,14 @@ namespace TriMM {
 
         #region Properties
 
-        #region Standards
-
-        #region Colors
-
-        /// <value>Gets the standard background color or sets it.</value>
-        public ColorOGL SBackColor { get { return sBackColor; } set { sBackColor = value; } }
-
-        /// <value>Gets the standard color for the info text or sets it.</value>
-        public ColorOGL STextColor { get { return sTextColor; } set { sTextColor = value; } }
-
-        /// <value>Gets the standard plain color for displaying the modell or sets it.</value>
-        public ColorOGL SPlainColor { get { return sPlainColor; } set { sPlainColor = value; } }
-
-        /// <value>Gets the standard color for the mesh lines or sets it.</value>
-        public ColorOGL SMeshColor { get { return sMeshColor; } set { sMeshColor = value; } }
-
-        /// <value>Gets thestandard  color for displaying the Vertices or sets it.</value>
-        public ColorOGL SVertexColor { get { return sVertexColor; } set { sVertexColor = value; } }
-
-        /// <value>Gets the standard color for displaying the normals or sets it.</value>
-        public ColorOGL SNormalColor { get { return sNormalColor; } set { sNormalColor = value; } }
-
-        /// <value>Gets the standard color for the sphere around the observed Vertex or sets it.</value>
-        public ColorOGL SObservedVertexColor { get { return sObservedVertexColor; } set { sObservedVertexColor = value; } }
-
-        /// <value>Gets the standard color for the sphere around the observed Vertex or sets it.</value>
-        public ColorOGL SObservedTriangleColor { get { return sObservedTriangleColor; } set { sObservedTriangleColor = value; } }
-
-        /// <value>Gets the standard color for the x-axis or sets it.</value>
-        public ColorOGL SXAxisColor { get { return sXAxisColor; } set { sXAxisColor = value; } }
-
-        /// <value>Gets the standard color for the y-axis or sets it.</value>
-        public ColorOGL SYAxisColor { get { return sYAxisColor; } set { sYAxisColor = value; } }
-
-        /// <value>Gets the standard color for the z-axis or sets it.</value>
-        public ColorOGL SZAxisColor { get { return sZAxisColor; } set { sZAxisColor = value; } }
-
-        #endregion
-
-        #region Display Settings
-
-        /// <value>Gets the standard picking mode (0=none, 1=vertex, 2=edge, 3=triangle) or sets it.</value>
-        public int SPickingMode { get { return sPickingMode; } set { sPickingMode = value; } }
-
-        /// <value>Standard Value: If true, the modell is drawn smooth.</value>
-        public bool SSmooth { get { return sSmooth; } set { sSmooth = value; } }
-
-        /// <value>Standard Value: If true, the modell is drawn as a solid object.</value>
-        public bool SSolid { get { return sSolid; } set { sSolid = value; } }
-
-        /// <value>Standard Value: If true, the modell is drawn as a mesh.</value>
-        public bool SMesh { get { return sMesh; } set { sMesh = value; } }
-
-        /// <value>Standard Value: If true, the Vertices of the modell are drawn.</value>
-        public bool SVertices { get { return sVertices; } set { sVertices = value; } }
-
-        /// <value>Standard Value: If true, the Triangle normal vectors of the modell are drawn.</value>
-        public bool STriangleNormalVectors { get { return sTriangleNormalVectors; } set { sTriangleNormalVectors = value; } }
-
-        /// <value>Standard Value: If true, the Vertex normal vectors of the modell are drawn.</value>
-        public bool SVertexNormalVectors { get { return sVertexNormalVectors; } set { sVertexNormalVectors = value; } }
-
-        /// <value>Standard Value: If true, the coordinate-axes are drawn.</value>
-        public bool SAxes { get { return sAxes; } set { sAxes = value; } }
-
-        #endregion
-
-        #endregion
+        /// <value>Gets the index of the normal algorithm (0 to 12 allowed) or sets it.</value>
+        public int NormalAlgo {
+            get { return normalAlgo; }
+            set {
+                normalAlgo = value;
+                if (NormalAlgoChanged != null) { NormalAlgoChanged(); }
+            }
+        }
 
         #region Colors
 
@@ -215,11 +179,11 @@ namespace TriMM {
             }
         }
 
-        /// <value>Gets the plain color for displaying the modell or sets it.</value>
-        public ColorOGL PlainColor {
-            get { return plainColor; }
+        /// <value>Gets the color for displaying the solid modell or sets it.</value>
+        public ColorOGL SolidColor {
+            get { return solidColor; }
             set {
-                plainColor = value;
+                solidColor = value;
                 if (SettingsChanged != null) { SettingsChanged(); }
             }
         }
@@ -242,11 +206,20 @@ namespace TriMM {
             }
         }
 
-        /// <value>Gets the color for displaying the normals or sets it.</value>
-        public ColorOGL NormalColor {
-            get { return normalColor; }
+        /// <value>Gets the color for displaying the triangle normals or sets it.</value>
+        public ColorOGL TriNormalColor {
+            get { return triNormalColor; }
             set {
-                normalColor = value;
+                triNormalColor = value;
+                if (SettingsChanged != null) { SettingsChanged(); }
+            }
+        }
+
+        /// <value>Gets the color for displaying the vertex normals or sets it.</value>
+        public ColorOGL VertNormalColor {
+            get { return vertNormalColor; }
+            set {
+                vertNormalColor = value;
                 if (SettingsChanged != null) { SettingsChanged(); }
             }
         }
@@ -260,11 +233,20 @@ namespace TriMM {
             }
         }
 
-        /// <value>Gets the color for the sphere around the observed Vertex or sets it.</value>
+        /// <value>Gets the color for the observed Triangle or sets it.</value>
         public ColorOGL ObservedTriangleColor {
             get { return observedTriangleColor; }
             set {
                 observedTriangleColor = value;
+                if (SettingsChanged != null) { SettingsChanged(); }
+            }
+        }
+
+        /// <value>Gets the color for the cylinder around the observed Edge or sets it.</value>
+        public ColorOGL ObservedEdgeColor {
+            get { return observedEdgeColor; }
+            set {
+                observedEdgeColor = value;
                 if (SettingsChanged != null) { SettingsChanged(); }
             }
         }
@@ -363,11 +345,29 @@ namespace TriMM {
             }
         }
 
-        /// <value>If true, the coordinate-axes are drawn.</value>
-        public bool Axes {
-            get { return axes; }
+        /// <value>If true, the coordinate x-axis is drawn.</value>
+        public bool XAxis {
+            get { return xAxis; }
             set {
-                axes = value;
+                xAxis = value;
+                if (SettingsChanged != null) { SettingsChanged(); }
+            }
+        }
+
+        /// <value>If true, the coordinate y-axis is drawn.</value>
+        public bool YAxis {
+            get { return yAxis; }
+            set {
+                yAxis = value;
+                if (SettingsChanged != null) { SettingsChanged(); }
+            }
+        }
+
+        /// <value>If true, the coordinate z-axis is drawn.</value>
+        public bool ZAxis {
+            get { return zAxis; }
+            set {
+                zAxis = value;
                 if (SettingsChanged != null) { SettingsChanged(); }
             }
         }
@@ -406,16 +406,18 @@ namespace TriMM {
         /// Sets the color settings to default values.
         /// </summary>
         public void SetToDefaultColors() {
-            backColor = new ColorOGL(Color.Black);
+            backColor = new ColorOGL(0.0f, 0.0f, 0.0f);
             if (BackColorChanged != null) { BackColorChanged(); }
 
             textColor = new ColorOGL();
-            plainColor = new ColorOGL(0.0f, 0.8f, 0.8f);
+            solidColor = new ColorOGL(0.0f, 0.8f, 0.8f);
             meshColor = new ColorOGL(0.5f, 0.5f, 0.5f);
             vertexColor = new ColorOGL(0.8f, 0.8f, 0.0f);
-            normalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
+            triNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
+            vertNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
             observedVertexColor = new ColorOGL();
             observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
+            observedEdgeColor = new ColorOGL();
             xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
             yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
             zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
@@ -427,6 +429,7 @@ namespace TriMM {
         /// Sets the display settings to default values.
         /// </summary>
         public void SetToDefaultDisplay() {
+            normalAlgo = 0;
             pickingMode = 0;
             smooth = false;
             solid = true;
@@ -434,7 +437,9 @@ namespace TriMM {
             vertices = false;
             triangleNormalVectors = false;
             vertexNormalVectors = false;
-            axes = false;
+            xAxis = false;
+            yAxis = false;
+            zAxis = false;
 
             if (SettingsChanged != null) { SettingsChanged(); }
         }
@@ -444,21 +449,24 @@ namespace TriMM {
         /// </summary>
         public void SetToDefault() {
             // Colors
-            backColor = new ColorOGL(Color.Black);
+            backColor = new ColorOGL(0.0f, 0.0f, 0.0f);
             if (BackColorChanged != null) { BackColorChanged(); }
 
             textColor = new ColorOGL();
-            plainColor = new ColorOGL(0.0f, 0.8f, 0.8f);
+            solidColor = new ColorOGL(0.0f, 0.8f, 0.8f);
             meshColor = new ColorOGL(0.5f, 0.5f, 0.5f);
             vertexColor = new ColorOGL(0.8f, 0.8f, 0.0f);
-            normalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
+            triNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
+            vertNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
             observedVertexColor = new ColorOGL();
             observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
+            observedEdgeColor = new ColorOGL();
             xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
             yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
             zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
 
             // Display Settings
+            normalAlgo = 0;
             pickingMode = 0;
             smooth = false;
             solid = true;
@@ -466,7 +474,9 @@ namespace TriMM {
             vertices = false;
             triangleNormalVectors = false;
             vertexNormalVectors = false;
-            axes = false;
+            xAxis = false;
+            yAxis = false;
+            zAxis = false;
 
             if (SettingsChanged != null) { SettingsChanged(); }
         }
@@ -479,12 +489,14 @@ namespace TriMM {
             if (BackColorChanged != null) { BackColorChanged(); }
 
             textColor = sTextColor;
-            plainColor = sPlainColor;
+            solidColor = sSolidColor;
             meshColor = sMeshColor;
             vertexColor = sVertexColor;
-            normalColor = sNormalColor;
+            triNormalColor = sTriNormalColor;
+            vertNormalColor = sVertNormalColor;
             observedVertexColor = sObservedVertexColor;
             observedTriangleColor = sObservedTriangleColor;
+            observedEdgeColor = sObservedEdgeColor;
             xAxisColor = sXAxisColor;
             yAxisColor = sYAxisColor;
             zAxisColor = sZAxisColor;
@@ -496,6 +508,7 @@ namespace TriMM {
         /// Sets the display settings to the standard values.
         /// </summary>
         public void SetToStandardDisplay() {
+            normalAlgo = sNormalAlgo;
             pickingMode = sPickingMode;
             smooth = sSmooth;
             solid = sSolid;
@@ -503,7 +516,9 @@ namespace TriMM {
             vertices = sVertices;
             triangleNormalVectors = sTriangleNormalVectors;
             vertexNormalVectors = sVertexNormalVectors;
-            axes = sAxes;
+            xAxis = sXAxis;
+            yAxis = sYAxis;
+            zAxis = sYAxis;
 
             if (SettingsChanged != null) { SettingsChanged(); }
         }
@@ -517,17 +532,20 @@ namespace TriMM {
             if (BackColorChanged != null) { BackColorChanged(); }
 
             textColor = sTextColor;
-            plainColor = sPlainColor;
+            solidColor = sSolidColor;
             meshColor = sMeshColor;
             vertexColor = sVertexColor;
-            normalColor = sNormalColor;
+            triNormalColor = sTriNormalColor;
+            vertNormalColor = sVertNormalColor;
             observedVertexColor = sObservedVertexColor;
             observedTriangleColor = sObservedTriangleColor;
+            observedEdgeColor = sObservedEdgeColor;
             xAxisColor = sXAxisColor;
             yAxisColor = sYAxisColor;
             zAxisColor = sZAxisColor;
 
             // Display Settings
+            normalAlgo = sNormalAlgo;
             pickingMode = sPickingMode;
             smooth = sSmooth;
             solid = sSolid;
@@ -535,7 +553,9 @@ namespace TriMM {
             vertices = sVertices;
             triangleNormalVectors = sTriangleNormalVectors;
             vertexNormalVectors = sVertexNormalVectors;
-            axes = sAxes;
+            xAxis = sXAxis;
+            yAxis = sYAxis;
+            zAxis = sYAxis;
 
             if (SettingsChanged != null) { SettingsChanged(); }
         }
@@ -546,12 +566,14 @@ namespace TriMM {
         public void MakeStandardColors() {
             sBackColor = backColor;
             sTextColor = textColor;
-            sPlainColor = plainColor;
+            sSolidColor = solidColor;
             sMeshColor = meshColor;
             sVertexColor = vertexColor;
-            sNormalColor = normalColor;
+            sTriNormalColor = triNormalColor;
+            sVertNormalColor = vertNormalColor;
             sObservedVertexColor = observedVertexColor;
             sObservedTriangleColor = observedTriangleColor;
+            sObservedEdgeColor = observedEdgeColor;
             sXAxisColor = xAxisColor;
             sYAxisColor = yAxisColor;
             sZAxisColor = zAxisColor;
@@ -563,6 +585,7 @@ namespace TriMM {
         /// Sets the standard display settings to the current values.
         /// </summary>
         public void MakeStandardDisplay() {
+            sNormalAlgo = normalAlgo;
             sPickingMode = pickingMode;
             sSmooth = smooth;
             sSolid = solid;
@@ -570,7 +593,9 @@ namespace TriMM {
             sVertices = vertices;
             sTriangleNormalVectors = triangleNormalVectors;
             sVertexNormalVectors = vertexNormalVectors;
-            sAxes = axes;
+            sXAxis = xAxis;
+            sYAxis = yAxis;
+            sZAxis = zAxis;
 
             if (SettingsChanged != null) { SettingsChanged(); }
         }
@@ -582,17 +607,20 @@ namespace TriMM {
             // Colors
             sBackColor = backColor;
             sTextColor = textColor;
-            sPlainColor = plainColor;
+            sSolidColor = solidColor;
             sMeshColor = meshColor;
             sVertexColor = vertexColor;
-            sNormalColor = normalColor;
+            sTriNormalColor = triNormalColor;
+            sVertNormalColor = vertNormalColor;
             sObservedVertexColor = observedVertexColor;
             sObservedTriangleColor = observedTriangleColor;
+            sObservedEdgeColor = observedEdgeColor;
             sXAxisColor = xAxisColor;
             sYAxisColor = yAxisColor;
             sZAxisColor = zAxisColor;
 
             // Display Settings
+            sNormalAlgo = normalAlgo;
             sPickingMode = pickingMode;
             sSmooth = smooth;
             sSolid = solid;
@@ -600,7 +628,9 @@ namespace TriMM {
             sVertices = vertices;
             sTriangleNormalVectors = triangleNormalVectors;
             sVertexNormalVectors = vertexNormalVectors;
-            sAxes = axes;
+            sXAxis = xAxis;
+            sYAxis = yAxis;
+            sZAxis = zAxis;
 
             if (SettingsChanged != null) { SettingsChanged(); }
         }
@@ -629,20 +659,13 @@ namespace TriMM {
 
                         if (line.Length == 4) {
                             ColorOGL color = new ColorOGL(float.Parse(line[1], NumberStyles.Float, numberFormatInfo), float.Parse(line[2], NumberStyles.Float, numberFormatInfo), float.Parse(line[3], NumberStyles.Float, numberFormatInfo));
-                            if (line[0] == "BACKC") { backColor = color; }
-                            else if (line[0] == "TEXTC") { textColor = color; }
-                            else if (line[0] == "PLAINC") { plainColor = color; }
-                            else if (line[0] == "MESHC") { meshColor = color; }
-                            else if (line[0] == "VERTEXC") { vertexColor = color; }
-                            else if (line[0] == "NORMALC") { normalColor = color; }
-                            else if (line[0] == "OVERTC") { observedVertexColor = color; }
-                            else if (line[0] == "OTRIC") { observedTriangleColor = color; }
-                            else if (line[0] == "XAXISC") { xAxisColor = color; }
-                            else if (line[0] == "YAXISC") { yAxisColor = color; }
-                            else if (line[0] == "ZAXISC") { zAxisColor = color; }
+                            if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "PLAINC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; } else if (line[0] == "VERTEXC") { vertexColor = color; } else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; } else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; } else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
                         } else if (line.Length == 2) {
                             int mode = int.Parse(line[1]);
-                            if (line[0] == "PICK") {
+                            if (line[0] == "NA") {
+                                if ((mode < 0) || (mode > 12)) { throw new ArgumentException("The picking mode (PICK) must be either 0, 1, 2 or 3!"); }
+                                normalAlgo = mode;
+                            } else if (line[0] == "PICK") {
                                 if ((mode < 0) || (mode > 3)) { throw new ArgumentException("The picking mode (PICK) must be either 0, 1, 2 or 3!"); }
                                 pickingMode = mode;
                             } else if (line[0] == "SMOOTH") {
@@ -663,18 +686,24 @@ namespace TriMM {
                             } else if (line[0] == "VERTNORM") {
                                 if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the VERTNORM setting!"); }
                                 if (mode == 0) { vertexNormalVectors = false; } else { vertexNormalVectors = true; }
-                            } else if (line[0] == "AXES") {
+                            } else if (line[0] == "XAXIS") {
                                 if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the AXES setting!"); }
-                                if (mode == 0) { axes = false; } else { axes = true; }
+                                if (mode == 0) { xAxis = false; } else { xAxis = true; }
+                            } else if (line[0] == "YAXIS") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the AXES setting!"); }
+                                if (mode == 0) { yAxis = false; } else { yAxis = true; }
+                            } else if (line[0] == "ZAXIS") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the AXES setting!"); }
+                                if (mode == 0) { zAxis = false; } else { zAxis = true; }
                             }
                         }
                     }
                 }
 #if !DEBUG
             } catch (ArgumentException ex) {
-                MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             } catch {
-                MessageBox.Show("This Settings file is defect or not a TriMM-Settings file at all!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("This Settings file is defect or not a TriMM-Settings file at all!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 file.Close();
@@ -697,17 +726,20 @@ namespace TriMM {
                 // Colors
                 sw.WriteLine("BACKC " + backColor.R + " " + backColor.G + " " + backColor.B);
                 sw.WriteLine("TEXTC " + textColor.R + " " + textColor.G + " " + textColor.B);
-                sw.WriteLine("PLAINC " + plainColor.R + " " + plainColor.G + " " + plainColor.B);
+                sw.WriteLine("PLAINC " + solidColor.R + " " + solidColor.G + " " + solidColor.B);
                 sw.WriteLine("MESHC " + meshColor.R + " " + meshColor.G + " " + meshColor.B);
                 sw.WriteLine("VERTEXC " + vertexColor.R + " " + vertexColor.G + " " + vertexColor.B);
-                sw.WriteLine("NORMALC " + normalColor.R + " " + normalColor.G + " " + normalColor.B);
+                sw.WriteLine("TNC " + triNormalColor.R + " " + triNormalColor.G + " " + triNormalColor.B);
+                sw.WriteLine("VNC " + vertNormalColor.R + " " + vertNormalColor.G + " " + vertNormalColor.B);
                 sw.WriteLine("OVERTC " + observedVertexColor.R + " " + observedVertexColor.G + " " + observedVertexColor.B);
                 sw.WriteLine("OTRIC " + observedTriangleColor.R + " " + observedTriangleColor.G + " " + observedTriangleColor.B);
+                sw.WriteLine("OEDGC " + observedEdgeColor.R + " " + observedEdgeColor.G + " " + observedEdgeColor.B);
                 sw.WriteLine("XAXISC " + xAxisColor.R + " " + xAxisColor.G + " " + xAxisColor.B);
                 sw.WriteLine("YAXISC " + yAxisColor.R + " " + yAxisColor.G + " " + yAxisColor.B);
                 sw.WriteLine("ZAXISC " + zAxisColor.R + " " + zAxisColor.G + " " + zAxisColor.B);
 
                 // Display
+                sw.WriteLine("NA " + normalAlgo);
                 sw.WriteLine("PICK " + pickingMode);
                 if (smooth) { sw.WriteLine("SMOOTH 1"); } else { sw.WriteLine("SMOOTH 0"); }
                 if (solid) { sw.WriteLine("SOLID 1"); } else { sw.WriteLine("SOLID 0"); }
@@ -715,10 +747,12 @@ namespace TriMM {
                 if (vertices) { sw.WriteLine("VERT 1"); } else { sw.WriteLine("VERT 0"); }
                 if (triangleNormalVectors) { sw.WriteLine("TRINORM 1"); } else { sw.WriteLine("TRINORM 0"); }
                 if (vertexNormalVectors) { sw.WriteLine("VERTNORM 1"); } else { sw.WriteLine("VERTNORM 0"); }
-                if (axes) { sw.WriteLine("AXES 1"); } else { sw.WriteLine("AXES 0"); }
+                if (xAxis) { sw.WriteLine("XAXIS 1"); } else { sw.WriteLine("XAXIS 0"); }
+                if (yAxis) { sw.WriteLine("YAXIS 1"); } else { sw.WriteLine("YAXIS 0"); }
+                if (zAxis) { sw.WriteLine("ZAXIS 1"); } else { sw.WriteLine("ZAXIS 0"); }
 #if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 sw.Close();

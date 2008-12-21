@@ -45,7 +45,7 @@
 // For more information and contact details visit http://pavel.googlecode.com
 
 using System;
-using System.Drawing;
+using System.Windows.Media;
 using System.Collections.Generic;
 
 namespace TriMM {
@@ -104,7 +104,7 @@ namespace TriMM {
         /// <summary>
         /// Sets the color to white.
         /// </summary>
-        public ColorOGL() { Color = Color.White; }
+        public ColorOGL() { Color = Color.FromRgb(255, 255, 255); }
 
         /// <summary>
         /// Sets the color to <paramref name="color"/>.
@@ -149,7 +149,7 @@ namespace TriMM {
         /// </summary>
         /// <param name="colors">Float-array of RGBA-values</param>
         /// <returns>The transformed Color</returns>
-        private static Color ColorFromFloat(float[] colors) { return Color.FromArgb((int)(colors[0] * 255), (int)(colors[1] * 255), (int)(colors[2] * 255)); }
+        private static Color ColorFromFloat(float[] colors) { return Color.FromRgb((byte)(colors[0] * 255), (byte)(colors[1] * 255), (byte)(colors[2] * 255)); }
 
         /// <summary>
         /// Calculates a color table with values interpolated between the given colors.
@@ -240,10 +240,10 @@ namespace TriMM {
         #endregion
 
         /// <summary>
-        /// Returns the color converted to System.Drawing.Color.
+        /// Returns the color converted to System.Windows.Media.Color.
         /// </summary>
         /// <returns>The color as System.Drawing.Color</returns>
-        public Color ToColor() { return Color.FromArgb((int)(rgbFloat[0] * 255), (int)(rgbFloat[1] * 255), (int)(rgbFloat[2] * 255)); }
+        public Color ToColor() { return Color.FromRgb((byte)(rgbFloat[0] * 255), (byte)(rgbFloat[1] * 255), (byte)(rgbFloat[2] * 255)); }
 
         /// <summary>
         /// Calculates the linear interpolation between two Colors,

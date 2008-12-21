@@ -21,10 +21,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Documents;
 using System.Globalization;
-using TriMM.VertexNormalAlgorithms;
-using System.Text;
+
 
 namespace TriMM {
 
@@ -76,10 +76,8 @@ namespace TriMM {
         /// Only the ASCII version of PLY is supported and only triangle meshes are allowed.
         /// </summary>
         /// <param name="file">The *.PLY file to be parsed.</param>
-        /// <param name="normalAlgo">The algorithm to calculate the Vertex normals with.</param>
-        public static void Parse(StreamReader file, IVertexNormalAlgorithm normalAlgo) {
-            TriMM.Mesh = new TriangleMesh();
-            TriMM.Mesh.VertexNormalAlgorithm = normalAlgo;
+        public static void Parse(StreamReader file) {
+            TriMMApp.Mesh = new TriangleMesh();
 
             // Temporary variables.
             String input = null;
@@ -182,7 +180,7 @@ namespace TriMM {
                     vertex = new Vertex(double.Parse(inputList[0], NumberStyles.Float, numberFormatInfo),
                         double.Parse(inputList[1], NumberStyles.Float, numberFormatInfo), double.Parse(inputList[2], NumberStyles.Float, numberFormatInfo));
 
-                    TriMM.Mesh.Vertices.Add(vertex);
+                    TriMMApp.Mesh.Vertices.Add(vertex);
 
                     count++;
                 }
@@ -203,7 +201,7 @@ namespace TriMM {
                     if (int.Parse(inputList[0]) != 3) { throw new Exception("At least one of the faces is not a triangle!"); }
 
                     // Only the Triangle is read and added to the owners TriangleMesh, everything else in the line is ignored.
-                    TriMM.Mesh.Add(new Triangle(int.Parse(inputList[1], numberFormatInfo), int.Parse(inputList[2], numberFormatInfo), int.Parse(inputList[3], numberFormatInfo)));
+                    TriMMApp.Mesh.Add(new Triangle(int.Parse(inputList[1], numberFormatInfo), int.Parse(inputList[2], numberFormatInfo), int.Parse(inputList[3], numberFormatInfo)));
 
                     count++;
                 }
@@ -211,7 +209,7 @@ namespace TriMM {
 
             // The TriangleMesh is complete and can be finalized.
             // The Vertex normals are calculated with the chosen algorithm.
-            TriMM.Mesh.Finish(true, true);
+            TriMMApp.Mesh.Finish(true, true);
         }
 
         /// <summary>
@@ -227,26 +225,26 @@ namespace TriMM {
                 sw.WriteLine("ply");
                 sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
                 sw.WriteLine("format ascii 1.0");
-                sw.WriteLine("element vertex " + TriMM.Mesh.Vertices.Count.ToString());
+                sw.WriteLine("element vertex " + TriMMApp.Mesh.Vertices.Count.ToString());
                 sw.WriteLine("property double x");
                 sw.WriteLine("property double y");
                 sw.WriteLine("property double z");
-                sw.WriteLine("element face " + TriMM.Mesh.Count.ToString());
+                sw.WriteLine("element face " + TriMMApp.Mesh.Count.ToString());
                 sw.WriteLine("property list uchar int vertex_index");
                 sw.WriteLine("end_header");
 
                 // The Vertices.
-                for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
-                    sw.WriteLine(TriMM.Mesh.Vertices[i][0] + " " + TriMM.Mesh.Vertices[i][1] + " " + TriMM.Mesh.Vertices[i][2]);
+                for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
+                    sw.WriteLine(TriMMApp.Mesh.Vertices[i][0] + " " + TriMMApp.Mesh.Vertices[i][1] + " " + TriMMApp.Mesh.Vertices[i][2]);
                 }
 
                 // The Triangles.
-                for (int j = 0; j < TriMM.Mesh.Count; j++) {
-                    sw.WriteLine(3 + " " + TriMM.Mesh[j][0] + " " + TriMM.Mesh[j][1] + " " + TriMM.Mesh[j][2]);
+                for (int j = 0; j < TriMMApp.Mesh.Count; j++) {
+                    sw.WriteLine(3 + " " + TriMMApp.Mesh[j][0] + " " + TriMMApp.Mesh[j][1] + " " + TriMMApp.Mesh[j][2]);
                 }
 #if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 sw.Close();

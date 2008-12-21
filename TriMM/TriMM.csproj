@@ -5,14 +5,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7DB137DF-1409-44CA-BC2B-70A5C4025EF5}</ProjectGuid>
+    <ProjectGuid>{5D5541AE-70A3-40D9-8223-EF98313C170D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TriMM</RootNamespace>
     <AssemblyName>TriMM</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>TriMM.TriMM</StartupObject>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <StartupObject>
+    </StartupObject>
     <ApplicationIcon>Resources\LogoGross.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -33,11 +36,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -45,93 +49,69 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
-      <Private>True</Private>
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL" />
+    <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL">
-      <Private>True</Private>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="About.designer.cs">
-      <DependentUpon>About.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ColorOGL.cs" />
-    <Compile Include="Edge.cs" />
-    <Compile Include="Neighborhood.cs" />
-    <Compile Include="ObjParser.cs" />
-    <Compile Include="OffParser.cs" />
-    <Compile Include="PlyParser.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="SettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SettingsForm.Designer.cs">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TriMMControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TriMMView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TriMMView.Designer.cs">
-      <DependentUpon>TriMMView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="STLParser.cs" />
-    <Compile Include="Triangle.cs" />
-    <Compile Include="TriangleMesh.cs" />
-    <Compile Include="TriMMForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TriMMForm.Designer.cs">
-      <DependentUpon>TriMMForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TriMM.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="About.resx">
-      <DependentUpon>About.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SettingsForm.resx">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TriMMForm.resx">
-      <DependentUpon>TriMMForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TriMMView.resx">
-      <DependentUpon>TriMMView.cs</DependentUpon>
+    <ApplicationDefinition Include="TriMMApp.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </ApplicationDefinition>
+    <Page Include="About.xaml">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TriMMView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TriMMWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="TriMMApp.xaml.cs">
+      <DependentUpon>TriMMApp.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    <Compile Include="TriMMWindow.xaml.cs">
+      <DependentUpon>TriMMWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="VectorND.cs" />
-    <Compile Include="Vertex.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TriMMView.xaml.cs">
+      <DependentUpon>TriMMView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VertexNormalAlgorithms\AdjacentEdgesWeights.cs" />
     <Compile Include="VertexNormalAlgorithms\ChenAndWu.cs" />
+    <Compile Include="ColorOGL.cs" />
+    <Compile Include="Edge.cs" />
     <Compile Include="VertexNormalAlgorithms\EdgeNormals.cs" />
     <Compile Include="VertexNormalAlgorithms\ExtendedChenAndWu.cs" />
     <Compile Include="VertexNormalAlgorithms\ExtendedThuermerAndWuethrich.cs" />
@@ -141,15 +121,50 @@
     <Compile Include="VertexNormalAlgorithms\InverseTaubin.cs" />
     <Compile Include="VertexNormalAlgorithms\IVertexNormalAlgorithm.cs" />
     <Compile Include="VertexNormalAlgorithms\Max.cs" />
+    <Compile Include="Neighborhood.cs" />
+    <Compile Include="ObjParser.cs" />
+    <Compile Include="OffParser.cs" />
+    <Compile Include="PlyParser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <Compile Include="VertexNormalAlgorithms\Rusinkiewicz.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="STLParser.cs" />
     <Compile Include="VertexNormalAlgorithms\Taubin.cs" />
     <Compile Include="VertexNormalAlgorithms\ThuermerAndWuethrich.cs" />
+    <Compile Include="Triangle.cs" />
+    <Compile Include="TriangleMesh.cs" />
+    <Compile Include="TriMMControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VectorND.cs" />
+    <Compile Include="Vertex.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LogoGross.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Color.png" />
+    <None Include="Resources\LogoKlein.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

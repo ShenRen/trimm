@@ -43,19 +43,19 @@ namespace TriMM.VertexNormalAlgorithms {
         /// that are calculated as the average of the normals of the adjacent Triangles weighted by the inverse of their area.
         /// </summary>
         public void GetVertexNormals() {
-            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
-                Vertex vertex = TriMM.Mesh.Vertices[i];
+            for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
+                Vertex vertex = TriMMApp.Mesh.Vertices[i];
                 vertex.Normal = new VectorND(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
-                    Triangle triangle = TriMM.Mesh[vertex.Triangles[j]];
+                    Triangle triangle = TriMMApp.Mesh[vertex.Triangles[j]];
                     int[] neighbors = triangle.GetNeighborsOf(i);
                     double weight = 1 /
-                        (VectorND.Distance(TriMM.Mesh.Vertices[i], TriMM.Mesh.Vertices[neighbors[0]])
-                        * Triangle.GetAreaOf(vertex, triangle.Centroid, TriMM.Mesh.Vertices[neighbors[0]]));
+                        (VectorND.Distance(TriMMApp.Mesh.Vertices[i], TriMMApp.Mesh.Vertices[neighbors[0]])
+                        * Triangle.GetAreaOf(vertex, triangle.Centroid, TriMMApp.Mesh.Vertices[neighbors[0]]));
                     weight += 1 /
-                        (VectorND.Distance(TriMM.Mesh.Vertices[i], TriMM.Mesh.Vertices[neighbors[1]])
-                        * Triangle.GetAreaOf(vertex, triangle.Centroid, TriMM.Mesh.Vertices[neighbors[1]]));
+                        (VectorND.Distance(TriMMApp.Mesh.Vertices[i], TriMMApp.Mesh.Vertices[neighbors[1]])
+                        * Triangle.GetAreaOf(vertex, triangle.Centroid, TriMMApp.Mesh.Vertices[neighbors[1]]));
                     vertex.Normal += weight * triangle.Normal;
                 }
                 vertex.Normal.Normalize();

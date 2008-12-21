@@ -44,14 +44,14 @@ namespace TriMM.VertexNormalAlgorithms {
         /// weighted by the area nearest to the Vertex.
         /// </summary>
         public void GetVertexNormals() {
-            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
-                Vertex vertex = TriMM.Mesh.Vertices[i];
+            for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
+                Vertex vertex = TriMMApp.Mesh.Vertices[i];
                 vertex.Normal = new VectorND(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
                     int adj = vertex.Triangles[j];
-                    Triangle triangle = TriMM.Mesh[adj];
-                    vertex.Normal += triangle.Normal * TriMM.Mesh[adj].GetCornerAreaAt(i);
+                    Triangle triangle = TriMMApp.Mesh[adj];
+                    vertex.Normal += triangle.Normal * TriMMApp.Mesh[adj].GetCornerAreaAt(i);
                 }
                 vertex.Normal.Normalize();
             }

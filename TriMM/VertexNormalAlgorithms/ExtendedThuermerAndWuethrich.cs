@@ -42,12 +42,12 @@ namespace TriMM.VertexNormalAlgorithms {
         /// weighted by the angle between the neighboring Vertices and that Triangles area.
         /// </summary>
         public void GetVertexNormals() {
-            for (int i = 0; i < TriMM.Mesh.Vertices.Count; i++) {
-                Vertex vertex = TriMM.Mesh.Vertices[i];
+            for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
+                Vertex vertex = TriMMApp.Mesh.Vertices[i];
                 vertex.Normal = new VectorND(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
-                    Triangle triangle = TriMM.Mesh[vertex.Triangles[j]];
+                    Triangle triangle = TriMMApp.Mesh[vertex.Triangles[j]];
                     vertex.Normal += triangle.GetAngleAt(i) * triangle.Normal * triangle.Area;
                 }
                 vertex.Normal.Normalize();

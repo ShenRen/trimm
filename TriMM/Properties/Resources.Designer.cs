@@ -60,23 +60,16 @@ namespace TriMM.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap Color {
-            get {
-                object obj = ResourceManager.GetObject("Color", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap ColorKlein {
-            get {
-                object obj = ResourceManager.GetObject("ColorKlein", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Icon LogoGross {
             get {
                 object obj = ResourceManager.GetObject("LogoGross", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon LogoKlein {
+            get {
+                object obj = ResourceManager.GetObject("LogoKlein", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

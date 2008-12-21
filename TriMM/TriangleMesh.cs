@@ -75,8 +75,6 @@ namespace TriMM {
         private int observedEdge = -1;
         private int observedTriangle = -1;
 
-        private IVertexNormalAlgorithm vertexNormalAlgorithm;
-
         #region Drawing Arrays
 
         private float[] vertexPickingColors;
@@ -172,9 +170,6 @@ namespace TriMM {
                 if ((observedEdge == -1) && (PickCleared != null)) { PickCleared(); }
             }
         }
-
-        /// <value>Sets the VertexNormalAlgorithm to be used.</value>
-        public IVertexNormalAlgorithm VertexNormalAlgorithm { set { vertexNormalAlgorithm = value; } }
 
         #region Drawing Arrays
 
@@ -381,7 +376,7 @@ namespace TriMM {
             edgeColorDist = temp / (edges.Count + 2);
             triangleColorDist = temp / (this.Count + 2);
 
-            if (verNormals) { vertexNormalAlgorithm.GetVertexNormals(); }
+            if (verNormals) { TriMMApp.VertexNormalAlgorithm.GetVertexNormals(); }
 
             SetArrays();
         }
@@ -508,13 +503,13 @@ namespace TriMM {
             colorArray = new float[this.Count * 9];
             for (int i = 0; i < this.Count; i++) {
                 if (i == index) {
-                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = TriMM.Settings.ObservedTriangleColor.R;
-                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = TriMM.Settings.ObservedTriangleColor.G;
-                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = TriMM.Settings.ObservedTriangleColor.B;
+                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = TriMMApp.Settings.ObservedTriangleColor.R;
+                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = TriMMApp.Settings.ObservedTriangleColor.G;
+                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = TriMMApp.Settings.ObservedTriangleColor.B;
                 } else {
-                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = TriMM.Settings.PlainColor.R;
-                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = TriMM.Settings.PlainColor.G;
-                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = TriMM.Settings.PlainColor.B;
+                    colorArray[i * 9] = colorArray[i * 9 + 3] = colorArray[i * 9 + 6] = TriMMApp.Settings.SolidColor.R;
+                    colorArray[i * 9 + 1] = colorArray[i * 9 + 4] = colorArray[i * 9 + 7] = TriMMApp.Settings.SolidColor.G;
+                    colorArray[i * 9 + 2] = colorArray[i * 9 + 5] = colorArray[i * 9 + 8] = TriMMApp.Settings.SolidColor.B;
                 }
             }
         }
@@ -674,6 +669,57 @@ namespace TriMM {
         }
 
         /// <summary>
+        /// Subdivides the TriangleMesh given by <paramref name="mesh"/> <paramref name="steps"/> times.
+        /// Each Triangle is subdivided into four Triangles using the midedge Vertices.
+        /// </summary>
+        /// <param name="steps">The number of subdivision steps.</param>
+        public void Subdivide(int steps) {
+            List<Triangle> oldTriangles = new List<Triangle>(TriMMApp.Mesh.ToArray());
+            List<Vertex> oldVertices = new List<Vertex>(TriMMApp.Mesh.Vertices.ToArray());
+            List<Triangle> newTriangles = new List<Triangle>(oldTriangles.Count * 4);
+            List<Vertex> newVertices = new List<Vertex>();
+
+            for (int i = 0; i < steps; i++) {
+                for (int j = 0; j < oldTriangles.Count; j++) {
+                    int[] indices = new int[6];
+                    List<Vertex> triVertices = new List<Vertex>(6);
+                    triVertices.Add(oldVertices[oldTriangles[j][0]].Copy().ToVertex());
+                    triVertices.Add(((oldVertices[oldTriangles[j][0]] + oldVertices[oldTriangles[j][1]]) / 2).ToVertex());
+                    triVertices.Add(oldVertices[oldTriangles[j][1]].Copy().ToVertex());
+                    triVertices.Add(((oldVertices[oldTriangles[j][1]] + oldVertices[oldTriangles[j][2]]) / 2).ToVertex());
+                    triVertices.Add(oldVertices[oldTriangles[j][2]].Copy().ToVertex());
+                    triVertices.Add(((oldVertices[oldTriangles[j][2]] + oldVertices[oldTriangles[j][0]]) / 2).ToVertex());
+
+                    for (int k = 0; k < 6; k++) {
+                        int index = newVertices.IndexOf(triVertices[k]);
+                        if (index != -1) {
+                            indices[k] = index;
+                        } else {
+                            indices[k] = newVertices.Count;
+                            newVertices.Add(triVertices[k]);
+                        }
+                    }
+
+                    newTriangles.Add(new Triangle(indices[0], indices[1], indices[5]));
+                    newTriangles.Add(new Triangle(indices[1], indices[2], indices[3]));
+                    newTriangles.Add(new Triangle(indices[1], indices[3], indices[5]));
+                    newTriangles.Add(new Triangle(indices[3], indices[4], indices[5]));
+                }
+
+                oldTriangles = new List<Triangle>(newTriangles.ToArray());
+                oldVertices = new List<Vertex>(newVertices.ToArray());
+                newTriangles = new List<Triangle>(oldTriangles.Count * 4);
+                newVertices = new List<Vertex>();
+            }
+
+            this.Clear();
+            this.vertices.Clear();
+            this.AddRange(oldTriangles.ToArray());
+            this.Vertices.AddRange(oldVertices.ToArray());
+            Finish(true, true);
+        }
+
+        /// <summary>
         /// Subdivides the Triangle given by the index <paramref name="triangle"/>
         /// by connecting the midedge Vertices and refreshes the TriangleMesh.
         /// </summary>
@@ -713,64 +759,6 @@ namespace TriMM {
             stream.Position = 0;
             object clone = formatter.Deserialize(stream);
             return clone as TriangleMesh;
-        }
-
-        #endregion
-
-        #region Static
-
-        /// <summary>
-        /// Subdivides the TriangleMesh given by <paramref name="mesh"/> <paramref name="steps"/> times.
-        /// Each Triangle is subdivided into four Triangles using the midedge Vertices.
-        /// </summary>
-        /// <param name="mesh">The TriangleMesh to be subdivided.</param>
-        /// <param name="steps">The number of subdivision steps.</param>
-        /// <returns>The subdivided TriangleMesh</returns>
-        public static TriangleMesh Subdivide(TriangleMesh mesh, int steps) {
-            TriangleMesh newMesh = new TriangleMesh();
-            List<Triangle> oldTriangles = new List<Triangle>(mesh.ToArray());
-            List<Vertex> oldVertices = new List<Vertex>(mesh.Vertices.ToArray());
-            List<Triangle> newTriangles = new List<Triangle>(oldTriangles.Count * 4);
-            List<Vertex> newVertices = new List<Vertex>();
-
-            for (int i = 0; i < steps; i++) {
-                for (int j = 0; j < oldTriangles.Count; j++) {
-                    int[] indices = new int[6];
-                    List<Vertex> triVertices = new List<Vertex>(6);
-                    triVertices.Add(oldVertices[oldTriangles[j][0]].Copy().ToVertex());
-                    triVertices.Add(((oldVertices[oldTriangles[j][0]] + oldVertices[oldTriangles[j][1]]) / 2).ToVertex());
-                    triVertices.Add(oldVertices[oldTriangles[j][1]].Copy().ToVertex());
-                    triVertices.Add(((oldVertices[oldTriangles[j][1]] + oldVertices[oldTriangles[j][2]]) / 2).ToVertex());
-                    triVertices.Add(oldVertices[oldTriangles[j][2]].Copy().ToVertex());
-                    triVertices.Add(((oldVertices[oldTriangles[j][2]] + oldVertices[oldTriangles[j][0]]) / 2).ToVertex());
-
-                    for (int k = 0; k < 6; k++) {
-                        int index = newVertices.IndexOf(triVertices[k]);
-                        if (index != -1) {
-                            indices[k] = index;
-                        } else {
-                            indices[k] = newVertices.Count;
-                            newVertices.Add(triVertices[k]);
-                        }
-                    }
-
-                    newTriangles.Add(new Triangle(indices[0], indices[1], indices[5]));
-                    newTriangles.Add(new Triangle(indices[1], indices[2], indices[3]));
-                    newTriangles.Add(new Triangle(indices[1], indices[3], indices[5]));
-                    newTriangles.Add(new Triangle(indices[3], indices[4], indices[5]));
-                }
-
-                oldTriangles = new List<Triangle>(newTriangles.ToArray());
-                oldVertices = new List<Vertex>(newVertices.ToArray());
-                newTriangles = new List<Triangle>(oldTriangles.Count * 4);
-                newVertices = new List<Vertex>();
-            }
-
-            newMesh.AddRange(oldTriangles.ToArray());
-            newMesh.Vertices.AddRange(oldVertices.ToArray());
-            newMesh.vertexNormalAlgorithm = mesh.vertexNormalAlgorithm;
-            newMesh.Finish(true, true);
-            return newMesh;
         }
 
         #endregion
