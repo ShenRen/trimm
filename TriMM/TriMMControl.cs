@@ -1072,6 +1072,8 @@ namespace TriMM {
             this.zDiff = ev.Y + this.xRot;
             this.xDiff = ev.X - this.yRot;
             this.yDiff = ev.Y + this.xRot;
+
+            this.Focus();
         }
 
         /// <summary>
