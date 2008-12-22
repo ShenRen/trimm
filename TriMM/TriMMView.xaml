@@ -19,41 +19,40 @@
     <Window x:Class="TriMM.TriMMView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="TriMM View" Height="630" Width="770" ShowInTaskbar="True" SizeToContent="Width" MinHeight="630" MinWidth="770" Top="0" WindowStyle="ThreeDBorderWindow" Left="0" Background="GhostWhite">
+    Title="TriMM View" Height="630" Width="770" ShowInTaskbar="True" SizeToContent="Width" MinHeight="630" MinWidth="770" Top="0" WindowStyle="ThreeDBorderWindow" Left="0">
     <Grid>
-        <ScrollBar Height="Auto" HorizontalAlignment="Left" Name="yScrollBar" Width="18" Margin="0,0,0,18" Maximum="10000" Minimum="-10000" Scroll="YScrollBar_Scroll" />
-        <ScrollBar Height="18" Margin="18,0,156,0" Name="xScrollBar" VerticalAlignment="Bottom" Width="Auto" Orientation="Horizontal" Minimum="-10000" Maximum="10000" Scroll="XScrollBar_Scroll" />
-        <Button Height="18" HorizontalAlignment="Left" Name="centerButton" VerticalAlignment="Bottom" Width="18" Background="Red" BorderThickness="5" Click="CenterButton_Click"></Button>
+        <ScrollBar Height="Auto" HorizontalAlignment="Left" Name="yScrollBar" Width="18" Margin="0,0,0,18" Maximum="10000" Minimum="-10000" Scroll="YScrollBar_Scroll" ToolTip="Moves the camera vertically." />
+        <ScrollBar Height="18" Margin="18,0,156,0" Name="xScrollBar" VerticalAlignment="Bottom" Width="Auto" Orientation="Horizontal" Minimum="-10000" Maximum="10000" Scroll="XScrollBar_Scroll" ToolTip="Moves the camera horizontally." />
+        <Button Height="18" HorizontalAlignment="Left" Name="centerButton" VerticalAlignment="Bottom" Width="18" Background="Red" BorderThickness="0" Click="CenterButton_Click" VerticalContentAlignment="Center" ToolTip="Centers the View."></Button>
         <WindowsFormsHost Margin="18,0,156,18" Name="controlWFHost" />
-        <CheckBox HorizontalAlignment="Right" Margin="0,12.221,29.997,0" Name="smoothCheckBox" Width="120" Height="16" VerticalAlignment="Top" Checked="SmoothCheckBox_CheckedChanged" Unchecked="SmoothCheckBox_CheckedChanged">Smooth</CheckBox>
-        <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,34.441,29.997,0" Name="solidCheckBox" VerticalAlignment="Top" Width="120" Checked="SolidCheckBox_CheckedChanged" Unchecked="SolidCheckBox_CheckedChanged">Solid</CheckBox>
-        <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,56.661,29.997,0" Name="meshCheckBox" VerticalAlignment="Top" Width="120" Checked="MeshCheckBox_CheckedChanged" Unchecked="MeshCheckBox_CheckedChanged">Mesh</CheckBox>
-        <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,78.881,31.108,0" Name="verticesCheckBox" VerticalAlignment="Top" Width="119" Checked="VerticesCheckBox_CheckedChanged" Unchecked="VerticesCheckBox_CheckedChanged">Vertices</CheckBox>
-        <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,101.101,29.997,0" Name="triangleNormalsCheckBox" VerticalAlignment="Top" Width="120" Checked="TriangleNormalsCheckBox_CheckedChanged" Unchecked="TriangleNormalsCheckBox_CheckedChanged">Triangle Normals</CheckBox>
-        <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,123.321,29.997,0" Name="vertexNormalsCheckBox" VerticalAlignment="Top" Width="120" Checked="VertexNormalsCheckBox_CheckedChanged" Unchecked="VertexNormalsCheckBox_CheckedChanged">Vertex Normals</CheckBox>
-        <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,144.43,29.997,0" Name="xAxisCheckBox" VerticalAlignment="Top" Width="120" Checked="XAxisCheckBox_CheckedChanged" Unchecked="XAxisCheckBox_CheckedChanged">X-Axis</CheckBox>
-        <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,166.65,29.997,0" Name="yAxisCheckBox" VerticalAlignment="Top" Width="120" Checked="YAxisCheckBox_CheckedChanged" Unchecked="YAxisCheckBox_CheckedChanged">Y-Axis</CheckBox>
-        <CheckBox Height="16" HorizontalAlignment="Right" Margin="0,188.87,29.997,0" Name="zAxisCheckBox" VerticalAlignment="Top" Width="120" Checked="ZAxisCheckBox_CheckedChanged" Unchecked="ZAxisCheckBox_CheckedChanged">Z-Axis</CheckBox>
-        <Label HorizontalAlignment="Right" Margin="0,211.09,29.997,0" Name="clippingPlaneLabel" Width="120" Height="28" VerticalAlignment="Top">Clipping Plane:</Label>
-        <WindowsFormsHost Height="28" HorizontalAlignment="Right" Margin="0,236.643,24.221,0" Name="clippingPlaneWFHost" VerticalAlignment="Top" Width="113.998" />
-        <GroupBox Header="Picking" HorizontalAlignment="Right" Margin="0,269.973,12.221,0" Name="pickingGroupBox" Width="137.998" Height="218.71" VerticalAlignment="Top">
+        <CheckBox HorizontalAlignment="Right" Margin="0,12.221,0,0" Name="smoothCheckBox" Width="149.997" Height="Auto" VerticalAlignment="Top" Checked="SmoothCheckBox_CheckedChanged" Unchecked="SmoothCheckBox_CheckedChanged" ToolTip="The Modell is drawn using the Vertex normals.">Smooth</CheckBox>
+        <CheckBox Height="Auto" HorizontalAlignment="Right" Margin="0,34.441,0,0" Name="solidCheckBox" VerticalAlignment="Top" Width="149.997" Checked="SolidCheckBox_CheckedChanged" Unchecked="SolidCheckBox_CheckedChanged" ToolTip="The Triangles are drawn.">Solid</CheckBox>
+        <CheckBox Height="Auto" HorizontalAlignment="Right" Margin="0,56.661,0,0" Name="meshCheckBox" VerticalAlignment="Top" Width="149.997" Checked="MeshCheckBox_CheckedChanged" Unchecked="MeshCheckBox_CheckedChanged" ToolTip="The Edges are drawn.">Mesh</CheckBox>
+        <CheckBox Height="Auto" HorizontalAlignment="Right" Margin="0,78.881,0,0" Name="verticesCheckBox" VerticalAlignment="Top" Width="150.108" Checked="VerticesCheckBox_CheckedChanged" Unchecked="VerticesCheckBox_CheckedChanged" ToolTip="The Vertices are drawn.">Vertices</CheckBox>
+        <CheckBox Height="Auto" HorizontalAlignment="Right" Margin="0,101.101,0,0" Name="triangleNormalsCheckBox" VerticalAlignment="Top" Width="149.997" Checked="TriangleNormalsCheckBox_CheckedChanged" Unchecked="TriangleNormalsCheckBox_CheckedChanged" ToolTip="The Triangle normals are drawn.">Triangle Normals</CheckBox>
+        <CheckBox Height="Auto" HorizontalAlignment="Right" Margin="0,123.321,0,0" Name="vertexNormalsCheckBox" VerticalAlignment="Top" Width="149.997" Checked="VertexNormalsCheckBox_CheckedChanged" Unchecked="VertexNormalsCheckBox_CheckedChanged" ToolTip="The Vertex normals are drawn.">Vertex Normals</CheckBox>
+        <CheckBox Height="Auto" HorizontalAlignment="Right" Margin="0,144.43,0,0" Name="xAxisCheckBox" VerticalAlignment="Top" Width="149.997" Checked="XAxisCheckBox_CheckedChanged" Unchecked="XAxisCheckBox_CheckedChanged" ToolTip="The x-axis is drawn.">X-Axis</CheckBox>
+        <CheckBox Height="Auto" HorizontalAlignment="Right" Margin="0,166.65,0,0" Name="yAxisCheckBox" VerticalAlignment="Top" Width="149.997" Checked="YAxisCheckBox_CheckedChanged" Unchecked="YAxisCheckBox_CheckedChanged" ToolTip="The y-axis is drawn.">Y-Axis</CheckBox>
+        <CheckBox Height="Auto" HorizontalAlignment="Right" Margin="0,188.87,0,0" Name="zAxisCheckBox" VerticalAlignment="Top" Width="149.997" Checked="ZAxisCheckBox_CheckedChanged" Unchecked="ZAxisCheckBox_CheckedChanged" ToolTip="The z-axis is drawn.">Z-Axis</CheckBox>
+        <Label HorizontalAlignment="Right" Margin="0,211.09,0,0" Name="clippingPlaneLabel" Width="149.997" Height="Auto" VerticalAlignment="Top" ToolTip="Moves the clipping plane. 1.1 is in the back, -1.1 is in the front.">Clipping Plane:</Label>
+        <WindowsFormsHost Height="28" HorizontalAlignment="Right" Margin="0,236,12,0" Name="clippingPlaneWFHost" VerticalAlignment="Top" Width="126.219"/>
+        <GroupBox Header="Picking" HorizontalAlignment="Right" Margin="0,269.973,0,103.317" Name="pickingGroupBox" Width="150.219">
             <Grid>
-                <ComboBox Height="23" Margin="6,6,6,0" Name="pickingModeComboBox" VerticalAlignment="Top" SelectedIndex="0">
+                <ComboBox Height="23" Margin="6,6,6,0" Name="pickingModeComboBox" VerticalAlignment="Top" SelectedIndex="0" ToolTip="No Picking, Vertex, Edge or Triangle Picking.">
                     <ComboBoxItem>None</ComboBoxItem>
                     <ComboBoxItem>Vertices</ComboBoxItem>
                     <ComboBoxItem>Edges</ComboBoxItem>
                     <ComboBoxItem>Triangles</ComboBoxItem>
                 </ComboBox>
-                <WindowsFormsHost Margin="6,69.993,6,0" Name="observedWFHost" Height="26.117" VerticalAlignment="Top" />
-                <Label Height="28" Margin="6,35.552,-0.445,0" Name="observedLabel" VerticalAlignment="Top" HorizontalContentAlignment="Center">Observed</Label>
-                <Button Margin="6,102.212,6,0" Name="clearObservedButton" Height="23.895" VerticalAlignment="Top" Click="ClearObservedButton_Click">Clear</Button>
-                <WindowsFormsHost Height="28
-                                  " Margin="6,165.539,6,0" Name="radiusWFHost" VerticalAlignment="Top" />
-                <Label Height="28" Margin="6,131.437,6,0" Name="radiusLabel" VerticalAlignment="Top" HorizontalContentAlignment="Center">Radius</Label>
+                <WindowsFormsHost Margin="6,69.993,6,0" Name="observedWFHost" Height="26.117" VerticalAlignment="Top"/>
+                <Label Height="23.277" Margin="5.555,41,0,0" Name="observedLabel" VerticalAlignment="Top" HorizontalContentAlignment="Center" ToolTip="The index of the observed Vertex, Edge or Triangle. -1 means nothing is selected.">Observed</Label>
+                <Button Margin="6,102.212,6,0" Name="clearObservedButton" Height="23" VerticalAlignment="Top" Click="ClearObservedButton_Click" ToolTip="Clears the selection.">Clear</Button>
+                <WindowsFormsHost Height="28" Margin="6,165.539,6,0" Name="radiusWFHost" VerticalAlignment="Top"/>
+                <Label Height="23.277" Margin="6,136.156,6,0" Name="radiusLabel" VerticalAlignment="Top" HorizontalContentAlignment="Center" ToolTip="Radius of the sphere around the observed sphere. The radius of the cylinder around the observed Edge is 1/10 that value.">Radius</Label>
             </Grid>
         </GroupBox>
-        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,12,41.107" Name="screenshotButton" VerticalAlignment="Bottom" Width="138.873" Click="ScreenshotButton_Click">Screenshot</Button>
-        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,12,12.221" Name="resetViewButton" VerticalAlignment="Bottom" Width="138.664" Click="ResetViewButton_Click">Reset View</Button>
-        <Button Height="23" HorizontalAlignment="Right" Margin="0,495,12.221,0" Name="settingsButton" VerticalAlignment="Top" Width="137.985" Click="SettingsButton_Click">Settings</Button>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,6,41.107" Name="screenshotButton" VerticalAlignment="Bottom" Width="144.873" Click="ScreenshotButton_Click" ToolTip="Makes a screenshot (png, bmp or jpg) of the modell.">Screenshot</Button>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,6,12.221" Name="resetViewButton" VerticalAlignment="Bottom" Width="144.664" Click="ResetViewButton_Click" ToolTip="Resets the camera position and the display options to the standard values.">Reset View</Button>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,495,5.555,0" Name="settingsButton" VerticalAlignment="Top" Width="144.651" Click="SettingsButton_Click" ToolTip="Opens the Settings Dialog.">Settings</Button>
     </Grid>
 </Window>

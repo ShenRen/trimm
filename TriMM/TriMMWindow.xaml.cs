@@ -62,7 +62,8 @@ namespace TriMM {
             InitializeComponent();
 
             xNumericUpDown.DecimalPlaces = yNumericUpDown.DecimalPlaces = zNumericUpDown.DecimalPlaces = distanceNumericUpDown.DecimalPlaces = 14;
-            xNumericUpDown.TextAlign = yNumericUpDown.TextAlign = zNumericUpDown.TextAlign = distanceNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            xNumericUpDown.TextAlign = yNumericUpDown.TextAlign = zNumericUpDown.TextAlign = distanceNumericUpDown.TextAlign
+                = aNumericUpDown.TextAlign = bNumericUpDown.TextAlign = cNumericUpDown.TextAlign = e1NumericUpDown.TextAlign = e2NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             xNumericUpDown.Minimum = yNumericUpDown.Minimum = zNumericUpDown.Minimum = distanceNumericUpDown.Minimum = -100000000;
             xNumericUpDown.Maximum = yNumericUpDown.Maximum = zNumericUpDown.Maximum = distanceNumericUpDown.Maximum = 100000000;
             xNumericUpDown.Increment = yNumericUpDown.Increment = zNumericUpDown.Increment = distanceNumericUpDown.Increment = 0.001m;
@@ -425,7 +426,8 @@ namespace TriMM {
             for (int i = TriMMApp.Mesh.Count - 1; i >= 0; i--) { if (!TriMMApp.Mesh.IsTriangle(i)) { TriMMApp.Mesh.RemoveAt(i); } }
 
             TriMMApp.Mesh.Finish(true, true);
-            RemoveSinglesButton_Click(sender, e);
+            RefreshControl();
+            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         /// <summary>
@@ -443,7 +445,8 @@ namespace TriMM {
                 if (equals.Count > 1) { TriMMApp.Mesh.RemoveAt(i); }
             }
             TriMMApp.Mesh.Finish(true, true);
-            RemoveSinglesButton_Click(sender, e);
+            RefreshControl();
+            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         /// <summary>
@@ -454,12 +457,12 @@ namespace TriMM {
         private void FlipAllTrianglesButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
             TriMMApp.Mesh.FlipAllTriangles();
-            RefreshControl();
             if (TriMMApp.Mesh.ObservedTriangle != -1) {
                 aNumericUpDown.Value = (decimal)TriMMApp.Mesh[TriMMApp.Mesh.ObservedTriangle][0];
                 bNumericUpDown.Value = (decimal)TriMMApp.Mesh[TriMMApp.Mesh.ObservedTriangle][1];
                 cNumericUpDown.Value = (decimal)TriMMApp.Mesh[TriMMApp.Mesh.ObservedTriangle][2];
             }
+            RefreshControl();
             Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
@@ -472,10 +475,10 @@ namespace TriMM {
             if (TriMMApp.Mesh.ObservedTriangle != -1) {
                 Cursor = System.Windows.Input.Cursors.Wait;
                 TriMMApp.Mesh.FlipTriangle(TriMMApp.Mesh.ObservedTriangle);
-                RefreshControl();
                 aNumericUpDown.Value = (decimal)TriMMApp.Mesh[TriMMApp.Mesh.ObservedTriangle][0];
                 bNumericUpDown.Value = (decimal)TriMMApp.Mesh[TriMMApp.Mesh.ObservedTriangle][1];
                 cNumericUpDown.Value = (decimal)TriMMApp.Mesh[TriMMApp.Mesh.ObservedTriangle][2];
+                RefreshControl();
                 Cursor = System.Windows.Input.Cursors.Arrow;
             }
         }
@@ -490,8 +493,8 @@ namespace TriMM {
 
             ClearObserved();
             TriMMApp.Mesh.Subdivide(1);
-            RefreshControl();
 
+            RefreshControl();
             Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
@@ -505,6 +508,7 @@ namespace TriMM {
                 Cursor = System.Windows.Input.Cursors.Wait;
                 TriMMApp.Mesh.SubdivideTriangle(TriMMApp.Mesh.ObservedTriangle);
                 TriMMApp.Mesh.ObservedTriangle = -1;
+
                 RefreshControl();
                 Cursor = System.Windows.Input.Cursors.Arrow;
             }
@@ -534,7 +538,9 @@ namespace TriMM {
                 TriMMApp.Mesh.Remove(remove);
 
                 TriMMApp.Mesh.Finish(true, true);
-                RemoveSinglesButton_Click(sender, e);
+
+                RefreshControl();
+                Cursor = System.Windows.Input.Cursors.Arrow;
             }
         }
 
@@ -652,8 +658,8 @@ namespace TriMM {
             for (int i = remove.Count - 1; i >= 0; i--) { TriMMApp.Mesh.Vertices.RemoveAt(remove[i]); }
 
             TriMMApp.Mesh.Finish(true, true);
-            RefreshControl();
 
+            RefreshControl();
             Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
@@ -752,8 +758,8 @@ namespace TriMM {
             TriMMApp.Mesh.Vertices.Add(newVertex);
 
             TriMMApp.Mesh.Finish(true, true);
-            RefreshControl();
 
+            RefreshControl();
             Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
@@ -918,10 +924,10 @@ namespace TriMM {
                     }
 
                     TriMMApp.Mesh.Finish(true, true);
-                    RemoveSinglesButton_Click(sender, e);
                 }
             }
 
+            RefreshControl();
             Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
@@ -949,10 +955,10 @@ namespace TriMM {
                     for (int i = triangles.Count - 1; i >= 0; i--) { TriMMApp.Mesh.RemoveAt(triangles[i]); }
 
                     TriMMApp.Mesh.Finish(true, true);
-                    RemoveSinglesButton_Click(sender, e);
                 }
             }
 
+            RefreshControl();
             Cursor = System.Windows.Input.Cursors.Arrow;
         }
 

@@ -194,7 +194,7 @@ namespace TriMM {
 
         /// <summary>
         /// The image is translated into the opposite direction of the ScrollBar movement,
-        /// or the camera is moved in the direction of the camera movement (equivalent).
+        /// or the camera is moved in the direction of the ScrollBar movement (equivalent).
         /// </summary>
         /// <param name="sender">xScrollBar</param>
         /// <param name="e">Standard ScrollEventArgs</param>
@@ -205,7 +205,7 @@ namespace TriMM {
 
         /// <summary>
         /// The image is translated into the opposite direction of the ScrollBar movement,
-        /// or the camera is moved in the direction of the camera movement (equivalent).
+        /// or the camera is moved in the direction of the ScrollBar movement (equivalent).
         /// </summary>
         /// <param name="sender">yScrollBar</param>
         /// <param name="e">Standard ScrollEventArgs</param>
