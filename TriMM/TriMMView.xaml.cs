@@ -352,8 +352,6 @@ namespace TriMM {
             clippingPlaneNumericUpDown.ValueChanged -= ClippingPlaneNumericUpDown_ValueChanged;
             clippingPlaneNumericUpDown.Value = (decimal)1.1;
             clippingPlaneNumericUpDown.ValueChanged += ClippingPlaneNumericUpDown_ValueChanged;
-
-            TriMMApp.Settings.SetToStandardDisplay();
         }
 
         /// <summary>

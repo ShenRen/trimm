@@ -121,7 +121,7 @@ namespace TriMM {
         /// <returns>The Dot product</returns>
         public double Dot(VectorND v2) {
             if (this.Count != v2.Count) {
-                throw new ArgumentException("The VectorNDs need to be of equal length for the dot product!");
+                throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("DotProductError")[0].InnerText);
             }
             double result = 0;
             for (int i = 0; i < this.Count; i++) {
@@ -139,7 +139,7 @@ namespace TriMM {
         /// <returns>The Cross product</returns>
         public VectorND Cross(VectorND v2) {
             if ((this.Count != v2.Count) || (this.Count != 3)) {
-                throw new ArgumentException("The cross product is only defined for 3D-VectorNDs!");
+                throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("CrossProductError")[0].InnerText);
             }
             return new VectorND(this[1] * v2[2] - this[2] * v2[1], this[2] * v2[0] - this[0] * v2[2],
                 this[0] * v2[1] - this[1] * v2[0]);
@@ -223,7 +223,7 @@ namespace TriMM {
         /// <returns>The Dot product</returns>
         public static double Dot(VectorND v1, VectorND v2) {
             if (v1.Count != v2.Count) {
-                throw new ArgumentException("The VectorNDs need to be of equal length for the dot product!");
+                throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("DotProductError")[0].InnerText);
             }
             double result = 0;
             for (int i = 0; i < v1.Count; i++) {
@@ -241,7 +241,7 @@ namespace TriMM {
         /// <returns>The Cross product</returns>
         public static VectorND Cross(VectorND v1, VectorND v2) {
             if ((v1.Count != v2.Count) || (v1.Count != 3)) {
-                throw new ArgumentException("The cross product is only defined for 3D-VectorNDs!");
+                throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("CrossProductError")[0].InnerText);
             }
             return new VectorND(v1[1] * v2[2] - v1[2] * v2[1], v1[2] * v2[0] - v1[0] * v2[2],
                 v1[0] * v2[1] - v1[1] * v2[0]);
@@ -255,7 +255,7 @@ namespace TriMM {
         /// <returns>The Product</returns>
         public static VectorND operator *(VectorND v1, VectorND v2) {
             if (v1.Count != v2.Count) {
-                throw new ArgumentException("The VectorNDs need to be of equal length!");
+                throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("LengthError")[0].InnerText);
             }
             List<double> values = new List<double>();
             for (int i = 0; i < v1.Count; i++) {
@@ -272,7 +272,7 @@ namespace TriMM {
         /// <returns>The Divisor</returns>
         public static VectorND operator /(VectorND v1, VectorND v2) {
             if (v1.Count != v2.Count) {
-                throw new ArgumentException("The VectorNDs need to be of equal length!");
+                throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("LengthError")[0].InnerText);
             }
 #if !DEBUG
             try {
@@ -284,7 +284,7 @@ namespace TriMM {
                 return new VectorND(values);
 #if !DEBUG
             } catch (System.DivideByZeroException e) {
-                throw (new System.DivideByZeroException("VectorND not dividible by zero", e));
+                throw (new System.DivideByZeroException(TriMMApp.Lang.GetElementsByTagName("DivisionByZeroError")[0].InnerText, e));
             }
 #endif
         }
@@ -297,7 +297,7 @@ namespace TriMM {
         /// <returns>The Sum</returns>
         public static VectorND operator +(VectorND v1, VectorND v2) {
             if (v1.Count != v2.Count) {
-                throw new ArgumentException("The VectorNDs need to be of equal length!");
+                throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("LengthError")[0].InnerText);
             }
             List<double> values = new List<double>();
             for (int i = 0; i < v1.Count; i++) {
@@ -314,7 +314,7 @@ namespace TriMM {
         /// <returns>The Difference</returns>
         public static VectorND operator -(VectorND v1, VectorND v2) {
             if (v1.Count != v2.Count) {
-                throw new ArgumentException("The VectorNDs need to be of equal length!");
+                throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("LengthError")[0].InnerText);
             }
             List<double> values = new List<double>();
             for (int i = 0; i < v1.Count; i++) {
@@ -360,7 +360,7 @@ namespace TriMM {
                 return (1 / factor) * v;
 #if !DEBUG
             } catch (System.DivideByZeroException e) {
-                throw (new System.DivideByZeroException("VectorND not dividable by zero", e));
+                throw (new System.DivideByZeroException(TriMMApp.Lang.GetElementsByTagName("DivisionByZeroError")[0].InnerText, e));
             }
 #endif
         }

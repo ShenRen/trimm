@@ -42,8 +42,7 @@ namespace TriMM {
                 // Get all copyright-attributes in this assembly
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 // Return an empty string, if there is no copyright-attribute
-                if (attributes.Length == 0)
-                    return "";
+                if (attributes.Length == 0) { return ""; }
                 // Return the value of the copyright-attribute, if it exists
                 return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
@@ -59,7 +58,7 @@ namespace TriMM {
         public About() {
             InitializeComponent();
             this.Icon = TriMMApp.Image;
-            versionLabel.Content = String.Format("Version: {0}", AssemblyVersion);
+            versionLabel.Content = String.Format(TriMMApp.Lang.GetElementsByTagName("VersionLabel")[0].InnerText + " {0}", AssemblyVersion);
             authorLabel.Content = String.Format(AssemblyCopyright);
 
             FlowDocument doc = new FlowDocument();

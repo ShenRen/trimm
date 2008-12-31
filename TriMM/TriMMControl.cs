@@ -248,9 +248,7 @@ namespace TriMM {
             int selectedPixelFormat;
 
             // Make sure the handle for this control has been created
-            if (this.Handle == IntPtr.Zero) {
-                throw new Exception("InitContexts: The control's window handle has not been created!");
-            }
+            if (this.Handle == IntPtr.Zero) { throw new Exception("InitContexts: " + TriMMApp.Lang.GetElementsByTagName("HandleCreatedError")[0].InnerText); }
 
             // Setup pixel format.
             Gdi.PIXELFORMATDESCRIPTOR pixelFormat = new Gdi.PIXELFORMATDESCRIPTOR();
@@ -285,7 +283,7 @@ namespace TriMM {
             // Create device context
             this.deviceContext = User.GetDC(this.Handle);
             if (this.deviceContext == IntPtr.Zero) {
-                System.Windows.MessageBox.Show("InitContexts: Unable to create an OpenGL device context!", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("InitContexts: " + TriMMApp.Lang.GetElementsByTagName("DeviceContextsCreationError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(-1);
             }
 
@@ -294,20 +292,20 @@ namespace TriMM {
 
             // Makes sure the requested pixel format is available.
             if (selectedPixelFormat == 0) {
-                System.Windows.MessageBox.Show("InitContexts: Unable to find a suitable pixel format!", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("InitContexts: " + TriMMApp.Lang.GetElementsByTagName("PixelFormatError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(-1);
             }
 
             // Sets the selected Pixel Format.
             if (!Gdi.SetPixelFormat(this.deviceContext, selectedPixelFormat, ref pixelFormat)) {
-                System.Windows.MessageBox.Show("InitContexts: Unable to set the requested pixel format!", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("InitContexts: " + TriMMApp.Lang.GetElementsByTagName("PixelFormatSetError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(-1);
             }
 
             // Creates rendering context.
             this.renderContext = Wgl.wglCreateContext(this.deviceContext);
             if (this.renderContext == IntPtr.Zero) {
-                System.Windows.MessageBox.Show("InitContexts: Unable to create an OpenGL rendering context!", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("InitContexts: " + TriMMApp.Lang.GetElementsByTagName("RenderingContextCreationError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(-1);
             }
 
@@ -320,7 +318,7 @@ namespace TriMM {
         /// </summary>
         private void MakeCurrentContext() {
             if (!Wgl.wglMakeCurrent(this.deviceContext, this.renderContext)) {
-                System.Windows.MessageBox.Show("MakeCurrentContext: Unable to activate this control's OpenGL rendering context!", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("MakeCurrentContext: " + TriMMApp.Lang.GetElementsByTagName("MakeCurrentContextError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(-1);
             }
         }
@@ -1139,7 +1137,7 @@ namespace TriMM {
         /// <param name="e">Standard PaintEventArgs</param>
         protected override void OnPaint(PaintEventArgs e) {
             if (this.deviceContext == IntPtr.Zero || this.renderContext == IntPtr.Zero) {
-                System.Windows.MessageBox.Show("No device or rendering context available!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(TriMMApp.Lang.GetElementsByTagName("PaintError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

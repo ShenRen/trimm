@@ -169,10 +169,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="lang\english.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="lang\deutsch.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
