@@ -26,6 +26,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using System.Globalization;
+using System.Windows.Data;
+using System.Xml;
 
 namespace TriMM {
 
@@ -42,6 +44,12 @@ namespace TriMM {
     /// Alerts listeners of changes to the choice of the Vertex normal algorithm.
     /// </summary>
     public delegate void NormalAlgoChangedEventHandler();
+
+    /// <summary>
+    /// An EventHandler for the LanguageChanged Event.
+    /// Alerts listeners of changes to the selected language.
+    /// </summary>
+    public delegate void LanguageChangedEventHandler();
 
     /// <summary>
     /// An EventHandler for the BackColorChanged Event.
@@ -61,6 +69,8 @@ namespace TriMM {
         #region Standards
 
         private int sNormalAlgo;
+
+        private string sLanguage;
 
         #region Colors
 
@@ -98,6 +108,8 @@ namespace TriMM {
         #endregion
 
         private int normalAlgo;
+
+        private string language;
 
         #region Colors
 
@@ -137,8 +149,11 @@ namespace TriMM {
         /// <value>The event thrown when the Settings are changed.</value>
         public event SettingsChangedEventHandler SettingsChanged;
 
-        /// <value>The event thrown when the Settings are changed.</value>
+        /// <value>The event thrown when the selected normal algorithm is changed.</value>
         public event NormalAlgoChangedEventHandler NormalAlgoChanged;
+
+        /// <value>The event thrown when the language is changed.</value>
+        public event LanguageChangedEventHandler LanguageChanged;
 
         /// <value>The event thrown when the background color is changed.</value>
         public event BackColorChangedEventHandler BackColorChanged;
@@ -148,6 +163,19 @@ namespace TriMM {
         #endregion
 
         #region Properties
+
+        /// <value>Gets the chosen language or sets it.</value>
+        public string Language {
+            get { return language; }
+            set {
+                language = value;
+                String langPath = "lang\\" + language + ".xml";
+                TriMMApp.Lang = new XmlDocument();
+                TriMMApp.Lang.Load(AppDomain.CurrentDomain.BaseDirectory + langPath);
+                ((XmlDataProvider)(Application.Current.FindResource("Lang"))).Source = new Uri(langPath, UriKind.Relative);
+                if (LanguageChanged != null) { LanguageChanged(); }
+            }
+        }
 
         /// <value>Gets the index of the normal algorithm (0 to 12 allowed) or sets it.</value>
         public int NormalAlgo {
@@ -379,112 +407,21 @@ namespace TriMM {
         #region Constructors
 
         /// <summary>
-        /// Initializes the Settings with the default values
-        /// and sets the standard values to the default values as well.
-        /// </summary>
-        public Settings() {
-            SetToDefault();
-            MakeStandard();
-            WriteSET("default.set");
-        }
-
-        /// <summary>
         /// Initializes the Settings with the default values (in case something is missing in the file)
         /// and imports the real values from the given <paramref name="file"/>.
         /// </summary>
         /// <param name="file">The *.SET file to be imported.</param>
-        public Settings(String file) {
-            SetToDefault();
-            Parse(file);
-        }
+        public Settings(String file) { Parse(file); }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Sets the color settings to default values.
-        /// </summary>
-        public void SetToDefaultColors() {
-            backColor = new ColorOGL(0.0f, 0.0f, 0.0f);
-            if (BackColorChanged != null) { BackColorChanged(); }
-
-            textColor = new ColorOGL();
-            solidColor = new ColorOGL(0.0f, 0.8f, 0.8f);
-            meshColor = new ColorOGL(0.5f, 0.5f, 0.5f);
-            vertexColor = new ColorOGL(0.8f, 0.8f, 0.0f);
-            triNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
-            vertNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
-            observedVertexColor = new ColorOGL();
-            observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
-            observedEdgeColor = new ColorOGL();
-            xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
-            yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
-            zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
-
-            if (SettingsChanged != null) { SettingsChanged(); }
-        }
-
-        /// <summary>
-        /// Sets the display settings to default values.
-        /// </summary>
-        public void SetToDefaultDisplay() {
-            normalAlgo = 0;
-            pickingMode = 0;
-            smooth = false;
-            solid = true;
-            mesh = true;
-            vertices = false;
-            triangleNormalVectors = false;
-            vertexNormalVectors = false;
-            xAxis = false;
-            yAxis = false;
-            zAxis = false;
-
-            if (SettingsChanged != null) { SettingsChanged(); }
-        }
-
-        /// <summary>
-        /// Sets all settings to default values.
-        /// </summary>
-        public void SetToDefault() {
-            // Colors
-            backColor = new ColorOGL(0.0f, 0.0f, 0.0f);
-            if (BackColorChanged != null) { BackColorChanged(); }
-
-            textColor = new ColorOGL();
-            solidColor = new ColorOGL(0.0f, 0.8f, 0.8f);
-            meshColor = new ColorOGL(0.5f, 0.5f, 0.5f);
-            vertexColor = new ColorOGL(0.8f, 0.8f, 0.0f);
-            triNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
-            vertNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
-            observedVertexColor = new ColorOGL();
-            observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
-            observedEdgeColor = new ColorOGL();
-            xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
-            yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
-            zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
-
-            // Display Settings
-            normalAlgo = 0;
-            pickingMode = 0;
-            smooth = false;
-            solid = true;
-            mesh = true;
-            vertices = false;
-            triangleNormalVectors = false;
-            vertexNormalVectors = false;
-            xAxis = false;
-            yAxis = false;
-            zAxis = false;
-
-            if (SettingsChanged != null) { SettingsChanged(); }
-        }
-
-        /// <summary>
         /// Sets the color settings to the standard values.
         /// </summary>
         public void SetToStandardColors() {
+            // Colors
             backColor = sBackColor;
             if (BackColorChanged != null) { BackColorChanged(); }
 
@@ -508,7 +445,6 @@ namespace TriMM {
         /// Sets the display settings to the standard values.
         /// </summary>
         public void SetToStandardDisplay() {
-            normalAlgo = sNormalAlgo;
             pickingMode = sPickingMode;
             smooth = sSmooth;
             solid = sSolid;
@@ -544,8 +480,11 @@ namespace TriMM {
             yAxisColor = sYAxisColor;
             zAxisColor = sZAxisColor;
 
-            // Display Settings
+
             normalAlgo = sNormalAlgo;
+            language = sLanguage;
+
+            // Display Settings
             pickingMode = sPickingMode;
             smooth = sSmooth;
             solid = sSolid;
@@ -556,46 +495,6 @@ namespace TriMM {
             xAxis = sXAxis;
             yAxis = sYAxis;
             zAxis = sYAxis;
-
-            if (SettingsChanged != null) { SettingsChanged(); }
-        }
-
-        /// <summary>
-        /// Sets the standard color settings to the current values.
-        /// </summary>
-        public void MakeStandardColors() {
-            sBackColor = backColor;
-            sTextColor = textColor;
-            sSolidColor = solidColor;
-            sMeshColor = meshColor;
-            sVertexColor = vertexColor;
-            sTriNormalColor = triNormalColor;
-            sVertNormalColor = vertNormalColor;
-            sObservedVertexColor = observedVertexColor;
-            sObservedTriangleColor = observedTriangleColor;
-            sObservedEdgeColor = observedEdgeColor;
-            sXAxisColor = xAxisColor;
-            sYAxisColor = yAxisColor;
-            sZAxisColor = zAxisColor;
-
-            if (SettingsChanged != null) { SettingsChanged(); }
-        }
-
-        /// <summary>
-        /// Sets the standard display settings to the current values.
-        /// </summary>
-        public void MakeStandardDisplay() {
-            sNormalAlgo = normalAlgo;
-            sPickingMode = pickingMode;
-            sSmooth = smooth;
-            sSolid = solid;
-            sMesh = mesh;
-            sVertices = vertices;
-            sTriangleNormalVectors = triangleNormalVectors;
-            sVertexNormalVectors = vertexNormalVectors;
-            sXAxis = xAxis;
-            sYAxis = yAxis;
-            sZAxis = zAxis;
 
             if (SettingsChanged != null) { SettingsChanged(); }
         }
@@ -619,8 +518,10 @@ namespace TriMM {
             sYAxisColor = yAxisColor;
             sZAxisColor = zAxisColor;
 
-            // Display Settings
             sNormalAlgo = normalAlgo;
+            sLanguage = language;
+
+            // Display Settings
             sPickingMode = pickingMode;
             sSmooth = smooth;
             sSolid = solid;
@@ -631,8 +532,6 @@ namespace TriMM {
             sXAxis = xAxis;
             sYAxis = yAxis;
             sZAxis = zAxis;
-
-            if (SettingsChanged != null) { SettingsChanged(); }
         }
 
         /// <summary>
@@ -659,42 +558,48 @@ namespace TriMM {
 
                         if (line.Length == 4) {
                             ColorOGL color = new ColorOGL(float.Parse(line[1], NumberStyles.Float, numberFormatInfo), float.Parse(line[2], NumberStyles.Float, numberFormatInfo), float.Parse(line[3], NumberStyles.Float, numberFormatInfo));
-                            if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "PLAINC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; } else if (line[0] == "VERTEXC") { vertexColor = color; } else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; } else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; } else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
+                            if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "PLAINC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; } else if (line[0] == "VERTEXC") { vertexColor = color; }
+                            else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; } else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; }
+                            else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
                         } else if (line.Length == 2) {
-                            int mode = int.Parse(line[1]);
-                            if (line[0] == "NA") {
-                                if ((mode < 0) || (mode > 12)) { throw new ArgumentException("The picking mode (PICK) must be either 0, 1, 2 or 3!"); }
-                                normalAlgo = mode;
-                            } else if (line[0] == "PICK") {
-                                if ((mode < 0) || (mode > 3)) { throw new ArgumentException("The picking mode (PICK) must be either 0, 1, 2 or 3!"); }
-                                pickingMode = mode;
-                            } else if (line[0] == "SMOOTH") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the SMOOTH setting!"); }
-                                if (mode == 0) { smooth = false; } else { smooth = true; }
-                            } else if (line[0] == "SOLID") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the SOLID setting!"); }
-                                if (mode == 0) { solid = false; } else { solid = true; }
-                            } else if (line[0] == "MESH") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the MESH setting!"); }
-                                if (mode == 0) { mesh = false; } else { mesh = true; }
-                            } else if (line[0] == "VERT") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the VERT setting!"); }
-                                if (mode == 0) { vertices = false; } else { vertices = true; }
-                            } else if (line[0] == "TRINORM") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the TRINORM setting!"); }
-                                if (mode == 0) { triangleNormalVectors = false; } else { triangleNormalVectors = true; }
-                            } else if (line[0] == "VERTNORM") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the VERTNORM setting!"); }
-                                if (mode == 0) { vertexNormalVectors = false; } else { vertexNormalVectors = true; }
-                            } else if (line[0] == "XAXIS") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the AXES setting!"); }
-                                if (mode == 0) { xAxis = false; } else { xAxis = true; }
-                            } else if (line[0] == "YAXIS") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the AXES setting!"); }
-                                if (mode == 0) { yAxis = false; } else { yAxis = true; }
-                            } else if (line[0] == "ZAXIS") {
-                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException("Only the values 0 and 1 are allowed for the AXES setting!"); }
-                                if (mode == 0) { zAxis = false; } else { zAxis = true; }
+                            if (line[0] == "LANG") {
+                                Language = line[1];
+                            } else {
+                                int mode = int.Parse(line[1]);
+                                if (line[0] == "NA") {
+                                    if ((mode < 0) || (mode > 12)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("NAError")[0].InnerText); }
+                                    normalAlgo = mode;
+                                } else if (line[0] == "PICK") {
+                                    if ((mode < 0) || (mode > 3)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("PICKError")[0].InnerText); }
+                                    pickingMode = mode;
+                                } else if (line[0] == "SMOOTH") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("SMOOTHError")[0].InnerText); }
+                                    if (mode == 0) { smooth = false; } else { smooth = true; }
+                                } else if (line[0] == "SOLID") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("SOLIDError")[0].InnerText); }
+                                    if (mode == 0) { solid = false; } else { solid = true; }
+                                } else if (line[0] == "MESH") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("MESHError")[0].InnerText); }
+                                    if (mode == 0) { mesh = false; } else { mesh = true; }
+                                } else if (line[0] == "VERT") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("VERTError")[0].InnerText); }
+                                    if (mode == 0) { vertices = false; } else { vertices = true; }
+                                } else if (line[0] == "TRINORM") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("TRINORMError")[0].InnerText); }
+                                    if (mode == 0) { triangleNormalVectors = false; } else { triangleNormalVectors = true; }
+                                } else if (line[0] == "VERTNORM") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("VERTNORMError")[0].InnerText); }
+                                    if (mode == 0) { vertexNormalVectors = false; } else { vertexNormalVectors = true; }
+                                } else if (line[0] == "XAXIS") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("XAXISError")[0].InnerText); }
+                                    if (mode == 0) { xAxis = false; } else { xAxis = true; }
+                                } else if (line[0] == "YAXIS") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("YAXISError")[0].InnerText); }
+                                    if (mode == 0) { yAxis = false; } else { yAxis = true; }
+                                } else if (line[0] == "ZAXIS") {
+                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("ZAXISError")[0].InnerText); }
+                                    if (mode == 0) { zAxis = false; } else { zAxis = true; }
+                                }
                             }
                         }
                     }
@@ -703,7 +608,7 @@ namespace TriMM {
             } catch (ArgumentException ex) {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             } catch {
-                MessageBox.Show("This Settings file is defect or not a TriMM-Settings file at all!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(TriMMApp.Lang.GetElementsByTagName("SETBrokenFileError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 file.Close();
@@ -722,7 +627,7 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-                sw.WriteLine("# Settings for TriMM, the TriangleMesh Manipulator");
+                sw.WriteLine(TriMMApp.Lang.GetElementsByTagName("SETHeader")[0].InnerText);
                 // Colors
                 sw.WriteLine("BACKC " + backColor.R + " " + backColor.G + " " + backColor.B);
                 sw.WriteLine("TEXTC " + textColor.R + " " + textColor.G + " " + textColor.B);
@@ -752,7 +657,7 @@ namespace TriMM {
                 if (zAxis) { sw.WriteLine("ZAXIS 1"); } else { sw.WriteLine("ZAXIS 0"); }
 #if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 sw.Close();

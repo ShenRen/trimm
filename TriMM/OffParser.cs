@@ -77,7 +77,7 @@ namespace TriMM {
 
                         // The last line of the header contains the numbers of Vertices, Faces (Triangles) and Edges (not needed).
                         if (v.Length != 3) {
-                            throw new Exception("Wrong number of counters!");
+                            throw new Exception(TriMMApp.Lang.GetElementsByTagName("OffCounterError")[0].InnerText);
                         } else {
                             vertices = int.Parse(v[0]);
                             faces = int.Parse(v[1]);
@@ -160,7 +160,7 @@ namespace TriMM {
             try {
 #endif
                 // The Header.
-                sw.WriteLine("# Written by the TriMM OffParser (by Christian Moritz)");
+                sw.WriteLine(TriMMApp.Lang.GetElementsByTagName("OffHeader")[0].InnerText);
                 if (normals) { sw.WriteLine("NOFF"); } else { sw.WriteLine("OFF"); }
                 sw.WriteLine(TriMMApp.Mesh.Vertices.Count + " " + TriMMApp.Mesh.Count + " " + TriMMApp.Mesh.Edges.Count);
 
@@ -180,7 +180,7 @@ namespace TriMM {
                 }
 #if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 sw.Close();

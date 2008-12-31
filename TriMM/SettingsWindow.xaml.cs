@@ -22,12 +22,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Win32;
+using System.IO;
+using System.Collections.Generic;
 
 namespace TriMM {
     /// <summary>
     /// Interaktionslogik für SettingsWindow.xaml
     /// </summary>
     public partial class SettingsWindow : Window {
+
+        #region Fields
+
+        private List<string> languageFiles = new List<string>();
+
+        #endregion
 
         #region Constructors
 
@@ -36,6 +44,14 @@ namespace TriMM {
             this.Icon = TriMMApp.Image;
             normalComboBox.ItemsSource = TriMMApp.VertexNormalAlgorithms;
             normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo;
+
+            DirectoryInfo di = new DirectoryInfo("lang");
+            FileInfo[] files = di.GetFiles("*.xml");
+
+            for (int i = 0; i < files.Length; i++) { languageFiles.Add(files[i].Name.Substring(0, files[i].Name.IndexOf(".xml"))); }
+            int lang = languageFiles.IndexOf(TriMMApp.Settings.Language);
+            languageComboBox.ItemsSource = languageFiles;
+            if (lang != -1) { languageComboBox.SelectedIndex = lang; }
 
             smoothCheckBox.IsChecked = TriMMApp.Settings.Smooth;
             solidCheckBox.IsChecked = TriMMApp.Settings.Solid;
@@ -66,9 +82,9 @@ namespace TriMM {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.DefaultExt = "set";
-            ofd.Filter = "TriMM Settings (*.set)|*.set";
+            ofd.Filter = "TriMM " + TriMMApp.Lang.GetElementsByTagName("SETFilter")[0].InnerText + " (*.set)|*.set";
             ofd.Multiselect = false;
-            ofd.Title = "Open File";
+            ofd.Title = TriMMApp.Lang.GetElementsByTagName("OpenFileTitle")[0].InnerText;
             if (ofd.ShowDialog() == true) { TriMMApp.Settings.Parse(ofd.FileName); }
         }
 
@@ -82,24 +98,18 @@ namespace TriMM {
             sfd.AddExtension = true;
             sfd.OverwritePrompt = true;
             sfd.DefaultExt = "set";
-            sfd.Filter = "TriMM Settings (*.set)|*.set";
-            sfd.Title = "Save File";
+            sfd.Filter = "TriMM " + TriMMApp.Lang.GetElementsByTagName("SETFilter")[0].InnerText + " (*.set)|*.set";
+            sfd.Title = TriMMApp.Lang.GetElementsByTagName("SaveFileTitle")[0].InnerText;
             if (sfd.ShowDialog() == true) { TriMMApp.Settings.WriteSET(sfd.FileName); }
         }
 
-        /// <summary>
-        /// Resets the settings to the default values.
-        /// </summary>
-        /// <param name="sender">loadDefaultMenuItem</param>
-        /// <param name="e">Standard RoutedEventArgs</param>
-        private void LoadDefaultMenuItem_Click(object sender, RoutedEventArgs e) { TriMMApp.Settings.SetToDefault(); }
 
         /// <summary>
         /// Resets the settings to the standard values.
         /// </summary>
-        /// <param name="sender">loadStandardMenuItem</param>
+        /// <param name="sender">resetAllMenuItem</param>
         /// <param name="e">Standard RoutedEventArgs</param>
-        private void LoadStandardMenuItem_Click(object sender, RoutedEventArgs e) { TriMMApp.Settings.SetToStandard(); }
+        private void ResetAllMenuItem_Click(object sender, RoutedEventArgs e) { TriMMApp.Settings.SetToStandard(); }
 
         /// <summary>
         /// Accepts the current settings as the standard values.
@@ -114,6 +124,13 @@ namespace TriMM {
         /// <param name="sender">normalComboBox</param>
         /// <param name="e">Standard SelectionChangedEventArgs</param>
         private void NormalComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) { TriMMApp.Settings.NormalAlgo = normalComboBox.SelectedIndex; }
+
+        /// <summary>
+        /// When a different language is selected the necessary changes are made.
+        /// </summary>
+        /// <param name="sender">languageComboBox</param>
+        /// <param name="e">Standard SelectionChangedEventArgs</param>
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) { TriMMApp.Settings.Language = languageComboBox.SelectedItem.ToString(); }
 
         #endregion
 
@@ -239,6 +256,13 @@ namespace TriMM {
             }
         }
 
+        /// <summary>
+        /// Resets the color settings to the standard values.
+        /// </summary>
+        /// <param name="sender">resetColorsButton</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void ResetColorsButton_Click(object sender, RoutedEventArgs e) { TriMMApp.Settings.SetToStandardColors(); }
+
         #endregion
 
         #region Display
@@ -314,25 +338,11 @@ namespace TriMM {
         private void PickingModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) { TriMMApp.Settings.PickingMode = pickingModeComboBox.SelectedIndex; }
 
         /// <summary>
-        /// Resets the display settings to the default values.
-        /// </summary>
-        /// <param name="sender">defaultDisplayButton</param>
-        /// <param name="e">Standard RoutedEventArgs</param>
-        private void DefaultDisplayButton_Click(object sender, RoutedEventArgs e) { TriMMApp.Settings.SetToDefaultDisplay(); }
-
-        /// <summary>
         /// Resets the display settings to the standard values.
         /// </summary>
-        /// <param name="sender">standardDisplayButton</param>
+        /// <param name="sender">resetDisplayButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
-        private void StandardDisplayButton_Click(object sender, RoutedEventArgs e) { TriMMApp.Settings.SetToStandardDisplay(); }
-
-        /// <summary>
-        /// Accepts the current display settings as the standard values.
-        /// </summary>
-        /// <param name="sender">makeStandardDisplayButton</param>
-        /// <param name="e">Standard RoutedEventArgs</param>
-        private void MakeStandardDisplayButton_Click(object sender, RoutedEventArgs e) { TriMMApp.Settings.MakeStandardDisplay(); }
+        private void ResetDisplayButton_Click(object sender, RoutedEventArgs e) { TriMMApp.Settings.SetToStandardDisplay(); }
 
         #endregion
 

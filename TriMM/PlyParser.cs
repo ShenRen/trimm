@@ -96,27 +96,27 @@ namespace TriMM {
 
             // The file must not be empty!
             input = file.ReadLine();
-            if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+            if (input == null) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
             input.Trim();
             inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             // The first word in the first line must be "ply"!
-            if (inputList[0] != "ply") { throw new Exception("The file is not a PLY file, or it is broken!"); }
+            if (inputList[0] != "ply") { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
             input = file.ReadLine();
             input.Trim();
             inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             // There has to be more information than just "ply"!
-            if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+            if (input == null) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
 
             // The header is processed here.
             do {
                 // Empty lines and comment-lines are skipped.
                 if ((input == "") || (input.StartsWith("comment"))) { } else if (inputList[0] == "format") {
-                    if (inputList.Length != 3) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                    if (inputList.Length != 3) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
                     format = inputList[1];
                     version = inputList[2];
                 } else if (inputList[0] == "element") {
                     // The Elements are read and stored. There need to be Elements called "vertex" and "face".
-                    if (inputList.Length != 3) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                    if (inputList.Length != 3) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
                     elements.Add(new Element(inputList[1], int.Parse(inputList[2])));
                 } else if (inputList[0] == "property") {
                     // The properties of the Elements are stored with the elements.
@@ -125,7 +125,7 @@ namespace TriMM {
 
                 // There has to be more information than just the header, which must end with "end_header"!
                 input = file.ReadLine();
-                if (input == null) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                if (input == null) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
                 input.Trim();
                 inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             } while (input != "end_header");
@@ -139,7 +139,7 @@ namespace TriMM {
                     // There could be more informations, but as there are no standard names for them in the original 
                     // description of the PLY format, they are ignored by this program.
                     if (el.properties.Count < 3) {
-                        throw new Exception("The file is not a PLY file, or it is broken!");
+                        throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText);
                     } else {
                         bool x = false, y = false, z = false;
                         for (int j = 0; j < el.properties.Count; j++) {
@@ -156,12 +156,12 @@ namespace TriMM {
                                     break;
                             }
                         }
-                        if (!x || !y || !z) { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                        if (!x || !y || !z) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
                     }
                 } else if (el.name == "face") {
                     faces = el.count;
                     // The faces need to be indices of the Vertices!
-                    if (el.properties[0] != "property list uchar int vertex_index") { throw new Exception("The file is not a PLY file, or it is broken!"); }
+                    if (el.properties[0] != "property list uchar int vertex_index") { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
                 }
             }
 
@@ -198,7 +198,7 @@ namespace TriMM {
                     inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Only triangles are allowed for this program.
-                    if (int.Parse(inputList[0]) != 3) { throw new Exception("At least one of the faces is not a triangle!"); }
+                    if (int.Parse(inputList[0]) != 3) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyTriangleError")[0].InnerText); }
 
                     // Only the Triangle is read and added to the owners TriangleMesh, everything else in the line is ignored.
                     TriMMApp.Mesh.Add(new Triangle(int.Parse(inputList[1], numberFormatInfo), int.Parse(inputList[2], numberFormatInfo), int.Parse(inputList[3], numberFormatInfo)));
@@ -223,7 +223,7 @@ namespace TriMM {
 #endif
                 // The Header.
                 sw.WriteLine("ply");
-                sw.WriteLine("comment Written by the TriMM PlyParser (by Christian Moritz)");
+                sw.WriteLine(TriMMApp.Lang.GetElementsByTagName("PlyHeader")[0].InnerText);
                 sw.WriteLine("format ascii 1.0");
                 sw.WriteLine("element vertex " + TriMMApp.Mesh.Vertices.Count.ToString());
                 sw.WriteLine("property double x");
@@ -244,7 +244,7 @@ namespace TriMM {
                 }
 #if !DEBUG
             } catch (Exception exception) {
-                System.Windows.MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 sw.Close();

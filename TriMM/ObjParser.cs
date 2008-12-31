@@ -118,7 +118,8 @@ namespace TriMM {
                 }
 
 #if !DEBUG
-            } catch { throw new Exception("The OBJ file is broken!"); }
+            } catch {
+                throw new Exception(TriMMApp.Lang.GetElementsByTagName("ObjBrokenFileError")[0].InnerText); }
 #endif
 
         }
@@ -140,7 +141,7 @@ namespace TriMM {
             try {
 #endif
                 // The Header.
-                sw.WriteLine("# Written by the TriMM ObjParser (by Christian Moritz)");
+                sw.WriteLine(TriMMApp.Lang.GetElementsByTagName("ObjHeader")[0].InnerText);
 
                 // The Vertices
                 for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
@@ -151,7 +152,6 @@ namespace TriMM {
                 if (normals) {
                     for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
                         sw.WriteLine("vn " + TriMMApp.Mesh.Vertices[i].Normal[0] + " " + TriMMApp.Mesh.Vertices[i].Normal[1] + " " + TriMMApp.Mesh.Vertices[i].Normal[2]);
-
                     }
                 }
 
@@ -174,7 +174,7 @@ namespace TriMM {
 
 #if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 sw.Close();

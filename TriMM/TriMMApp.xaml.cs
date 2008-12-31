@@ -26,6 +26,9 @@ using System.Threading;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TriMM.VertexNormalAlgorithms;
+using System.Windows.Data;
+using System;
+using System.Xml;
 
 namespace TriMM {
     /// <summary>
@@ -38,6 +41,7 @@ namespace TriMM {
         private static TriangleMesh mesh;
         private static TriMMControl control;
         private static Settings settings;
+        private static XmlDocument lang;
         private static ImageSource image;
 
         private static IVertexNormalAlgorithm[] vertexNormalAlgorithms = new IVertexNormalAlgorithm[] { new Gouraud(), new Max(), new Taubin(), new InverseTaubin(),
@@ -48,14 +52,17 @@ namespace TriMM {
 
         #region Properties
 
-        /// <value>Gets or sets the global TriangleMesh</value>
+        /// <value>Gets or sets the global TriangleMesh.</value>
         public static TriangleMesh Mesh { get { return mesh; } set { mesh = value; } }
 
-        /// <value>Gets or sets the global TriMMControl</value>
+        /// <value>Gets or sets the global TriMMControl.</value>
         public static TriMMControl Control { get { return control; } set { control = value; } }
 
-        /// <value>Gets or sets the global Settings</value>
+        /// <value>Gets or sets the global Settings.</value>
         public static Settings Settings { get { return settings; } set { settings = value; } }
+
+        /// <value>Gets or sets the global language file.</value>
+        public static XmlDocument Lang { get { return lang; } set { lang = value; } }
 
         /// <value>Gets the global window icon.</value>
         public static ImageSource Image { get { return image; } }
@@ -74,14 +81,12 @@ namespace TriMM {
         /// Loads the default Settings and set the window icon.
         /// </summary>
         public TriMMApp() {
+            this.InitializeComponent();
+
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-            FileInfo fi = new FileInfo("default.set");
-            if (fi.Exists) {
-                settings = new Settings("default.set");
-            } else {
-                settings = new Settings();
-            }
+
+            settings = new Settings("default.set");
 
             Icon icon = TriMM.Properties.Resources.LogoKlein;
             MemoryStream iconStream = new MemoryStream();

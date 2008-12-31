@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Part of TriMM, the TriangleMesh Manipulator.
+
+    Copyright (C) 2008  Christian Moritz
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+    
+    For more information and contact details look at TriMMs website: http://trimm.sourceforge.net/ -->
+<TriMM>
+  <Global>
+    <ErrorTitle>Error!</ErrorTitle>
+    <NormalAlgorithmLabel Text="Normal Algorithm:"/>
+    <NormalAlgorithmToolTip Text="Choose the algorithm to calculate the Vertex normals with."/>
+    <OpenFileTitle>Open File</OpenFileTitle>
+    <SaveFileTitle>Save File</SaveFileTitle>
+  </Global>
+  <About>
+    <Title Text="About TriMM"/>
+    <ProgramLabel Text="TriMM, the TriangleMesh Manipulator"/>
+  </About>
+  <ObjParser>
+    <ObjBrokenFileError>The OBJ file is broken!</ObjBrokenFileError>
+    <ObjHeader># Written by the TriMM ObjParser (by Christian Moritz)</ObjHeader>
+  </ObjParser>
+  <OffParser>
+    <OffCounterError>Wrong number of counters!</OffCounterError>
+    <OffHeader># Written by the TriMM OffParser (by Christian Moritz)</OffHeader>
+  </OffParser>
+  <PlyParser>
+    <PlyBrokenFileError>The file is not a PLY file, or it is broken!</PlyBrokenFileError>
+    <PlyTriangleError>At least one of the faces is not a triangle!</PlyTriangleError>
+    <PlyHeader>comment Written by the TriMM PlyParser (by Christian Moritz)</PlyHeader>
+  </PlyParser>
+  <Settings>
+    <NAError>Only the numbers 0 to 12 are allowed for the normal algorithm setting!</NAError>
+    <PICKError>The picking mode (PICK) must be either 0, 1, 2 or 3!</PICKError>
+    <SMOOTHError>Only the values 0 and 1 are allowed for the SMOOTH setting!</SMOOTHError>
+    <SOLIDError>Only the values 0 and 1 are allowed for the SOLID setting!</SOLIDError>
+    <MESHError>Only the values 0 and 1 are allowed for the MESH setting!</MESHError>
+    <VERTError>Only the values 0 and 1 are allowed for the VERT setting!</VERTError>
+    <TRINORMError>Only the values 0 and 1 are allowed for the TRINORM setting!</TRINORMError>
+    <VERTNORMError>Only the values 0 and 1 are allowed for the VERTNORM setting!</VERTNORMError>
+    <XAXISError>Only the values 0 and 1 are allowed for the XAXIS setting!</XAXISError>
+    <YAXISError>Only the values 0 and 1 are allowed for the YAXIS setting!</YAXISError>
+    <ZAXISError>Only the values 0 and 1 are allowed for the ZAXIS setting!</ZAXISError>
+    <SETBrokenFileError>This Settings file is broken or not a TriMM-Settings file at all!</SETBrokenFileError>
+    <SETHeader># Settings for TriMM, the TriangleMesh Manipulator</SETHeader>
+  </Settings>
+  <SettingsWindow>
+    <Title Text="TriMM Settings"/>
+    <SETFilter>Settings</SETFilter>
+    <LoadSettingsMenuItem Text="Load Settings"/>
+    <LoadSettingsToolTip Text="Load the settings from a .SET file."/>
+    <SaveSettingsMenuItem Text="Save Settings"/>
+    <SaveSettingsToolTip Text="Save the settings to a .SET file."/>
+    <ResetAllMenuItem Text="Reset All"/>
+    <ResetAllToolTip Text="Reset to your standard settings."/>
+    <MakeStandardMenuItem Text="Make Standard"/>
+    <MakeStandardToolTip Text="Accept the current settings as standard."/>
+    <LanguageLabel Text="Language:"/>
+    <LanguageToolTip Text="Choose the programs language."/>
+    <ResetButton Text="Reset"/>
+    <ColorsGroupBoxHeader Text="Colors"/>
+    <ColorComboBoxToolTip Text="Choose the part whose color you want to change."/>
+    <BackgroundItem Text="Background"/>
+    <TextItem Text="Text"/>
+    <SolidItem Text="Solid"/>
+    <MeshItem Text="Mesh"/>
+    <VerticesItem Text="Vertices"/>
+    <TriangleNormalsItem Text="Triangle Normals"/>
+    <VertexNormalsItem Text="Vertex Normals"/>
+    <XAxisItem Text="X-Axis"/>
+    <YAxisItem Text="Y-Axis"/>
+    <ZAxisItem Text="Z-Axis"/>
+    <ObservedVertexItem Text="Observed Vertex"/>
+    <ObservedEdgeItem Text="Observed Edge"/>
+    <ObservedTriangleItem Text="Observed Triangle"/>
+    <ColorTextBoxToolTip Text="The floating point RGB values of the color."/>
+    <ColorButtonToolTip Text="Pick a different color."/>
+    <DisplayGroupBoxHeader Text="Display"/>
+    <SmoothCheckBox Text="Smooth"/>
+    <SmoothCheckBoxToolTip Text="The Modell is drawn using the Vertex normals."/>
+    <SolidCheckBox Text="Solid"/>
+    <SolidCheckBoxToolTip Text="The Triangles are drawn as surfaces."/>
+    <MeshCheckBox Text="Mesh"/>
+    <MeshCheckBoxToolTip Text="The Edges are drawn as lines."/>
+    <VerticesCheckBox Text="Vertices"/>
+    <VerticesCheckBoxToolTip Text="The Vertices are drawn as points."/>
+    <TriangleNormalsCheckBox Text="Triangle Normals"/>
+    <TriangleNormalsCheckBoxToolTip Text="The Triangle normals are drawn as lines."/>
+    <VertexNormalsCheckBox Text="Vertex Normals"/>
+    <VertexNormalsCheckBoxToolTip Text="The Vertex normals are drawn as lines."/>
+    <XAxisCheckBox Text="X-Axis"/>
+    <XAxisCheckBoxToolTip Text="The x-axis is drawn as a line."/>
+    <YAxisCheckBox Text="Y-Axis"/>
+    <YAxisCheckBoxToolTip Text="The y-axis is drawn as a line."/>
+    <ZAxisCheckBox Text="Z-Axis"/>
+    <ZAxisCheckBoxToolTip Text="The z-axis is drawn as a line."/>
+    <PickingModeLabel Text="Picking Mode:"/>
+    <PickingModeComboBoxToolTip Text="No Picking, Vertex, Edge or Triangle Picking."/>
+    <NoneItem Text="None"/>
+    <VertexItem Text="Vertices"/>
+    <EdgeItem Text="Edges"/>
+    <TriangleItem Text="Triangles"/>
+  </SettingsWindow>
+  <STLParser>
+    <STLBrokenFileError>The STL file is broken!</STLBrokenFileError>
+    <STLHeader>"This file was generated by TriMM!"</STLHeader>
+  </STLParser>
+</TriMM>

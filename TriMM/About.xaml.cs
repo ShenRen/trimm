@@ -59,7 +59,7 @@ namespace TriMM {
         public About() {
             InitializeComponent();
             this.Icon = TriMMApp.Image;
-            versionLabel.Content = String.Format("Version: {0}", AssemblyVersion) + " beta";
+            versionLabel.Content = String.Format("Version: {0}", AssemblyVersion);
             authorLabel.Content = String.Format(AssemblyCopyright);
 
             FlowDocument doc = new FlowDocument();

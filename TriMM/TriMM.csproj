@@ -50,8 +50,12 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL" />
-    <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL" />
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="UIAutomationProvider">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -133,11 +137,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="VertexNormalAlgorithms\Rusinkiewicz.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="STLParser.cs" />
@@ -154,10 +153,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -167,7 +162,18 @@
     <None Include="Resources\LogoKlein.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="default.set">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="lang\english.xml">
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="lang\deutsch.xml">
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -67,7 +67,7 @@ namespace TriMM {
         /// The key is created from the length rounded to 12 decimals and the Vertices, ordered by their index,
         /// with a length set to seven digits.
         /// Will not work for meshes with more than seven digits, but meshes that size are problematic anyway.
-        /// (Picking will not work for meshes too large for example).
+        /// (Picking will not work for meshes that are too large, for example).
         /// </summary>
         /// <param name="a">Index of the first Vertex</param>
         /// <param name="b">Index of the second Vertex</param>

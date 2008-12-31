@@ -184,7 +184,7 @@ namespace TriMM {
 
 #if !DEBUG
             } catch (Exception exception) {
-                System.Windows.MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
                 reader.Close();
