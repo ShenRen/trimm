@@ -28,11 +28,11 @@ namespace TriMM {
     /// <summary>
     /// A Vertex of the mesh. Can store the normal vector, the Voronoi area, a list of adjacent Triangles and a Neighborhood.
     /// </summary>
-    public class Vertex : VectorND {
+    public class Vertex : Vector {
 
         #region Fields
 
-        private VectorND normal;
+        private Vector normal;
         private double area;
 
         private List<int> triangles = new List<int>();
@@ -43,7 +43,7 @@ namespace TriMM {
         #region Properties
 
         /// <value>Gets the normal vector of this Vertex or sets it.</value>
-        public VectorND Normal { get { return normal; } set { normal = value; } }
+        public Vector Normal { get { return normal; } set { normal = value; } }
 
         /// <value>Gets the Voronoi area of this Vertex or sets it.</value>
         public double Area { get { return area; } set { area = value; } }

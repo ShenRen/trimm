@@ -51,7 +51,6 @@
                 <Label x:Uid="radiusLabel" Height="23.277" Margin="6,136.156,6,0" Name="radiusLabel" VerticalAlignment="Top" HorizontalContentAlignment="Center" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/RadiusToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/RadiusLabel/@Text}"/>
             </Grid>
         </GroupBox>
-        <Button x:Uid="settingsButton" Height="23" HorizontalAlignment="Right" Margin="0,495,5.555,0" Name="settingsButton" VerticalAlignment="Top" Width="144.651" Click="SettingsButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/SettingsButtonToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/SettingsButton/@Text}"/>
         <Button x:Uid="screenshotButton" Height="23" HorizontalAlignment="Right" Margin="0,0,6,41.107" Name="screenshotButton" VerticalAlignment="Bottom" Width="144.873" Click="ScreenshotButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/ScreenshotButtonToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/ScreenshotButton/@Text}"/>
         <Button x:Uid="resetViewButton" Height="23" HorizontalAlignment="Right" Margin="0,0,6,12.221" Name="resetViewButton" VerticalAlignment="Bottom" Width="144.664" Click="ResetViewButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/ResetViewButtonToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/ResetViewButton/@Text}"/>
     </Grid>

@@ -91,8 +91,8 @@ namespace TriMM {
             int count = 0;
 
             // The numbers in the file must have the decimal separator ".".
-            NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
-            numberFormatInfo.NumberDecimalSeparator = ".";
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
 
             // The file must not be empty!
             input = file.ReadLine();
@@ -177,8 +177,8 @@ namespace TriMM {
                     inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Only the Vertex is read and added to the VertexList of the owners TriangleMesh, everything else in the line is ignored.
-                    vertex = new Vertex(double.Parse(inputList[0], NumberStyles.Float, numberFormatInfo),
-                        double.Parse(inputList[1], NumberStyles.Float, numberFormatInfo), double.Parse(inputList[2], NumberStyles.Float, numberFormatInfo));
+                    vertex = new Vertex(double.Parse(inputList[0], NumberStyles.Float, nFI),
+                        double.Parse(inputList[1], NumberStyles.Float, nFI), double.Parse(inputList[2], NumberStyles.Float, nFI));
 
                     TriMMApp.Mesh.Vertices.Add(vertex);
 
@@ -201,7 +201,7 @@ namespace TriMM {
                     if (int.Parse(inputList[0]) != 3) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyTriangleError")[0].InnerText); }
 
                     // Only the Triangle is read and added to the owners TriangleMesh, everything else in the line is ignored.
-                    TriMMApp.Mesh.Add(new Triangle(int.Parse(inputList[1], numberFormatInfo), int.Parse(inputList[2], numberFormatInfo), int.Parse(inputList[3], numberFormatInfo)));
+                    TriMMApp.Mesh.Add(new Triangle(int.Parse(inputList[1], nFI), int.Parse(inputList[2], nFI), int.Parse(inputList[3], nFI)));
 
                     count++;
                 }
@@ -218,6 +218,10 @@ namespace TriMM {
         /// <param name="filename">Path to the file to be written.</param>
         public static void WritePLY(string filename) {
             StreamWriter sw = new StreamWriter(filename);
+
+            // The numbers in the file must have the decimal separator ".".
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
 #if !DEBUG
             try {
 #endif
@@ -235,7 +239,7 @@ namespace TriMM {
 
                 // The Vertices.
                 for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
-                    sw.WriteLine(TriMMApp.Mesh.Vertices[i][0] + " " + TriMMApp.Mesh.Vertices[i][1] + " " + TriMMApp.Mesh.Vertices[i][2]);
+                    sw.WriteLine(TriMMApp.Mesh.Vertices[i][0].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i][1].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i][2].ToString(nFI));
                 }
 
                 // The Triangles.

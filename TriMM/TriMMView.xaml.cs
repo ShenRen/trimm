@@ -29,7 +29,7 @@ namespace TriMM {
     /// <summary>
     /// A Window displaying a TriMMControl and two ScrollBars to move the image,
     /// as well as button to center the image again.
-    /// It also gives a choice of what to display and allows changing colors as well as making screenshots.
+    /// It also gives a choice of what to display and allows making screenshots.
     /// </summary>
     public partial class TriMMView : Window {
 
@@ -296,16 +296,6 @@ namespace TriMM {
         private void ClippingPlaneNumericUpDown_ValueChanged(object sender, EventArgs e) {
             TriMMApp.Control.ClippingPlane = (float)clippingPlaneNumericUpDown.Value;
             TriMMApp.Control.Refresh();
-        }
-
-        /// <summary>
-        /// Opens the SettingsWindow to change the standard Settings.
-        /// </summary>
-        /// <param name="sender">settingsButton</param>
-        /// <param name="e">Standard RoutedEventArgs</param>
-        private void SettingsButton_Click(object sender, RoutedEventArgs e) {
-            SettingsWindow sform = new SettingsWindow();
-            sform.ShowDialog();
         }
 
         /// <summary>

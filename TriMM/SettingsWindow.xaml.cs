@@ -24,6 +24,7 @@ using System.Windows.Media;
 using Microsoft.Win32;
 using System.IO;
 using System.Collections.Generic;
+using System;
 
 namespace TriMM {
     /// <summary>
@@ -45,7 +46,7 @@ namespace TriMM {
             normalComboBox.ItemsSource = TriMMApp.VertexNormalAlgorithms;
             normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo;
 
-            DirectoryInfo di = new DirectoryInfo("lang");
+            DirectoryInfo di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "lang");
             FileInfo[] files = di.GetFiles("*.xml");
 
             for (int i = 0; i < files.Length; i++) { languageFiles.Add(files[i].Name.Substring(0, files[i].Name.IndexOf(".xml"))); }

@@ -82,7 +82,7 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-            List<VectorND> normals = new List<VectorND>(count);
+            List<Vector> normals = new List<Vector>(count);
             List<Vertex[]> triangles = new List<Vertex[]>(count);
 
             // Read the records
@@ -92,7 +92,7 @@ namespace TriMM {
                 // Normal/vertices
 
                 // First one is the normal
-                normals.Add(new VectorND((double)binReader.ReadSingle(), (double)binReader.ReadSingle(), (double)binReader.ReadSingle()));
+                normals.Add(new Vector((double)binReader.ReadSingle(), (double)binReader.ReadSingle(), (double)binReader.ReadSingle()));
 
                 // Next three are vertices
                 for (int j = 0; j < 3; j++) { for (int k = 0; k < 3; k++) { tmp[j][k] = (double)binReader.ReadSingle(); } }
@@ -136,13 +136,14 @@ namespace TriMM {
             String input = null;
             int count = 0;
 
-            NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
-            numberFormatInfo.NumberDecimalSeparator = ".";
+            // The numbers in the file must have the decimal separator ".".
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
 
             file.BaseStream.Position = 0;
             StreamReader sr = new StreamReader(file.BaseStream);
 
-            List<VectorND> normals = new List<VectorND>(count);
+            List<Vector> normals = new List<Vector>(count);
             List<Vertex[]> triangles = new List<Vertex[]>(count);
             Vertex[] tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
 
@@ -163,12 +164,12 @@ namespace TriMM {
                     if (v[0].ToLower() == "vertex") {
                         // Parse string, NumberStyles.Float secures that different formats can be parsed
                         // such as: "-2.23454e-001" (exponential format)
-                        for (int i = 0; i < 3; i++) { tmp[count - 1][i] = double.Parse(v[i + 1], NumberStyles.Float, numberFormatInfo); }
+                        for (int i = 0; i < 3; i++) { tmp[count - 1][i] = double.Parse(v[i + 1], NumberStyles.Float, nFI); }
                         if (!TriMMApp.Mesh.Vertices.Contains(tmp[count - 1])) { TriMMApp.Mesh.Vertices.Add(tmp[count - 1]); }
                         count++;
                     } else if (v[0].ToLower() == "facet") {
-                        normals.Add(new VectorND(double.Parse(v[2], NumberStyles.Float, numberFormatInfo),
-                            double.Parse(v[3], NumberStyles.Float, numberFormatInfo), double.Parse(v[4], NumberStyles.Float, numberFormatInfo)));
+                        normals.Add(new Vector(double.Parse(v[2], NumberStyles.Float, nFI),
+                            double.Parse(v[3], NumberStyles.Float, nFI), double.Parse(v[4], NumberStyles.Float, nFI)));
                         count++;
                     }
                 }
@@ -228,15 +229,19 @@ namespace TriMM {
         /// <param name="filename">Path of the file to be saved</param>
         public static void WriteToASCII(string filename) {
             StreamWriter sw = new StreamWriter(filename);
+
+            // The numbers in the file must have the decimal separator ".".
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
 #if !DEBUG
             try {
 #endif
             sw.WriteLine("solid ");
             for (int i = 0; i < TriMMApp.Mesh.Count; i++) {
-                sw.WriteLine("  facet normal " + TriMMApp.Mesh[i].Normal[0] + " " + TriMMApp.Mesh[i].Normal[1] + " " + TriMMApp.Mesh[i].Normal[2] + " ");
+                sw.WriteLine("  facet normal " + TriMMApp.Mesh[i].Normal[0].ToString(nFI) + " " + TriMMApp.Mesh[i].Normal[1].ToString(nFI) + " " + TriMMApp.Mesh[i].Normal[2].ToString(nFI) + " ");
                 sw.WriteLine("    outer loop");
                 for (int j = 0; j < 3; j++) {
-                    sw.WriteLine("      vertex " + TriMMApp.Mesh[i, j][0] + " " + TriMMApp.Mesh[i, j][1] + " " + TriMMApp.Mesh[i, j][2] + " ");
+                    sw.WriteLine("      vertex " + TriMMApp.Mesh[i, j][0].ToString(nFI) + " " + TriMMApp.Mesh[i, j][1].ToString(nFI) + " " + TriMMApp.Mesh[i, j][2].ToString(nFI) + " ");
                 }
                 sw.WriteLine("    endloop");
                 sw.WriteLine("  endfacet");
@@ -244,7 +249,7 @@ namespace TriMM {
             sw.WriteLine("endsolid ");
 #if !DEBUG
             } catch (Exception exception) {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             } finally {
 #endif
             sw.Close();

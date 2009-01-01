@@ -43,7 +43,7 @@ namespace TriMM.VertexNormalAlgorithms {
         public void GetVertexNormals() {
             for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
                 Vertex vertex = TriMMApp.Mesh.Vertices[i];
-                vertex.Normal = new VectorND(0, 0, 0);
+                vertex.Normal = new Vector(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) { vertex.Normal += TriMMApp.Mesh[vertex.Triangles[j]].Normal; }
                 vertex.Normal.Normalize();

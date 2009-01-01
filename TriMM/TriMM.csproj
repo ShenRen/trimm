@@ -147,7 +147,7 @@
     <Compile Include="TriMMControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="VectorND.cs" />
+    <Compile Include="Vector.cs" />
     <Compile Include="Vertex.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

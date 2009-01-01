@@ -44,7 +44,7 @@ namespace TriMM {
 
             // Temporary variables.
             Vertex vertex;
-            VectorND normal;
+            Vector normal;
             String input = null;
             String[] inputList;
             int vertices = 0;
@@ -52,8 +52,8 @@ namespace TriMM {
             int a, b, c;
 
             // The numbers in the file must have the decimal separator ".".
-            NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
-            numberFormatInfo.NumberDecimalSeparator = ".";
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
 
 #if !DEBUG
             try {
@@ -69,15 +69,15 @@ namespace TriMM {
 
                     if (inputList[0] == "v") {
                         // Vertices must start with the letter "v" and contain three coordinates.
-                        vertex = new Vertex(double.Parse(inputList[1], NumberStyles.Float, numberFormatInfo),
-                           double.Parse(inputList[2], NumberStyles.Float, numberFormatInfo), double.Parse(inputList[3], NumberStyles.Float, numberFormatInfo));
+                        vertex = new Vertex(double.Parse(inputList[1], NumberStyles.Float, nFI),
+                           double.Parse(inputList[2], NumberStyles.Float, nFI), double.Parse(inputList[3], NumberStyles.Float, nFI));
                         TriMMApp.Mesh.Vertices.Add(vertex);
                         vertices++;
                     } else if (inputList[0] == "vn") {
                         // Vertex normals must start with the letters "vn" and contain three coordinates.
                         // There must be one Vertex normal for every Vertex.
-                        normal = new VectorND(double.Parse(inputList[1], NumberStyles.Float, numberFormatInfo),
-                           double.Parse(inputList[2], NumberStyles.Float, numberFormatInfo), double.Parse(inputList[3], NumberStyles.Float, numberFormatInfo));
+                        normal = new Vector(double.Parse(inputList[1], NumberStyles.Float, nFI),
+                           double.Parse(inputList[2], NumberStyles.Float, nFI), double.Parse(inputList[3], NumberStyles.Float, nFI));
                         TriMMApp.Mesh.Vertices[normals].Normal = normal;
                         normals++;
                     } else if (inputList[0] == "f") {
@@ -85,14 +85,14 @@ namespace TriMM {
                         if (inputList[1].Contains("/")) {
                             // The OBJ format allows entering information about the Vertices (v), the texture (vt) and the normal vectors at the Vertices (vn) in the form v/vt/vn.
                             // Only the Vertex informations are used, as no texture is supported by this program and the normal vectors are attached to the Vertices directly.
-                            a = int.Parse(inputList[1].Substring(0, inputList[1].IndexOf('/')), numberFormatInfo) - 1;
-                            b = int.Parse(inputList[2].Substring(0, inputList[2].IndexOf('/')), numberFormatInfo) - 1;
-                            c = int.Parse(inputList[3].Substring(0, inputList[3].IndexOf('/')), numberFormatInfo) - 1;
+                            a = int.Parse(inputList[1].Substring(0, inputList[1].IndexOf('/')), nFI) - 1;
+                            b = int.Parse(inputList[2].Substring(0, inputList[2].IndexOf('/')), nFI) - 1;
+                            c = int.Parse(inputList[3].Substring(0, inputList[3].IndexOf('/')), nFI) - 1;
                         } else {
                             // The simple version only gives information about the Vertices.
-                            a = int.Parse(inputList[1], numberFormatInfo) - 1;
-                            b = int.Parse(inputList[2], numberFormatInfo) - 1;
-                            c = int.Parse(inputList[3], numberFormatInfo) - 1;
+                            a = int.Parse(inputList[1], nFI) - 1;
+                            b = int.Parse(inputList[2], nFI) - 1;
+                            c = int.Parse(inputList[3], nFI) - 1;
                         }
 
                         // The OBJ format allows refering to the indices of the Vertices with a negative number indicating the position of the Vertex above the face.
@@ -133,6 +133,10 @@ namespace TriMM {
             bool normals = false;
             int a, b, c;
 
+            // The numbers in the file must have the decimal separator ".".
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
+
             // The TriangleMesh contains Vertex normals.
             if (TriMMApp.Mesh.Vertices[0].Normal != null) { normals = true; }
 
@@ -145,13 +149,13 @@ namespace TriMM {
 
                 // The Vertices
                 for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
-                    sw.WriteLine("v " + TriMMApp.Mesh.Vertices[i][0] + " " + TriMMApp.Mesh.Vertices[i][1] + " " + TriMMApp.Mesh.Vertices[i][2]);
+                    sw.WriteLine("v " + TriMMApp.Mesh.Vertices[i][0].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i][1].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i][2].ToString(nFI));
                 }
 
                 // The Vertex Normals
                 if (normals) {
                     for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
-                        sw.WriteLine("vn " + TriMMApp.Mesh.Vertices[i].Normal[0] + " " + TriMMApp.Mesh.Vertices[i].Normal[1] + " " + TriMMApp.Mesh.Vertices[i].Normal[2]);
+                        sw.WriteLine("vn " + TriMMApp.Mesh.Vertices[i].Normal[0].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i].Normal[1].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i].Normal[2].ToString(nFI));
                     }
                 }
 

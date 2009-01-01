@@ -48,13 +48,13 @@ namespace TriMM.VertexNormalAlgorithms {
         /// The cross product of the neighbors is calculated and divided by the product of their length instead.
         /// </summary>
         public void GetVertexNormals() {
-            VectorND pro1, pro2;
+            Vector pro1, pro2;
             double factor;
             int[] neighbors;
 
             for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
                 Vertex vertex = TriMMApp.Mesh.Vertices[i];
-                vertex.Normal = new VectorND(0, 0, 0);
+                vertex.Normal = new Vector(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
                     neighbors = TriMMApp.Mesh[vertex.Triangles[j]].GetNeighborsOf(i);

@@ -42,7 +42,7 @@ namespace TriMM {
 
             // Temporary variables.
             Vertex vertex;
-            VectorND normal;
+            Vector normal;
             String input = null;
             int count = 0;
             int vertices = 0;
@@ -50,8 +50,8 @@ namespace TriMM {
             bool vN = false;
 
             // The numbers in the file must have the decimal separator ".".
-            NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
-            numberFormatInfo.NumberDecimalSeparator = ".";
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
 
             // The header is processed here.
             while (count < 2) {
@@ -102,13 +102,13 @@ namespace TriMM {
                     String[] v = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Only the Vertex is read and added to the VertexList of the owners TriangleMesh, everything else in the line is ignored.
-                    vertex = new Vertex(double.Parse(v[0], NumberStyles.Float, numberFormatInfo),
-                        double.Parse(v[1], NumberStyles.Float, numberFormatInfo), double.Parse(v[2], NumberStyles.Float, numberFormatInfo));
+                    vertex = new Vertex(double.Parse(v[0], NumberStyles.Float, nFI),
+                        double.Parse(v[1], NumberStyles.Float, nFI), double.Parse(v[2], NumberStyles.Float, nFI));
 
                     // Vertex normals can follow the Vertices.
                     if (vN) {
-                        normal = new VectorND(double.Parse(v[3], NumberStyles.Float, numberFormatInfo),
-                            double.Parse(v[4], NumberStyles.Float, numberFormatInfo), double.Parse(v[5], NumberStyles.Float, numberFormatInfo));
+                        normal = new Vector(double.Parse(v[3], NumberStyles.Float, nFI),
+                            double.Parse(v[4], NumberStyles.Float, nFI), double.Parse(v[5], NumberStyles.Float, nFI));
                         vertex.Normal = normal;
                     }
                     TriMMApp.Mesh.Vertices.Add(vertex);
@@ -129,7 +129,7 @@ namespace TriMM {
                     String[] v = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Only the Triangle is read and added to the owners TriangleMesh, everything else in the line is ignored.
-                    TriMMApp.Mesh.Add(new Triangle(int.Parse(v[1], numberFormatInfo), int.Parse(v[2], numberFormatInfo), int.Parse(v[3], numberFormatInfo)));
+                    TriMMApp.Mesh.Add(new Triangle(int.Parse(v[1], nFI), int.Parse(v[2], nFI), int.Parse(v[3], nFI)));
 
                     count++;
                 }
@@ -152,6 +152,10 @@ namespace TriMM {
         public static void WriteOFF(string filename) {
             bool normals = false;
 
+            // The numbers in the file must have the decimal separator ".".
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
+
             // The TriangleMesh contains Vertex normals.
             if (TriMMApp.Mesh.Vertices[0].Normal != null) { normals = true; }
 
@@ -167,10 +171,10 @@ namespace TriMM {
                 // The Vertices
                 for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
                     if (normals) {
-                        sw.WriteLine(TriMMApp.Mesh.Vertices[i][0] + " " + TriMMApp.Mesh.Vertices[i][1] + " " + TriMMApp.Mesh.Vertices[i][2] + " "
-                            + TriMMApp.Mesh.Vertices[i].Normal[0] + " " + TriMMApp.Mesh.Vertices[i].Normal[1] + " " + TriMMApp.Mesh.Vertices[i].Normal[2]);
+                        sw.WriteLine(TriMMApp.Mesh.Vertices[i][0].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i][1].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i][2].ToString(nFI) + " "
+                            + TriMMApp.Mesh.Vertices[i].Normal[0].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i].Normal[1].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i].Normal[2].ToString(nFI));
                     } else {
-                        sw.WriteLine(TriMMApp.Mesh.Vertices[i][0] + " " + TriMMApp.Mesh.Vertices[i][1] + " " + TriMMApp.Mesh.Vertices[i][2]);
+                        sw.WriteLine(TriMMApp.Mesh.Vertices[i][0].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i][1].ToString(nFI) + " " + TriMMApp.Mesh.Vertices[i][2].ToString(nFI));
                     }
                 }
 

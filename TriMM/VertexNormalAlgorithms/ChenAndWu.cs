@@ -45,11 +45,11 @@ namespace TriMM.VertexNormalAlgorithms {
         public void GetVertexNormals() {
             for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
                 Vertex vertex = TriMMApp.Mesh.Vertices[i];
-                vertex.Normal = new VectorND(0, 0, 0);
+                vertex.Normal = new Vector(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
                     Triangle triangle = TriMMApp.Mesh[vertex.Triangles[j]];
-                    vertex.Normal += triangle.Normal / VectorND.SquaredDistance(triangle.Centroid, vertex);
+                    vertex.Normal += triangle.Normal / Vector.SquaredDistance(triangle.Centroid, vertex);
                 }
                 vertex.Normal.Normalize();
             }

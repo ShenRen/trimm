@@ -307,7 +307,7 @@ namespace TriMM {
 
                 // Sets the areas closest to each corner of a Triangle.
                 // This was adapted from Szymon Rusinkiewicz C++ library trimesh2 (http://www.cs.princeton.edu/gfx/proj/trimesh2/).
-                VectorND[] e = new VectorND[3] { this[i, 2] - this[i, 1], this[i, 0] - this[i, 2], this[i, 1] - this[i, 0] };
+                Vector[] e = new Vector[3] { this[i, 2] - this[i, 1], this[i, 0] - this[i, 2], this[i, 1] - this[i, 0] };
                 double area = 0.5 * (e[0] % e[1]).Length();
                 double[] l2 = new double[3] { e[0].SquaredLength(), e[1].SquaredLength(), e[2].SquaredLength() };
                 double[] ew = new double[3] { l2[0] * (l2[1] + l2[2] - l2[0]), l2[1] * (l2[2] + l2[0] - l2[1]), l2[2] * (l2[0] + l2[1] - l2[2]) };
@@ -343,12 +343,12 @@ namespace TriMM {
                 this[i].Area = Math.Sqrt(s * (s - a) * (s - b) * (s - c));
 
                 // Calculates the angles of each Triangle.
-                VectorND ab = this[i, 1] - this[i, 0];
-                VectorND ac = this[i, 2] - this[i, 0];
-                VectorND ba = this[i, 0] - this[i, 1];
-                VectorND bc = this[i, 2] - this[i, 1];
-                VectorND cb = this[i, 1] - this[i, 2];
-                VectorND ca = this[i, 0] - this[i, 2];
+                Vector ab = this[i, 1] - this[i, 0];
+                Vector ac = this[i, 2] - this[i, 0];
+                Vector ba = this[i, 0] - this[i, 1];
+                Vector bc = this[i, 2] - this[i, 1];
+                Vector cb = this[i, 1] - this[i, 2];
+                Vector ca = this[i, 0] - this[i, 2];
 
                 this[i].Angles[0] = Vertex.Angle(ab, ac);
                 this[i].Angles[1] = Vertex.Angle(ba, bc);
@@ -468,7 +468,7 @@ namespace TriMM {
         /// </summary>
         public void SetFacetNormalVectorArray() {
             List<double> faceNormalVectorList = new List<double>(this.Count * 6);
-            VectorND temp;
+            Vector temp;
 
             for (int i = 0; i < this.Count; i++) {
                 temp = this[i].Centroid + (this.Scale / 50) * this[i].Normal;
@@ -484,7 +484,7 @@ namespace TriMM {
         /// </summary>
         public void SetVertexNormalVectorArray() {
             List<double> vertexNormalVectorList = new List<double>(vertices.Count * 6);
-            VectorND temp;
+            Vector temp;
 
             for (int i = 0; i < vertices.Count; i++) {
                 temp = vertices[i] + (this.Scale / 50) * vertices[i].Normal;
@@ -550,7 +550,7 @@ namespace TriMM {
         /// </summary>
         public void SetEdgePickingArray() {
             List<double> edgePickingList = new List<double>(edges.Count * 4);
-            VectorND axis;
+            Vector axis;
             double angle, length;
 
             for (int i = 0; i < edges.Count; i++) {
@@ -607,9 +607,9 @@ namespace TriMM {
         /// <param name="tri">Index of the Triangle to be checked.</param>
         /// <returns>True, if the Vertices form a Triangle.</returns>
         public bool IsTriangle(int tri) {
-            VectorND ab = this[tri, 1] - this[tri, 0];
-            VectorND ac = this[tri, 2] - this[tri, 0];
-            double angle = VectorND.Angle(ab, ac);
+            Vector ab = this[tri, 1] - this[tri, 0];
+            Vector ac = this[tri, 2] - this[tri, 0];
+            double angle = Vector.Angle(ab, ac);
 
             if ((ab.Length() == 0) || (ac.Length() == 0) || (angle < Math.PI / 360) || (angle > 359 * Math.PI / 360)) {
                 return false;
@@ -624,9 +624,9 @@ namespace TriMM {
         /// <param name="v2">Index of the third Vertex.</param>
         /// <returns>True, if the vertices form a triangle</returns>
         public bool IsTriangle(int v0, int v1, int v2) {
-            VectorND ab = this.vertices[v1] - this.vertices[v0];
-            VectorND ac = this.vertices[v2] - this.vertices[v0];
-            double angle = VectorND.Angle(ab, ac);
+            Vector ab = this.vertices[v1] - this.vertices[v0];
+            Vector ac = this.vertices[v2] - this.vertices[v0];
+            double angle = Vector.Angle(ab, ac);
 
             if ((ab.Length() == 0) || (ac.Length() == 0) || (angle < Math.PI / 360) || (angle > 359 * Math.PI / 360)) {
                 return false;
@@ -641,9 +641,9 @@ namespace TriMM {
         /// <param name="v2">Third Vertex.</param>
         /// <returns>True, if the vertices form a triangle</returns>
         public bool IsTriangle(Vertex v0, Vertex v1, Vertex v2) {
-            VectorND ab = v1 - v0;
-            VectorND ac = v2 - v0;
-            double angle = VectorND.Angle(ab, ac);
+            Vector ab = v1 - v0;
+            Vector ac = v2 - v0;
+            double angle = Vector.Angle(ab, ac);
 
             if ((ab.Length() == 0) || (ac.Length() == 0) || (angle < Math.PI / 360) || (angle > 359 * Math.PI / 360)) {
                 return false;

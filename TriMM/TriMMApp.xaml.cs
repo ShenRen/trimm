@@ -78,15 +78,21 @@ namespace TriMM {
         #region Constructors
 
         /// <summary>
-        /// Loads the default Settings and set the window icon.
+        /// Loads the default Settings and sets the window icon.
         /// </summary>
         public TriMMApp() {
             this.InitializeComponent();
 
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-
             settings = new Settings("default.set");
+#if !Debug
+            try {
+#endif
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(lang.GetElementsByTagName("Culture")[0].InnerText);
+#if !Debug
+            } catch {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            }
+#endif
 
             Icon icon = TriMM.Properties.Resources.LogoKlein;
             MemoryStream iconStream = new MemoryStream();

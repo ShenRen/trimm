@@ -62,7 +62,7 @@ namespace TriMM {
         public List<Edge> Edges { get { return edges; } set { edges = value; } }
 
         /// <value>Gets the normal vector or set it.</value>
-        public VectorND Normal { get { return centroid.Normal; } set { centroid.Normal = value; } }
+        public Vector Normal { get { return centroid.Normal; } set { centroid.Normal = value; } }
 
         /// <value>Gets the centroid or sets it.</value>
         public Vertex Centroid { get { return centroid; } set { centroid = value; } }
@@ -234,9 +234,9 @@ namespace TriMM {
         /// <param name="B">Corner of the Triangle</param>
         /// <param name="C">Corner of the Triangle</param>
         /// <returns>Area of the Triangle</returns>
-        public static double GetAreaOf(VectorND A, VectorND B, VectorND C) {
-            VectorND cb = B - C;
-            VectorND ca = A - C;
+        public static double GetAreaOf(Vector A, Vector B, Vector C) {
+            Vector cb = B - C;
+            Vector ca = A - C;
 
             double a = cb.Length();
             double b = ca.Length();
@@ -245,18 +245,18 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Calculates the normal vector of the Triangle given by the three VectorNDs
+        /// Calculates the normal vector of the Triangle given by the three Vectors
         /// <paramref name="a"/>, <paramref name="b"/> and <paramref name="c"/>
         /// </summary>
-        /// <param name="a">VectorND one.</param>
-        /// <param name="b">VectorND two.</param>
-        /// <param name="c">VectorND three.</param>
+        /// <param name="a">Vector one.</param>
+        /// <param name="b">Vector two.</param>
+        /// <param name="c">Vector three.</param>
         /// <returns>The normal vector of the given Triangle</returns>
-        public static VectorND GetNormalOf(VectorND a, VectorND b, VectorND c) {
-            VectorND v1 = b - a;
-            VectorND v2 = c - a;
+        public static Vector GetNormalOf(Vector a, Vector b, Vector c) {
+            Vector v1 = b - a;
+            Vector v2 = c - a;
 
-            VectorND normal = v1 % v2;
+            Vector normal = v1 % v2;
             normal.Normalize();
 
             return normal;
@@ -270,7 +270,7 @@ namespace TriMM {
         /// <param name="B">Corner of the Triangle</param>
         /// <param name="C">Corner of the Triangle</param>
         /// <returns>Centroid of the Triangle</returns>
-        public static Vertex GetCentroidOf(VectorND A, VectorND B, VectorND C) { return ((A + B + C) / 3).ToVertex(); }
+        public static Vertex GetCentroidOf(Vector A, Vector B, Vector C) { return ((A + B + C) / 3).ToVertex(); }
 
         #endregion
 

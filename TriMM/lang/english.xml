@@ -19,11 +19,13 @@
     For more information and contact details look at TriMMs website: http://trimm.sourceforge.net/ -->
 <TriMM>
   <Global>
+    <Culture>en-US</Culture>
     <ErrorTitle>Error!</ErrorTitle>
     <NormalAlgorithmLabel Text="Normal Algorithm:"/>
     <NormalAlgorithmToolTip Text="Choose the algorithm to calculate the Vertex normals with."/>
     <OpenFileTitle>Open File</OpenFileTitle>
     <SaveFileTitle>Save File</SaveFileTitle>
+    <Files>Files</Files>
     <SmoothCheckBox Text="Smooth"/>
     <SmoothCheckBoxToolTip Text="The Modell is drawn using the Vertex normals."/>
     <SolidCheckBox Text="Solid"/>
@@ -139,10 +141,8 @@
     <ClearButtonToolTip Text="Clears the selection."/>
     <RadiusLabel Text="Radius"/>
     <RadiusToolTip Text="Radius of the sphere around the observed Vertex. The radius of the cylinder around the observed Edge is 1/10 of that value."/>
-    <SettingsButton Text="Settings"/>
-    <SettingsButtonToolTip Text="Opens the Settings Dialog."/>
     <ScreenshotButton Text="Screenshot"/>
-    <ScreenshotButtonToolTip Text="Makes a screenshot (png, bmp or jpg) of the modell."/>
+    <ScreenshotButtonToolTip Text="Makes a screenshot (png, bmp or jpg) of the scene."/>
     <ResetViewButton Text="Reset View"/>
     <ResetViewButtonToolTip Text="Resets the camera position."/>
     <XScrollBarToolTip Text="Moves the camera horizontally."/>
@@ -150,12 +150,87 @@
     <CenterButtonToolTip Text="Centers the View."/>
   </TriMMView>
   <TriMMWindow>
-    
+    <Vertex>Vertex</Vertex>
+    <Edge>Edge</Edge>
+    <Triangle>Triangle</Triangle>
+    <FileMenuItem Text="File"/>
+    <OpenMenuItem Text="Open"/>
+    <OpenMenuItemToolTip Text="Load a TriangleMesh from a file (.OBJ, .OFF, .PLY, .STL)."/>
+    <SaveMenuItem Text="Save As"/>
+    <SaveMenuItemToolTip Text="Save the TriangleMesh to a file (.OBJ, .OFF, .PLY, .STL)."/>
+    <CloseMenuItem Text="Close"/>
+    <CloseMenuItemToolTip Text="Close the current file."/>
+    <ExitMenuItem Text="Exit"/>
+    <ExitMenuItemToolTip Text="Exit TriMM."/>
+    <ViewMenuItem Text="View"/>
+    <ViewMenuItemToolTip Text="Show the visualization of the TriangleMesh."/>
+    <SettingsMenuItem Text="Settings"/>
+    <SettingsMenuItemToolTip Text="Change the settings for TriMM."/>
+    <HelpMenuItem Text="Help"/>
+    <InfoMenuItem Text="Info"/>
+    <InfoMenuItemToolTip Text="Copyright, Version and License information."/>
+    <MeshInformationHeader Text="Mesh Information"/>
+    <VerticesLabel Text="Vertices:"/>
+    <EdgesLabel Text="Edges:"/>
+    <TrianglesLabel Text="Triangles:"/>
+    <VerticesTextBoxToolTip Text="Shows the number of Vertices in the TriangleMesh."/>
+    <EdgesTextBoxToolTip Text="Shows the number of Edges in the TriangleMesh."/>
+    <TrianglesTextBoxToolTip Text="Shows the number of Triangles in the TriangleMesh."/>
+    <VerticesTab Text="Vertices"/>
+    <VerticesTabToolTip Text="Vertex Manipulation"/>
+    <XLabel Text="X:"/>
+    <XLabelToolTip Text="The x-coordinate."/>
+    <YLabel Text="Y:"/>
+    <YLabelToolTip Text="The y-coordinate."/>
+    <ZLabel Text="Z:"/>
+    <ZLabelToolTip Text="The z-coordinate."/>
+    <RemoveSinglesButton Text="Remove Single Vertices"/>
+    <RemoveSinglesButtonToolTip Text="Removes all Vertices that do not belong to any Triangle."/>
+    <RemoveDoubleVertButton Text="Remove Double Vertices"/>
+    <RemoveDoubleVertButtonToolTip Text="Removes duplicates of Vertices and adjusts the Triangles."/>
+    <RemoveObservedButton Text="Remove Observed Vertex"/>
+    <RemoveObservedButtonToolTip Text="Removes the Vertex picked in the visualization."/>
+    <AddVertexButton Text="Add selected Vertex"/>
+    <AddVertexButtonToolTip Text="Adds the Vertex determined by the coordinates chosen above."/>
+    <MoveObservedButton Text="Move Observed Vertex To"/>
+    <MoveObservedButtonToolTip Text="Moves the Vertex picked in the visualization to the coordinates chosen above."/>
+    <TransposeVertexButton Text="Transpose Observed Vertex By"/>
+    <TransposeVertexButtonToolTip Text="Moves the Vertex picked in the visualization by adding the coordinates chosen above to it's position."/>
+    <MoveAlongNormalButton Text="Move Observed Vertex along Normal"/>
+    <MoveAlongNormalButtonToolTip Text="Moves the Vertex picked in the visualization by the value selected below along its normal vector."/>
+    <DistanceLabel Text="Distance:"/>
+    <DistanceLabelToolTip Text="The distance to move the Vertex."/>
+    <EdgesTab Text="Edges"/>
+    <EdgesTabToolTip Text="Edge Manipulation"/>
+    <FlipEdgeButton Text="Flip Selected Edge"/>
+    <FlipEdgeButtonToolTip Text="Flips the selected Edge connecting the opposite corners of the incident Triangles instead."/>
+    <SubdivideEdgeButton Text="Subdivide Selected Edge"/>
+    <SubdivideEdgeButtonToolTip Text="Subdivides the Edge picked in the visualization by connecting the midege Vertex to the opposite corners of the incident Triangles."/>
+    <RemoveEdgeButton Text="Remove Selected Edge"/>
+    <RemoveEdgeButtonToolTip Text="Removes the Edge picked in the visualization."/>
+    <TrianglesTab Text="Triangles"/>
+    <TrianglesTabToolTip Text="Triangle Manipulation"/>
+    <RemoveColinButton Text="Remove Triangles with colinear Vertices"/>
+    <RemoveColinButtonToolTip Text="Removes all Triangles that have three colinear Vertices."/>
+    <RemoveDoubleButton Text="Remove Double Triangles"/>
+    <RemoveDoubleButtonToolTip Text="Removes all duplicates of Triangles."/>
+    <FlipAllTrianglesButton Text="Flip All Triangles"/>
+    <FlipAllTrianglesButtonToolTip Text="Changes the orientation and thus the direction of the normal vector for all Triangles."/>
+    <FlipObservedTriangleButton Text="Flip Observed Triangle"/>
+    <FlipObservedTriangleButtonToolTip Text="Changes the orientation and thus the direction of the normal vector for the Triangle picked in the visualization."/>
+    <SubdivideMeshButton Text="Subdivide All Triangles"/>
+    <SubdivideMeshButtonToolTip Text="Subdivides all Triangles by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
+    <SubdivideTriangleButton Text="Subdivide Observed Triangle"/>
+    <SubdivideTriangleButtonToolTip Text="Subdivides the Triangle picked in the visualization by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
+    <RemoveTriangleButton Text="Remove selected Triangle"/>
+    <RemoveTriangleButtonToolTip Text="Removes the Triangle determined by the Vertex-indices selected above."/>
+    <AddTriangleButton Text="Add selected Triangle"/>
+    <AddTriangleButtonToolTip Text="Adds the Triangle determined by the Vertex-indices selected above."/>
   </TriMMWindow>
-  <VectorND>
+  <Vector>
     <DotProductError>The vectors need to be of equal length for the dot product!</DotProductError>
     <CrossProductError>The cross product is only defined for 3D vectors!</CrossProductError>
     <LengthError>The vectors need to be of equal length!</LengthError>
     <DivisionByZeroError>Vectors are not dividible by zero!</DivisionByZeroError>
-  </VectorND>
+  </Vector>
 </TriMM>

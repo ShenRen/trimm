@@ -212,16 +212,17 @@ namespace TriMM {
 #endif
                 ofd.CheckFileExists = true;
                 ofd.DefaultExt = "off";
-                ofd.Filter = "OOGL Files (*.off)|*.off|STL Files (*.stl)|*.stl|PLY Files (ascii) (*.ply)|*.ply|Wavefront OBJ Files (*.obj)|*.obj";
+                string files = TriMMApp.Lang.GetElementsByTagName("Files")[0].InnerText;
+                ofd.Filter = "OOGL " + files + " (*.off)|*.off|STL " + files + " (*.stl)|*.stl|PLY " + files + " (ascii) (*.ply)|*.ply|Wavefront OBJ " + files + " (*.obj)|*.obj";
                 ofd.Multiselect = false;
-                ofd.Title = "Open File";
+                ofd.Title = TriMMApp.Lang.GetElementsByTagName("OpenFileTitle")[0].InnerText;
                 if (ofd.ShowDialog() == true) {
                     CloseFile(sender, e);
                     OpenFile(ofd.FileName);
                 }
 #if !DEBUG
-            } catch {
-                System.Windows.MessageBox.Show("The file you picked is broken!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (Exception exception) {
+                System.Windows.MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 #endif
         }
@@ -239,8 +240,9 @@ namespace TriMM {
                 sfd.AddExtension = true;
                 sfd.OverwritePrompt = true;
                 sfd.DefaultExt = "off";
-                sfd.Filter = "OOGL Files (*.off)|*.off|STL ASCII-Files (*.stl)|*.stl|STL Binary-Files (*.stl)|*.stl|PLY Files (ascii) (*.ply)|*.ply|Wavefront OBJ Files (*.obj)|*.obj";
-                sfd.Title = "Save File";
+                string files = TriMMApp.Lang.GetElementsByTagName("Files")[0].InnerText;
+                sfd.Filter = "OOGL " + files + " (*.off)|*.off|STL ASCII-" + files + " (*.stl)|*.stl|STL Binary-" + files + " (*.stl)|*.stl|PLY " + files + " (ascii) (*.ply)|*.ply|Wavefront OBJ " + files + " (*.obj)|*.obj";
+                sfd.Title = TriMMApp.Lang.GetElementsByTagName("SaveFileTitle")[0].InnerText;
                 if (sfd.ShowDialog() == true) {
                     if (sfd.FilterIndex == 1) {
                         OffParser.WriteOFF(sfd.FileName);
@@ -256,7 +258,7 @@ namespace TriMM {
                 }
 #if !DEBUG
             } catch (Exception exception) {
-                System.Windows.MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 #endif
         }
@@ -337,13 +339,13 @@ namespace TriMM {
         private void ManipulationTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             switch (manipulationTabControl.SelectedIndex) {
                 case 0:
-                    manipulationTabControl.Height = 291;
-                    break;
-                case 1:
                     manipulationTabControl.Height = 351;
                     break;
-                case 2:
+                case 1:
                     manipulationTabControl.Height = 149;
+                    break;
+                case 2:
+                    manipulationTabControl.Height = 291;
                     break;
             }
         }
@@ -359,7 +361,7 @@ namespace TriMM {
         private void Control_VertexPicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
-                TriMMApp.Control.Info.Add("Vertex " + picked[0] + " = " + TriMMApp.Mesh.Vertices[picked[0]].ToString());
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + picked[0] + " = " + TriMMApp.Mesh.Vertices[picked[0]].ToString());
                 TriMMApp.Mesh.ObservedVertex = picked[0];
                 xNumericUpDown.Value = (decimal)TriMMApp.Mesh.Vertices[picked[0]][0];
                 yNumericUpDown.Value = (decimal)TriMMApp.Mesh.Vertices[picked[0]][1];
@@ -375,9 +377,9 @@ namespace TriMM {
         private void Control_EdgePicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
-                TriMMApp.Control.Info.Add("Edge " + picked[0] + " = " + TriMMApp.Mesh.Edges.Values[picked[0]].ToString());
-                TriMMApp.Control.Info.Add("Vertex " + TriMMApp.Mesh.Edges.Values[picked[0]][0] + " = " + TriMMApp.Mesh.Vertices[TriMMApp.Mesh.Edges.Values[picked[0]][0]].ToString());
-                TriMMApp.Control.Info.Add("Vertex " + TriMMApp.Mesh.Edges.Values[picked[0]][1] + " = " + TriMMApp.Mesh.Vertices[TriMMApp.Mesh.Edges.Values[picked[0]][1]].ToString());
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Edge")[0].InnerText + " " + picked[0] + " = " + TriMMApp.Mesh.Edges.Values[picked[0]].ToString());
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh.Edges.Values[picked[0]][0] + " = " + TriMMApp.Mesh.Vertices[TriMMApp.Mesh.Edges.Values[picked[0]][0]].ToString());
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh.Edges.Values[picked[0]][1] + " = " + TriMMApp.Mesh.Vertices[TriMMApp.Mesh.Edges.Values[picked[0]][1]].ToString());
                 TriMMApp.Mesh.ObservedEdge = picked[0];
                 e1NumericUpDown.Value = (decimal)TriMMApp.Mesh.Edges.Values[picked[0]][0];
                 e2NumericUpDown.Value = (decimal)TriMMApp.Mesh.Edges.Values[picked[0]][1];
@@ -392,10 +394,10 @@ namespace TriMM {
         private void Control_TrianglePicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
-                TriMMApp.Control.Info.Add("Triangle " + picked[0] + " = (" + TriMMApp.Mesh[picked[0]][0] + ", " + TriMMApp.Mesh[picked[0]][1] + ", " + TriMMApp.Mesh[picked[0]][2] + ")");
-                TriMMApp.Control.Info.Add("Vertex " + TriMMApp.Mesh[picked[0]][0] + " = " + TriMMApp.Mesh[picked[0], 0].ToString());
-                TriMMApp.Control.Info.Add("Vertex " + TriMMApp.Mesh[picked[0]][1] + " = " + TriMMApp.Mesh[picked[0], 1].ToString());
-                TriMMApp.Control.Info.Add("Vertex " + TriMMApp.Mesh[picked[0]][2] + " = " + TriMMApp.Mesh[picked[0], 2].ToString());
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Triangle")[0].InnerText + " " + picked[0] + " = (" + TriMMApp.Mesh[picked[0]][0] + ", " + TriMMApp.Mesh[picked[0]][1] + ", " + TriMMApp.Mesh[picked[0]][2] + ")");
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh[picked[0]][0] + " = " + TriMMApp.Mesh[picked[0], 0].ToString());
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh[picked[0]][1] + " = " + TriMMApp.Mesh[picked[0], 1].ToString());
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh[picked[0]][2] + " = " + TriMMApp.Mesh[picked[0], 2].ToString());
                 TriMMApp.Mesh.ObservedTriangle = picked[0];
                 TriMMApp.Mesh.SetMarkedTriangleColorArray(picked[0]);
                 TriMMApp.Control.UseColorArray = true;
@@ -839,7 +841,7 @@ namespace TriMM {
             int ind2 = (int)e2NumericUpDown.Value;
 
             if ((ind1 != -1) && (ind2 != -1)) {
-                double length = VectorND.Distance(TriMMApp.Mesh.Vertices[ind1], TriMMApp.Mesh.Vertices[ind2]);
+                double length = Vector.Distance(TriMMApp.Mesh.Vertices[ind1], TriMMApp.Mesh.Vertices[ind2]);
                 Edge theEdge = new Edge(ind1, ind2, length);
 
                 if (TriMMApp.Mesh.Edges.ContainsKey(theEdge.Key)) {
@@ -904,7 +906,7 @@ namespace TriMM {
             int ind2 = (int)e2NumericUpDown.Value;
 
             if ((ind1 != -1) && (ind2 != -1)) {
-                double length = VectorND.Distance(TriMMApp.Mesh.Vertices[ind1], TriMMApp.Mesh.Vertices[ind2]);
+                double length = Vector.Distance(TriMMApp.Mesh.Vertices[ind1], TriMMApp.Mesh.Vertices[ind2]);
                 Edge theEdge = new Edge(ind1, ind2, length);
 
                 if (TriMMApp.Mesh.Edges.ContainsKey(theEdge.Key)) {
@@ -946,7 +948,7 @@ namespace TriMM {
             int ind2 = (int)e2NumericUpDown.Value;
 
             if ((ind1 != -1) && (ind2 != -1)) {
-                double length = VectorND.Distance(TriMMApp.Mesh.Vertices[ind1], TriMMApp.Mesh.Vertices[ind2]);
+                double length = Vector.Distance(TriMMApp.Mesh.Vertices[ind1], TriMMApp.Mesh.Vertices[ind2]);
                 Edge theEdge = new Edge(ind1, ind2, length);
 
                 if (TriMMApp.Mesh.Edges.ContainsKey(theEdge.Key)) {
