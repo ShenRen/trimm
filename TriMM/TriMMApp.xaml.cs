@@ -84,15 +84,6 @@ namespace TriMM {
             this.InitializeComponent();
 
             settings = new Settings("default.set");
-#if !Debug
-            try {
-#endif
-                Thread.CurrentThread.CurrentCulture = new CultureInfo(lang.GetElementsByTagName("Culture")[0].InnerText);
-#if !Debug
-            } catch {
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            }
-#endif
 
             Icon icon = TriMM.Properties.Resources.LogoKlein;
             MemoryStream iconStream = new MemoryStream();

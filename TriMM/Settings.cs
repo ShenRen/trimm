@@ -28,6 +28,7 @@ using System.Windows.Media.Imaging;
 using System.Globalization;
 using System.Windows.Data;
 using System.Xml;
+using System.Threading;
 
 namespace TriMM {
 
@@ -173,6 +174,15 @@ namespace TriMM {
                 TriMMApp.Lang = new XmlDocument();
                 TriMMApp.Lang.Load(AppDomain.CurrentDomain.BaseDirectory + langPath);
                 ((XmlDataProvider)(Application.Current.FindResource("Lang"))).Source = new Uri(langPath, UriKind.Relative);
+#if !Debug
+                try {
+#endif
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo(TriMMApp.Lang.GetElementsByTagName("Culture")[0].InnerText);
+#if !Debug
+                } catch {
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                }
+#endif
                 if (LanguageChanged != null) { LanguageChanged(); }
             }
         }

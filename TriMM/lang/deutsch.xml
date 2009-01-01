@@ -56,181 +56,181 @@
     <VersionLabel>Version:</VersionLabel>
   </About>
   <ObjParser>
-    <ObjBrokenFileError>The OBJ file is broken!</ObjBrokenFileError>
-    <ObjHeader># Written by the TriMM ObjParser (by Christian Moritz)</ObjHeader>
+    <ObjBrokenFileError>Die OBJ Datei ist beschädigt!</ObjBrokenFileError>
+    <ObjHeader># Erstellt mit dem TriMM ObjParser (von Christian Moritz)</ObjHeader>
   </ObjParser>
   <OffParser>
-    <OffCounterError>Wrong number of counters!</OffCounterError>
-    <OffHeader># Written by the TriMM OffParser (by Christian Moritz)</OffHeader>
+    <OffCounterError>Die Anzahl der Knoten, Dreiecke und Kanten muss angegeben werden!</OffCounterError>
+    <OffHeader># Erstellt mit dem TriMM OffParser (von Christian Moritz)</OffHeader>
   </OffParser>
   <PlyParser>
-    <PlyBrokenFileError>The file is not a PLY file, or it is broken!</PlyBrokenFileError>
-    <PlyTriangleError>At least one of the faces is not a triangle!</PlyTriangleError>
-    <PlyHeader>comment Written by the TriMM PlyParser (by Christian Moritz)</PlyHeader>
+    <PlyBrokenFileError>Die Datei ist keine PLY-Datei, or sie ist beschädigt!</PlyBrokenFileError>
+    <PlyTriangleError>Mindestens eine der Flächen ist kein Dreieck!</PlyTriangleError>
+    <PlyHeader>comment Erstellt mit dem  TriMM PlyParser (von Christian Moritz)</PlyHeader>
   </PlyParser>
   <Settings>
-    <NAError>Only the numbers 0 to 12 are allowed for the normal algorithm setting!</NAError>
-    <PICKError>The picking mode (PICK) must be either 0, 1, 2 or 3!</PICKError>
-    <SMOOTHError>Only the values 0 and 1 are allowed for the SMOOTH setting!</SMOOTHError>
-    <SOLIDError>Only the values 0 and 1 are allowed for the SOLID setting!</SOLIDError>
-    <MESHError>Only the values 0 and 1 are allowed for the MESH setting!</MESHError>
-    <VERTError>Only the values 0 and 1 are allowed for the VERT setting!</VERTError>
-    <TRINORMError>Only the values 0 and 1 are allowed for the TRINORM setting!</TRINORMError>
-    <VERTNORMError>Only the values 0 and 1 are allowed for the VERTNORM setting!</VERTNORMError>
-    <XAXISError>Only the values 0 and 1 are allowed for the XAXIS setting!</XAXISError>
-    <YAXISError>Only the values 0 and 1 are allowed for the YAXIS setting!</YAXISError>
-    <ZAXISError>Only the values 0 and 1 are allowed for the ZAXIS setting!</ZAXISError>
-    <SETBrokenFileError>This Settings file is broken or not a TriMM-Settings file at all!</SETBrokenFileError>
-    <SETHeader># Settings for TriMM, the TriangleMesh Manipulator</SETHeader>
+    <NAError>Nur die Zahlen 0 bis 12 sind für die Wahl des Normalenalgorithmus erlaubt!</NAError>
+    <PICKError>Die Auswahleinstellung (PICK) darf nur die Werte 0 bis 3 annehmen!</PICKError>
+    <SMOOTHError>Für die SMOOTH Einstellung sind nur die Werte 0 und 1 erlaubt!</SMOOTHError>
+    <SOLIDError>Für die SOLID Einstellung sind nur die Werte 0 und 1 erlaubt!</SOLIDError>
+    <MESHError>Für die MESH Einstellung sind nur die Werte 0 und 1 erlaubt!</MESHError>
+    <VERTError>Für die VERT Einstellung sind nur die Werte 0 und 1 erlaubt!</VERTError>
+    <TRINORMError>Für die TRINORM Einstellung sind nur die Werte 0 und 1 erlaubt!</TRINORMError>
+    <VERTNORMError>Für die VERTNORM Einstellung sind nur die Werte 0 und 1 erlaubt!</VERTNORMError>
+    <XAXISError>Für die XAXIS Einstellung sind nur die Werte 0 und 1 erlaubt!</XAXISError>
+    <YAXISError>Für die YAXIS Einstellung sind nur die Werte 0 und 1 erlaubt!</YAXISError>
+    <ZAXISError>Für die ZAXIS Einstellung sind nur die Werte 0 und 1 erlaubt!</ZAXISError>
+    <SETBrokenFileError>Diese Datei ist keine TriMM-SET-Datei oder sie ist beschädigt!</SETBrokenFileError>
+    <SETHeader># Einstellungen für TriMM, den Dreiecksnetzmanipulator</SETHeader>
   </Settings>
   <SettingsWindow>
-    <Title Text="TriMM Settings"/>
-    <SETFilter>Settings</SETFilter>
-    <LoadSettingsMenuItem Text="Load Settings"/>
-    <LoadSettingsToolTip Text="Load the settings from a .SET file."/>
-    <SaveSettingsMenuItem Text="Save Settings"/>
-    <SaveSettingsToolTip Text="Save the settings to a .SET file."/>
-    <ResetAllMenuItem Text="Reset All"/>
-    <ResetAllToolTip Text="Reset to your standard settings."/>
-    <MakeStandardMenuItem Text="Make Standard"/>
-    <MakeStandardToolTip Text="Accept the current settings as standard."/>
-    <LanguageLabel Text="Language:"/>
-    <LanguageToolTip Text="Choose the programs language."/>
-    <ResetButton Text="Reset"/>
-    <ColorsGroupBoxHeader Text="Colors"/>
-    <ColorComboBoxToolTip Text="Choose the part whose color you want to change."/>
-    <BackgroundItem Text="Background"/>
+    <Title Text="TriMM Einstellungen"/>
+    <SETFilter>Einstellungen</SETFilter>
+    <LoadSettingsMenuItem Text="Einstellungen Laden"/>
+    <LoadSettingsToolTip Text="Lädt die Einstellungen aus einer .SET Datei."/>
+    <SaveSettingsMenuItem Text="Einstellungen Speichern"/>
+    <SaveSettingsToolTip Text="Speichert die Einstellungen in einer .SET Datei."/>
+    <ResetAllMenuItem Text="Einstellungen Zurücksetzen"/>
+    <ResetAllToolTip Text="Setzt alle Einstellungen auf die Standardeinstellungen zurück."/>
+    <MakeStandardMenuItem Text="Standard setzen"/>
+    <MakeStandardToolTip Text="Akzeptiert die aktuellen Einstellungen als Standardwerte."/>
+    <LanguageLabel Text="Sprache:"/>
+    <LanguageToolTip Text="Wähle die Sprache für TriMM."/>
+    <ResetButton Text="Zurücksetzen"/>
+    <ColorsGroupBoxHeader Text="Farbeinstellungen"/>
+    <ColorComboBoxToolTip Text="Wähle das Element für das die Farbe geändert werden soll."/>
+    <BackgroundItem Text="Hintergrund"/>
     <TextItem Text="Text"/>
-    <SolidItem Text="Solid"/>
-    <MeshItem Text="Mesh"/>
-    <VerticesItem Text="Vertices"/>
-    <TriangleNormalsItem Text="Triangle Normals"/>
-    <VertexNormalsItem Text="Vertex Normals"/>
-    <XAxisItem Text="X-Axis"/>
-    <YAxisItem Text="Y-Axis"/>
-    <ZAxisItem Text="Z-Axis"/>
-    <ObservedVertexItem Text="Observed Vertex"/>
-    <ObservedEdgeItem Text="Observed Edge"/>
-    <ObservedTriangleItem Text="Observed Triangle"/>
-    <ColorTextBoxToolTip Text="The floating point RGB values of the color."/>
-    <ColorButtonToolTip Text="Pick a different color."/>
-    <DisplayGroupBoxHeader Text="Display"/>
-    <PickingModeLabel Text="Picking Mode:"/>
+    <SolidItem Text="Objekt"/>
+    <MeshItem Text="Netz"/>
+    <VerticesItem Text="Knoten"/>
+    <TriangleNormalsItem Text="Dreiecksnormalen"/>
+    <VertexNormalsItem Text="Knotennormalen"/>
+    <XAxisItem Text="X-Achse"/>
+    <YAxisItem Text="Y-Achse"/>
+    <ZAxisItem Text="Z-Achse"/>
+    <ObservedVertexItem Text="Ausgewählter Knoten"/>
+    <ObservedEdgeItem Text="Ausgewählte Kante"/>
+    <ObservedTriangleItem Text="Ausgewähltes Dreieck"/>
+    <ColorTextBoxToolTip Text="Der RGB-Wert der Farbe."/>
+    <ColorButtonToolTip Text="Wähle eine andere Farbe."/>
+    <DisplayGroupBoxHeader Text="Darstellung"/>
+    <PickingModeLabel Text="Auswahlmodus:"/>
   </SettingsWindow>
   <STLParser>
-    <STLBrokenFileError>The STL file is broken!</STLBrokenFileError>
-    <STLHeader>"This file was generated by TriMM!"</STLHeader>
+    <STLBrokenFileError>Die STL-Datei ist beschädigt!</STLBrokenFileError>
+    <STLHeader>"Dies Datei wurde von TriMM erzeugt!"</STLHeader>
   </STLParser>
   <TriMMControl>
-    <HandleCreatedError>The control's window handle has not been created!</HandleCreatedError>
-    <DeviceContextCreationError>Unable to create an OpenGL device context!</DeviceContextCreationError>
-    <PixelFormatError>Unable to find a suitable pixel format!</PixelFormatError>
-    <PixelFormatSetError>Unable to set the requested pixel format!</PixelFormatSetError>
-    <RenderingContextCreationError>Unable to create an OpenGL rendering context!</RenderingContextCreationError>
-    <MakeCurrentContextError>Unable to activate this control's OpenGL rendering context!</MakeCurrentContextError>
-    <PaintError>No device or rendering context available!</PaintError>
+    <HandleCreatedError>Das Handle des Controls wurde noch nicht erzeugt!</HandleCreatedError>
+    <DeviceContextCreationError>Es konnte kein Device Context erzeugt werden!</DeviceContextCreationError>
+    <PixelFormatError>Es wurde kein passendes Pixelformat gefunden!</PixelFormatError>
+    <PixelFormatSetError>Das Pixelformat konnte nicht gesetzt werden!</PixelFormatSetError>
+    <RenderingContextCreationError>Es konnte kein Rendering Context erzeugt werden!</RenderingContextCreationError>
+    <MakeCurrentContextError>Der Rendering Context konnte nicht aktiviert werden!</MakeCurrentContextError>
+    <PaintError>Es gibt keinen Device oder Rendering Context!</PaintError>
   </TriMMControl>
   <TriMMView>
-    <Title Text="TriMM View"/>
-    <ClippingPlaneLabel Text="Clipping Plane:"/>
-    <ClipppingPlaneToolTip Text="Moves the clipping plane. 1.1 is in the back, -1.1 is in the front."/>
-    <PickingGroupBoxHeader Text="Picking"/>
-    <ObservedLabel Text="Observed"/>
-    <ObservedToolTip Text="The index of the observed Vertex, Edge or Triangle. -1 means nothing is selected."/>
-    <ClearButton Text="Clear"/>
-    <ClearButtonToolTip Text="Clears the selection."/>
+    <Title Text="TriMM Ansicht"/>
+    <ClippingPlaneLabel Text="Clipping Ebene:"/>
+    <ClipppingPlaneToolTip Text="Bewegt die Clipping Ebene. 1.1 ist Hinten, -1.1 ist Vorne."/>
+    <PickingGroupBoxHeader Text="Auswahl"/>
+    <ObservedLabel Text="Ausgewählt"/>
+    <ObservedToolTip Text="Index des ausgewählten Teils (Knoten, Kante, Dreieck). -1 bedeutet, dass nichts ausgewählt ist."/>
+    <ClearButton Text="Auswahl löschen"/>
+    <ClearButtonToolTip Text="Löscht die Auswahl."/>
     <RadiusLabel Text="Radius"/>
-    <RadiusToolTip Text="Radius of the sphere around the observed Vertex. The radius of the cylinder around the observed Edge is 1/10 of that value."/>
+    <RadiusToolTip Text="Radius der Kugel um den ausgewählten Knoten. Der Radius des Zylinders um die ausgewählte Kante ist 1/10 dieses Wertes."/>
     <ScreenshotButton Text="Screenshot"/>
-    <ScreenshotButtonToolTip Text="Makes a screenshot (png, bmp or jpg) of the scene."/>
-    <ResetViewButton Text="Reset View"/>
-    <ResetViewButtonToolTip Text="Resets the camera position."/>
-    <XScrollBarToolTip Text="Moves the camera horizontally."/>
-    <YScrollBarToolTip Text="Moves the camera vertically."/>
-    <CenterButtonToolTip Text="Centers the View."/>
+    <ScreenshotButtonToolTip Text="Erstellt einen Screenshot (png, bmp oder jpg) der Szene."/>
+    <ResetViewButton Text="Ansicht zurücksetzen"/>
+    <ResetViewButtonToolTip Text="Setzt die Kameraposition zurück."/>
+    <XScrollBarToolTip Text="Bewegt die Kamera horizontal"/>
+    <YScrollBarToolTip Text="Bewegt die Kamera vertikal."/>
+    <CenterButtonToolTip Text="Zentriert die Kamera."/>
   </TriMMView>
   <TriMMWindow>
-    <Vertex>Vertex</Vertex>
-    <Edge>Edge</Edge>
-    <Triangle>Triangle</Triangle>
-    <FileMenuItem Text="File"/>
-    <OpenMenuItem Text="Open"/>
-    <OpenMenuItemToolTip Text="Load a TriangleMesh from a file (.OBJ, .OFF, .PLY, .STL)."/>
-    <SaveMenuItem Text="Save As"/>
-    <SaveMenuItemToolTip Text="Save the TriangleMesh to a file (.OBJ, .OFF, .PLY, .STL)."/>
-    <CloseMenuItem Text="Close"/>
-    <CloseMenuItemToolTip Text="Close the current file."/>
-    <ExitMenuItem Text="Exit"/>
-    <ExitMenuItemToolTip Text="Exit TriMM."/>
-    <ViewMenuItem Text="View"/>
-    <ViewMenuItemToolTip Text="Show the visualization of the TriangleMesh."/>
-    <SettingsMenuItem Text="Settings"/>
-    <SettingsMenuItemToolTip Text="Change the settings for TriMM."/>
-    <HelpMenuItem Text="Help"/>
+    <Vertex>Knoten</Vertex>
+    <Edge>Kante</Edge>
+    <Triangle>Dreieck</Triangle>
+    <FileMenuItem Text="Datei"/>
+    <OpenMenuItem Text="Öffnen"/>
+    <OpenMenuItemToolTip Text="Lädt ein Dreiecksnetz aus einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
+    <SaveMenuItem Text="Speichern unter"/>
+    <SaveMenuItemToolTip Text="Speichert ein Dreiecksnetz in einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
+    <CloseMenuItem Text="Schließen"/>
+    <CloseMenuItemToolTip Text="Schließt die aktuelle Datei."/>
+    <ExitMenuItem Text="Beenden"/>
+    <ExitMenuItemToolTip Text="Beendet TriMM."/>
+    <ViewMenuItem Text="Ansicht"/>
+    <ViewMenuItemToolTip Text="Zeigt eine Visualisierung des Dreiecksnetzes."/>
+    <SettingsMenuItem Text="Einstellungen"/>
+    <SettingsMenuItemToolTip Text="Hier können die Einstellungen für TriMM verändert werden."/>
+    <HelpMenuItem Text="Hilfe"/>
     <InfoMenuItem Text="Info"/>
-    <InfoMenuItemToolTip Text="Copyright, Version and License information."/>
-    <MeshInformationHeader Text="Mesh Information"/>
-    <VerticesLabel Text="Vertices:"/>
-    <EdgesLabel Text="Edges:"/>
-    <TrianglesLabel Text="Triangles:"/>
-    <VerticesTextBoxToolTip Text="Shows the number of Vertices in the TriangleMesh."/>
-    <EdgesTextBoxToolTip Text="Shows the number of Edges in the TriangleMesh."/>
-    <TrianglesTextBoxToolTip Text="Shows the number of Triangles in the TriangleMesh."/>
-    <VerticesTab Text="Vertices"/>
-    <VerticesTabToolTip Text="Vertex Manipulation"/>
+    <InfoMenuItemToolTip Text="Copyright, Version und Lizenz Informationen."/>
+    <MeshInformationHeader Text="Netz Informationen"/>
+    <VerticesLabel Text="Knoten:"/>
+    <EdgesLabel Text="Kanten:"/>
+    <TrianglesLabel Text="Dreiecke:"/>
+    <VerticesTextBoxToolTip Text="Zeigt die Anzahl an Knoten im Dreiecksnetz."/>
+    <EdgesTextBoxToolTip Text="Zeigt die Anzahl an Kanten im Dreiecksnetz."/>
+    <TrianglesTextBoxToolTip Text="Zeigt die Anzahl an Dreiecken im Dreiecksnetz"/>
+    <VerticesTab Text="Knoten"/>
+    <VerticesTabToolTip Text="Knotenmanipulation"/>
     <XLabel Text="X:"/>
-    <XLabelToolTip Text="The x-coordinate."/>
+    <XLabelToolTip Text="Die X-Koordinate."/>
     <YLabel Text="Y:"/>
-    <YLabelToolTip Text="The y-coordinate."/>
+    <YLabelToolTip Text="Die Y-Koordinate."/>
     <ZLabel Text="Z:"/>
-    <ZLabelToolTip Text="The z-coordinate."/>
-    <RemoveSinglesButton Text="Remove Single Vertices"/>
-    <RemoveSinglesButtonToolTip Text="Removes all Vertices that do not belong to any Triangle."/>
-    <RemoveDoubleVertButton Text="Remove Double Vertices"/>
-    <RemoveDoubleVertButtonToolTip Text="Removes duplicates of Vertices and adjusts the Triangles."/>
-    <RemoveObservedButton Text="Remove Observed Vertex"/>
-    <RemoveObservedButtonToolTip Text="Removes the Vertex picked in the visualization."/>
-    <AddVertexButton Text="Add selected Vertex"/>
-    <AddVertexButtonToolTip Text="Adds the Vertex determined by the coordinates chosen above."/>
-    <MoveObservedButton Text="Move Observed Vertex To"/>
-    <MoveObservedButtonToolTip Text="Moves the Vertex picked in the visualization to the coordinates chosen above."/>
-    <TransposeVertexButton Text="Transpose Observed Vertex By"/>
-    <TransposeVertexButtonToolTip Text="Moves the Vertex picked in the visualization by adding the coordinates chosen above to it's position."/>
-    <MoveAlongNormalButton Text="Move Observed Vertex along Normal"/>
-    <MoveAlongNormalButtonToolTip Text="Moves the Vertex picked in the visualization by the value selected below along its normal vector."/>
-    <DistanceLabel Text="Distance:"/>
-    <DistanceLabelToolTip Text="The distance to move the Vertex."/>
-    <EdgesTab Text="Edges"/>
-    <EdgesTabToolTip Text="Edge Manipulation"/>
-    <FlipEdgeButton Text="Flip Selected Edge"/>
-    <FlipEdgeButtonToolTip Text="Flips the selected Edge connecting the opposite corners of the incident Triangles instead."/>
-    <SubdivideEdgeButton Text="Subdivide Selected Edge"/>
-    <SubdivideEdgeButtonToolTip Text="Subdivides the Edge picked in the visualization by connecting the midege Vertex to the opposite corners of the incident Triangles."/>
-    <RemoveEdgeButton Text="Remove Selected Edge"/>
-    <RemoveEdgeButtonToolTip Text="Removes the Edge picked in the visualization."/>
-    <TrianglesTab Text="Triangles"/>
-    <TrianglesTabToolTip Text="Triangle Manipulation"/>
-    <RemoveColinButton Text="Remove Triangles with colinear Vertices"/>
-    <RemoveColinButtonToolTip Text="Removes all Triangles that have three colinear Vertices."/>
-    <RemoveDoubleButton Text="Remove Double Triangles"/>
-    <RemoveDoubleButtonToolTip Text="Removes all duplicates of Triangles."/>
-    <FlipAllTrianglesButton Text="Flip All Triangles"/>
-    <FlipAllTrianglesButtonToolTip Text="Changes the orientation and thus the direction of the normal vector for all Triangles."/>
-    <FlipObservedTriangleButton Text="Flip Observed Triangle"/>
-    <FlipObservedTriangleButtonToolTip Text="Changes the orientation and thus the direction of the normal vector for the Triangle picked in the visualization."/>
-    <SubdivideMeshButton Text="Subdivide All Triangles"/>
-    <SubdivideMeshButtonToolTip Text="Subdivides all Triangles by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
+    <ZLabelToolTip Text="Die Z-Koordinate."/>
+    <RemoveSinglesButton Text="Einzelknoten entfernen"/>
+    <RemoveSinglesButtonToolTip Text="Entfernt Knoten, die nicht zu einem Dreieck gehören."/>
+    <RemoveDoubleVertButton Text="Knotenduplikate entfernen"/>
+    <RemoveDoubleVertButtonToolTip Text="Entfernt Duplikate von Knoten und passt das Netz an."/>
+    <RemoveObservedButton Text="Ausgewählten Knoten entfernen"/>
+    <RemoveObservedButtonToolTip Text="Entfernt den in der Visualisierung ausgewählten Knoten."/>
+    <AddVertexButton Text="Knoten hinzufügen"/>
+    <AddVertexButtonToolTip Text="Fügt den durch die oben angegebenen Koordinaten festgelegten Knoten hinzu."/>
+    <MoveObservedButton Text="Verschiebe ausgewählten Knoten nach"/>
+    <MoveObservedButtonToolTip Text="Verschiebt den ausgewählten Knoten zu den oben angegebenen Koordinaten."/>
+    <TransposeVertexButton Text="Verschiebe ausgewählten Knoten um"/>
+    <TransposeVertexButtonToolTip Text="Verschiebt den ausgewählten Knoten um die oben angegebenen Koordinaten."/>
+    <MoveAlongNormalButton Text="Knoten entlang Normalen verschieben"/>
+    <MoveAlongNormalButtonToolTip Text="Verschiebt den ausgewählten Knoten um den untern angegebenen Wert entlang der Normalen."/>
+    <DistanceLabel Text="Abstand:"/>
+    <DistanceLabelToolTip Text="Der Wert um den der Knoten verschoben werden soll."/>
+    <EdgesTab Text="Kanten"/>
+    <EdgesTabToolTip Text="Kantenmanipulation"/>
+    <FlipEdgeButton Text="Ausgewählte Kante Flippen"/>
+    <FlipEdgeButtonToolTip Text="Flippt die ausgewählte Kante durch Verbinden der gegenüberliegenden Knoten der inzidenten Dreiecke und Entfernen der alten Kante."/>
+    <SubdivideEdgeButton Text="Ausgewählte Kante unterteilen"/>
+    <SubdivideEdgeButtonToolTip Text="Unterteilt die ausgewählte Kante durch Verbinden des Kantenmittelpunktes mit den gegenüberliegenden Knoten der inzidenten Dreiecke."/>
+    <RemoveEdgeButton Text="Ausgewählte Kante entfernen"/>
+    <RemoveEdgeButtonToolTip Text="Entfernt die ausgewählte Kante."/>
+    <TrianglesTab Text="Dreiecke"/>
+    <TrianglesTabToolTip Text="Dreiecksmanipulation"/>
+    <RemoveColinButton Text="Entferne Dreiecke mit kolinearen Knoten"/>
+    <RemoveColinButtonToolTip Text="Entfernt alle Dreiecke mit drei kolinearen Knoten."/>
+    <RemoveDoubleButton Text="Dreiecksduplikate entfernen"/>
+    <RemoveDoubleButtonToolTip Text="Entfernt alle Duplikate von Dreiecken, unabhängig von der Orientierung."/>
+    <FlipAllTrianglesButton Text="Drehe alle Dreiecke"/>
+    <FlipAllTrianglesButtonToolTip Text="Ändert die Orientierung, und damit die Richtung der Normalen, aller Dreiecke."/>
+    <FlipObservedTriangleButton Text="Drehe ausgewähltes Dreieck"/>
+    <FlipObservedTriangleButtonToolTip Text="Ändert die Orientierung, und damit die Richtung der Normalen, des ausgewählten Dreiecks."/>
+    <SubdivideMeshButton Text="Netz unterteilen"/>
+    <SubdivideMeshButtonToolTip Text="Unterteilt alle Dreiecke durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
     <SubdivideTriangleButton Text="Subdivide Observed Triangle"/>
-    <SubdivideTriangleButtonToolTip Text="Subdivides the Triangle picked in the visualization by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
-    <RemoveTriangleButton Text="Remove selected Triangle"/>
-    <RemoveTriangleButtonToolTip Text="Removes the Triangle determined by the Vertex-indices selected above."/>
-    <AddTriangleButton Text="Add selected Triangle"/>
-    <AddTriangleButtonToolTip Text="Adds the Triangle determined by the Vertex-indices selected above."/>
+    <SubdivideTriangleButtonToolTip Text="Unterteilt das ausgewählte Dreieck durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
+    <RemoveTriangleButton Text="Entferne ausgewähltes Dreieck"/>
+    <RemoveTriangleButtonToolTip Text="Entfernt das durch die Knotenindizes oben gegebene Dreieck."/>
+    <AddTriangleButton Text="Füge Dreieck hinzu"/>
+    <AddTriangleButtonToolTip Text="Fügt das durch die Knotenindizes oben gegebene Dreieck hinzu."/>
   </TriMMWindow>
   <Vector>
-    <DotProductError>The vectors need to be of equal length for the dot product!</DotProductError>
-    <CrossProductError>The cross product is only defined for 3D vectors!</CrossProductError>
-    <LengthError>The vectors need to be of equal length!</LengthError>
-    <DivisionByZeroError>Vectors are not dividible by zero!</DivisionByZeroError>
+    <DotProductError>Die Vektoren müssen für das Skalarprodukt die selbe Länge haben!</DotProductError>
+    <CrossProductError>Das Kreuzprodukt ist nur für dreidimensionale Vektoren definiert!</CrossProductError>
+    <LengthError>Die Vektoren müssen die selbe Länge haben!</LengthError>
+    <DivisionByZeroError>Vektoren können nicht durch Null geteilt werden!</DivisionByZeroError>
   </Vector>
 </TriMM>

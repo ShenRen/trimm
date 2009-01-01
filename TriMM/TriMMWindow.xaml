@@ -22,7 +22,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="TriMM" Height="577" Width="300" WindowStyle="ThreeDBorderWindow" MinWidth="300" MinHeight="0" MaxHeight="1000" MaxWidth="300" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" Visibility="Visible" Top="0" Left="0" Closing="Window_Closing" Uid="TriMMWindow">
     <Grid x:Uid="Grid_1" Height="Auto" VerticalAlignment="Top">
-        <Menu x:Uid="menu" Height="23" Name="menu" VerticalAlignment="Top" Visibility="Visible">
+        <Menu x:Uid="menu" Height="23" Name="menu" VerticalAlignment="Top" Visibility="Visible" Grid.ColumnSpan="2">
             <MenuItem x:Uid="fileMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FileMenuItem/@Text}" Name="fileMenuItem" TabIndex="0" IsTabStop="False">
                 <MenuItem x:Uid="openMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@Text}" Name="openMenuItem" Click="OpenMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItemToolTip/@Text}" />
                 <MenuItem x:Uid="saveMenuItem" Focusable="True" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@Text}" Name="saveMenuItem" Visibility="Collapsed" Click="SaveMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItemToolTip/@Text}" />
@@ -36,7 +36,7 @@
                 <MenuItem x:Uid="infoMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/InfoMenuItem/@Text}" Name="infoMenuItem" Click="InfoMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/InfoMenuItemToolTip/@Text}" />
             </MenuItem>
         </Menu>
-        <TabControl x:Uid="manipulationTabControl" Margin="0,183,0,-1" Name="manipulationTabControl" Visibility="Collapsed" VerticalContentAlignment="Top" SelectionChanged="ManipulationTabControl_SelectionChanged">
+        <TabControl x:Uid="manipulationTabControl" Margin="0,183,0,-1" Name="manipulationTabControl" Visibility="Collapsed" VerticalContentAlignment="Top" SelectionChanged="ManipulationTabControl_SelectionChanged" Grid.ColumnSpan="2">
             <TabItem x:Uid="verticesTabItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTab/@Text}" Name="verticesTabItem" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="13" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTabToolTip/@Text}">
                 <Grid x:Uid="Grid_3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="326">
                     <WindowsFormsHost x:Uid="xWFHost" Height="26" Margin="78,0,6,0" Name="xWFHost" VerticalAlignment="Top" TabIndex="14" />
@@ -81,13 +81,9 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <ToolBarTray x:Uid="toolBarTray1" Height="Auto" Margin="0,23,0,0" Name="toolBarTray1" VerticalAlignment="Top">
-            <ToolBar x:Uid="normalAlgoToolBar" Name="normalAlgoToolBar" IsTabStop="True" ToolTip="Choose the algorithm for calculating the vertex normals.">
-                <Label x:Uid="normalAlgorithmLabel" Height="Auto" Margin="0,0,0,0" Name="normalAlgorithmLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="Auto" Content="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmLabel/@Text}"/>
-                <ComboBox x:Uid="normalComboBox" Height="23" Margin="0,0,0,0" Width="155" Name="normalComboBox" VerticalAlignment="Top" HorizontalAlignment="Stretch" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="0" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmToolTip/@Text}" />
-            </ToolBar>
-        </ToolBarTray>
-        <GroupBox x:Uid="meshGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshInformationHeader/@Text}" Name="meshGroupBox" Visibility="Collapsed" Margin="0,61,0,0" Height="Auto" VerticalAlignment="Top">
+        <Label x:Uid="normalAlgorithmLabel" Height="Auto" Margin="0,23,0,0" Name="normalAlgorithmLabel" VerticalAlignment="Top" Content="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmLabel/@Text}" HorizontalAlignment="Left" Width="Auto" />
+        <ComboBox x:Uid="normalComboBox" Name="normalComboBox" VerticalAlignment="Top" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="0" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmToolTip/@Text}" Height="23.277" Margin="104,23,0,0" />
+        <GroupBox x:Uid="meshGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshInformationHeader/@Text}" Name="meshGroupBox" Visibility="Collapsed" Margin="0,61,0,0" Height="109.277" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <Grid x:Uid="Grid_5">
                 <Label x:Uid="verticesLabel" Margin="0,6,0,0" Name="verticesLabel" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesLabel/@Text}"/>
                 <Label x:Uid="trianglesLabel" Margin="0,64,0,0" Name="trianglesLabel" HorizontalAlignment="Left" Width="63" Height="23.277" VerticalAlignment="Top" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesLabel/@Text}"/>

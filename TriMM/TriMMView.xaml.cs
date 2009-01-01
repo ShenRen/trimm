@@ -102,6 +102,7 @@ namespace TriMM {
             TriMMApp.Mesh.PickCleared += new PickClearedEventHandler(PickCleared);
             TriMMApp.Mesh.MinEdgeLengthChanged += new MinEdgeLengthChangedEventHandler(Mesh_MinEdgeLengthChanged);
             TriMMApp.Settings.SettingsChanged += new SettingsChangedEventHandler(Settings_SettingsChanged);
+            TriMMApp.Settings.LanguageChanged += new LanguageChangedEventHandler(Settings_LanguageChanged);
 
             this.Show();
         }
@@ -421,6 +422,14 @@ namespace TriMM {
             pickingModeComboBox.SelectedIndex = TriMMApp.Settings.PickingMode;
 
             TriMMApp.Control.Refresh();
+        }
+
+        /// <summary>
+        /// When the language is changed, the NumericalUpDowns are triggered to update the decimal separator.
+        /// </summary>
+        private void Settings_LanguageChanged() {
+            clippingPlaneNumericUpDown.UpButton(); clippingPlaneNumericUpDown.DownButton();
+            radiusNumericUpDown.UpButton(); radiusNumericUpDown.DownButton();
         }
 
         #endregion

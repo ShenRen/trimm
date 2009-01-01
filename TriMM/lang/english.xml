@@ -60,7 +60,7 @@
     <ObjHeader># Written by the TriMM ObjParser (by Christian Moritz)</ObjHeader>
   </ObjParser>
   <OffParser>
-    <OffCounterError>Wrong number of counters!</OffCounterError>
+    <OffCounterError>The file has to contain the numbers of Vertices, Triangles and Edges!</OffCounterError>
     <OffHeader># Written by the TriMM OffParser (by Christian Moritz)</OffHeader>
   </OffParser>
   <PlyParser>
@@ -87,11 +87,11 @@
     <Title Text="TriMM Settings"/>
     <SETFilter>Settings</SETFilter>
     <LoadSettingsMenuItem Text="Load Settings"/>
-    <LoadSettingsToolTip Text="Load the settings from a .SET file."/>
+    <LoadSettingsToolTip Text="Loads the settings from a .SET file."/>
     <SaveSettingsMenuItem Text="Save Settings"/>
-    <SaveSettingsToolTip Text="Save the settings to a .SET file."/>
+    <SaveSettingsToolTip Text="Saves the settings to a .SET file."/>
     <ResetAllMenuItem Text="Reset All"/>
-    <ResetAllToolTip Text="Reset to your standard settings."/>
+    <ResetAllToolTip Text="Resets to your standard settings."/>
     <MakeStandardMenuItem Text="Make Standard"/>
     <MakeStandardToolTip Text="Accept the current settings as standard."/>
     <LanguageLabel Text="Language:"/>
@@ -190,7 +190,7 @@
     <RemoveDoubleVertButtonToolTip Text="Removes duplicates of Vertices and adjusts the Triangles."/>
     <RemoveObservedButton Text="Remove Observed Vertex"/>
     <RemoveObservedButtonToolTip Text="Removes the Vertex picked in the visualization."/>
-    <AddVertexButton Text="Add selected Vertex"/>
+    <AddVertexButton Text="Add Vertex"/>
     <AddVertexButtonToolTip Text="Adds the Vertex determined by the coordinates chosen above."/>
     <MoveObservedButton Text="Move Observed Vertex To"/>
     <MoveObservedButtonToolTip Text="Moves the Vertex picked in the visualization to the coordinates chosen above."/>
@@ -203,7 +203,7 @@
     <EdgesTab Text="Edges"/>
     <EdgesTabToolTip Text="Edge Manipulation"/>
     <FlipEdgeButton Text="Flip Selected Edge"/>
-    <FlipEdgeButtonToolTip Text="Flips the selected Edge connecting the opposite corners of the incident Triangles instead."/>
+    <FlipEdgeButtonToolTip Text="Flips the selected Edge by connecting the opposite corners of the incident Triangles instead."/>
     <SubdivideEdgeButton Text="Subdivide Selected Edge"/>
     <SubdivideEdgeButtonToolTip Text="Subdivides the Edge picked in the visualization by connecting the midege Vertex to the opposite corners of the incident Triangles."/>
     <RemoveEdgeButton Text="Remove Selected Edge"/>
@@ -213,12 +213,12 @@
     <RemoveColinButton Text="Remove Triangles with colinear Vertices"/>
     <RemoveColinButtonToolTip Text="Removes all Triangles that have three colinear Vertices."/>
     <RemoveDoubleButton Text="Remove Double Triangles"/>
-    <RemoveDoubleButtonToolTip Text="Removes all duplicates of Triangles."/>
+    <RemoveDoubleButtonToolTip Text="Removes all duplicates of Triangles, irrespectve of orientation."/>
     <FlipAllTrianglesButton Text="Flip All Triangles"/>
     <FlipAllTrianglesButtonToolTip Text="Changes the orientation and thus the direction of the normal vector for all Triangles."/>
     <FlipObservedTriangleButton Text="Flip Observed Triangle"/>
     <FlipObservedTriangleButtonToolTip Text="Changes the orientation and thus the direction of the normal vector for the Triangle picked in the visualization."/>
-    <SubdivideMeshButton Text="Subdivide All Triangles"/>
+    <SubdivideMeshButton Text="Subdivide Mesh"/>
     <SubdivideMeshButtonToolTip Text="Subdivides all Triangles by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
     <SubdivideTriangleButton Text="Subdivide Observed Triangle"/>
     <SubdivideTriangleButtonToolTip Text="Subdivides the Triangle picked in the visualization by connecting the midege Vertices. 4 new Triangle for every Triangle."/>

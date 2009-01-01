@@ -84,6 +84,7 @@ namespace TriMM {
             normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo;
 
             TriMMApp.Settings.NormalAlgoChanged += new NormalAlgoChangedEventHandler(Settings_NormalAlgoChanged);
+            TriMMApp.Settings.LanguageChanged += new LanguageChangedEventHandler(Settings_LanguageChanged);
         }
 
         #endregion
@@ -985,9 +986,19 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// When the Setting for the Vertex normal algorithm is changed, the comboBox is adjusted.
+        /// When the setting for the Vertex normal algorithm is changed, the comboBox is adjusted.
         /// </summary>
         private void Settings_NormalAlgoChanged() { normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo; }
+
+        /// <summary>
+        /// When the language is changed, the NumericalUpDowns are triggered to update the decimal separator.
+        /// </summary>
+        private void Settings_LanguageChanged() {
+            xNumericUpDown.UpButton(); xNumericUpDown.DownButton();
+            yNumericUpDown.UpButton(); yNumericUpDown.DownButton();
+            zNumericUpDown.UpButton(); zNumericUpDown.DownButton();
+            distanceNumericUpDown.UpButton(); distanceNumericUpDown.DownButton();
+        }
 
         /// <summary>
         /// Cleans up when the TriMMWindow is closed.
