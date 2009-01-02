@@ -86,11 +86,11 @@
   <SettingsWindow>
     <Title Text="TriMM Settings"/>
     <SETFilter>Settings</SETFilter>
-    <LoadSettingsMenuItem Text="Load Settings"/>
+    <LoadSettingsMenuItem Text="Load"/>
     <LoadSettingsToolTip Text="Loads the settings from a .SET file."/>
-    <SaveSettingsMenuItem Text="Save Settings"/>
+    <SaveSettingsMenuItem Text="Save"/>
     <SaveSettingsToolTip Text="Saves the settings to a .SET file."/>
-    <ResetAllMenuItem Text="Reset All"/>
+    <ResetAllMenuItem Text="Standard"/>
     <ResetAllToolTip Text="Resets to your standard settings."/>
     <MakeStandardMenuItem Text="Make Standard"/>
     <MakeStandardToolTip Text="Accept the current settings as standard."/>
@@ -114,8 +114,10 @@
     <ObservedTriangleItem Text="Observed Triangle"/>
     <ColorTextBoxToolTip Text="The floating point RGB values of the color."/>
     <ColorButtonToolTip Text="Pick a different color."/>
+    <ResetColorsButtonToolTip Text="Resets the colors to the standard settings."/>
     <DisplayGroupBoxHeader Text="Display"/>
     <PickingModeLabel Text="Picking Mode:"/>
+    <ResetDisplayButtonToolTip Text="Resets the display options to the standard settings."/>
   </SettingsWindow>
   <STLParser>
     <STLBrokenFileError>The STL file is broken!</STLBrokenFileError>

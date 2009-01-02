@@ -131,6 +131,39 @@ namespace TriMM {
         #region Event Handling Stuff
 
         /// <summary>
+        /// The image is translated into the opposite direction of the ScrollBar movement,
+        /// or the camera is moved in the direction of the ScrollBar movement (equivalent).
+        /// </summary>
+        /// <param name="sender">xScrollBar</param>
+        /// <param name="e">Standard ScrollEventArgs</param>
+        private void XScrollBar_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
+            TriMMApp.Control.Origin[0] = (float)(-TriMMApp.Mesh.Scale * xScrollBar.Value / 10000);
+            TriMMApp.Control.Refresh();
+        }
+
+        /// <summary>
+        /// The image is translated into the opposite direction of the ScrollBar movement,
+        /// or the camera is moved in the direction of the ScrollBar movement (equivalent).
+        /// </summary>
+        /// <param name="sender">yScrollBar</param>
+        /// <param name="e">Standard ScrollEventArgs</param>
+        private void YScrollBar_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
+            TriMMApp.Control.Origin[1] = (float)(TriMMApp.Mesh.Scale * yScrollBar.Value / 10000);
+            TriMMApp.Control.Refresh();
+        }
+
+        /// <summary>
+        /// The image is centered again.
+        /// </summary>
+        /// <param name="sender">centerButton</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void CenterButton_Click(object sender, RoutedEventArgs e) {
+            xScrollBar.Value = yScrollBar.Value = 0;
+            TriMMApp.Control.Origin[0] = TriMMApp.Control.Origin[1] = 0;
+            TriMMApp.Control.Refresh();
+        }
+
+        /// <summary>
         /// Changes the setting for drawing the modell with or without the vertex normals.
         /// </summary>
         /// <param name="sender">smoothCheckBox</param>
@@ -194,35 +227,12 @@ namespace TriMM {
         private void ZAxisCheckBox_CheckedChanged(object sender, RoutedEventArgs e) { TriMMApp.Settings.ZAxis = zAxisCheckBox.IsChecked.Value; }
 
         /// <summary>
-        /// The image is translated into the opposite direction of the ScrollBar movement,
-        /// or the camera is moved in the direction of the ScrollBar movement (equivalent).
+        /// Sets the z-axis clipping plane to the selected value.
         /// </summary>
-        /// <param name="sender">xScrollBar</param>
-        /// <param name="e">Standard ScrollEventArgs</param>
-        private void XScrollBar_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
-            TriMMApp.Control.Origin[0] = (float)(-TriMMApp.Mesh.Scale * xScrollBar.Value / 10000);
-            TriMMApp.Control.Refresh();
-        }
-
-        /// <summary>
-        /// The image is translated into the opposite direction of the ScrollBar movement,
-        /// or the camera is moved in the direction of the ScrollBar movement (equivalent).
-        /// </summary>
-        /// <param name="sender">yScrollBar</param>
-        /// <param name="e">Standard ScrollEventArgs</param>
-        private void YScrollBar_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e) {
-            TriMMApp.Control.Origin[1] = (float)(TriMMApp.Mesh.Scale * yScrollBar.Value / 10000);
-            TriMMApp.Control.Refresh();
-        }
-
-        /// <summary>
-        /// The image is centered again.
-        /// </summary>
-        /// <param name="sender">centerButton</param>
-        /// <param name="e">Standard RoutedEventArgs</param>
-        private void CenterButton_Click(object sender, RoutedEventArgs e) {
-            xScrollBar.Value = yScrollBar.Value = 0;
-            TriMMApp.Control.Origin[0] = TriMMApp.Control.Origin[1] = 0;
+        /// <param name="sender">clippingPlaneNumericUpDown</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void ClippingPlaneNumericUpDown_ValueChanged(object sender, EventArgs e) {
+            TriMMApp.Control.ClippingPlane = (float)clippingPlaneNumericUpDown.Value;
             TriMMApp.Control.Refresh();
         }
 
@@ -273,29 +283,19 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Changes the radius of the sphere around the observed Vertex.
-        /// </summary>
-        /// <param name="sender">radiusNumericUpDown</param>
-        /// <param name="e">Standard EventArgs</param>
-        private void RadiusNumericUpDown_ValueChanged(object sender, EventArgs e) {
-            TriMMApp.Control.ObservedRadius = (float)radiusNumericUpDown.Value;
-            TriMMApp.Control.Refresh();
-        }
-
-        /// <summary>
-        /// Deselects the observed Vertex.
+        /// Deselects the observed Vertex, Edge or Triangle.
         /// </summary>
         /// <param name="sender">clearObservedButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void ClearObservedButton_Click(object sender, RoutedEventArgs e) { observedNumericUpDown.Value = -1; }
 
         /// <summary>
-        /// Sets the z-axis clipping plane to the selected value.
+        /// Changes the radius of the sphere around the observed Vertex and the cylinder around the observed Edge.
         /// </summary>
-        /// <param name="sender">clippingPlaneNumericUpDown</param>
+        /// <param name="sender">radiusNumericUpDown</param>
         /// <param name="e">Standard EventArgs</param>
-        private void ClippingPlaneNumericUpDown_ValueChanged(object sender, EventArgs e) {
-            TriMMApp.Control.ClippingPlane = (float)clippingPlaneNumericUpDown.Value;
+        private void RadiusNumericUpDown_ValueChanged(object sender, EventArgs e) {
+            TriMMApp.Control.ObservedRadius = (float)radiusNumericUpDown.Value;
             TriMMApp.Control.Refresh();
         }
 

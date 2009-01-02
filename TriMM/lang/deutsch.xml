@@ -34,7 +34,7 @@
     <MeshCheckBoxToolTip Text="Die Kanten werden als Linien gezeichnet."/>
     <VerticesCheckBox Text="Knoten"/>
     <VerticesCheckBoxToolTip Text="Die Knoten werden als Punkte gezeichnet."/>
-    <TriangleNormalsCheckBox Text="Dreickesnormalen"/>
+    <TriangleNormalsCheckBox Text="Dreiecksnormalen"/>
     <TriangleNormalsCheckBoxToolTip Text="Die Dreiecksnormalen werden als Linien gezeichnet."/>
     <VertexNormalsCheckBox Text="Knotennormalen"/>
     <VertexNormalsCheckBoxToolTip Text="Die Knotennormalen werden als Linien gezeichnet."/>
@@ -86,13 +86,13 @@
   <SettingsWindow>
     <Title Text="TriMM Einstellungen"/>
     <SETFilter>Einstellungen</SETFilter>
-    <LoadSettingsMenuItem Text="Einstellungen Laden"/>
+    <LoadSettingsMenuItem Text="Laden"/>
     <LoadSettingsToolTip Text="Lädt die Einstellungen aus einer .SET Datei."/>
-    <SaveSettingsMenuItem Text="Einstellungen Speichern"/>
+    <SaveSettingsMenuItem Text="Speichern"/>
     <SaveSettingsToolTip Text="Speichert die Einstellungen in einer .SET Datei."/>
-    <ResetAllMenuItem Text="Einstellungen Zurücksetzen"/>
+    <ResetAllMenuItem Text="Standard"/>
     <ResetAllToolTip Text="Setzt alle Einstellungen auf die Standardeinstellungen zurück."/>
-    <MakeStandardMenuItem Text="Standard setzen"/>
+    <MakeStandardMenuItem Text="Als Standard setzen"/>
     <MakeStandardToolTip Text="Akzeptiert die aktuellen Einstellungen als Standardwerte."/>
     <LanguageLabel Text="Sprache:"/>
     <LanguageToolTip Text="Wähle die Sprache für TriMM."/>
@@ -114,8 +114,10 @@
     <ObservedTriangleItem Text="Ausgewähltes Dreieck"/>
     <ColorTextBoxToolTip Text="Der RGB-Wert der Farbe."/>
     <ColorButtonToolTip Text="Wähle eine andere Farbe."/>
+    <ResetColorsButtonToolTip Text="Setzt die Farben zurück auf die Standardwerte."/>
     <DisplayGroupBoxHeader Text="Darstellung"/>
     <PickingModeLabel Text="Auswahlmodus:"/>
+    <ResetDisplayButtonToolTip Text="Setzt die Anzeigeoptionen zurück auf die Standardwerte."/>
   </SettingsWindow>
   <STLParser>
     <STLBrokenFileError>Die STL-Datei ist beschädigt!</STLBrokenFileError>

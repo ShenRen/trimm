@@ -96,6 +96,7 @@ namespace TriMM {
         /// </summary>
         private void InitializeControl() {
             TriMMApp.Control = new TriMMControl();
+            TriMMApp.Control.ResetView();
 
             aNumericUpDown.Maximum = TriMMApp.Mesh.Vertices.Count - 1;
             bNumericUpDown.Maximum = TriMMApp.Mesh.Vertices.Count - 1;

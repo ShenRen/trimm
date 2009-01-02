@@ -72,6 +72,7 @@ namespace TriMM {
                 para.Inlines.Add(new LineBreak());
             }
             doc.Blocks.Add(para);
+            doc.PageWidth = 400;
             licenseViewer.Document = doc;
         }
 
