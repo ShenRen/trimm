@@ -53,7 +53,9 @@ namespace TriMM {
 
             for (int i = 0; i < files.Length; i++) { languageFiles.Add(files[i].Name.Substring(0, files[i].Name.IndexOf(".xml"))); }
             languageComboBox.ItemsSource = languageFiles;
-            languageComboBox.SelectedIndex = languageFiles.IndexOf(TriMMApp.Settings.Language);
+            int index = languageFiles.IndexOf(TriMMApp.Settings.Language);
+            if (index == -1) { index = languageComboBox.Items.IndexOf("english"); }
+            languageComboBox.SelectedIndex = index;
 
             smoothCheckBox.IsChecked = TriMMApp.Settings.Smooth;
             solidCheckBox.IsChecked = TriMMApp.Settings.Solid;

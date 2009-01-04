@@ -170,10 +170,10 @@ namespace TriMM {
             get { return language; }
             set {
                 language = value;
-                String langPath = "lang\\" + language + ".xml";
+                String langPath = AppDomain.CurrentDomain.BaseDirectory + "lang\\" + language + ".xml";
                 TriMMApp.Lang = new XmlDocument();
-                TriMMApp.Lang.Load(AppDomain.CurrentDomain.BaseDirectory + langPath);
-                ((XmlDataProvider)(Application.Current.FindResource("Lang"))).Source = new Uri(langPath, UriKind.Relative);
+                TriMMApp.Lang.Load(langPath);
+                ((XmlDataProvider)(Application.Current.FindResource("Lang"))).Source = new Uri(langPath, UriKind.Absolute);
 #if !Debug
                 try {
 #endif
