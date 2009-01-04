@@ -33,7 +33,7 @@ namespace TriMM.VertexNormalAlgorithms {
         #region Properties
 
         /// <value>Gets the name of this algorithm.</value>
-        public string Name { get { return "Max"; } }
+        public string Name { get { return TriMMApp.Lang.GetElementsByTagName("M")[0].InnerText; } }
 
         #endregion
 

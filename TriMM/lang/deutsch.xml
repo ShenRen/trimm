@@ -50,6 +50,21 @@
     <EdgeItem Text="Kanten"/>
     <TriangleItem Text="Dreieck"/>
   </Global>
+  <VertexNormalAlgorithms>
+    <AEW>Kantenlängengewichtung</AEW>
+    <CW>Chen und Wu</CW>
+    <EN>Mittelung der Kantennormalen</EN>
+    <ECW>Erweiterter Chen und Wu</ECW>
+    <ETW>Erweiterter Thuermer und Wuethrich</ETW>
+    <G>Gouraud</G>
+    <IAEW>Inverse Kantenlängengewichtung</IAEW>
+    <IEN>Inverse Mittelung der Kantennormalen</IEN>
+    <IT>Inverser Taubin</IT>
+    <M>Max</M>
+    <R>Rusinkiewicz</R>
+    <T>Taubin</T>
+    <TW>Thuermer und Wuethrich</TW>
+  </VertexNormalAlgorithms>
   <About>
     <Title Text="Über TriMM"/>
     <ProgramLabel Text="TriMM, der Dreiecksnetzmanipulator"/>
@@ -92,13 +107,13 @@
     <SaveSettingsToolTip Text="Speichert die Einstellungen in einer .SET Datei."/>
     <ResetAllMenuItem Text="Standard"/>
     <ResetAllToolTip Text="Setzt alle Einstellungen auf die Standardeinstellungen zurück."/>
-    <MakeStandardMenuItem Text="Als Standard setzen"/>
+    <MakeStandardMenuItem Text="Standard setzen"/>
     <MakeStandardToolTip Text="Akzeptiert die aktuellen Einstellungen als Standardwerte."/>
     <LanguageLabel Text="Sprache:"/>
     <LanguageToolTip Text="Wähle die Sprache für TriMM."/>
-    <ResetButton Text="Zurücksetzen"/>
-    <ColorsGroupBoxHeader Text="Farbeinstellungen"/>
-    <ColorComboBoxToolTip Text="Wähle das Element für das die Farbe geändert werden soll."/>
+    <ResetButton Text="Standard"/>
+    <ColorsGroupBoxHeader Text="Farben"/>
+    <ColorComboBoxToolTip Text="Wähle das Element dessen Farbe geändert werden soll."/>
     <BackgroundItem Text="Hintergrund"/>
     <TextItem Text="Text"/>
     <SolidItem Text="Objekt"/>

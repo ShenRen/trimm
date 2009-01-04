@@ -16,40 +16,37 @@
     with this program. If not, see <http://www.gnu.org/licenses/>.
     
     For more information and contact details look at TriMMs website: http://trimm.sourceforge.net/-->
-    <Window x:Uid="TriMMView" x:Class="TriMM.TriMMView"
+<Window x:Uid="TriMMView" x:Class="TriMM.TriMMView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="{Binding Source={StaticResource Lang}, XPath=TriMMView/Title/@Text}" Height="600" Width="Auto" ShowInTaskbar="True" SizeToContent="WidthAndHeight" MinHeight="600" MinWidth="700" Top="0" WindowStyle="ThreeDBorderWindow" Left="0" Uid="TriMMView">
-    <Grid x:Uid="Grid_1">
-        <DockPanel Name="dockPanel1">
-            <Grid Name="grid2" DockPanel.Dock="Right">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="28*" />
-                    <RowDefinition Height="35*" />
-                    <RowDefinition Height="30*" />
-                    <RowDefinition Height="246*" />
-                </Grid.RowDefinitions>
-                <CheckBox x:Uid="smoothCheckBox" Margin="6,6,6,6" Name="smoothCheckBox" Checked="SmoothCheckBox_CheckedChanged" Unchecked="SmoothCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBox/@Text}" Grid.Row="0" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <CheckBox x:Uid="solidCheckBox" Margin="6,6,6,6" Name="solidCheckBox" Checked="SolidCheckBox_CheckedChanged" Unchecked="SolidCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBox/@Text}" Grid.Row="1" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <CheckBox x:Uid="meshCheckBox" Margin="6,6,6,6" Name="meshCheckBox" Checked="MeshCheckBox_CheckedChanged" Unchecked="MeshCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBox/@Text}" Grid.Row="2" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <CheckBox x:Uid="verticesCheckBox" Margin="6,6,6,6" Name="verticesCheckBox" Checked="VerticesCheckBox_CheckedChanged" Unchecked="VerticesCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBox/@Text}" Grid.Row="3" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <CheckBox x:Uid="triangleNormalsCheckBox" Margin="6,6,6,6" Name="triangleNormalsCheckBox" Checked="TriangleNormalsCheckBox_CheckedChanged" Unchecked="TriangleNormalsCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBox/@Text}" Grid.Row="4" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <CheckBox x:Uid="vertexNormalsCheckBox" Margin="6,6,6,6" Name="vertexNormalsCheckBox" Checked="VertexNormalsCheckBox_CheckedChanged" Unchecked="VertexNormalsCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBox/@Text}" Grid.Row="5" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <CheckBox x:Uid="xAxisCheckBox" Margin="6,6,6,6" Name="xAxisCheckBox" Checked="XAxisCheckBox_CheckedChanged" Unchecked="XAxisCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBox/@Text}" Grid.Row="6" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <CheckBox x:Uid="yAxisCheckBox" Margin="6,6,6,6" Name="yAxisCheckBox" Checked="YAxisCheckBox_CheckedChanged" Unchecked="YAxisCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBox/@Text}" Grid.Row="7" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <CheckBox x:Uid="zAxisCheckBox" Margin="6,6,6,6" Name="zAxisCheckBox" Checked="ZAxisCheckBox_CheckedChanged" Unchecked="ZAxisCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/ZAxisCheckBox/@Text}" Grid.Row="8" VerticalContentAlignment="Center" VerticalAlignment="Top" />
-                <Label x:Uid="clippingPlaneLabel" Margin="6,6,6,6" Name="clippingPlaneLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/ClippingPlaneToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/ClippingPlaneLabel/@Text}" Grid.Row="9" VerticalContentAlignment="Center" VerticalAlignment="Bottom" />
-                <WindowsFormsHost x:Uid="clippingPlaneWFHost" Name="clippingPlaneWFHost" Grid.Row="10" Margin="6,0" VerticalAlignment="Center" />
-                <GroupBox x:Uid="pickingGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=TriMMView/PickingGroupBoxHeader/@Text}" Margin="6,6,6,44" Name="pickingGroupBox" Grid.Row="11" VerticalAlignment="Top">
-                    <StackPanel Name="stackPanel1">
+    Title="{Binding Source={StaticResource Lang}, XPath=TriMMView/Title/@Text}" Width="Auto" ShowInTaskbar="False" SizeToContent="WidthAndHeight" Top="0" WindowStyle="ThreeDBorderWindow" Left="0" Uid="TriMMView" MinHeight="480" MinWidth="569" LayoutUpdated="TriMMView_LayoutUpdated">
+    <DockPanel Name="dockPanel1">
+        <Grid Name="optionsGrid" DockPanel.Dock="Right">
+            <StackPanel Name="stackPanel1" Orientation="Vertical" Margin="6,6,6,6">
+                <CheckBox x:Uid="smoothCheckBox" Name="smoothCheckBox" Checked="SmoothCheckBox_CheckedChanged" Unchecked="SmoothCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle1" StrokeThickness="0" Visibility="Hidden" />
+                <CheckBox x:Uid="solidCheckBox" Name="solidCheckBox" Checked="SolidCheckBox_CheckedChanged" Unchecked="SolidCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle2" StrokeThickness="0" Visibility="Hidden" />
+                <CheckBox x:Uid="meshCheckBox" Name="meshCheckBox" Checked="MeshCheckBox_CheckedChanged" Unchecked="MeshCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle3" StrokeThickness="0" Visibility="Hidden"/>
+                <CheckBox x:Uid="verticesCheckBox" Name="verticesCheckBox" Checked="VerticesCheckBox_CheckedChanged" Unchecked="VerticesCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle4" StrokeThickness="0" Visibility="Hidden" />
+                <CheckBox x:Uid="triangleNormalsCheckBox" Name="triangleNormalsCheckBox" Checked="TriangleNormalsCheckBox_CheckedChanged" Unchecked="TriangleNormalsCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle5" StrokeThickness="0" Visibility="Hidden"/>
+                <CheckBox x:Uid="vertexNormalsCheckBox" Name="vertexNormalsCheckBox" Checked="VertexNormalsCheckBox_CheckedChanged" Unchecked="VertexNormalsCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle6" StrokeThickness="0" Visibility="Hidden" />
+                <CheckBox x:Uid="xAxisCheckBox" Name="xAxisCheckBox" Checked="XAxisCheckBox_CheckedChanged" Unchecked="XAxisCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle7" StrokeThickness="0" Visibility="Hidden" />
+                <CheckBox x:Uid="yAxisCheckBox" Name="yAxisCheckBox" Checked="YAxisCheckBox_CheckedChanged" Unchecked="YAxisCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle8" StrokeThickness="0" Visibility="Hidden" />
+                <CheckBox x:Uid="zAxisCheckBox" Name="zAxisCheckBox" Checked="ZAxisCheckBox_CheckedChanged" Unchecked="ZAxisCheckBox_CheckedChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/ZAxisCheckBox/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle9" StrokeThickness="0" Visibility="Hidden" />
+                <Label x:Uid="clippingPlaneLabel" Name="clippingPlaneLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/ClippingPlaneToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/ClippingPlaneLabel/@Text}" VerticalContentAlignment="Center" />
+                <Rectangle Height="6" Name="rectangle10" StrokeThickness="0" Visibility="Hidden" />
+                <WindowsFormsHost x:Uid="clippingPlaneWFHost" Name="clippingPlaneWFHost" />
+                <Rectangle Height="6" Name="rectangle11" StrokeThickness="0" Visibility="Hidden" />
+                <GroupBox x:Uid="pickingGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=TriMMView/PickingGroupBoxHeader/@Text}" Name="pickingGroupBox">
+                    <StackPanel Name="stackPanel2">
                         <ComboBox x:Uid="pickingModeComboBox" Name="pickingModeComboBox" SelectedIndex="-1" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/PickingModeComboBoxToolTip/@Text}">
                             <ComboBoxItem x:Uid="NoneItem" Name="noneItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/NoneItem/@Text}" />
                             <ComboBoxItem x:Uid="VertexItem" Name="vertexItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexItem/@Text}" />
@@ -63,17 +60,17 @@
                         <WindowsFormsHost x:Uid="radiusWFHost" Name="radiusWFHost" />
                     </StackPanel>
                 </GroupBox>
-                <StackPanel Height="Auto" Margin="6,0,6,6" Name="stackPanel2" VerticalAlignment="Bottom" Grid.Row="11">
-                    <Button x:Uid="screenshotButton" Name="screenshotButton" Click="ScreenshotButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/ScreenshotButtonToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/ScreenshotButton/@Text}" />
-                    <Button x:Uid="resetViewButton" Name="resetViewButton" Click="ResetViewButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/ResetViewButtonToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/ResetViewButton/@Text}" />
-                </StackPanel>
-            </Grid>
-            <Grid Name="grid1" MinWidth="540" MinHeight="540">
-                <ScrollBar x:Uid="yScrollBar" Height="Auto" Name="yScrollBar" Width="18" Margin="0,0,0,18" Maximum="10000" Minimum="-10000" Scroll="YScrollBar_Scroll" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/YScrollBarToolTip/@Text}" HorizontalAlignment="Left" />
-                <ScrollBar x:Uid="xScrollBar" Height="18" Margin="18,0,0,0" Name="xScrollBar" Width="Auto" Orientation="Horizontal" Minimum="-10000" Maximum="10000" Scroll="XScrollBar_Scroll" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/XScrollBarToolTip/@Text}" VerticalAlignment="Bottom" />
-                <WindowsFormsHost x:Uid="controlWFHost" Name="controlWFHost" Margin="18,0,0,18" />
-                <Button x:Uid="centerButton" Height="18" HorizontalAlignment="Left" Name="centerButton" VerticalAlignment="Bottom" Width="18" Background="Red" BorderThickness="0" Click="CenterButton_Click" VerticalContentAlignment="Center" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/CenterButtonToolTip/@Text}"></Button>
-            </Grid>
-        </DockPanel>
-    </Grid>
+            </StackPanel>
+            <StackPanel Height="Auto" Margin="6,0,6,6" Name="stackPanel3" VerticalAlignment="Bottom">
+                <Button x:Uid="screenshotButton" Name="screenshotButton" Click="ScreenshotButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/ScreenshotButtonToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/ScreenshotButton/@Text}" />
+                <Button x:Uid="resetViewButton" Name="resetViewButton" Click="ResetViewButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/ResetViewButtonToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMView/ResetViewButton/@Text}" />
+            </StackPanel>
+        </Grid>
+        <Grid Name="grid1" MinHeight="442" MinWidth="442">
+            <ScrollBar x:Uid="yScrollBar" Height="Auto" Name="yScrollBar" Width="18" Margin="0,0,0,18" Maximum="10000" Minimum="-10000" Scroll="YScrollBar_Scroll" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/YScrollBarToolTip/@Text}" HorizontalAlignment="Left" />
+            <ScrollBar x:Uid="xScrollBar" Height="18" Margin="18,0,0,0" Name="xScrollBar" Width="Auto" Orientation="Horizontal" Minimum="-10000" Maximum="10000" Scroll="XScrollBar_Scroll" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/XScrollBarToolTip/@Text}" VerticalAlignment="Bottom" />
+            <WindowsFormsHost x:Uid="controlWFHost" Name="controlWFHost" Margin="18,0,0,18" />
+            <Button x:Uid="centerButton" Height="18" HorizontalAlignment="Left" Name="centerButton" VerticalAlignment="Bottom" Width="18" Background="Red" BorderThickness="0" Click="CenterButton_Click" VerticalContentAlignment="Center" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMView/CenterButtonToolTip/@Text}"></Button>
+        </Grid>
+    </DockPanel>
 </Window>

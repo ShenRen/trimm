@@ -43,16 +43,17 @@ namespace TriMM {
         public SettingsWindow() {
             InitializeComponent();
             this.Icon = TriMMApp.Image;
+
             normalComboBox.ItemsSource = TriMMApp.VertexNormalAlgorithms;
             normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo;
+            colorComboBox.SelectedIndex = 0;
 
             DirectoryInfo di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "lang");
             FileInfo[] files = di.GetFiles("*.xml");
 
             for (int i = 0; i < files.Length; i++) { languageFiles.Add(files[i].Name.Substring(0, files[i].Name.IndexOf(".xml"))); }
-            int lang = languageFiles.IndexOf(TriMMApp.Settings.Language);
             languageComboBox.ItemsSource = languageFiles;
-            if (lang != -1) { languageComboBox.SelectedIndex = lang; }
+            languageComboBox.SelectedIndex = languageFiles.IndexOf(TriMMApp.Settings.Language);
 
             smoothCheckBox.IsChecked = TriMMApp.Settings.Smooth;
             solidCheckBox.IsChecked = TriMMApp.Settings.Solid;
@@ -131,7 +132,16 @@ namespace TriMM {
         /// </summary>
         /// <param name="sender">languageComboBox</param>
         /// <param name="e">Standard SelectionChangedEventArgs</param>
-        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) { TriMMApp.Settings.Language = languageComboBox.SelectedItem.ToString(); }
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            TriMMApp.Settings.Language = languageComboBox.SelectedItem.ToString();
+
+            normalComboBox.SelectionChanged -= NormalComboBox_SelectionChanged;
+            int temp = normalComboBox.SelectedIndex;
+            normalComboBox.ItemsSource = null;
+            normalComboBox.ItemsSource = TriMMApp.VertexNormalAlgorithms;
+            normalComboBox.SelectedIndex = temp;
+            normalComboBox.SelectionChanged += NormalComboBox_SelectionChanged;
+        }
 
         #endregion
 

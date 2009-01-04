@@ -16,85 +16,95 @@
     with this program. If not, see <http://www.gnu.org/licenses/>.
     
     For more information and contact details look at TriMMs website: http://trimm.sourceforge.net/-->
-    <Window x:Uid="SettingsWindow" x:Class="TriMM.SettingsWindow"
+<Window x:Uid="SettingsWindow" x:Class="TriMM.SettingsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/Title/@Text}" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Uid="SettingsWindow">
-    <Grid x:Uid="Grid_1">
-        <Menu x:Uid="menu1" Height="22" Name="menu1" VerticalAlignment="Top">
+    Title="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/Title/@Text}"  WindowStartupLocation="Manual" Topmost="False" ShowInTaskbar="False" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Uid="SettingsWindow" Visibility="Visible">
+    <StackPanel Name="stackPanel1">
+        <Menu x:Uid="setMenu" Name="setMenu">
             <MenuItem x:Uid="loadSettingsMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/LoadSettingsMenuItem/@Text}" Name="loadSettingsMenuItem" Click="LoadSettingsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/LoadSettingsToolTip/@Text}" />
             <MenuItem x:Uid="saveSettingsMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/SaveSettingsMenuItem/@Text}" Name="saveSettingsMenuItem" Click="SaveSettingsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/SaveSettingsToolTip/@Text}" />
             <MenuItem x:Uid="resetAllMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetAllMenuItem/@Text}" Name="resetAllMenuItem" Click="ResetAllMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetAllToolTip/@Text}" />
             <MenuItem x:Uid="makeStandardMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/MakeStandardMenuItem/@Text}" Name="makeStandardMenuItem" Click="MakeStandardMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/MakeStandardToolTip/@Text}" />
         </Menu>
-        <GroupBox x:Uid="colorGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ColorsGroupBoxHeader/@Text}" Margin="0,54,0,0" Name="colorsGroupBox" Height="53" VerticalAlignment="Top">
-            <Grid x:Uid="Grid_2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="144*" />
-                    <ColumnDefinition Width="250*" />
-                    <ColumnDefinition Width="28*" />
-                    <ColumnDefinition Width="45*" />
-                </Grid.ColumnDefinitions>
-                <TextBox x:Uid="colorTextBox" Margin="3,6,3,0" Name="colorTextBox" Height="Auto" VerticalAlignment="Center" IsEnabled="True" IsReadOnly="True" ToolTip="The floating point RGB values of the color." TextAlignment="Right" Grid.Column="1" MinWidth="200" />
-                <Button x:Uid="colorButton" Height="23" Margin="3,6,2,0" Name="colorButton" VerticalAlignment="Center" Click="ColorButton_Click" ToolTip="Pick a different color." MinWidth="23" MinHeight="23" Grid.Column="2"></Button>
-                <ComboBox x:Uid="colorComboBox" Height="Auto" Margin="6,6,3,0" Name="colorComboBox" VerticalAlignment="Center" SelectedIndex="0" SelectionChanged="ColorComboBox_SelectionChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ColorComboBoxToolTip/@Text}" MinWidth="135">
-                    <ComboBoxItem x:Uid="ComboBoxItem_1" Name="backgroundItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/BackgroundItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_2" Name="textItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/TextItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_3" Name="solidItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/SolidItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_4" Name="meshItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/MeshItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_5" Name="verticesItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/VerticesItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_6" Name="triangleNormalsItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/TriangleNormalsItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_7" Name="vertexNormalsItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/VertexNormalsItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_8" Name="xAxisItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/XAxisItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_9" Name="yAxisItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/YAxisItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_10" Name="zAxisItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ZAxisItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_11" Name="observedVertexItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ObservedVertexItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_12" Name="observedEdgeItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ObservedEdgeItem/@Text}"/>
-                    <ComboBoxItem x:Uid="ComboBoxItem_13" Name="observedTriangleItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ObservedTriangleItem/@Text}"/>
-                </ComboBox>
-                <Button Height="Auto" Margin="6,6,6,0" Name="resetColorsButton" VerticalAlignment="Center" Click="ResetColorsButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetButton/@Text}" MinHeight="23" Grid.Column="3" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetColorsButtonToolTip/@Text}"/>
-            </Grid>
-        </GroupBox>
-        <GroupBox x:Uid="displayGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/DisplayGroupBoxHeader/@Text}" Name="displayGroupBox" Margin="0,113,0,0" Height="99" VerticalAlignment="Top">
-            <Grid x:Uid="Grid_3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="135*" />
-                    <ColumnDefinition Width="139*" />
-                    <ColumnDefinition Width="66*" />
-                    <ColumnDefinition Width="66*" />
-                    <ColumnDefinition Width="66*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="23*" />
-                    <RowDefinition Height="23*" />
-                    <RowDefinition Height="33.723*" />
-                </Grid.RowDefinitions>
-                <CheckBox x:Uid="smoothCheckBox" HorizontalAlignment="Left" Margin="3,0,0,0" Name="smoothCheckBox" Width="Auto" Checked="SmoothCheckBox_Checked" Unchecked="SmoothCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBox/@Text}" VerticalAlignment="Center" Height="Auto" />
-                <CheckBox x:Uid="solidCheckBox" Margin="3,0,0,0" Name="solidCheckBox" HorizontalAlignment="Left" Width="Auto" Checked="SolidCheckBox_Checked" Unchecked="SolidCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBox/@Text}" VerticalAlignment="Center" Grid.Column="1" Height="Auto" />
-                <CheckBox x:Uid="meshCheckBox" Margin="3,0,19.69,0" Name="meshCheckBox" Checked="MeshCheckBox_Checked" Unchecked="MeshCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBox/@Text}" Grid.Column="2" VerticalAlignment="Center" Height="Auto" />
-                <CheckBox x:Uid="verticesCheckBox" Name="verticesCheckBox" Checked="VerticesCheckBox_Checked" Unchecked="VerticesCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBox/@Text}" VerticalAlignment="Center" Grid.Column="4" Margin="3,0,8.21,0" />
-                <CheckBox x:Uid="triangleNormalsCheckBox" Margin="3,0,31.66,0" Name="triangleNormalsCheckBox" Checked="TriangleNormalsCheckBox_Checked" Unchecked="TriangleNormalsCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBox/@Text}" Grid.Row="1" VerticalAlignment="Center" Height="Auto" />
-                <CheckBox x:Uid="vertexNormalsCheckBox" Margin="3,0,46.617,0" Name="vertexNormalsCheckBox" Checked="VertexNormalsCheckBox_Checked" Unchecked="VertexNormalsCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBox/@Text}" Grid.Row="1" VerticalAlignment="Center" Grid.Column="1" Height="Auto" />
-                <CheckBox x:Uid="xAxisCheckBox" Margin="3,4.862" Name="xAxisCheckBox" Checked="XAxisCheckBox_Checked" Unchecked="XAxisCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBox/@Text}" Grid.Row="1" Grid.Column="2" />
-                <CheckBox x:Uid="yAxisCheckBox" Margin="3,4.862" Name="yAxisCheckBox" Checked="YAxisCheckBox_Checked" Unchecked="YAxisCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBox/@Text}" Grid.Row="1" Grid.Column="3" />
-                <CheckBox x:Uid="zAxisCheckBox" Margin="3,4.862" Name="zAxisCheckBox" Checked="ZAxisCheckBox_Checked" Unchecked="ZAxisCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/ZAxisCheckBox/@Text}" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" />
-                <Button Margin="3,6.446,6,6" Name="resetDisplayButton" Click="ResetDisplayButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetButton/@Text}" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" Width="Auto" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetDisplayButtonToolTip/@Text}"/>
-            </Grid>
-        </GroupBox>
-        <StackPanel Height="Auto" Margin="0,20,0,0" Name="stackPanel1" VerticalAlignment="Top" Orientation="Horizontal">
+        <Rectangle Name="rectangle1" StrokeThickness="0" Visibility="Hidden" Height="6" />
+        <DockPanel Name="dockPanel1">
             <Label x:Uid="languageLabel" Height="Auto" Name="languageLabel" Width="Auto" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/LanguageLabel/@Text}" VerticalContentAlignment="Center" />
             <ComboBox x:Uid="languageComboBox" Height="Auto" Name="languageComboBox" TabIndex="0" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/LanguageToolTip/@Text}" SelectionChanged="LanguageComboBox_SelectionChanged" MinWidth="120" />
             <Label x:Uid="normalAlgorithmLabel" Height="Auto" Name="normalAlgorithmLabel" Content="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmLabel/@Text}" VerticalContentAlignment="Center" />
-            <ComboBox x:Uid="normalComboBox" Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="0" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmToolTip/@Text}" MinWidth="180" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Left" Margin="6,0,0,12" Name="stackPanel2" Width="Auto" Orientation="Horizontal" Height="Auto" VerticalAlignment="Bottom">
-            <Label x:Uid="pickingModeLabel" Name="pickingModeLabel" Width="Auto" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/PickingModeLabel/@Text}" />
-            <ComboBox x:Uid="pickingModeComboBox" Name="pickingModeComboBox" SelectedIndex="0" SelectionChanged="PickingModeComboBox_SelectionChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/PickingModeComboBoxToolTip/@Text}" MinWidth="150">
-                <ComboBoxItem x:Uid="NoneItem" Name="noneItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/NoneItem/@Text}" />
-                <ComboBoxItem x:Uid="VertexItem" Name="vertexItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexItem/@Text}" />
-                <ComboBoxItem x:Uid="EdgeItem" Name="edgeItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/EdgeItem/@Text}" />
-                <ComboBoxItem x:Uid="TriangleItem" Name="triangleItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleItem/@Text}" />
-            </ComboBox>
-        </StackPanel>
-    </Grid>
+            <Rectangle Name="rectangle2" StrokeThickness="0" Visibility="Hidden" Width="6" DockPanel.Dock="Right" />
+            <ComboBox x:Uid="normalComboBox" Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="0" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmToolTip/@Text}" MinWidth="100" DockPanel.Dock="Right" />
+        </DockPanel>
+        <Rectangle Name="rectangle3" StrokeThickness="0" Visibility="Hidden" Height="6" />
+        <GroupBox x:Uid="colorGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ColorsGroupBoxHeader/@Text}" Name="colorsGroupBox">
+            <DockPanel Name="dockPanel2">
+                <ComboBox x:Uid="colorComboBox" Height="Auto" Name="colorComboBox" SelectionChanged="ColorComboBox_SelectionChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ColorComboBoxToolTip/@Text}" MinWidth="135">
+                    <ComboBoxItem x:Uid="ComboBoxItem_1" Name="backgroundItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/BackgroundItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_2" Name="textItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/TextItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_3" Name="solidItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/SolidItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_4" Name="meshItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/MeshItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_5" Name="verticesItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/VerticesItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_6" Name="triangleNormalsItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/TriangleNormalsItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_7" Name="vertexNormalsItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/VertexNormalsItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_8" Name="xAxisItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/XAxisItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_9" Name="yAxisItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/YAxisItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_10" Name="zAxisItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ZAxisItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_11" Name="observedVertexItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ObservedVertexItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_12" Name="observedEdgeItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ObservedEdgeItem/@Text}" />
+                    <ComboBoxItem x:Uid="ComboBoxItem_13" Name="observedTriangleItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ObservedTriangleItem/@Text}" />
+                </ComboBox>
+                <Rectangle Name="rectangle4" StrokeThickness="0" Visibility="Hidden" Width="6" />
+                <Button Height="Auto" Name="resetColorsButton" Click="ResetColorsButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetButton/@Text}" MinHeight="23" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetColorsButtonToolTip/@Text}" DockPanel.Dock="Right" />
+                <Rectangle Name="rectangle5" StrokeThickness="0" Visibility="Hidden" Width="6" DockPanel.Dock="Right" />
+                <Button x:Uid="colorButton" Height="23" Name="colorButton" Click="ColorButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ColorButtonToolTip/@Text}" MinWidth="23" MinHeight="23" DockPanel.Dock="Right"></Button>
+                <Rectangle Name="rectangle6" StrokeThickness="0" Visibility="Hidden" Width="6" DockPanel.Dock="Right" />
+                <TextBox x:Uid="colorTextBox" Name="colorTextBox" Height="Auto" IsEnabled="True" IsReadOnly="True" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ColorTextBoxToolTip/@Text}" TextAlignment="Right" MinWidth="150" />
+            </DockPanel>
+        </GroupBox>
+        <Rectangle Name="rectangle7" StrokeThickness="0" Visibility="Hidden" Height="6" />
+        <GroupBox x:Uid="displayGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/DisplayGroupBoxHeader/@Text}" Name="displayGroupBox" VerticalAlignment="Top">
+            <StackPanel Name="stackPanel2">
+                <DockPanel Name="dockPanel3">
+                    <StackPanel Name="stackPanel3">
+                        <CheckBox x:Uid="smoothCheckBox" Name="smoothCheckBox" Width="Auto" Checked="SmoothCheckBox_Checked" Unchecked="SmoothCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBox/@Text}" />
+                        <Rectangle Name="rectangle8" StrokeThickness="0" Visibility="Hidden" Height="6" />
+                        <CheckBox x:Uid="triangleNormalsCheckBox" Name="triangleNormalsCheckBox" Checked="TriangleNormalsCheckBox_Checked" Unchecked="TriangleNormalsCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBox/@Text}" Height="Auto" />
+                    </StackPanel>
+                    <Rectangle Name="rectangle9" Width="6" StrokeThickness="0" Visibility="Hidden" />
+                    <StackPanel Name="stackPanel4">
+                        <CheckBox x:Uid="solidCheckBox" Name="solidCheckBox" Width="Auto" Checked="SolidCheckBox_Checked" Unchecked="SolidCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBox/@Text}" />
+                        <Rectangle Height="6" Name="rectangle10" StrokeThickness="0" Visibility="Hidden" />
+                        <CheckBox x:Uid="vertexNormalsCheckBox" Name="vertexNormalsCheckBox" Checked="VertexNormalsCheckBox_Checked" Unchecked="VertexNormalsCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBox/@Text}" Height="Auto" />
+                    </StackPanel>
+                    <CheckBox x:Uid="zAxisCheckBox" Name="zAxisCheckBox" Checked="ZAxisCheckBox_Checked" Unchecked="ZAxisCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/ZAxisCheckBox/@Text}" DockPanel.Dock="Right" VerticalAlignment="Bottom" />
+                    <Rectangle Name="rectangle11" Width="6" StrokeThickness="0" Visibility="Hidden" DockPanel.Dock="Right" />
+                    <StackPanel Name="stackPanel5" DockPanel.Dock="Right">
+                        <CheckBox x:Uid="verticesCheckBox" Name="verticesCheckBox" Checked="VerticesCheckBox_Checked" Unchecked="VerticesCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBox/@Text}" />
+                        <Rectangle Height="6" Name="rectangle12" StrokeThickness="0" Visibility="Hidden" />
+                        <CheckBox x:Uid="yAxisCheckBox" Name="yAxisCheckBox" Checked="YAxisCheckBox_Checked" Unchecked="YAxisCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBox/@Text}" />
+                    </StackPanel>
+                    <Rectangle Name="rectangle13" Width="6" StrokeThickness="0" Visibility="Hidden" DockPanel.Dock="Right" />
+                    <StackPanel Name="stackPanel6" DockPanel.Dock="Right">
+                        <CheckBox x:Uid="meshCheckBox" Name="meshCheckBox" Checked="MeshCheckBox_Checked" Unchecked="MeshCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBox/@Text}" />
+                        <Rectangle Height="6" Name="rectangle14" StrokeThickness="0" Visibility="Hidden" />
+                        <CheckBox x:Uid="xAxisCheckBox" Name="xAxisCheckBox" Checked="XAxisCheckBox_Checked" Unchecked="XAxisCheckBox_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBoxToolTip/@Text}" Content="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBox/@Text}" />
+                    </StackPanel>
+                    <Rectangle Name="rectangle15" StrokeThickness="0" Visibility="Hidden" />
+                </DockPanel>
+                <Rectangle Name="rectangle16" StrokeThickness="0" Visibility="Hidden" Height="6" />
+                <DockPanel Name="dockPanel4">
+                    <Label x:Uid="pickingModeLabel" Name="pickingModeLabel" Width="Auto" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/PickingModeLabel/@Text}" />
+                    <Rectangle Name="rectangle17" Width="6" StrokeThickness="0" Visibility="Hidden" />
+                    <ComboBox x:Uid="pickingModeComboBox" Name="pickingModeComboBox" SelectedIndex="0" SelectionChanged="PickingModeComboBox_SelectionChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/PickingModeComboBoxToolTip/@Text}" MinWidth="120">
+                        <ComboBoxItem x:Uid="NoneItem" Name="noneItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/NoneItem/@Text}" />
+                        <ComboBoxItem x:Uid="VertexItem" Name="vertexItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexItem/@Text}" />
+                        <ComboBoxItem x:Uid="EdgeItem" Name="edgeItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/EdgeItem/@Text}" />
+                        <ComboBoxItem x:Uid="TriangleItem" Name="triangleItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleItem/@Text}" />
+                    </ComboBox>
+                    <Button Name="resetDisplayButton" Click="ResetDisplayButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetButton/@Text}" Width="Auto" ToolTip="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetDisplayButtonToolTip/@Text}" DockPanel.Dock="Right" />
+                    <Rectangle Name="rectangle18" StrokeThickness="0" Visibility="Hidden" />
+                </DockPanel>
+            </StackPanel>
+        </GroupBox>
+    </StackPanel>
 </Window>

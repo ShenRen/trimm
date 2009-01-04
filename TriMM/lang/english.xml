@@ -50,6 +50,21 @@
     <EdgeItem Text="Edges"/>
     <TriangleItem Text="Triangles"/>
   </Global>
+  <VertexNormalAlgorithms>
+    <AEW>Adjacent Edges Weights</AEW>
+    <CW>Chen and Wu</CW>
+    <EN>Edge Normals</EN>
+    <ECW>Extended Chen and Wu</ECW>
+    <ETW>Extended Thuermer and Wuethrich</ETW>
+    <G>Gouraud</G>
+    <IAEW>Inverse Adjacent Edges Weights</IAEW>
+    <IEN>Inverse Edge Normals</IEN>
+    <IT>Inverse Taubin</IT>
+    <M>Max</M>
+    <R>Rusinkiewicz</R>
+    <T>Taubin</T>
+    <TW>Thuermer and Wuethrich</TW>
+  </VertexNormalAlgorithms>
   <About>
     <Title Text="About TriMM"/>
     <ProgramLabel Text="TriMM, the TriangleMesh Manipulator"/>
@@ -96,7 +111,7 @@
     <MakeStandardToolTip Text="Accept the current settings as standard."/>
     <LanguageLabel Text="Language:"/>
     <LanguageToolTip Text="Choose the programs language."/>
-    <ResetButton Text="Reset"/>
+    <ResetButton Text="Standard"/>
     <ColorsGroupBoxHeader Text="Colors"/>
     <ColorComboBoxToolTip Text="Choose the part whose color you want to change."/>
     <BackgroundItem Text="Background"/>

@@ -77,8 +77,7 @@ namespace TriMM {
             radiusNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             radiusWFHost.Child = radiusNumericUpDown;
             controlWFHost.Child = TriMMApp.Control;
-            TriMMApp.Control.Width = 584;
-            TriMMApp.Control.Height = 574;
+            TriMMApp.Control.Width = TriMMApp.Control.Height = 424;
 
             smoothCheckBox.IsChecked = TriMMApp.Settings.Smooth;
             solidCheckBox.IsChecked = TriMMApp.Settings.Solid;
@@ -103,8 +102,6 @@ namespace TriMM {
             TriMMApp.Mesh.MinEdgeLengthChanged += new MinEdgeLengthChangedEventHandler(Mesh_MinEdgeLengthChanged);
             TriMMApp.Settings.SettingsChanged += new SettingsChangedEventHandler(Settings_SettingsChanged);
             TriMMApp.Settings.LanguageChanged += new LanguageChangedEventHandler(Settings_LanguageChanged);
-
-            this.Show();
         }
 
         #endregion
@@ -431,6 +428,13 @@ namespace TriMM {
             clippingPlaneNumericUpDown.UpButton(); clippingPlaneNumericUpDown.DownButton();
             radiusNumericUpDown.UpButton(); radiusNumericUpDown.DownButton();
         }
+
+        /// <summary>
+        /// Adjusts the minimum width of the TriMMView, so the elements don't overlap, when the language is changed.
+        /// </summary>
+        /// <param name="sender">TriMMView</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void TriMMView_LayoutUpdated(object sender, EventArgs e) { MinWidth = 454 + optionsGrid.ActualWidth; }
 
         #endregion
 

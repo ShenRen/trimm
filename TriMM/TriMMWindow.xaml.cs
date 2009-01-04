@@ -50,6 +50,7 @@ namespace TriMM {
         NumericUpDown e2NumericUpDown = new NumericUpDown();
 
         private TriMMView view;
+        private SettingsWindow setWin;
 
         #endregion
 
@@ -271,6 +272,7 @@ namespace TriMM {
         /// <param name="sender">closeMenuItem</param>
         /// <param name="e">Standard EventArgs</param>
         private void CloseFile(object sender, RoutedEventArgs e) {
+            if (setWin != null) { setWin.Close(); }
             if (view != null) { view.Close(); }
             saveMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Collapsed;
             normalComboBox.SelectedIndex = 0;
@@ -297,9 +299,16 @@ namespace TriMM {
         /// <param name="e">Standard RoutedEventArgs</param>
         private void ViewMenuItem_Click(object sender, RoutedEventArgs e) {
             if (view == null) {
-                view = new TriMMView(this.Left + this.Width, this.Top);
+                view = new TriMMView();
+                view.Left = this.Left + this.ActualWidth;
+                view.Top = this.Top;
+                view.Show();
                 view.Closed += new EventHandler(View_Closed);
-            } else { view.Focus(); }
+            } else {
+                view.Left = this.Left + this.ActualWidth;
+                view.Top = this.Top;
+                view.Focus();
+            }
         }
 
         /// <summary>
@@ -319,8 +328,27 @@ namespace TriMM {
         /// <param name="sender">settingsMenuItem</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void SettingsMenuItem_Click(object sender, RoutedEventArgs e) {
-            SettingsWindow sform = new SettingsWindow();
-            sform.ShowDialog();
+            if (setWin == null) {
+                setWin = new SettingsWindow();
+                setWin.Top = this.Top + this.ActualHeight;
+                setWin.Left = 0;
+                setWin.Show();
+                setWin.Closed += new EventHandler(SetWin_Closed);
+            } else {
+                setWin.Top = this.Top + this.ActualHeight;
+                setWin.Left = 0;
+                setWin.Focus(); }
+        }
+
+        /// <summary>
+        /// When the SettingsWindow is closed, setWin is set to null.
+        /// The EventHandler for the FormClosed event is also unbound.
+        /// </summary>
+        /// <param name="sender">SettingsWindow</param>
+        /// <param name="e">Standard EventArgs</param>
+        void SetWin_Closed(object sender, EventArgs e) {
+            setWin.Closed -= SetWin_Closed;
+            setWin = null;
         }
 
         /// <summary>
@@ -331,25 +359,6 @@ namespace TriMM {
         private void InfoMenuItem_Click(object sender, RoutedEventArgs e) {
             About about = new About();
             about.ShowDialog();
-        }
-
-        /// <summary>
-        /// Changes the size of the Form, when a different Tab is selected.
-        /// </summary>
-        /// <param name="sender">manipulationTabControl</param>
-        /// <param name="e">Standard EventArgs</param>
-        private void ManipulationTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            switch (manipulationTabControl.SelectedIndex) {
-                case 0:
-                    manipulationTabControl.Height = 351;
-                    break;
-                case 1:
-                    manipulationTabControl.Height = 149;
-                    break;
-                case 2:
-                    manipulationTabControl.Height = 291;
-                    break;
-            }
         }
 
         #endregion
@@ -999,6 +1008,13 @@ namespace TriMM {
             yNumericUpDown.UpButton(); yNumericUpDown.DownButton();
             zNumericUpDown.UpButton(); zNumericUpDown.DownButton();
             distanceNumericUpDown.UpButton(); distanceNumericUpDown.DownButton();
+
+            normalComboBox.SelectionChanged -= NormalComboBox_SelectionChanged;
+            int temp = normalComboBox.SelectedIndex;
+            normalComboBox.ItemsSource = null;
+            normalComboBox.ItemsSource = TriMMApp.VertexNormalAlgorithms;
+            normalComboBox.SelectedIndex = temp;
+            normalComboBox.SelectionChanged += NormalComboBox_SelectionChanged;
         }
 
         /// <summary>

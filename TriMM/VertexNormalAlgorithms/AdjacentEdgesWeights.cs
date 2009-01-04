@@ -30,7 +30,7 @@ namespace TriMM.VertexNormalAlgorithms {
         #region Properties
 
         /// <value>Gets the name of this algorithm.</value>
-        public string Name { get { return "AdjacentEdgesWeights"; } }
+        public string Name { get { return TriMMApp.Lang.GetElementsByTagName("AEW")[0].InnerText; } }
 
         #endregion
 
