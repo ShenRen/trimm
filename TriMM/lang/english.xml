@@ -22,29 +22,20 @@
     <Culture>en-US</Culture>
     <ErrorTitle>Error!</ErrorTitle>
     <NormalAlgorithmLabel Text="Normal Algorithm:"/>
-    <NormalAlgorithmToolTip Text="Choose the algorithm to calculate the Vertex normals with."/>
+    <NormalAlgorithmComboBox ToolTip="Choose the algorithm to calculate the Vertex normals with."/>
     <OpenFileTitle>Open File</OpenFileTitle>
     <SaveFileTitle>Save File</SaveFileTitle>
     <Files>Files</Files>
-    <SmoothCheckBox Text="Smooth"/>
-    <SmoothCheckBoxToolTip Text="The Modell is drawn using the Vertex normals."/>
-    <SolidCheckBox Text="Solid"/>
-    <SolidCheckBoxToolTip Text="The Triangles are drawn as surfaces."/>
-    <MeshCheckBox Text="Mesh"/>
-    <MeshCheckBoxToolTip Text="The Edges are drawn as lines."/>
-    <VerticesCheckBox Text="Vertices"/>
-    <VerticesCheckBoxToolTip Text="The Vertices are drawn as points."/>
-    <TriangleNormalsCheckBox Text="Triangle Normals"/>
-    <TriangleNormalsCheckBoxToolTip Text="The Triangle normals are drawn as lines."/>
-    <VertexNormalsCheckBox Text="Vertex Normals"/>
-    <VertexNormalsCheckBoxToolTip Text="The Vertex normals are drawn as lines."/>
-    <XAxisCheckBox Text="X-Axis"/>
-    <XAxisCheckBoxToolTip Text="The x-axis is drawn as a line."/>
-    <YAxisCheckBox Text="Y-Axis"/>
-    <YAxisCheckBoxToolTip Text="The y-axis is drawn as a line."/>
-    <ZAxisCheckBox Text="Z-Axis"/>
-    <ZAxisCheckBoxToolTip Text="The z-axis is drawn as a line."/>
-    <PickingModeComboBoxToolTip Text="No Picking, Vertex, Edge or Triangle Picking."/>
+    <SmoothCheckBox Text="Smooth" ToolTip="The Modell is drawn using the Vertex normals."/>
+    <SolidCheckBox Text="Solid" ToolTip="The Triangles are drawn as surfaces."/>
+    <MeshCheckBox Text="Mesh" ToolTip="The Edges are drawn as lines."/>
+    <VerticesCheckBox Text="Vertices" ToolTip="The Vertices are drawn as points."/>
+    <TriangleNormalsCheckBox Text="Triangle Normals" ToolTip="The Triangle normals are drawn as lines."/>
+    <VertexNormalsCheckBox Text="Vertex Normals" ToolTip="The Vertex normals are drawn as lines."/>
+    <XAxisCheckBox Text="X-Axis" ToolTip="The x-axis is drawn as a line."/>
+    <YAxisCheckBox Text="Y-Axis" ToolTip="The y-axis is drawn as a line."/>
+    <ZAxisCheckBox Text="Z-Axis" ToolTip="The z-axis is drawn as a line."/>
+    <PickingModeComboBox ToolTip="No Picking, Vertex, Edge or Triangle Picking."/>
     <NoneItem Text="None"/>
     <VertexItem Text="Vertices"/>
     <EdgeItem Text="Edges"/>
@@ -101,19 +92,15 @@
   <SettingsWindow>
     <Title Text="TriMM Settings"/>
     <SETFilter>Settings</SETFilter>
-    <LoadSettingsMenuItem Text="Load"/>
-    <LoadSettingsToolTip Text="Loads the settings from a .SET file."/>
-    <SaveSettingsMenuItem Text="Save"/>
-    <SaveSettingsToolTip Text="Saves the settings to a .SET file."/>
-    <ResetAllMenuItem Text="Standard"/>
-    <ResetAllToolTip Text="Resets to your standard settings."/>
-    <MakeStandardMenuItem Text="Make Standard"/>
-    <MakeStandardToolTip Text="Accept the current settings as standard."/>
+    <LoadSettingsMenuItem Text="Load" ToolTip="Loads the settings from a .SET file."/>
+    <SaveSettingsMenuItem Text="Save" ToolTip="Saves the settings to a .SET file."/>
+    <ResetAllMenuItem Text="Standard" ToolTip="Resets to your standard settings."/>
+    <MakeStandardMenuItem Text="Make Standard" ToolTip="Accept the current settings as standard."/>
     <LanguageLabel Text="Language:"/>
-    <LanguageToolTip Text="Choose the programs language."/>
+    <LanguageComboBox ToolTip="Choose the programs language."/>
     <ResetButton Text="Standard"/>
     <ColorsGroupBoxHeader Text="Colors"/>
-    <ColorComboBoxToolTip Text="Choose the part whose color you want to change."/>
+    <ColorComboBox ToolTip="Choose the part whose color you want to change."/>
     <BackgroundItem Text="Background"/>
     <TextItem Text="Text"/>
     <SolidItem Text="Solid"/>
@@ -127,12 +114,12 @@
     <ObservedVertexItem Text="Observed Vertex"/>
     <ObservedEdgeItem Text="Observed Edge"/>
     <ObservedTriangleItem Text="Observed Triangle"/>
-    <ColorTextBoxToolTip Text="The floating point RGB values of the color."/>
-    <ColorButtonToolTip Text="Pick a different color."/>
-    <ResetColorsButtonToolTip Text="Resets the colors to the standard settings."/>
+    <ColorTextBox ToolTip="The floating point RGB values of the color."/>
+    <ColorButton ToolTip="Pick a different color."/>
+    <ResetColorsButton ToolTip="Resets the colors to the standard settings."/>
     <DisplayGroupBoxHeader Text="Display"/>
     <PickingModeLabel Text="Picking Mode:"/>
-    <ResetDisplayButtonToolTip Text="Resets the display options to the standard settings."/>
+    <ResetDisplayButton ToolTip="Resets the display options to the standard settings."/>
   </SettingsWindow>
   <STLParser>
     <STLBrokenFileError>The STL file is broken!</STLBrokenFileError>
@@ -149,100 +136,67 @@
   </TriMMControl>
   <TriMMView>
     <Title Text="TriMM View"/>
-    <ClippingPlaneLabel Text="Clipping Plane:"/>
-    <ClipppingPlaneToolTip Text="Moves the clipping plane. 1.1 is in the back, -1.1 is in the front."/>
+    <ClippingPlaneLabel Text="Clipping Plane:" ToolTip="Moves the clipping plane. 1.1 is in the back, -1.1 is in the front."/>
     <PickingGroupBoxHeader Text="Picking"/>
-    <ObservedLabel Text="Observed"/>
-    <ObservedToolTip Text="The index of the observed Vertex, Edge or Triangle. -1 means nothing is selected."/>
-    <ClearButton Text="Clear"/>
-    <ClearButtonToolTip Text="Clears the selection."/>
-    <RadiusLabel Text="Radius"/>
-    <RadiusToolTip Text="Radius of the sphere around the observed Vertex. The radius of the cylinder around the observed Edge is 1/10 of that value."/>
-    <ScreenshotButton Text="Screenshot"/>
-    <ScreenshotButtonToolTip Text="Makes a screenshot (png, bmp or jpg) of the scene."/>
-    <ResetViewButton Text="Reset View"/>
-    <ResetViewButtonToolTip Text="Resets the camera position."/>
-    <XScrollBarToolTip Text="Moves the camera horizontally."/>
-    <YScrollBarToolTip Text="Moves the camera vertically."/>
-    <CenterButtonToolTip Text="Centers the View."/>
+    <ObservedLabel Text="Observed" ToolTip="The index of the observed Vertex, Edge or Triangle. -1 means nothing is selected."/>
+    <ClearButton Text="Clear" ToolTip="Clears the selection."/>
+    <RadiusLabel Text="Radius" ToolTip="Radius of the sphere around the observed Vertex. The radius of the cylinder around the observed Edge is 1/10 of that value."/>
+    <ScreenshotButton Text="Screenshot" ToolTip="Makes a screenshot (png, bmp or jpg) of the scene."/>
+    <ResetViewButton Text="Reset View" ToolTip="Resets the camera position."/>
+    <XScrollBar ToolTip="Moves the camera horizontally."/>
+    <YScrollBar ToolTip="Moves the camera vertically."/>
+    <CenterButton ToolTip="Centers the View."/>
   </TriMMView>
   <TriMMWindow>
     <Vertex>Vertex</Vertex>
     <Edge>Edge</Edge>
     <Triangle>Triangle</Triangle>
     <FileMenuItem Text="File"/>
-    <OpenMenuItem Text="Open"/>
-    <OpenMenuItemToolTip Text="Load a TriangleMesh from a file (.OBJ, .OFF, .PLY, .STL)."/>
-    <SaveMenuItem Text="Save As"/>
-    <SaveMenuItemToolTip Text="Save the TriangleMesh to a file (.OBJ, .OFF, .PLY, .STL)."/>
-    <CloseMenuItem Text="Close"/>
-    <CloseMenuItemToolTip Text="Close the current file."/>
-    <ExitMenuItem Text="Exit"/>
-    <ExitMenuItemToolTip Text="Exit TriMM."/>
-    <ViewMenuItem Text="View"/>
-    <ViewMenuItemToolTip Text="Show the visualization of the TriangleMesh."/>
-    <SettingsMenuItem Text="Settings"/>
-    <SettingsMenuItemToolTip Text="Change the settings for TriMM."/>
+    <OpenMenuItem Text="Open" ToolTip="Load a TriangleMesh from a file (.OBJ, .OFF, .PLY, .STL)."/>
+    <SaveMenuItem Text="Save As" ToolTip="Save the TriangleMesh to a file (.OBJ, .OFF, .PLY, .STL)."/>
+    <CloseMenuItem Text="Close" ToolTip="Close the current file, keeping the settings."/>
+    <ExitMenuItem Text="Exit" ToolTip="Exit TriMM."/>
+    <ViewMenuItem Text="View" ToolTip="Show the visualization of the TriangleMesh."/>
+    <SettingsMenuItem Text="Settings" ToolTip="Change the settings for TriMM."/>
     <HelpMenuItem Text="Help"/>
-    <InfoMenuItem Text="Info"/>
-    <InfoMenuItemToolTip Text="Copyright, Version and License information."/>
+    <InfoMenuItem Text="Info" ToolTip="Copyright, Version and License information."/>
     <MeshInformationHeader Text="Mesh Information"/>
     <VerticesLabel Text="Vertices:"/>
     <EdgesLabel Text="Edges:"/>
     <TrianglesLabel Text="Triangles:"/>
-    <VerticesTextBoxToolTip Text="Shows the number of Vertices in the TriangleMesh."/>
-    <EdgesTextBoxToolTip Text="Shows the number of Edges in the TriangleMesh."/>
-    <TrianglesTextBoxToolTip Text="Shows the number of Triangles in the TriangleMesh."/>
-    <VerticesTab Text="Vertices"/>
-    <VerticesTabToolTip Text="Vertex Manipulation"/>
-    <XLabel Text="X:"/>
-    <XLabelToolTip Text="The x-coordinate."/>
-    <YLabel Text="Y:"/>
-    <YLabelToolTip Text="The y-coordinate."/>
-    <ZLabel Text="Z:"/>
-    <ZLabelToolTip Text="The z-coordinate."/>
-    <RemoveSinglesButton Text="Remove Single Vertices"/>
-    <RemoveSinglesButtonToolTip Text="Removes all Vertices that do not belong to any Triangle."/>
-    <RemoveDoubleVertButton Text="Remove Double Vertices"/>
-    <RemoveDoubleVertButtonToolTip Text="Removes duplicates of Vertices and adjusts the Triangles."/>
-    <RemoveObservedButton Text="Remove Observed Vertex"/>
-    <RemoveObservedButtonToolTip Text="Removes the Vertex picked in the visualization."/>
-    <AddVertexButton Text="Add Vertex"/>
-    <AddVertexButtonToolTip Text="Adds the Vertex determined by the coordinates chosen above."/>
-    <MoveObservedButton Text="Move Observed Vertex To"/>
-    <MoveObservedButtonToolTip Text="Moves the Vertex picked in the visualization to the coordinates chosen above."/>
-    <TransposeVertexButton Text="Transpose Observed Vertex By"/>
-    <TransposeVertexButtonToolTip Text="Moves the Vertex picked in the visualization by adding the coordinates chosen above to it's position."/>
-    <MoveAlongNormalButton Text="Move Observed Vertex along Normal"/>
-    <MoveAlongNormalButtonToolTip Text="Moves the Vertex picked in the visualization by the value selected below along its normal vector."/>
-    <DistanceLabel Text="Distance:"/>
-    <DistanceLabelToolTip Text="The distance to move the Vertex."/>
-    <EdgesTab Text="Edges"/>
-    <EdgesTabToolTip Text="Edge Manipulation"/>
-    <FlipEdgeButton Text="Flip Selected Edge"/>
-    <FlipEdgeButtonToolTip Text="Flips the selected Edge by connecting the opposite corners of the incident Triangles instead."/>
-    <SubdivideEdgeButton Text="Subdivide Selected Edge"/>
-    <SubdivideEdgeButtonToolTip Text="Subdivides the Edge picked in the visualization by connecting the midege Vertex to the opposite corners of the incident Triangles."/>
-    <RemoveEdgeButton Text="Remove Selected Edge"/>
-    <RemoveEdgeButtonToolTip Text="Removes the Edge picked in the visualization."/>
-    <TrianglesTab Text="Triangles"/>
-    <TrianglesTabToolTip Text="Triangle Manipulation"/>
-    <RemoveColinButton Text="Remove Triangles with colinear Vertices"/>
-    <RemoveColinButtonToolTip Text="Removes all Triangles that have three colinear Vertices."/>
-    <RemoveDoubleButton Text="Remove Double Triangles"/>
-    <RemoveDoubleButtonToolTip Text="Removes all duplicates of Triangles, irrespectve of orientation."/>
-    <FlipAllTrianglesButton Text="Flip All Triangles"/>
-    <FlipAllTrianglesButtonToolTip Text="Changes the orientation and thus the direction of the normal vector for all Triangles."/>
-    <FlipObservedTriangleButton Text="Flip Observed Triangle"/>
-    <FlipObservedTriangleButtonToolTip Text="Changes the orientation and thus the direction of the normal vector for the Triangle picked in the visualization."/>
-    <SubdivideMeshButton Text="Subdivide Mesh"/>
-    <SubdivideMeshButtonToolTip Text="Subdivides all Triangles by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
-    <SubdivideTriangleButton Text="Subdivide Observed Triangle"/>
-    <SubdivideTriangleButtonToolTip Text="Subdivides the Triangle picked in the visualization by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
-    <RemoveTriangleButton Text="Remove selected Triangle"/>
-    <RemoveTriangleButtonToolTip Text="Removes the Triangle determined by the Vertex-indices selected above."/>
-    <AddTriangleButton Text="Add selected Triangle"/>
-    <AddTriangleButtonToolTip Text="Adds the Triangle determined by the Vertex-indices selected above."/>
+    <VerticesTextBox ToolTip="Shows the number of Vertices in the TriangleMesh."/>
+    <EdgesTextBox ToolTip="Shows the number of Edges in the TriangleMesh."/>
+    <TrianglesTextBox ToolTip="Shows the number of Triangles in the TriangleMesh."/>
+    <VerticesTab Text="Vertices" ToolTip="Vertex Manipulation"/>
+    <XLabel Text="X:" ToolTip="The x-coordinate."/>
+    <YLabel Text="Y:" ToolTip="The y-coordinate."/>
+    <ZLabel Text="Z:" ToolTip="The z-coordinate."/>
+    <RemoveSinglesButton Text="Remove Single Vertices" ToolTip="Removes all Vertices that do not belong to any Triangle."/>
+    <RemoveDoubleVertButton Text="Remove Double Vertices" ToolTip="Removes duplicates of Vertices and adjusts the Triangles."/>
+    <RemoveObservedButton Text="Remove Observed Vertex" ToolTip="Removes the Vertex picked in the visualization."/>
+    <AddVertexButton Text="Add Vertex" ToolTip="Adds the Vertex determined by the coordinates chosen above."/>
+    <MoveObservedButton Text="Move Observed Vertex To" ToolTip="Moves the Vertex picked in the visualization to the coordinates chosen above."/>
+    <TransposeVertexButton Text="Transpose Observed Vertex By" ToolTip="Moves the Vertex picked in the visualization by adding the coordinates chosen above to it's position."/>
+    <MoveAlongNormalButton Text="Move Observed Vertex along Normal" ToolTip="Moves the Vertex picked in the visualization by the value selected below along its normal vector."/>
+    <DistanceLabel Text="Distance:" ToolTip="The distance to move the Vertex."/>
+    <EdgesTab Text="Edges" ToolTip="Edge Manipulation"/>
+    <E1Label Text="1:" ToolTip="First Vertex of the Edge."/>
+    <E2Label Text="2:" ToolTip="Second Vertex of the Edge."/>
+    <FlipEdgeButton Text="Flip Selected Edge" ToolTip="Flips the selected Edge by connecting the opposite corners of the incident Triangles instead."/>
+    <SubdivideEdgeButton Text="Subdivide Selected Edge" ToolTip="Subdivides the Edge picked in the visualization by connecting the midege Vertex to the opposite corners of the incident Triangles."/>
+    <RemoveEdgeButton Text="Remove Selected Edge" ToolTip="Removes the Edge picked in the visualization."/>
+    <TrianglesTab Text="Triangles" ToolTip="Triangle Manipulation"/>
+    <ALabel Text="A:" ToolTip="First corner of the Triangle, in counter-clockwise order."/>
+    <BLabel Text="B:" ToolTip="Second corner of the Triangle, in counter-clockwise order."/>
+    <CLabel Text="C:" ToolTip="Third corner of the Triangle, in counter-clockwise order."/>
+    <RemoveColinButton Text="Remove Triangles with colinear Vertices" ToolTip="Removes all Triangles that have three colinear Vertices."/>
+    <RemoveDoubleButton Text="Remove Double Triangles" ToolTip="Removes all duplicates of Triangles, irrespectve of orientation."/>
+    <FlipAllTrianglesButton Text="Flip All Triangles" ToolTip="Changes the orientation and thus the direction of the normal vector for all Triangles."/>
+    <FlipObservedTriangleButton Text="Flip Observed Triangle" ToolTip="Changes the orientation and thus the direction of the normal vector for the Triangle picked in the visualization."/>
+    <SubdivideMeshButton Text="Subdivide Mesh" ToolTip="Subdivides all Triangles by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
+    <SubdivideTriangleButton Text="Subdivide Observed Triangle" ToolTip="Subdivides the Triangle picked in the visualization by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
+    <RemoveTriangleButton Text="Remove selected Triangle" ToolTip="Removes the Triangle determined by the Vertex-indices selected above."/>
+    <AddTriangleButton Text="Add selected Triangle" ToolTip="Adds the Triangle determined by the Vertex-indices selected above."/>
   </TriMMWindow>
   <Vector>
     <DotProductError>The vectors need to be of equal length for the dot product!</DotProductError>
