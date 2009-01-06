@@ -77,7 +77,7 @@ namespace TriMM {
             radiusNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             radiusWFHost.Child = radiusNumericUpDown;
             controlWFHost.Child = TriMMApp.Control;
-            TriMMApp.Control.Width = TriMMApp.Control.Height = 424;
+            TriMMApp.Control.Width = TriMMApp.Control.Height = 602;
 
             smoothCheckBox.IsChecked = TriMMApp.Settings.Smooth;
             solidCheckBox.IsChecked = TriMMApp.Settings.Solid;

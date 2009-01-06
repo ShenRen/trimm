@@ -173,18 +173,19 @@
     <ZLabel Text="Z:" ToolTip="Die Z-Koordinate."/>
     <RemoveSinglesButton Text="Einzelknoten entfernen" ToolTip="Entfernt Knoten, die nicht zu einem Dreieck geh&#246;ren."/>
     <RemoveDoubleVertButton Text="Knotenduplikate entfernen" ToolTip="Entfernt Duplikate von Knoten und passt das Netz an."/>
-    <RemoveObservedButton Text="Ausgew&#228;hlten Knoten entfernen" ToolTip="Entfernt den in der Visualisierung ausgew&#228;hlten Knoten."/>
+    <Remove2NVerticesButton Text="Knoten mit 2 Nachbarn entfernen" ToolTip="Entfernt Knoten die nur zwei Nachbarknoten haben."/>
+    <RemoveSelectedButton Text="Ausgew&#228;hlten Knoten entfernen" ToolTip="Entfernt den in durch die Koordinaten oben ausgew&#228;hlten Knoten, falls er existiert."/>
     <AddVertexButton Text="Knoten hinzuf&#252;gen" ToolTip="F&#252;gt den durch die oben angegebenen Koordinaten festgelegten Knoten hinzu."/>
     <MoveObservedButton Text="Verschiebe ausgew&#228;hlten Knoten nach" ToolTip="Verschiebt den ausgew&#228;hlten Knoten zu den oben angegebenen Koordinaten."/>
     <TransposeVertexButton Text="Verschiebe ausgew&#228;hlten Knoten um" ToolTip="Verschiebt den ausgew&#228;hlten Knoten um die oben angegebenen Koordinaten."/>
-    <MoveAlongNormalButton Text="Knoten entlang Normalen verschieben" ToolTip="Verschiebt den ausgew&#228;hlten Knoten um den untern angegebenen Wert entlang der Normalen."/>
+    <MoveAlongNormalButton Text="Knoten entlang Normalen verschieben" ToolTip="Verschiebt den durch die Koordinaten oben ausgew&#228;hlten Knoten um den unten angegebenen Wert entlang des Normalenvektors."/>
     <DistanceLabel Text="Abstand:" ToolTip="Der Wert um den der Knoten verschoben werden soll."/>
     <EdgesTab Text="Kanten" ToolTip="Kantenmanipulation"/>
     <E1Label Text="1:" ToolTip="Erster Endpunkt der Kante."/>
     <E2Label Text="2:" ToolTip="Zweiter Endpunkt der Kante."/>
-    <FlipEdgeButton Text="Ausgew&#228;hlte Kante Flippen" ToolTip="Flippt die ausgew&#228;hlte Kante durch Verbinden der gegen&#252;berliegenden Knoten der inzidenten Dreiecke und Entfernen der alten Kante."/>
-    <SubdivideEdgeButton Text="Ausgew&#228;hlte Kante unterteilen" ToolTip="Unterteilt die ausgew&#228;hlte Kante durch Verbinden des Kantenmittelpunktes mit den gegen&#252;berliegenden Knoten der inzidenten Dreiecke."/>
-    <RemoveEdgeButton Text="Ausgew&#228;hlte Kante entfernen" ToolTip="Entfernt die ausgew&#228;hlte Kante."/>
+    <FlipEdgeButton Text="Ausgew&#228;hlte Kante Flippen" ToolTip="Flippt die, durch die Endknoten oben, ausgew&#228;hlte Kante durch Verbinden der gegen&#252;berliegenden Knoten der inzidenten Dreiecke und Entfernen der alten Kante."/>
+    <SubdivideEdgeButton Text="Ausgew&#228;hlte Kante unterteilen" ToolTip="Unterteilt die, durch die Endknoten oben, ausgew&#228;hlte Kante durch Verbinden des Kantenmittelpunktes mit den gegen&#252;berliegenden Knoten der inzidenten Dreiecke."/>
+    <RemoveEdgeButton Text="Ausgew&#228;hlte Kante entfernen" ToolTip="Entfernt die, durch die Endknoten oben, ausgew&#228;hlte Kante."/>
     <TrianglesTab Text="Dreiecke" ToolTip="Dreiecksmanipulation"/>
     <ALabel Text="A:" ToolTip="Erste Ecke des Dreiecks, im Gegenuhrzeigersinn."/>
     <BLabel Text="B:" ToolTip="Zweite Ecke des Dreiecks, im Gegenuhrzeigersinn."/>
@@ -192,9 +193,9 @@
     <RemoveColinButton Text="Entferne Dreiecke mit kolinearen Knoten" ToolTip="Entfernt alle Dreiecke mit drei kolinearen Knoten."/>
     <RemoveDoubleButton Text="Dreiecksduplikate entfernen" ToolTip="Entfernt alle Duplikate von Dreiecken, unabh&#228;ngig von der Orientierung."/>
     <FlipAllTrianglesButton Text="Drehe alle Dreiecke" ToolTip="&#196;ndert die Orientierung, und damit die Richtung der Normalen, aller Dreiecke."/>
-    <FlipObservedTriangleButton Text="Drehe ausgew&#228;hltes Dreieck" ToolTip="&#196;ndert die Orientierung, und damit die Richtung der Normalen, des ausgew&#228;hlten Dreiecks."/>
-    <SubdivideMeshButton Text="Netz unterteilen" ToolTip="Unterteilt alle Dreiecke durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
-    <SubdivideTriangleButton Text="Unterteile ausgew&#228;hltes Dreieck" ToolTip="Unterteilt das ausgew&#228;hlte Dreieck durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
+    <FlipSelectedTriangleButton Text="Drehe ausgew&#228;hltes Dreieck" ToolTip="&#196;ndert die Orientierung, und damit die Richtung der Normalen, des, durch die Knotenindizes oben, ausgew&#228;hlten Dreiecks."/>
+    <SubdivideMeshButton Text="Unterteile gesamtes Netz" ToolTip="Unterteilt alle Dreiecke durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
+    <SubdivideTriangleButton Text="Unterteile ausgew&#228;hltes Dreieck" ToolTip="Unterteilt das,durch die Knotenindizes oben, ausgew&#228;hlte Dreieck durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
     <RemoveTriangleButton Text="Entferne ausgew&#228;hltes Dreieck" ToolTip="Entfernt das durch die Knotenindizes oben gegebene Dreieck."/>
     <AddTriangleButton Text="F&#252;ge Dreieck hinzu" ToolTip="F&#252;gt das durch die Knotenindizes oben gegebene Dreieck hinzu."/>
   </TriMMWindow>

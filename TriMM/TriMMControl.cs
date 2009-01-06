@@ -496,7 +496,7 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Make a screenshot.
+        /// Makes a screenshot.
         /// </summary>
         /// <returns>A bitmap-image of the displayed scene.</returns>
         public Bitmap Screenshot() {
@@ -1129,6 +1129,7 @@ namespace TriMM {
         protected override void OnMouseEnter(EventArgs e) {
             base.OnMouseEnter(e);
             this.Focus();
+            this.Refresh();
         }
 
         /// <summary>
@@ -1144,9 +1145,7 @@ namespace TriMM {
             base.OnPaint(e);
 
             //Only switch contexts if this is already not the current context
-            if (this.renderContext != Wgl.wglGetCurrentContext()) {
-                this.MakeCurrentContext();
-            }
+            if (this.renderContext != Wgl.wglGetCurrentContext()) { this.MakeCurrentContext(); }
             this.RenderScene();
             this.SwapBuffers();
         }

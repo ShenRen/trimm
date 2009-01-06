@@ -173,18 +173,19 @@
     <ZLabel Text="Z:" ToolTip="The z-coordinate."/>
     <RemoveSinglesButton Text="Remove Single Vertices" ToolTip="Removes all Vertices that do not belong to any Triangle."/>
     <RemoveDoubleVertButton Text="Remove Double Vertices" ToolTip="Removes duplicates of Vertices and adjusts the Triangles."/>
-    <RemoveObservedButton Text="Remove Observed Vertex" ToolTip="Removes the Vertex picked in the visualization."/>
+    <Remove2NVerticesButton Text="Remove Vertices with 2 Neighbors" ToolTip="Removes Vertices that have only two neighboring Vertices."/>
+    <RemoveSelectedButton Text="Remove Selected Vertex" ToolTip="Removes the Vertex determined by the coordinates above, if it exists."/>
     <AddVertexButton Text="Add Vertex" ToolTip="Adds the Vertex determined by the coordinates chosen above."/>
     <MoveObservedButton Text="Move Observed Vertex To" ToolTip="Moves the Vertex picked in the visualization to the coordinates chosen above."/>
     <TransposeVertexButton Text="Transpose Observed Vertex By" ToolTip="Moves the Vertex picked in the visualization by adding the coordinates chosen above to it's position."/>
-    <MoveAlongNormalButton Text="Move Observed Vertex along Normal" ToolTip="Moves the Vertex picked in the visualization by the value selected below along its normal vector."/>
+    <MoveAlongNormalButton Text="Move Selected Vertex along Normal" ToolTip="Moves the Vertex determined by the coordinates above, by the value selected below, along its normal vector."/>
     <DistanceLabel Text="Distance:" ToolTip="The distance to move the Vertex."/>
     <EdgesTab Text="Edges" ToolTip="Edge Manipulation"/>
     <E1Label Text="1:" ToolTip="First Vertex of the Edge."/>
     <E2Label Text="2:" ToolTip="Second Vertex of the Edge."/>
-    <FlipEdgeButton Text="Flip Selected Edge" ToolTip="Flips the selected Edge by connecting the opposite corners of the incident Triangles instead."/>
-    <SubdivideEdgeButton Text="Subdivide Selected Edge" ToolTip="Subdivides the Edge picked in the visualization by connecting the midege Vertex to the opposite corners of the incident Triangles."/>
-    <RemoveEdgeButton Text="Remove Selected Edge" ToolTip="Removes the Edge picked in the visualization."/>
+    <FlipEdgeButton Text="Flip Selected Edge" ToolTip="Flips the Edge determined by the endpoints above by connecting the opposite corners of the incident Triangles instead."/>
+    <SubdivideEdgeButton Text="Subdivide Selected Edge" ToolTip="Subdivides the Edge determined by the endpoints above by connecting the midege Vertex to the opposite corners of the incident Triangles."/>
+    <RemoveEdgeButton Text="Remove Selected Edge" ToolTip="Removes the Edge determined by the endpoints above ."/>
     <TrianglesTab Text="Triangles" ToolTip="Triangle Manipulation"/>
     <ALabel Text="A:" ToolTip="First corner of the Triangle, in counter-clockwise order."/>
     <BLabel Text="B:" ToolTip="Second corner of the Triangle, in counter-clockwise order."/>
@@ -192,9 +193,9 @@
     <RemoveColinButton Text="Remove Triangles with colinear Vertices" ToolTip="Removes all Triangles that have three colinear Vertices."/>
     <RemoveDoubleButton Text="Remove Double Triangles" ToolTip="Removes all duplicates of Triangles, irrespectve of orientation."/>
     <FlipAllTrianglesButton Text="Flip All Triangles" ToolTip="Changes the orientation and thus the direction of the normal vector for all Triangles."/>
-    <FlipObservedTriangleButton Text="Flip Observed Triangle" ToolTip="Changes the orientation and thus the direction of the normal vector for the Triangle picked in the visualization."/>
+    <FlipSelectedTriangleButton Text="Flip Selected Triangle" ToolTip="Changes the orientation and thus the direction of the normal vector for the Triangle determined by the Vertex-indices chosen above."/>
     <SubdivideMeshButton Text="Subdivide Mesh" ToolTip="Subdivides all Triangles by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
-    <SubdivideTriangleButton Text="Subdivide Observed Triangle" ToolTip="Subdivides the Triangle picked in the visualization by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
+    <SubdivideTriangleButton Text="Subdivide Selected Triangle" ToolTip="Subdivides the Triangle pdetermined by the Vertex-indices selected above by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
     <RemoveTriangleButton Text="Remove selected Triangle" ToolTip="Removes the Triangle determined by the Vertex-indices selected above."/>
     <AddTriangleButton Text="Add selected Triangle" ToolTip="Adds the Triangle determined by the Vertex-indices selected above."/>
   </TriMMWindow>
