@@ -34,7 +34,7 @@ namespace TriMM {
         #region Properties
 
         /// <value> Gets the AssemblyVersion </value>
-        public string AssemblyVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
+        public string AssemblyVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString() + "beta"; } }
 
         /// <value> Gets the AssemblyCopyright </value>
         public string AssemblyCopyright {
