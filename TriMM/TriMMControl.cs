@@ -1129,7 +1129,6 @@ namespace TriMM {
         protected override void OnMouseEnter(EventArgs e) {
             base.OnMouseEnter(e);
             this.Focus();
-            this.Refresh();
         }
 
         /// <summary>

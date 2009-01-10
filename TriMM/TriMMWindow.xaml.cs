@@ -52,6 +52,8 @@ namespace TriMM {
         private TriMMView view;
         private SettingsWindow setWin;
 
+        private Timer timer;
+
         #endregion
 
         #region Constructors
@@ -83,6 +85,10 @@ namespace TriMM {
 
             normalComboBox.ItemsSource = TriMMApp.VertexNormalAlgorithms;
             normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo;
+
+            timer = new Timer();
+            timer.Interval = 50;
+            timer.Tick += new EventHandler(Timer_Tick);
 
             TriMMApp.Settings.NormalAlgoChanged += new NormalAlgoChangedEventHandler(Settings_NormalAlgoChanged);
             TriMMApp.Settings.LanguageChanged += new LanguageChangedEventHandler(Settings_LanguageChanged);
@@ -157,6 +163,8 @@ namespace TriMM {
             TriMMApp.Mesh.ObservedVertex = -1;
             TriMMApp.Mesh.ObservedEdge = -1;
             TriMMApp.Mesh.ObservedTriangle = -1;
+
+            RefreshControl();
         }
 
 
@@ -378,7 +386,6 @@ namespace TriMM {
                 yNumericUpDown.Value = (decimal)TriMMApp.Mesh.Vertices[picked[0]][1];
                 zNumericUpDown.Value = (decimal)TriMMApp.Mesh.Vertices[picked[0]][2];
             }
-            TriMMApp.Control.Refresh();
         }
 
         /// <summary>
@@ -417,7 +424,6 @@ namespace TriMM {
                 cNumericUpDown.Value = (decimal)TriMMApp.Mesh[picked[0]][2];
             }
             TriMMApp.Control.Refresh();
-
         }
 
         #endregion
@@ -433,8 +439,6 @@ namespace TriMM {
         /// <param name="e">Standard RoutedEventArgs</param>
         private void RemoveSinglesButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
-
-            ClearObserved();
 
             List<int> markedVertices = new List<int>();
 
@@ -455,9 +459,9 @@ namespace TriMM {
             }
 
             TriMMApp.Mesh.Finish(true, true);
-
-            RefreshControl();
+            ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
+            timer.Enabled = true;
         }
 
         /// <summary>
@@ -467,8 +471,6 @@ namespace TriMM {
         /// <param name="e">Standard RoutedEventArgs</param>
         private void RemoveDoubleVertButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
-
-            ClearObserved();
 
             List<List<int>> equivalent = new List<List<int>>();
             List<int> remove = new List<int>();
@@ -513,9 +515,9 @@ namespace TriMM {
             for (int i = remove.Count - 1; i >= 0; i--) { TriMMApp.Mesh.Vertices.RemoveAt(remove[i]); }
 
             TriMMApp.Mesh.Finish(true, true);
-
-            RefreshControl();
+            ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
+            timer.Enabled = true;
         }
 
         /// <summary>
@@ -526,7 +528,6 @@ namespace TriMM {
         private void Remove2NVerticesButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
 
-            ClearObserved();
 
             List<int> markedVertices;
 
@@ -559,8 +560,9 @@ namespace TriMM {
 
             } while (markedVertices.Count != 0);
 
-            RefreshControl();
+            ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
+            timer.Enabled = true;
         }
 
         /// <summary>
@@ -569,12 +571,11 @@ namespace TriMM {
         /// <param name="sender">removeSelectedButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void RemoveSelectedButton_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
 
             Vertex vertex = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
             int remove = TriMMApp.Mesh.Vertices.IndexOf(vertex);
             if (remove != -1) {
-                ClearObserved();
+                Cursor = System.Windows.Input.Cursors.Wait;
 
                 List<int> adjacent = TriMMApp.Mesh.Vertices[remove].Triangles;
                 adjacent.Sort();
@@ -594,10 +595,10 @@ namespace TriMM {
                 }
 
                 TriMMApp.Mesh.Finish(true, true);
-                RefreshControl();
+                ClearObserved();
+                Cursor = System.Windows.Input.Cursors.Arrow;
+                timer.Enabled = true;
             }
-
-            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         /// <summary>
@@ -608,14 +609,11 @@ namespace TriMM {
         private void AddVertexButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
 
-            ClearObserved();
-
             Vertex newVertex = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
             TriMMApp.Mesh.Vertices.Add(newVertex);
 
             TriMMApp.Mesh.Finish(true, true);
-
-            RefreshControl();
+            ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
@@ -625,17 +623,15 @@ namespace TriMM {
         /// <param name="sender">moveObservedButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void MoveObservedButton_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
-
             if (TriMMApp.Mesh.ObservedVertex != -1) {
+                Cursor = System.Windows.Input.Cursors.Wait;
                 TriMMApp.Mesh.Vertices[TriMMApp.Mesh.ObservedVertex] = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
 
-                ClearObserved();
                 TriMMApp.Mesh.Finish(true, true);
-                RefreshControl();
+                ClearObserved();
+                Cursor = System.Windows.Input.Cursors.Arrow;
+                timer.Enabled = true;
             }
-
-            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         /// <summary>
@@ -644,17 +640,15 @@ namespace TriMM {
         /// <param name="sender">transposeVertexButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void TransposeVertexButton_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
-
             if (TriMMApp.Mesh.ObservedVertex != -1) {
+                Cursor = System.Windows.Input.Cursors.Wait;
                 TriMMApp.Mesh.Vertices[TriMMApp.Mesh.ObservedVertex] = (TriMMApp.Mesh.Vertices[TriMMApp.Mesh.ObservedVertex] + new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value)).ToVertex();
 
-                ClearObserved();
                 TriMMApp.Mesh.Finish(true, true);
-                RefreshControl();
+                ClearObserved();
+                Cursor = System.Windows.Input.Cursors.Arrow;
+                timer.Enabled = true;
             }
-
-            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
 
@@ -664,19 +658,17 @@ namespace TriMM {
         /// <param name="sender">moveAlongNormalButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void MoveAlongNormalButton_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
-
             Vertex vertex = new Vertex((double)xNumericUpDown.Value, (double)yNumericUpDown.Value, (double)zNumericUpDown.Value);
             int move = TriMMApp.Mesh.Vertices.IndexOf(vertex);
             if (move != -1) {
+                Cursor = System.Windows.Input.Cursors.Wait;
                 TriMMApp.Mesh.Vertices[move] = (TriMMApp.Mesh.Vertices[move] + (double)distanceNumericUpDown.Value * TriMMApp.Mesh.Vertices[move].Normal).ToVertex();
 
-                ClearObserved();
                 TriMMApp.Mesh.Finish(true, true);
-                RefreshControl();
+                ClearObserved();
+                Cursor = System.Windows.Input.Cursors.Arrow;
+                timer.Enabled = true;
             }
-
-            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         #endregion
@@ -689,8 +681,6 @@ namespace TriMM {
         /// <param name="sender">flipEdgeButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void FlipEdgeButton_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
-
             int ind1 = (int)e1NumericUpDown.Value;
             int ind2 = (int)e2NumericUpDown.Value;
 
@@ -704,6 +694,7 @@ namespace TriMM {
 
                     // Get the Triangles that Edge belongs to, connects the Vertices opposite the Edge with a new Edge and removes the old Edge.
                     if (triangles.Count == 2) {
+                        Cursor = System.Windows.Input.Cursors.Wait;
                         int o1 = TriMMApp.Mesh[triangles[0]].GetOppositeCorner(theEdge);
                         int o2 = TriMMApp.Mesh[triangles[1]].GetOppositeCorner(theEdge);
 
@@ -738,12 +729,11 @@ namespace TriMM {
 
                         TriMMApp.Mesh.Finish(true, true);
                         ClearObserved();
-                        RefreshControl();
+                        Cursor = System.Windows.Input.Cursors.Arrow;
+                        timer.Enabled = true;
                     }
                 }
             }
-
-            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         /// <summary>
@@ -753,10 +743,6 @@ namespace TriMM {
         /// <param name="sender">subdivideEdgeButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void SubdivideEdgeButton_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
-
-            ClearObserved();
-
             int ind1 = (int)e1NumericUpDown.Value;
             int ind2 = (int)e2NumericUpDown.Value;
 
@@ -765,6 +751,7 @@ namespace TriMM {
                 Edge theEdge = new Edge(ind1, ind2, length);
 
                 if (TriMMApp.Mesh.Edges.ContainsKey(theEdge.Key)) {
+                    Cursor = System.Windows.Input.Cursors.Wait;
                     List<int> triangles = TriMMApp.Mesh.Edges[theEdge.Key].Triangles;
                     triangles.Sort();
                     Vertex midedge = (0.5 * (TriMMApp.Mesh.Vertices[ind1] + TriMMApp.Mesh.Vertices[ind2])).ToVertex();
@@ -781,11 +768,11 @@ namespace TriMM {
                     }
 
                     TriMMApp.Mesh.Finish(true, true);
+                    ClearObserved();
+                    Cursor = System.Windows.Input.Cursors.Arrow;
+                    timer.Enabled = true;
                 }
             }
-
-            RefreshControl();
-            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         /// <summary>
@@ -795,9 +782,6 @@ namespace TriMM {
         /// <param name="sender">removeEdgeButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void RemoveEdgeButton_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
-
-            ClearObserved();
 
             int ind1 = (int)e1NumericUpDown.Value;
             int ind2 = (int)e2NumericUpDown.Value;
@@ -807,16 +791,17 @@ namespace TriMM {
                 Edge theEdge = new Edge(ind1, ind2, length);
 
                 if (TriMMApp.Mesh.Edges.ContainsKey(theEdge.Key)) {
+                    Cursor = System.Windows.Input.Cursors.Wait;
                     List<int> triangles = TriMMApp.Mesh.Edges[theEdge.Key].Triangles;
                     triangles.Sort();
                     for (int i = triangles.Count - 1; i >= 0; i--) { TriMMApp.Mesh.RemoveAt(triangles[i]); }
 
                     TriMMApp.Mesh.Finish(true, true);
+                    ClearObserved();
+                    Cursor = System.Windows.Input.Cursors.Arrow;
+                    timer.Enabled = true;
                 }
             }
-
-            RefreshControl();
-            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         #endregion
@@ -831,13 +816,12 @@ namespace TriMM {
         private void RemoveColinButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
 
-            ClearObserved();
-
             for (int i = TriMMApp.Mesh.Count - 1; i >= 0; i--) { if (!TriMMApp.Mesh.IsTriangle(i)) { TriMMApp.Mesh.RemoveAt(i); } }
 
             TriMMApp.Mesh.Finish(true, true);
-            RefreshControl();
+            ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
+            timer.Enabled = true;
         }
 
         /// <summary>
@@ -848,15 +832,14 @@ namespace TriMM {
         private void RemoveDoubleButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
 
-            ClearObserved();
-
             for (int i = TriMMApp.Mesh.Count - 1; i >= 0; i--) {
                 List<Triangle> equals = TriMMApp.Mesh.Where(t => t.Equals(TriMMApp.Mesh[i])).ToList();
                 if (equals.Count > 1) { TriMMApp.Mesh.RemoveAt(i); }
             }
             TriMMApp.Mesh.Finish(true, true);
-            RefreshControl();
+            ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
+            timer.Enabled = true;
         }
 
         /// <summary>
@@ -874,6 +857,7 @@ namespace TriMM {
             }
             RefreshControl();
             Cursor = System.Windows.Input.Cursors.Arrow;
+            timer.Enabled = true;
         }
 
         /// <summary>
@@ -893,6 +877,7 @@ namespace TriMM {
                     cNumericUpDown.Value = (decimal)TriMMApp.Mesh[index][2];
                     RefreshControl();
                     Cursor = System.Windows.Input.Cursors.Arrow;
+                    timer.Enabled = true;
                 }
             }
 
@@ -906,11 +891,11 @@ namespace TriMM {
         private void SubdivideMeshButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
 
-            ClearObserved();
             TriMMApp.Mesh.Subdivide(1);
 
-            RefreshControl();
+            ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
+            timer.Enabled = true;
         }
 
         /// <summary>
@@ -927,8 +912,8 @@ namespace TriMM {
                     TriMMApp.Mesh.SubdivideTriangle(index);
 
                     ClearObserved();
-                    RefreshControl();
                     Cursor = System.Windows.Input.Cursors.Arrow;
+                    timer.Enabled = true;
                 }
             }
         }
@@ -941,7 +926,6 @@ namespace TriMM {
         private void RemoveTriangleButton_Click(object sender, RoutedEventArgs e) {
             if (TriMMApp.Mesh.IsTriangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value)) {
                 Cursor = System.Windows.Input.Cursors.Wait;
-                ClearObserved();
 
                 Triangle remove = new Triangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value);
                 TriMMApp.Mesh.Remove(remove);
@@ -957,9 +941,9 @@ namespace TriMM {
                 TriMMApp.Mesh.Remove(remove);
 
                 TriMMApp.Mesh.Finish(true, true);
-
-                RefreshControl();
+                ClearObserved();
                 Cursor = System.Windows.Input.Cursors.Arrow;
+                timer.Enabled = true;
             }
         }
 
@@ -969,26 +953,34 @@ namespace TriMM {
         /// <param name="sender">addTriangleButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void AddTriangleButton_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
-
-            ClearObserved();
-
             if (((int)aNumericUpDown.Value != -1) && ((int)bNumericUpDown.Value != -1) && ((int)cNumericUpDown.Value != -1)) {
                 if (TriMMApp.Mesh.IsTriangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value)) {
+                    Cursor = System.Windows.Input.Cursors.Wait;
+
                     Triangle newTriangle = new Triangle((int)aNumericUpDown.Value, (int)bNumericUpDown.Value, (int)cNumericUpDown.Value);
                     TriMMApp.Mesh.Add(newTriangle);
                     TriMMApp.Mesh.Finish(true, true);
+
+                    ClearObserved();
+                    Cursor = System.Windows.Input.Cursors.Arrow;
+                    timer.Enabled = true;
                 }
-
-                RefreshControl();
             }
-
-            Cursor = System.Windows.Input.Cursors.Arrow;
         }
 
         #endregion
 
         #endregion
+
+        /// <summary>
+        /// Stops the Timer and refreshes the TriMMControl.
+        /// </summary>
+        /// <param name="sender">timer</param>
+        /// <param name="e">Standard EventArgs</param>
+        private void Timer_Tick(object sender, EventArgs e) {
+            timer.Enabled = false;
+            TriMMApp.Control.Refresh();
+        }
 
         /// <summary>
         /// When a new VertexNormalAlgorithm is selected the normals are calculated and the TriMMControl is refreshed.
