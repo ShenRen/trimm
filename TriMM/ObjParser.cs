@@ -41,6 +41,7 @@ namespace TriMM {
         /// <param name="file">The *.OBJ file to be parsed.</param>
         public static void Parse(StreamReader file) {
             TriMMApp.Mesh = new TriangleMesh();
+            TriMMApp.CurrentFormat = 4;
 
             // Temporary variables.
             Vertex vertex;

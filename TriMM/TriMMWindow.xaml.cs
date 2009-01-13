@@ -189,9 +189,11 @@ namespace TriMM {
                 } else if (file.EndsWith(".obj")) {
                     ObjParser.Parse(reader);
                 }
+                TriMMApp.CurrentPath = file;
 
                 InitializeControl();
-                saveMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Visible;
+                saveMenuItem.Visibility = saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility =
+                     meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Visible;
 
 #if !DEBUG
             } catch (Exception exception) {
@@ -239,11 +241,44 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Saves the TriangleMesh to an *.OFF file.
+        /// Saves the TriangleMesh to the current file.
         /// </summary>
         /// <param name="sender">saveMenuItem</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e) {
+#if !DEBUG
+            try {
+#endif
+                switch (TriMMApp.CurrentFormat) {
+                    case 0:
+                        OffParser.WriteOFF(TriMMApp.CurrentPath);
+                        break;
+                    case 1:
+                        STLParser.WriteToASCII(TriMMApp.CurrentPath);
+                        break;
+                    case 2:
+                        STLParser.WriteToBinary(TriMMApp.CurrentPath);
+                        break;
+                    case 3:
+                        PlyParser.WritePLY(TriMMApp.CurrentPath);
+                        break;
+                    case 4:
+                        ObjParser.WriteOBJ(TriMMApp.CurrentPath);
+                        break;
+                }
+#if !DEBUG
+            } catch (Exception exception) {
+                System.Windows.MessageBox.Show(exception.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Saves the TriangleMesh to the chosen file.
+        /// </summary>
+        /// <param name="sender">saveAsMenuItem</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void SaveAsMenuItem_Click(object sender, RoutedEventArgs e) {
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
 #if !DEBUG
             try {
@@ -282,9 +317,12 @@ namespace TriMM {
         private void CloseFile(object sender, RoutedEventArgs e) {
             if (setWin != null) { setWin.Close(); }
             if (view != null) { view.Close(); }
-            saveMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Collapsed;
+            saveMenuItem.Visibility = saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = 
+                 meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Collapsed;
             normalComboBox.SelectedIndex = 0;
             TriMMApp.Mesh = null;
+            TriMMApp.CurrentFormat = -1;
+            TriMMApp.CurrentPath = "";
             if (TriMMApp.Control != null) {
                 TriMMApp.Control.DestroyContexts();
                 TriMMApp.Control = null;

@@ -78,6 +78,7 @@ namespace TriMM {
         /// <param name="file">The *.PLY file to be parsed.</param>
         public static void Parse(StreamReader file) {
             TriMMApp.Mesh = new TriangleMesh();
+            TriMMApp.CurrentFormat = 3;
 
             // Temporary variables.
             String input = null;

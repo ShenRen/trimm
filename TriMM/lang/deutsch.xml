@@ -153,7 +153,8 @@
     <Triangle>Dreieck</Triangle>
     <FileMenuItem Text="Datei"/>
     <OpenMenuItem Text="&#214;ffnen" ToolTip="L&#228;dt ein Dreiecksnetz aus einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
-    <SaveMenuItem Text="Speichern unter" ToolTip="Speichert ein Dreiecksnetz in einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
+    <SaveMenuItem Text="Speichern" ToolTip="Speichert das Dreiecksnetz in der aktuellen Datei."/>
+    <SaveAsMenuItem Text="Speichern unter" ToolTip="Speichert ein Dreiecksnetz in einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
     <CloseMenuItem Text="Schlie&#223;en" ToolTip="Schlie&#223;t die aktuelle Datei."/>
     <ExitMenuItem Text="Beenden" ToolTip="Beendet TriMM."/>
     <ViewMenuItem Text="Ansicht" ToolTip="Zeigt eine Visualisierung des Dreiecksnetzes."/>

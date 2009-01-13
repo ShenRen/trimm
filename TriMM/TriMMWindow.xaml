@@ -25,8 +25,9 @@
         <Menu x:Uid="menu" Height="Auto" Name="menu" Visibility="Visible">
             <MenuItem x:Uid="fileMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FileMenuItem/@Text}" Name="fileMenuItem" TabIndex="1" IsTabStop="False">
                 <MenuItem x:Uid="openMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@Text}" Name="openMenuItem" Click="OpenMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@ToolTip}" />
-                <MenuItem x:Uid="saveMenuItem" Focusable="True" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@Text}" Name="saveMenuItem" Visibility="Collapsed" Click="SaveMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@ToolTip}" />
-                <MenuItem x:Uid="closeMenuItem" Focusable="True" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CloseMenuItem/@Text}" Name="closeMenuItem" Visibility="Collapsed" Click="CloseFile" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CloseMenuItem/@ToolTip}" />
+                <MenuItem Name="saveMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@Text}" Visibility="Collapsed" Click="SaveMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@ToolTip}" />
+                <MenuItem x:Uid="saveAsMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveAsMenuItem/@Text}" Name="saveAsMenuItem" Visibility="Collapsed" Click="SaveAsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveAsMenuItem/@ToolTip}" />
+                <MenuItem x:Uid="closeMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CloseMenuItem/@Text}" Name="closeMenuItem" Visibility="Collapsed" Click="CloseFile" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CloseMenuItem/@ToolTip}" />
                 <Separator x:Uid="Separator_1" Foreground="Black" />
                 <MenuItem x:Uid="exitMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ExitMenuItem/@Text}" Name="exitMenuItem" Click="ExitMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ExitMenuItem/@ToolTip}" />
             </MenuItem>
@@ -39,7 +40,7 @@
         <DockPanel Name="dockPanel1">
             <Label x:Uid="normalAlgorithmLabel" Name="normalAlgorithmLabel" Content="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmLabel/@Text}" HorizontalContentAlignment="Stretch" />
             <Rectangle Name="rectangle1" StrokeThickness="0" Visibility="Hidden" Width="6" />
-            <ComboBox x:Uid="normalComboBox" Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="5" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmComboBox/@ToolTip}" MinWidth="100" DockPanel.Dock="Right" />
+            <ComboBox x:Uid="normalComboBox" Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmComboBox/@ToolTip}" MinWidth="100" DockPanel.Dock="Right" TabIndex="5" />
         </DockPanel>
         <Rectangle Name="rectangle2" StrokeThickness="0" Visibility="Hidden" Height="6" />
         <GroupBox x:Uid="meshGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshInformationHeader/@Text}" Name="meshGroupBox" Visibility="Collapsed">

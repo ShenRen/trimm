@@ -18,17 +18,13 @@
 // For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
-using System.Windows;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Threading;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TriMM.VertexNormalAlgorithms;
-using System.Windows.Data;
-using System;
 using System.Xml;
+using TriMM.VertexNormalAlgorithms;
 
 namespace TriMM {
     /// <summary>
@@ -43,6 +39,8 @@ namespace TriMM {
         private static Settings settings;
         private static XmlDocument lang;
         private static ImageSource image;
+        private static string currentPath;
+        private static int currentFormat;
 
         private static IVertexNormalAlgorithm[] vertexNormalAlgorithms = new IVertexNormalAlgorithm[] { new Gouraud(), new Max(), new Taubin(), new InverseTaubin(),
             new ThuermerAndWuethrich(), new ExtendedThuermerAndWuethrich(), new ChenAndWu(), new ExtendedChenAndWu(), new Rusinkiewicz(),  
@@ -66,6 +64,12 @@ namespace TriMM {
 
         /// <value>Gets the global window icon.</value>
         public static ImageSource Image { get { return image; } }
+
+        /// <value>Gets or sets the path to the current file.</value>
+        public static string CurrentPath { get { return currentPath; } set { currentPath = value; } }
+
+        /// <value>Gets or sets the format of the current file.</value>
+        public static int CurrentFormat { get { return currentFormat; } set { currentFormat = value; } }
 
         /// <value>Gets the array of Vertex normal algorithms.</value>
         public static IVertexNormalAlgorithm[] VertexNormalAlgorithms { get { return vertexNormalAlgorithms; } }

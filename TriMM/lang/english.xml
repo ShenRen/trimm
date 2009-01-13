@@ -152,11 +152,12 @@
     <Edge>Edge</Edge>
     <Triangle>Triangle</Triangle>
     <FileMenuItem Text="File"/>
-    <OpenMenuItem Text="Open" ToolTip="Load a TriangleMesh from a file (.OBJ, .OFF, .PLY, .STL)."/>
-    <SaveMenuItem Text="Save As" ToolTip="Save the TriangleMesh to a file (.OBJ, .OFF, .PLY, .STL)."/>
-    <CloseMenuItem Text="Close" ToolTip="Close the current file, keeping the settings."/>
-    <ExitMenuItem Text="Exit" ToolTip="Exit TriMM."/>
-    <ViewMenuItem Text="View" ToolTip="Show the visualization of the TriangleMesh."/>
+    <OpenMenuItem Text="Open" ToolTip="Loads a TriangleMesh from a file (.OBJ, .OFF, .PLY, .STL)."/>
+    <SaveMenuItem Text="Save" ToolTip="Saves the TriangleMesh to the current file."/>
+    <SaveAsMenuItem Text="Save As" ToolTip="Saves the TriangleMesh to a file (.OBJ, .OFF, .PLY, .STL)."/>
+    <CloseMenuItem Text="Close" ToolTip="Closes the current file, keeping the settings."/>
+    <ExitMenuItem Text="Exit" ToolTip="Exits TriMM."/>
+    <ViewMenuItem Text="View" ToolTip="Shows the visualization of the TriangleMesh."/>
     <SettingsMenuItem Text="Settings" ToolTip="Change the settings for TriMM."/>
     <HelpMenuItem Text="Help"/>
     <InfoMenuItem Text="Info" ToolTip="Copyright, Version and License information."/>

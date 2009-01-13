@@ -39,6 +39,7 @@ namespace TriMM {
         /// <param name="file">The *.OFF file to be parsed.</param>
         public static void Parse(StreamReader file) {
             TriMMApp.Mesh = new TriangleMesh();
+            TriMMApp.CurrentFormat = 0;
 
             // Temporary variables.
             Vertex vertex;

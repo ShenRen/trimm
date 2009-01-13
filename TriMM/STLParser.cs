@@ -46,6 +46,78 @@ namespace TriMM {
         }
 
         /// <summary>
+        /// Parse STL-ASCII-Format.
+        /// </summary>
+        /// <param name="file">Stream to parse</param>
+        private static void ParseASCII(StreamReader file) {
+            TriMMApp.CurrentFormat = 1;
+            String input = null;
+            int count = 0;
+
+            // The numbers in the file must have the decimal separator ".".
+            NumberFormatInfo nFI = new NumberFormatInfo();
+            nFI.NumberDecimalSeparator = ".";
+
+            file.BaseStream.Position = 0;
+            StreamReader sr = new StreamReader(file.BaseStream);
+
+            List<Vector> normals = new List<Vector>(count);
+            List<Vertex[]> triangles = new List<Vertex[]>(count);
+            Vertex[] tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
+
+#if !DEBUG
+            try {
+#endif
+                while ((input = sr.ReadLine()) != null) {
+                    input = input.Trim();
+                    if (count == 4) {
+                        count = 0;
+                        triangles.Add(tmp);
+                        tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
+                    }
+
+                    // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
+                    String[] v = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (v.Length > 0) {
+                        if (v[0].ToLower() == "vertex") {
+                            // Parse string, NumberStyles.Float secures that different formats can be parsed
+                            // such as: "-2.23454e-001" (exponential format)
+                            for (int i = 0; i < 3; i++) { tmp[count - 1][i] = double.Parse(v[i + 1], NumberStyles.Float, nFI); }
+                            if (!TriMMApp.Mesh.Vertices.Contains(tmp[count - 1])) { TriMMApp.Mesh.Vertices.Add(tmp[count - 1]); }
+                            count++;
+                        } else if (v[0].ToLower() == "facet") {
+                            normals.Add(new Vector(double.Parse(v[2], NumberStyles.Float, nFI),
+                                double.Parse(v[3], NumberStyles.Float, nFI), double.Parse(v[4], NumberStyles.Float, nFI)));
+                            count++;
+                        }
+                    }
+                }
+
+                // Adds the Triangles with the given normals to the mesh, calculating their centroid.
+                for (int i = 0; i < normals.Count; i++) {
+                    int ind0 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][0]);
+                    int ind1 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][1]);
+                    int ind2 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][2]);
+                    Vertex centroid = Triangle.GetCentroidOf(triangles[i][0], triangles[i][1], triangles[i][2]);
+                    centroid.Normal = normals[i];
+
+                    Triangle newTriangle = new Triangle(ind0, ind1, ind2);
+                    newTriangle.Centroid = centroid;
+                    TriMMApp.Mesh.Add(newTriangle);
+                }
+#if !DEBUG
+            } catch {
+                MessageBox.Show(TriMMApp.Lang.GetElementsByTagName("STLBrokenFileError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
+            } finally {
+#endif
+                sr.Close();
+#if !DEBUG
+            }
+#endif
+            TriMMApp.Mesh.Finish(false, true);
+        }
+
+        /// <summary>
         /// Parses a binary STL file.
         /// </summary>
         /// <remarks>
@@ -63,6 +135,7 @@ namespace TriMM {
         /// </remarks>
         /// <param name="file">Stream to parse</param>
         private static void ParseBinary(StreamReader file) {
+            TriMMApp.CurrentFormat = 2;
             BinaryReader binReader = new BinaryReader(file.BaseStream);
 
             // Set stream back to zero.
@@ -125,77 +198,6 @@ namespace TriMM {
             }
 #endif
 
-            TriMMApp.Mesh.Finish(false, true);
-        }
-
-        /// <summary>
-        /// Parse STL-ASCII-Format.
-        /// </summary>
-        /// <param name="file">Stream to parse</param>
-        private static void ParseASCII(StreamReader file) {
-            String input = null;
-            int count = 0;
-
-            // The numbers in the file must have the decimal separator ".".
-            NumberFormatInfo nFI = new NumberFormatInfo();
-            nFI.NumberDecimalSeparator = ".";
-
-            file.BaseStream.Position = 0;
-            StreamReader sr = new StreamReader(file.BaseStream);
-
-            List<Vector> normals = new List<Vector>(count);
-            List<Vertex[]> triangles = new List<Vertex[]>(count);
-            Vertex[] tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
-
-#if !DEBUG
-            try {
-#endif
-            while ((input = sr.ReadLine()) != null) {
-                input = input.Trim();
-                if (count == 4) {
-                    count = 0;
-                    triangles.Add(tmp);
-                    tmp = new Vertex[3] { new Vertex(0, 0, 0), new Vertex(0, 0, 0), new Vertex(0, 0, 0) };
-                }
-
-                // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
-                String[] v = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (v.Length > 0) {
-                    if (v[0].ToLower() == "vertex") {
-                        // Parse string, NumberStyles.Float secures that different formats can be parsed
-                        // such as: "-2.23454e-001" (exponential format)
-                        for (int i = 0; i < 3; i++) { tmp[count - 1][i] = double.Parse(v[i + 1], NumberStyles.Float, nFI); }
-                        if (!TriMMApp.Mesh.Vertices.Contains(tmp[count - 1])) { TriMMApp.Mesh.Vertices.Add(tmp[count - 1]); }
-                        count++;
-                    } else if (v[0].ToLower() == "facet") {
-                        normals.Add(new Vector(double.Parse(v[2], NumberStyles.Float, nFI),
-                            double.Parse(v[3], NumberStyles.Float, nFI), double.Parse(v[4], NumberStyles.Float, nFI)));
-                        count++;
-                    }
-                }
-            }
-
-            // Adds the Triangles with the given normals to the mesh, calculating their centroid.
-            for (int i = 0; i < normals.Count; i++) {
-                int ind0 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][0]);
-                int ind1 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][1]);
-                int ind2 = TriMMApp.Mesh.Vertices.IndexOf(triangles[i][2]);
-                Vertex centroid = Triangle.GetCentroidOf(triangles[i][0], triangles[i][1], triangles[i][2]);
-                centroid.Normal = normals[i];
-
-                Triangle newTriangle = new Triangle(ind0, ind1, ind2);
-                newTriangle.Centroid = centroid;
-                TriMMApp.Mesh.Add(newTriangle);
-            }
-#if !DEBUG
-            } catch {
-                MessageBox.Show(TriMMApp.Lang.GetElementsByTagName("STLBrokenFileError")[0].InnerText, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
-            } finally {
-#endif
-            sr.Close();
-#if !DEBUG
-            }
-#endif
             TriMMApp.Mesh.Finish(false, true);
         }
 
