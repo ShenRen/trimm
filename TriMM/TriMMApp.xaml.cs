@@ -87,7 +87,7 @@ namespace TriMM {
         public TriMMApp() {
             this.InitializeComponent();
 
-            settings = new Settings("default.set");
+            settings = new Settings();
 
             Icon icon = TriMM.Properties.Resources.LogoKlein;
             MemoryStream iconStream = new MemoryStream();

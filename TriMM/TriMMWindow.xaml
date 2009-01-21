@@ -34,6 +34,8 @@
             <MenuItem x:Uid="viewMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ViewMenuItem/@Text}" Name="viewMenuItem" Visibility="Collapsed" Click="ViewMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ViewMenuItem/@ToolTip}" TabIndex="2" />
             <MenuItem x:Uid="settingsMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SettingsMenuItem/@Text}" Name="settingsMenuItem" Click="SettingsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SettingsMenuItem/@ToolTip}" TabIndex="3" />
             <MenuItem x:Uid="helpMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/HelpMenuItem/@Text}" Name="helpMenuItem" TabIndex="4">
+                <MenuItem Name="manualMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ManualMenuItem/@Text}" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ManualMenuItem/@ToolTip}" Click="ManualMenuItem_Click" />
+                <Separator />
                 <MenuItem x:Uid="infoMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/InfoMenuItem/@Text}" Name="infoMenuItem" Click="InfoMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/InfoMenuItem/@ToolTip}" />
             </MenuItem>
         </Menu>

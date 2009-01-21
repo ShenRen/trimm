@@ -1,7 +1,7 @@
 # Settings for TriMM, the TriangleMesh Manipulator
 BACKC 0 0 0
 TEXTC 1 1 1
-PLAINC 0 0.8 0.8
+SOLIDC 0 0.8 0.8
 MESHC 0.5 0.5 0.5
 VERTEXC 0.8 0.8 0
 TNC 0.8 0 0.8

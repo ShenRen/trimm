@@ -160,6 +160,7 @@
     <ViewMenuItem Text="View" ToolTip="Shows the visualization of the TriangleMesh."/>
     <SettingsMenuItem Text="Settings" ToolTip="Change the settings for TriMM."/>
     <HelpMenuItem Text="Help"/>
+    <ManualMenuItem Text="Manual" ToolTip="Opens the manual for TriMM."/>
     <InfoMenuItem Text="Info" ToolTip="Copyright, Version and License information."/>
     <MeshInformationHeader Text="Mesh Information"/>
     <VerticesLabel Text="Vertices:"/>

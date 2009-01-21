@@ -26,6 +26,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 using System.ComponentModel;
 using TriMM.VertexNormalAlgorithms;
 
@@ -317,9 +318,11 @@ namespace TriMM {
         private void CloseFile(object sender, RoutedEventArgs e) {
             if (setWin != null) { setWin.Close(); }
             if (view != null) { view.Close(); }
-            saveMenuItem.Visibility = saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = 
+            saveMenuItem.Visibility = saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility =
                  meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Collapsed;
             normalComboBox.SelectedIndex = 0;
+            xNumericUpDown.Value = yNumericUpDown.Value = zNumericUpDown.Value = distanceNumericUpDown.Value =
+                e1NumericUpDown.Value = e2NumericUpDown.Value = aNumericUpDown.Value = bNumericUpDown.Value = cNumericUpDown.Value = 0;
             TriMMApp.Mesh = null;
             TriMMApp.CurrentFormat = -1;
             TriMMApp.CurrentPath = "";
@@ -383,7 +386,8 @@ namespace TriMM {
             } else {
                 setWin.Top = this.Top + this.ActualHeight;
                 setWin.Left = 0;
-                setWin.Focus(); }
+                setWin.Focus();
+            }
         }
 
         /// <summary>
@@ -392,9 +396,39 @@ namespace TriMM {
         /// </summary>
         /// <param name="sender">SettingsWindow</param>
         /// <param name="e">Standard EventArgs</param>
-        void SetWin_Closed(object sender, EventArgs e) {
+        private void SetWin_Closed(object sender, EventArgs e) {
             setWin.Closed -= SetWin_Closed;
             setWin = null;
+        }
+
+        /// <summary>
+        /// Opens the manual.
+        /// </summary>
+        /// <param name="sender">manualMenuItem</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void ManualMenuItem_Click(object sender, RoutedEventArgs e) {
+            Process manual = new Process();
+
+            List<string> manuals = new List<string>();
+            DirectoryInfo di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "doc");
+            FileInfo[] files = di.GetFiles("*.pdf");
+            for (int i = 0; i < files.Length; i++) { manuals.Add(files[i].Name.Substring(0, files[i].Name.IndexOf(".pdf"))); }
+
+#if !DEBUG
+            try {
+#endif
+                if (manuals.Contains(TriMMApp.Settings.Language)) {
+                    manual.StartInfo.FileName = "doc/" + TriMMApp.Settings.Language + ".pdf";
+                } else {
+                    manual.StartInfo.FileName = "doc/english.pdf";
+                }
+                
+                manual.Start();
+#if !DEBUG
+            } catch (Exception ex) {
+                System.Windows.MessageBox.Show(ex.Message, TriMMApp.Lang.GetElementsByTagName("ErrorTitle")[0].InnerText, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+#endif
         }
 
         /// <summary>

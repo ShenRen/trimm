@@ -160,6 +160,7 @@
     <ViewMenuItem Text="Ansicht" ToolTip="Zeigt eine Visualisierung des Dreiecksnetzes."/>
     <SettingsMenuItem Text="Einstellungen" ToolTip="Hier k&#246;nnen die Einstellungen f&#252;r TriMM ver&#228;ndert werden."/>
     <HelpMenuItem Text="Hilfe"/>
+    <ManualMenuItem Text="Handbuch" ToolTip="&#214;ffnet das Handbuch zu TriMM."/>
     <InfoMenuItem Text="Info" ToolTip="Copyright, Version und Lizenz Informationen."/>
     <MeshInformationHeader Text="Netz-Informationen"/>
     <VerticesLabel Text="Knoten:"/>
