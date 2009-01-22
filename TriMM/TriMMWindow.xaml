@@ -24,6 +24,7 @@
     <StackPanel Name="stackPanel1">
         <Menu x:Uid="menu" Height="Auto" Name="menu" Visibility="Visible">
             <MenuItem x:Uid="fileMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FileMenuItem/@Text}" Name="fileMenuItem" TabIndex="1" IsTabStop="False">
+                <MenuItem Name="newMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/NewMenuItem/@Text}" Click="NewMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/NewMenuItem/@ToolTip}"/>
                 <MenuItem x:Uid="openMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@Text}" Name="openMenuItem" Click="OpenMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@ToolTip}" />
                 <MenuItem Name="saveMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@Text}" Visibility="Collapsed" Click="SaveMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@ToolTip}" />
                 <MenuItem x:Uid="saveAsMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveAsMenuItem/@Text}" Name="saveAsMenuItem" Visibility="Collapsed" Click="SaveAsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveAsMenuItem/@ToolTip}" />
@@ -166,6 +167,15 @@
                     <Button x:Uid="subdivideTriangleButton" Name="subdivideTriangleButton" TabIndex="34" Click="SubdivideTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideTriangleButton/@Text}" />
                     <Button x:Uid="removeTriangleButton" Name="removeTriangleButton" TabIndex="35" Click="RemoveTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveTriangleButton/@Text}" />
                     <Button x:Uid="addTriangleButton" Name="addTriangleButton" TabIndex="36" Click="AddTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddTriangleButton/@Text}" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Name="meshesTabItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshesTab/@Text}" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="37" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshesTab/@ToolTip}">
+                <StackPanel Name="stackPanel13">
+                    <Button Name="createCubeButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateCubeButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateCubeButton/@Text}" Click="CreateCubeButton_Click" />
+                    <Button Name="createEllipsoidButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateEllipsoidButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateEllipsoidButton/@Text}" Click="CreateEllipsoidButton_Click" />
+                    <Button Name="createIcosahedronButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateIcosahedronButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateIcosahedronButton/@Text}" Click="CreateIcosahedronButton_Click" />
+                    <Button Name="createMushroomButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateMushroomButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateMushroomButton/@Text}" Click="CreateMushroomButton_Click" />
+                    <Button Name="createFunctionButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateFunctionButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateFunctionButton/@Text}" Click="CreateFunctionButton_Click" />
                 </StackPanel>
             </TabItem>
         </TabControl>

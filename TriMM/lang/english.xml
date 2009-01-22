@@ -152,6 +152,7 @@
     <Edge>Edge</Edge>
     <Triangle>Triangle</Triangle>
     <FileMenuItem Text="File"/>
+    <NewMenuItem Text="New" ToolTip="Creates a new empty triangle mesh."/>
     <OpenMenuItem Text="Open" ToolTip="Loads a TriangleMesh from a file (.OBJ, .OFF, .PLY, .STL)."/>
     <SaveMenuItem Text="Save" ToolTip="Saves the TriangleMesh to the current file."/>
     <SaveAsMenuItem Text="Save As" ToolTip="Saves the TriangleMesh to a file (.OBJ, .OFF, .PLY, .STL)."/>
@@ -200,6 +201,12 @@
     <SubdivideTriangleButton Text="Subdivide Selected Triangle" ToolTip="Subdivides the Triangle pdetermined by the Vertex-indices selected above by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
     <RemoveTriangleButton Text="Remove selected Triangle" ToolTip="Removes the Triangle determined by the Vertex-indices selected above."/>
     <AddTriangleButton Text="Add selected Triangle" ToolTip="Adds the Triangle determined by the Vertex-indices selected above."/>
+    <MeshesTab Text="Mesh" ToolTip="Creation of a new mesh."/>
+    <CreateCubeButton Text="Cube" ToolTip="Creates a new TriangleMesh representing a cube."/>
+    <CreateEllipsoidButton Text="Ellipsoid" ToolTip="Creates a new TriangleMesh representing an ellipsoid."/>
+    <CreateIcosahedronButton Text="Icosahedron" ToolTip="Creates a new TriangleMesh representing an icosahedron."/>
+    <CreateMushroomButton Text="Mushroom" ToolTip="Creates a TriangleMesh looking like a strange mushroom."/>
+    <CreateFunctionButton Text="2D-Function Surface" ToolTip="Creates a new TriangleMesh representing a surface given by a function of x and y."/>
   </TriMMWindow>
   <Vector>
     <DotProductError>The vectors need to be of equal length for the dot product!</DotProductError>

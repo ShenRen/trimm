@@ -126,8 +126,15 @@ namespace TriMM {
         /// <value>
         /// Gets the length of the shortest Edge in this TriangleMesh.
         /// The Edges are sorted by length, so the first Edge always belongs to the set of shortest Edges.
+        /// Returns a default value of one, if there are no Edges.
         /// </value>
-        public double MinEdgeLength { get { return edges.Values[0].Length; } }
+        public double MinEdgeLength {
+            get {
+                if (edges.Count > 0) {
+                    return edges.Values[0].Length;
+                } else { return 1; }
+            }
+        }
 
         /// <value>Gets the scale used for drawing.</value>
         public float Scale { get { return scale; } }
@@ -357,7 +364,7 @@ namespace TriMM {
             if (edges.Count != 0) {
                 if ((oldMinLength != edges.Values[0].Length) && (MinEdgeLengthChanged != null)) { MinEdgeLengthChanged(edges.Values[0].Length); }
             } else {
-                MinEdgeLengthChanged(0);
+                if (MinEdgeLengthChanged != null) { MinEdgeLengthChanged(0); }
             }
 
             // The center is calculated.
@@ -759,6 +766,60 @@ namespace TriMM {
             stream.Position = 0;
             object clone = formatter.Deserialize(stream);
             return clone as TriangleMesh;
+        }
+
+        #endregion
+
+        #region Static
+
+        /// <summary>
+        /// Unites two TriangleMeshes making sure the Vertices remain unique.
+        /// </summary>
+        /// <param name="one">The first TriangleMesh</param>
+        /// <param name="two">The second TriangleMesh</param>
+        /// <returns>The united TriangleMesh</returns>
+        public static TriangleMesh Union(TriangleMesh one, TriangleMesh two) {
+            TriangleMesh union = new TriangleMesh();
+            TriangleMesh big;
+            TriangleMesh small;
+
+            if (one.Vertices.Count >= two.Vertices.Count) {
+                big = one;
+                small = two;
+            } else {
+                big = two;
+                small = one;
+            }
+
+            // The bigger TriangleMesh is part of the union.
+            union.Vertices.AddRange(big.Vertices.ToArray());
+            union.AddRange(big.ToArray());
+            List<Triangle> temp = new List<Triangle>(small.ToArray());
+
+            // The Vertices of the smaller TriangleMesh are included in the union.
+            for (int i = 0; i < small.Vertices.Count; i++) {
+                Vertex vertex = small.Vertices[i];
+
+                // The indices of the Vertices in the Triangles of the smaller TriangleMesh
+                // are set to the corresponding indices in the union.
+                int index = big.Vertices.IndexOf(vertex);
+                if (index == -1) {
+                    union.Vertices.Add(vertex.Copy().ToVertex());
+                    for (int j = 0; j < vertex.Triangles.Count; j++) {
+                        temp[vertex.Triangles[j]].Replace(i, union.Vertices.Count - 1);
+                    }
+                } else {
+                    for (int j = 0; j < vertex.Triangles.Count; j++) {
+                        temp[vertex.Triangles[j]].Replace(i, index);
+                    }
+                }
+            }
+
+            // The Triangles of the smaller TriangleMesh are included in the union.
+            for (int k = 0; k < temp.Count; k++) { union.Add(new Triangle(temp[k][0], temp[k][1], temp[k][2])); }
+
+            union.Finish(true, true);
+            return union;
         }
 
         #endregion

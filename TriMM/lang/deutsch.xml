@@ -152,6 +152,7 @@
     <Edge>Kante</Edge>
     <Triangle>Dreieck</Triangle>
     <FileMenuItem Text="Datei"/>
+    <NewMenuItem Text="Neu" ToolTip="Erzeugt ein neues leeres Dreiecksnetz."/>
     <OpenMenuItem Text="&#214;ffnen" ToolTip="L&#228;dt ein Dreiecksnetz aus einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
     <SaveMenuItem Text="Speichern" ToolTip="Speichert das Dreiecksnetz in der aktuellen Datei."/>
     <SaveAsMenuItem Text="Speichern unter" ToolTip="Speichert ein Dreiecksnetz in einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
@@ -200,6 +201,12 @@
     <SubdivideTriangleButton Text="Unterteile ausgew&#228;hltes Dreieck" ToolTip="Unterteilt das,durch die Knotenindizes oben, ausgew&#228;hlte Dreieck durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
     <RemoveTriangleButton Text="Entferne ausgew&#228;hltes Dreieck" ToolTip="Entfernt das durch die Knotenindizes oben gegebene Dreieck."/>
     <AddTriangleButton Text="F&#252;ge Dreieck hinzu" ToolTip="F&#252;gt das durch die Knotenindizes oben gegebene Dreieck hinzu."/>
+    <MeshesTab Text="Netz" ToolTip="Erzeugung eines neuen Netzes."/>
+    <CreateCubeButton Text="W&#252;rfel" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines W&#252;rfels."/>
+    <CreateEllipsoidButton Text="Ellipsoid" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines Ellipsoids."/>
+    <CreateIcosahedronButton Text="Ikosaeder" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines Ikosaeders."/>
+    <CreateMushroomButton Text="Pilz" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines merkw&#252;rdigen Pilzes."/>
+    <CreateFunctionButton Text="2D-Funktion" ToolTip="Erzeugt ein neues Dreiecksnetz das durch eine Funktion in x und y beschrieben wird."/>
   </TriMMWindow>
   <Vector>
     <DotProductError>Die Vektoren m&#252;ssen f&#252;r das Skalarprodukt die selbe L&#228;nge haben!</DotProductError>

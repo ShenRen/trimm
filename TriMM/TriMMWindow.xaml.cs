@@ -215,6 +215,21 @@ namespace TriMM {
         #region Menu
 
         /// <summary>
+        /// Creates a new empty TriangleMesh.
+        /// </summary>
+        /// <param name="sender">newMenuItem</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void NewMenuItem_Click(object sender, RoutedEventArgs e) {
+            CloseFile(sender, e);
+
+            TriMMApp.Mesh = new TriangleMesh();
+            TriMMApp.Mesh.Finish(false, false);
+
+            InitializeControl();
+            saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
         /// Closes a previously opened file and shows the dialog to open a new one.
         /// </summary>
         /// <param name="sender">openMenuItem</param>
@@ -302,6 +317,9 @@ namespace TriMM {
                     } else if (sfd.FilterIndex == 5) {
                         ObjParser.WriteOBJ(sfd.FileName);
                     }
+                    TriMMApp.CurrentPath = sfd.FileName;
+                    TriMMApp.CurrentFormat = sfd.FilterIndex - 1;
+                    saveMenuItem.Visibility = Visibility.Visible;
                 }
 #if !DEBUG
             } catch (Exception exception) {
@@ -321,6 +339,8 @@ namespace TriMM {
             saveMenuItem.Visibility = saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility =
                  meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Collapsed;
             normalComboBox.SelectedIndex = 0;
+            e1NumericUpDown.Minimum = e2NumericUpDown.Minimum = aNumericUpDown.Minimum = bNumericUpDown.Minimum = cNumericUpDown.Minimum = 0;
+            e1NumericUpDown.Maximum = e2NumericUpDown.Maximum = aNumericUpDown.Maximum = bNumericUpDown.Maximum = cNumericUpDown.Maximum = 0;
             xNumericUpDown.Value = yNumericUpDown.Value = zNumericUpDown.Value = distanceNumericUpDown.Value =
                 e1NumericUpDown.Value = e2NumericUpDown.Value = aNumericUpDown.Value = bNumericUpDown.Value = cNumericUpDown.Value = 0;
             TriMMApp.Mesh = null;
@@ -1038,6 +1058,31 @@ namespace TriMM {
                     timer.Enabled = true;
                 }
             }
+        }
+
+        #endregion
+
+        #region Mesh
+
+
+        private void CreateCubeButton_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void CreateEllipsoidButton_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void CreateIcosahedronButton_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void CreateMushroomButton_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void CreateFunctionButton_Click(object sender, RoutedEventArgs e) {
+
         }
 
         #endregion
