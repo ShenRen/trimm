@@ -16,11 +16,11 @@
     with this program. If not, see <http://www.gnu.org/licenses/>.
     
     For more information and contact details look at TriMMs website: http://trimm.sourceforge.net/-->
-<Application x:Uid="TriMM" x:Class="TriMM.TriMMApp"
+<Application x:Class="TriMM.TriMMApp"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     StartupUri="TriMMWindow.xaml" x:Name="TriMM">
     <Application.Resources>
-        <XmlDataProvider x:Key="Lang" Source="/lang/english.xml" XPath="TriMM"/>
+        <XmlDataProvider x:Key="Lang" Source="/lang\english.xml" XPath="TriMM"/>
     </Application.Resources>
 </Application>

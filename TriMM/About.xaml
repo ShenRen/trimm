@@ -16,19 +16,19 @@
     with this program. If not, see <http://www.gnu.org/licenses/>.
     
     For more information and contact details look at TriMMs website: http://trimm.sourceforge.net/-->
-    <Window x:Uid="About" x:Class="TriMM.About"
+    <Window x:Class="TriMM.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="{Binding Source={StaticResource Lang}, XPath=About/Title/@Text}" Width="Auto" ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" WindowStartupLocation="CenterScreen" Background="GhostWhite" Uid="About" SizeToContent="WidthAndHeight">
+    Title="{Binding Source={StaticResource Lang}, XPath=About/Title/@Text}" Width="Auto" ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" WindowStartupLocation="CenterScreen" Background="GhostWhite" SizeToContent="WidthAndHeight">
     <StackPanel Name="stackPanel1">
-        <Label x:Uid="programmLabel" Height="Auto" Name="programmLabel" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" Content="{Binding Source={StaticResource Lang}, XPath=About/ProgramLabel/@Text}" />
+        <Label Height="Auto" Name="programmLabel" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" Content="{Binding Source={StaticResource Lang}, XPath=About/ProgramLabel/@Text}" />
         <Rectangle Height="6" Name="rectangle3" StrokeThickness="0" Visibility="Hidden" />
-        <Label x:Uid="versionLabel" Height="Auto" Name="versionLabel" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="12">Label</Label>
+        <Label Height="Auto" Name="versionLabel" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="12">Label</Label>
         <Rectangle Height="6" Name="rectangle1" StrokeThickness="0" Visibility="Hidden" />
-        <Label x:Uid="authorLabel" Height="Auto" Name="authorLabel" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Label</Label>
+        <Label Height="Auto" Name="authorLabel" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Label</Label>
         <Rectangle Height="6" Name="rectangle2" StrokeThickness="0" Visibility="Hidden" />
-        <DockPanel x:Uid="dockPanel1" Name="dockPanel1" Background="White" Height="200">
-            <FlowDocumentScrollViewer x:Uid="licenseViewer" BorderBrush="Black" BorderThickness="1" Name="licenseViewer" Background="White" Foreground="Black" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto"></FlowDocumentScrollViewer>
+        <DockPanel Name="dockPanel1" Background="White" Height="200">
+            <FlowDocumentScrollViewer BorderBrush="Black" BorderThickness="1" Name="licenseViewer" Background="White" Foreground="Black" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto"></FlowDocumentScrollViewer>
         </DockPanel>
     </StackPanel>
 </Window>

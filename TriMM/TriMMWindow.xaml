@@ -16,101 +16,101 @@
     with this program. If not, see <http://www.gnu.org/licenses/>.
     
     For more information and contact details look at TriMMs website: http://trimm.sourceforge.net/-->
-<Window x:Uid="TriMMWindow" x:Class="TriMM.TriMMWindow"
+<Window x:Class="TriMM.TriMMWindow"
     xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="TriMM" WindowStyle="ThreeDBorderWindow" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" Visibility="Visible" Top="0" Left="0" Closing="Window_Closing" Uid="TriMMWindow">
+    Title="TriMM" WindowStyle="ThreeDBorderWindow" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" Visibility="Visible" Top="0" Left="0" Closing="Window_Closing">
     <StackPanel Name="stackPanel1">
-        <Menu x:Uid="menu" Height="Auto" Name="menu" Visibility="Visible">
-            <MenuItem x:Uid="fileMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FileMenuItem/@Text}" Name="fileMenuItem" TabIndex="1" IsTabStop="False">
+        <Menu Height="Auto" Name="menu" Visibility="Visible">
+            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FileMenuItem/@Text}" Name="fileMenuItem" TabIndex="1" IsTabStop="False">
                 <MenuItem Name="newMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/NewMenuItem/@Text}" Click="NewMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/NewMenuItem/@ToolTip}"/>
-                <MenuItem x:Uid="openMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@Text}" Name="openMenuItem" Click="OpenMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@ToolTip}" />
+                <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@Text}" Name="openMenuItem" Click="OpenMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@ToolTip}" />
                 <MenuItem Name="saveMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@Text}" Visibility="Collapsed" Click="SaveMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveMenuItem/@ToolTip}" />
-                <MenuItem x:Uid="saveAsMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveAsMenuItem/@Text}" Name="saveAsMenuItem" Visibility="Collapsed" Click="SaveAsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveAsMenuItem/@ToolTip}" />
-                <MenuItem x:Uid="closeMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CloseMenuItem/@Text}" Name="closeMenuItem" Visibility="Collapsed" Click="CloseFile" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CloseMenuItem/@ToolTip}" />
-                <Separator x:Uid="Separator_1" Foreground="Black" />
-                <MenuItem x:Uid="exitMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ExitMenuItem/@Text}" Name="exitMenuItem" Click="ExitMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ExitMenuItem/@ToolTip}" />
+                <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveAsMenuItem/@Text}" Name="saveAsMenuItem" Visibility="Collapsed" Click="SaveAsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SaveAsMenuItem/@ToolTip}" />
+                <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CloseMenuItem/@Text}" Name="closeMenuItem" Visibility="Collapsed" Click="CloseFile" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CloseMenuItem/@ToolTip}" />
+                <Separator Foreground="Black" />
+                <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ExitMenuItem/@Text}" Name="exitMenuItem" Click="ExitMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ExitMenuItem/@ToolTip}" />
             </MenuItem>
-            <MenuItem x:Uid="viewMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ViewMenuItem/@Text}" Name="viewMenuItem" Visibility="Collapsed" Click="ViewMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ViewMenuItem/@ToolTip}" TabIndex="2" />
-            <MenuItem x:Uid="settingsMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SettingsMenuItem/@Text}" Name="settingsMenuItem" Click="SettingsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SettingsMenuItem/@ToolTip}" TabIndex="3" />
-            <MenuItem x:Uid="helpMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/HelpMenuItem/@Text}" Name="helpMenuItem" TabIndex="4">
-                <MenuItem Name="manualMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ManualMenuItem/@Text}" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ManualMenuItem/@ToolTip}" Click="ManualMenuItem_Click" />
+            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ViewMenuItem/@Text}" Name="viewMenuItem" Visibility="Collapsed" Click="ViewMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ViewMenuItem/@ToolTip}" TabIndex="2" />
+            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SettingsMenuItem/@Text}" Name="settingsMenuItem" Click="SettingsMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SettingsMenuItem/@ToolTip}" TabIndex="3" />
+            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/HelpMenuItem/@Text}" Name="helpMenuItem" TabIndex="4">
+                <MenuItem Name="manualMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ManualMenuItem/@Text}" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ManualMenuItem/@ToolTip}" Click="ManualMenuItem_Click" IsEnabled="False" />
                 <Separator />
-                <MenuItem x:Uid="infoMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/InfoMenuItem/@Text}" Name="infoMenuItem" Click="InfoMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/InfoMenuItem/@ToolTip}" />
+                <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/InfoMenuItem/@Text}" Name="infoMenuItem" Click="InfoMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/InfoMenuItem/@ToolTip}" />
             </MenuItem>
         </Menu>
         <DockPanel Name="dockPanel1">
-            <Label x:Uid="normalAlgorithmLabel" Name="normalAlgorithmLabel" Content="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmLabel/@Text}" HorizontalContentAlignment="Stretch" />
+            <Label Name="normalAlgorithmLabel" Content="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmLabel/@Text}" HorizontalContentAlignment="Stretch" />
             <Rectangle Name="rectangle1" StrokeThickness="0" Visibility="Hidden" Width="6" />
-            <ComboBox x:Uid="normalComboBox" Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmComboBox/@ToolTip}" MinWidth="100" DockPanel.Dock="Right" TabIndex="5" />
+            <ComboBox Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmComboBox/@ToolTip}" MinWidth="100" DockPanel.Dock="Right" TabIndex="5" />
         </DockPanel>
         <Rectangle Name="rectangle2" StrokeThickness="0" Visibility="Hidden" Height="6" />
-        <GroupBox x:Uid="meshGroupBox" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshInformationHeader/@Text}" Name="meshGroupBox" Visibility="Collapsed">
+        <GroupBox Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshInformationHeader/@Text}" Name="meshGroupBox" Visibility="Collapsed">
             <DockPanel Name="dockPanel2">
                 <StackPanel Name="stackPanel2">
-                    <Label x:Uid="verticesLabel" Name="verticesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesLabel/@Text}" />
-                    <Label x:Uid="edgesLabel" Name="edgesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesLabel/@Text}" />
-                    <Label x:Uid="trianglesLabel" Name="trianglesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesLabel/@Text}" />
+                    <Label Name="verticesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesLabel/@Text}" />
+                    <Label Name="edgesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesLabel/@Text}" />
+                    <Label Name="trianglesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesLabel/@Text}" />
                 </StackPanel>
                 <StackPanel Name="stackPanel3">
                     <DockPanel Name="dockPanel3">
                         <Label Name="spaceLabel1" Visibility="Hidden">I</Label>
-                        <TextBox x:Uid="verticesTextBox" Name="verticesTextBox" IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Background="Transparent" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTextBox/@ToolTip}" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
+                        <TextBox Name="verticesTextBox" IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Background="Transparent" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTextBox/@ToolTip}" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
                     </DockPanel>
                     <DockPanel Name="dockPanel4">
                         <Label Name="spaceLabel2" Visibility="Hidden">I</Label>
-                        <TextBox x:Uid="edgesTextBox" IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Name="edgesTextBox" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesTextBox/@ToolTip}" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
+                        <TextBox IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Name="edgesTextBox" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesTextBox/@ToolTip}" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
                     </DockPanel>
                     <DockPanel Name="dockPanel5">
                         <Label Name="spaceLabel3" Visibility="Hidden">I</Label>
-                        <TextBox x:Uid="trianglesTextBox" IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Name="trianglesTextBox" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesTextBox/@ToolTip}" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
+                        <TextBox IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Name="trianglesTextBox" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesTextBox/@ToolTip}" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
                     </DockPanel>
                 </StackPanel>
             </DockPanel>
         </GroupBox>
-        <TabControl x:Uid="manipulationTabControl" Name="manipulationTabControl" Visibility="Collapsed" VerticalContentAlignment="Top">
-            <TabItem x:Uid="verticesTabItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTab/@Text}" Name="verticesTabItem" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="6" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTab/@ToolTip}">
+        <TabControl Name="manipulationTabControl" Visibility="Collapsed" VerticalContentAlignment="Top">
+            <TabItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTab/@Text}" Name="verticesTabItem" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="6" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTab/@ToolTip}">
                 <StackPanel Name="stackPanel4">
                     <DockPanel Name="dockPanel6">
                         <StackPanel Name="stackPanel5">
-                            <Label x:Uid="xLabel" Name="xLabel" ClipToBounds="False" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/XLabel/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/XLabel/@Text}" />
-                            <Label x:Uid="yLabel" Name="yLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/YLabel/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/YLabel/@Text}" />
-                            <Label x:Uid="zLabel" Name="zLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ZLabel/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ZLabel/@Text}" />
+                            <Label Name="xLabel" ClipToBounds="False" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/XLabel/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/XLabel/@Text}" />
+                            <Label Name="yLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/YLabel/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/YLabel/@Text}" />
+                            <Label Name="zLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ZLabel/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ZLabel/@Text}" />
                         </StackPanel>
                         <StackPanel Name="stackPanel6">
                             <DockPanel Name="dockPanel7">
                                 <Label Name="spaceLabel4" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost x:Uid="xWFHost" Name="xWFHost" TabIndex="7" />
+                                <WindowsFormsHost Name="xWFHost" TabIndex="7" />
                             </DockPanel>
                             <DockPanel Name="dockPanel8">
                                 <Label Name="spaceLabel5" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost x:Uid="yWFHost" Name="yWFHost" TabIndex="8" />
+                                <WindowsFormsHost Name="yWFHost" TabIndex="8" />
                             </DockPanel>
                             <DockPanel Name="dockPanel9">
                                 <Label Name="spaceLabel6" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost x:Uid="zWFHost" Name="zWFHost" TabIndex="9" />
+                                <WindowsFormsHost Name="zWFHost" TabIndex="9" />
                             </DockPanel>
                         </StackPanel>
                     </DockPanel>
                     <Rectangle Name="rectangle3" StrokeThickness="0" Visibility="Hidden" Height="6" />
-                    <Button x:Uid="removeSinglesButton" Name="removeSinglesButton" TabIndex="10" Click="RemoveSinglesButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSinglesButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSinglesButton/@Text}" />
-                    <Button x:Uid="removeDoubleVertButton" Name="removeDoubleVertButton" TabIndex="11" Click="RemoveDoubleVertButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleVertButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleVertButton/@Text}" />
-                    <Button x:Uid="remove2NVerticesButton" Name="remove2NVerticesButton" TabIndex="12" Click="Remove2NVerticesButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/Remove2NVerticesButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/Remove2NVerticesButton/@Text}" />
-                    <Button x:Uid="removeSelectedButton" Name="removeSelectedButton" Click="RemoveSelectedButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSelectedButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSelectedButton/@Text}" TabIndex="13" />
-                    <Button x:Uid="addVertexButton" Name="addVertexButton" TabIndex="14" Click="AddVertexButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddVertexButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddVertexButton/@Text}" />
-                    <Button x:Uid="moveObservedButton" Name="moveObservedButton" TabIndex="15" Click="MoveObservedButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MoveObservedButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MoveObservedButton/@Text}" />
-                    <Button x:Uid="transposeVertexButton" Name="transposeVertexButton" TabIndex="16" Click="TransposeVertexButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TransposeVertexButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TransposeVertexButton/@Text}" />
-                    <Button x:Uid="moveAlongNormalButton" Name="moveAlongNormalButton" TabIndex="17" Click="MoveAlongNormalButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MoveAlongNormalButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MoveAlongNormalButton/@Text}" />
+                    <Button Name="removeSinglesButton" TabIndex="10" Click="RemoveSinglesButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSinglesButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSinglesButton/@Text}" />
+                    <Button Name="removeDoubleVertButton" TabIndex="11" Click="RemoveDoubleVertButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleVertButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleVertButton/@Text}" />
+                    <Button Name="remove2NVerticesButton" TabIndex="12" Click="Remove2NVerticesButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/Remove2NVerticesButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/Remove2NVerticesButton/@Text}" />
+                    <Button Name="removeSelectedButton" Click="RemoveSelectedButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSelectedButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSelectedButton/@Text}" TabIndex="13" />
+                    <Button Name="addVertexButton" TabIndex="14" Click="AddVertexButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddVertexButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddVertexButton/@Text}" />
+                    <Button Name="moveObservedButton" TabIndex="15" Click="MoveObservedButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MoveObservedButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MoveObservedButton/@Text}" />
+                    <Button Name="transposeVertexButton" TabIndex="16" Click="TransposeVertexButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TransposeVertexButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TransposeVertexButton/@Text}" />
+                    <Button Name="moveAlongNormalButton" TabIndex="17" Click="MoveAlongNormalButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MoveAlongNormalButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MoveAlongNormalButton/@Text}" />
                     <Rectangle Name="rectangle4" StrokeThickness="0" Visibility="Hidden" Height="6" />
                     <DockPanel Name="dockPanel10">
-                        <Label x:Uid="distanceLabel" Name="distanceLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/DistanceLabel/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/DistanceLabel/@Text}" />
+                        <Label Name="distanceLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/DistanceLabel/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/DistanceLabel/@Text}" />
                         <Label Name="spaceLabel7" Visibility="Hidden">I</Label>
-                        <WindowsFormsHost x:Uid="distanceWFHost" Name="distanceWFHost" TabIndex="18" />
+                        <WindowsFormsHost Name="distanceWFHost" TabIndex="18" />
                     </DockPanel>
                 </StackPanel>
             </TabItem>
-            <TabItem x:Uid="edgesTabItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesTab/@Text}" Name="edgesTabItem" HorizontalContentAlignment="Stretch" HorizontalAlignment="Center" TabIndex="19" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesTab/@ToolTip}">
+            <TabItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesTab/@Text}" Name="edgesTabItem" HorizontalContentAlignment="Stretch" HorizontalAlignment="Center" TabIndex="19" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesTab/@ToolTip}">
                 <StackPanel Name="stackPanel7">
                     <DockPanel Name="dockPanel15">
                         <StackPanel Name="stackPanel11">
@@ -120,22 +120,22 @@
                         <StackPanel Name="stackPanel12">
                             <DockPanel Name="dockPanel16">
                                 <Label Name="label7" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost x:Uid="e1WFHost" Name="e1WFHost" TabIndex="20" MinWidth="70" />
+                                <WindowsFormsHost Name="e1WFHost" TabIndex="20" MinWidth="70" />
                             </DockPanel>
                             <DockPanel Name="dockPanel17">
                                 <Label Name="label8" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost x:Uid="e2WFHost" Name="e2WFHost" TabIndex="21" MinWidth="70" />
+                                <WindowsFormsHost Name="e2WFHost" TabIndex="21" MinWidth="70" />
                             </DockPanel>
                             <DockPanel Name="dockPanel18"></DockPanel>
                         </StackPanel>
                     </DockPanel>
                     <Rectangle Height="6" Name="rectangle6" StrokeThickness="0" Visibility="Hidden" />
-                    <Button x:Uid="flipEdgeButton" Name="flipEdgeButton" VerticalAlignment="Stretch" TabIndex="22" Click="FlipEdgeButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipEdgeButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipEdgeButton/@Text}" />
-                    <Button x:Uid="subdivideEdgeButton" Name="subdivideEdgeButton" VerticalAlignment="Stretch" TabIndex="23" Click="SubdivideEdgeButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideEdgeButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideEdgeButton/@Text}" />
-                    <Button x:Uid="removeEdgeButton" Name="removeEdgeButton" VerticalAlignment="Stretch" TabIndex="24" Click="RemoveEdgeButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveEdgeButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveEdgeButton/@Text}" />
+                    <Button Name="flipEdgeButton" VerticalAlignment="Stretch" TabIndex="22" Click="FlipEdgeButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipEdgeButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipEdgeButton/@Text}" />
+                    <Button Name="subdivideEdgeButton" VerticalAlignment="Stretch" TabIndex="23" Click="SubdivideEdgeButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideEdgeButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideEdgeButton/@Text}" />
+                    <Button Name="removeEdgeButton" VerticalAlignment="Stretch" TabIndex="24" Click="RemoveEdgeButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveEdgeButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveEdgeButton/@Text}" />
                 </StackPanel>
             </TabItem>
-            <TabItem x:Uid="triangleTabItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesTab/@Text}" Name="triangleTabItem" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="25" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesTab/@ToolTip}">
+            <TabItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesTab/@Text}" Name="triangleTabItem" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="25" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesTab/@ToolTip}">
                 <StackPanel Name="stackPanel8">
                     <DockPanel Name="dockPanel11">
                         <StackPanel Name="stackPanel9">
@@ -146,30 +146,30 @@
                         <StackPanel Name="stackPanel10">
                             <DockPanel Name="dockPanel12">
                                 <Label Name="label4" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost x:Uid="aWFHost" Name="aWFHost" TabIndex="26" MinWidth="70" />
+                                <WindowsFormsHost Name="aWFHost" TabIndex="26" MinWidth="70" />
                             </DockPanel>
                             <DockPanel Name="dockPanel13">
                                 <Label Name="label5" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost x:Uid="bWFHost" Name="bWFHost" TabIndex="27" MinWidth="70" />
+                                <WindowsFormsHost Name="bWFHost" TabIndex="27" MinWidth="70" />
                             </DockPanel>
                             <DockPanel Name="dockPanel14">
                                 <Label Name="label6" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost x:Uid="cWFHost" Name="cWFHost" TabIndex="28" MinWidth="70" />
+                                <WindowsFormsHost Name="cWFHost" TabIndex="28" MinWidth="70" />
                             </DockPanel>
                         </StackPanel>
                     </DockPanel>
                     <Rectangle Height="6" Name="rectangle9" StrokeThickness="0" Visibility="Hidden" />
-                    <Button x:Uid="removeColinButton" Name="removeColinButton" TabIndex="29" Click="RemoveColinButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveColinButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveColinButton/@Text}" />
-                    <Button x:Uid="removeDoubleButton" Name="removeDoubleButton" TabIndex="30" Click="RemoveDoubleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleButton/@Text}" />
-                    <Button x:Uid="flipAllTrianglesButton" Name="flipAllTrianglesButton" TabIndex="31" Click="FlipAllTrianglesButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipAllTrianglesButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipAllTrianglesButton/@Text}" />
-                    <Button x:Uid="flipSelectedTriangleButton" Name="flipSelectedTriangleButton" TabIndex="32" Click="FlipSelectedTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipSelectedTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipSelectedTriangleButton/@Text}" />
-                    <Button x:Uid="subdivideMeshButton" Name="subdivideMeshButton" TabIndex="33" Click="SubdivideMeshButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideMeshButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideMeshButton/@Text}" />
-                    <Button x:Uid="subdivideTriangleButton" Name="subdivideTriangleButton" TabIndex="34" Click="SubdivideTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideTriangleButton/@Text}" />
-                    <Button x:Uid="removeTriangleButton" Name="removeTriangleButton" TabIndex="35" Click="RemoveTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveTriangleButton/@Text}" />
-                    <Button x:Uid="addTriangleButton" Name="addTriangleButton" TabIndex="36" Click="AddTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddTriangleButton/@Text}" />
+                    <Button Name="removeColinButton" TabIndex="29" Click="RemoveColinButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveColinButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveColinButton/@Text}" />
+                    <Button Name="removeDoubleButton" TabIndex="30" Click="RemoveDoubleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleButton/@Text}" />
+                    <Button Name="flipAllTrianglesButton" TabIndex="31" Click="FlipAllTrianglesButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipAllTrianglesButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipAllTrianglesButton/@Text}" />
+                    <Button Name="flipSelectedTriangleButton" TabIndex="32" Click="FlipSelectedTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipSelectedTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipSelectedTriangleButton/@Text}" />
+                    <Button Name="subdivideMeshButton" TabIndex="33" Click="SubdivideMeshButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideMeshButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideMeshButton/@Text}" />
+                    <Button Name="subdivideTriangleButton" TabIndex="34" Click="SubdivideTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideTriangleButton/@Text}" />
+                    <Button Name="removeTriangleButton" TabIndex="35" Click="RemoveTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveTriangleButton/@Text}" />
+                    <Button Name="addTriangleButton" TabIndex="36" Click="AddTriangleButton_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddTriangleButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AddTriangleButton/@Text}" />
                 </StackPanel>
             </TabItem>
-            <TabItem Name="meshesTabItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshesTab/@Text}" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="37" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshesTab/@ToolTip}">
+            <TabItem Name="meshesTabItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshesTab/@Text}" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="37" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshesTab/@ToolTip}" IsEnabled="False">
                 <StackPanel Name="stackPanel13">
                     <Button Name="createCubeButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateCubeButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateCubeButton/@Text}" Click="CreateCubeButton_Click" />
                     <Button Name="createEllipsoidButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateEllipsoidButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CreateEllipsoidButton/@Text}" Click="CreateEllipsoidButton_Click" />
