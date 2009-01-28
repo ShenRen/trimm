@@ -19,16 +19,12 @@
 // http://trimm.sourceforge.net/
 
 using System;
-using System.IO;
-using System.Drawing;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media.Imaging;
 using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Windows;
 using System.Windows.Data;
 using System.Xml;
-using System.Threading;
 
 namespace TriMM {
 

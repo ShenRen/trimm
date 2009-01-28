@@ -18,17 +18,18 @@
 // For more information and contact details look at TriMMs website:
 // http://trimm.sourceforge.net/
 
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Win32;
-using System.IO;
-using System.Collections.Generic;
-using System;
 
 namespace TriMM {
+
     /// <summary>
-    /// Interaktionslogik für SettingsWindow.xaml
+    /// A Window to change the programs settings.
     /// </summary>
     public partial class SettingsWindow : Window {
 

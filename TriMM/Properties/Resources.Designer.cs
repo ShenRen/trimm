@@ -95,5 +95,40 @@ namespace TriMM.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap Pi {
+            get {
+                object obj = ResourceManager.GetObject("Pi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tri2 {
+            get {
+                object obj = ResourceManager.GetObject("tri2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tri6 {
+            get {
+                object obj = ResourceManager.GetObject("tri6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tri8 {
+            get {
+                object obj = ResourceManager.GetObject("tri8", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap xroot {
+            get {
+                object obj = ResourceManager.GetObject("xroot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

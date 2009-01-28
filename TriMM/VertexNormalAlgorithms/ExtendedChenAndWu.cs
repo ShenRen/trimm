@@ -44,13 +44,14 @@ namespace TriMM.VertexNormalAlgorithms {
         /// weighted by the inverse of the squared distance between the Vertex and the Centroid of the adjacent Triangle
         /// and the triangle area.
         /// </summary>
-        public void GetVertexNormals() {
-            for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
-                Vertex vertex = TriMMApp.Mesh.Vertices[i];
+        /// <param name="mesh">Reference to the TriangleMesh to calculate the vertex normals for.</param>
+        public void GetVertexNormals(ref TriangleMesh mesh) {
+            for (int i = 0; i < mesh.Vertices.Count; i++) {
+                Vertex vertex = mesh.Vertices[i];
                 vertex.Normal = new Vector(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
-                    Triangle triangle = TriMMApp.Mesh[vertex.Triangles[j]];
+                    Triangle triangle = mesh[vertex.Triangles[j]];
                     vertex.Normal += triangle.Normal * triangle.Area / Vector.SquaredDistance(triangle.Centroid, vertex);
                 }
                 vertex.Normal.Normalize();

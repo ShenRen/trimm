@@ -20,10 +20,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Documents;
-using System.Globalization;
 
 
 namespace TriMM {
@@ -210,7 +210,10 @@ namespace TriMM {
 
             // The TriangleMesh is complete and can be finalized.
             // The Vertex normals are calculated with the chosen algorithm.
-            TriMMApp.Mesh.Finish(true, true);
+            TriMMApp.Mesh.Finish(true);
+            TriangleMesh mesh = TriMMApp.Mesh;
+            TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
+            TriMMApp.Mesh.SetArrays();
         }
 
         /// <summary>

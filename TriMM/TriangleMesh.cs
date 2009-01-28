@@ -19,13 +19,9 @@
 // http://trimm.sourceforge.net/
 
 using System;
-using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Linq;
-using TriMM.VertexNormalAlgorithms;
 
 
 namespace TriMM {
@@ -246,8 +242,7 @@ namespace TriMM {
         /// </summary>
         /// <param name="triNormals">If true, the Triangle normals and the centroid are calculated.
         /// If False, they are not calculated.</param>
-        /// <param name="verNormals">If true, the Vertex normals are calculated with the chosen VertexNormalAlgorithm.</param>
-        public void Finish(bool triNormals, bool verNormals) {
+        public void Finish(bool triNormals) {
             double oldMinLength = 0;
             if (edges.Count != 0) { oldMinLength = edges.Values[0].Length; }
             ClearRelations();
@@ -382,10 +377,6 @@ namespace TriMM {
             vertexColorDist = temp / (vertices.Count + 2);
             edgeColorDist = temp / (edges.Count + 2);
             triangleColorDist = temp / (this.Count + 2);
-
-            if (verNormals) { TriMMApp.VertexNormalAlgorithm.GetVertexNormals(); }
-
-            SetArrays();
         }
 
         #endregion
@@ -664,7 +655,7 @@ namespace TriMM {
         /// <param name="triangle">Index of the Triangle to be flipped.</param>
         public void FlipTriangle(int triangle) {
             this[triangle] = new Triangle(this[triangle][2], this[triangle][1], this[triangle][0]);
-            Finish(true, true);
+            Finish(true);
         }
 
         /// <summary>
@@ -672,7 +663,7 @@ namespace TriMM {
         /// </summary>
         public void FlipAllTriangles() {
             for (int i = 0; i < this.Count; i++) { this[i] = new Triangle(this[i][2], this[i][1], this[i][0]); }
-            Finish(true, true);
+            Finish(true);
         }
 
         /// <summary>
@@ -723,7 +714,7 @@ namespace TriMM {
             this.vertices.Clear();
             this.AddRange(oldTriangles.ToArray());
             this.Vertices.AddRange(oldVertices.ToArray());
-            Finish(true, true);
+            Finish(true);
         }
 
         /// <summary>
@@ -751,7 +742,7 @@ namespace TriMM {
             this.Add(new Triangle(indices[1], indices[3], indices[5]));
             this.Add(new Triangle(indices[3], indices[4], indices[5]));
 
-            this.Finish(true, true);
+            this.Finish(true);
         }
 
         /// <summary>
@@ -818,7 +809,7 @@ namespace TriMM {
             // The Triangles of the smaller TriangleMesh are included in the union.
             for (int k = 0; k < temp.Count; k++) { union.Add(new Triangle(temp[k][0], temp[k][1], temp[k][2])); }
 
-            union.Finish(true, true);
+            union.Finish(true);
             return union;
         }
 

@@ -40,6 +40,8 @@
     <VertexItem Text="Knoten"/>
     <EdgeItem Text="Kanten"/>
     <TriangleItem Text="Dreieck"/>
+    <OKButton Text="OK"/>
+    <CancelButton Text="Abbrechen"/>
   </Global>
   <VertexNormalAlgorithms>
     <AEW>Kantenl&#228;ngengewichtung</AEW>
@@ -61,6 +63,13 @@
     <ProgramLabel Text="TriMM, der Dreiecksnetzmanipulator"/>
     <VersionLabel>Version:</VersionLabel>
   </About>
+  <BoxWindow>
+    <Title Text="Erzeuge eine Box"/>
+    <LengthLabel Text="L&#228;nge:" ToolTip="W&#228;hle die L&#228;nge eines Elementes der Box."/>
+    <WidthElementsLabel Text="Breite:" ToolTip="W&#228;hle die Anzahl an Elementen für die Breite."/>
+    <HeightElementsLabel Text="H&#246;he:" ToolTip="W&#228;hle die Anzahl an Elementen für die H&#246;he."/>
+    <DepthElementsLabel Text="Tiefe:" ToolTip="W&#228;hle die Anzahl an Elementen für die Tiefe."/>
+  </BoxWindow>
   <ObjParser>
     <ObjBrokenFileError>Die OBJ Datei ist besch&#228;digt!</ObjBrokenFileError>
     <ObjHeader># Erstellt mit dem TriMM ObjParser (von Christian Moritz)</ObjHeader>
@@ -152,7 +161,12 @@
     <Edge>Kante</Edge>
     <Triangle>Dreieck</Triangle>
     <FileMenuItem Text="Datei"/>
-    <NewMenuItem Text="Neu" ToolTip="Erzeugt ein neues leeres Dreiecksnetz."/>
+    <NewMenuItem Text="Neu..." ToolTip="Erzeugt ein neues Dreiecksnetz."/>
+    <EmptyMenuItem Text="Leeres Netz" ToolTip="Erzeugt ein neues leeres Dreiecksnetz."/>
+    <BoxMenuItem Text="Box" ToolTip="Erzeugt ein neues Dreiecksnetz in Form einer Box."/>
+    <EllipsoidMenuItem Text="Ellipsoid" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines Ellipsoids."/>
+    <IcosahedronMenuItem Text="Ikosaeder" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines Ikosaeders."/>
+    <FunctionMenuItem Text="2D-Funktion" ToolTip="Erzeugt ein neues Dreiecksnetz das durch eine Funktion in x und y beschrieben wird."/>
     <OpenMenuItem Text="&#214;ffnen" ToolTip="L&#228;dt ein Dreiecksnetz aus einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
     <SaveMenuItem Text="Speichern" ToolTip="Speichert das Dreiecksnetz in der aktuellen Datei."/>
     <SaveAsMenuItem Text="Speichern unter" ToolTip="Speichert ein Dreiecksnetz in einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
@@ -174,15 +188,12 @@
     <XLabel Text="X:" ToolTip="Die X-Koordinate."/>
     <YLabel Text="Y:" ToolTip="Die Y-Koordinate."/>
     <ZLabel Text="Z:" ToolTip="Die Z-Koordinate."/>
-    <RemoveSinglesButton Text="Einzelknoten entfernen" ToolTip="Entfernt Knoten, die nicht zu einem Dreieck geh&#246;ren."/>
-    <RemoveDoubleVertButton Text="Knotenduplikate entfernen" ToolTip="Entfernt Duplikate von Knoten und passt das Netz an."/>
-    <Remove2NVerticesButton Text="Knoten mit 2 Nachbarn entfernen" ToolTip="Entfernt Knoten die nur zwei Nachbarknoten haben."/>
+    <DistanceLabel Text="Abstand:" ToolTip="Der Wert um den der Knoten verschoben werden soll."/>
     <RemoveSelectedButton Text="Ausgew&#228;hlten Knoten entfernen" ToolTip="Entfernt den in durch die Koordinaten oben ausgew&#228;hlten Knoten, falls er existiert."/>
     <AddVertexButton Text="Knoten hinzuf&#252;gen" ToolTip="F&#252;gt den durch die oben angegebenen Koordinaten festgelegten Knoten hinzu."/>
     <MoveObservedButton Text="Verschiebe ausgew&#228;hlten Knoten nach" ToolTip="Verschiebt den ausgew&#228;hlten Knoten zu den oben angegebenen Koordinaten."/>
     <TransposeVertexButton Text="Verschiebe ausgew&#228;hlten Knoten um" ToolTip="Verschiebt den ausgew&#228;hlten Knoten um die oben angegebenen Koordinaten."/>
     <MoveAlongNormalButton Text="Knoten entlang Normalen verschieben" ToolTip="Verschiebt den durch die Koordinaten oben ausgew&#228;hlten Knoten um den unten angegebenen Wert entlang des Normalenvektors."/>
-    <DistanceLabel Text="Abstand:" ToolTip="Der Wert um den der Knoten verschoben werden soll."/>
     <EdgesTab Text="Kanten" ToolTip="Kantenmanipulation"/>
     <E1Label Text="1:" ToolTip="Erster Endpunkt der Kante."/>
     <E2Label Text="2:" ToolTip="Zweiter Endpunkt der Kante."/>
@@ -193,20 +204,22 @@
     <ALabel Text="A:" ToolTip="Erste Ecke des Dreiecks, im Gegenuhrzeigersinn."/>
     <BLabel Text="B:" ToolTip="Zweite Ecke des Dreiecks, im Gegenuhrzeigersinn."/>
     <CLabel Text="C:" ToolTip="Dritte Ecke des Dreiecks, im Gegenuhrzeigersinn."/>
-    <RemoveColinButton Text="Entferne Dreiecke mit kolinearen Knoten" ToolTip="Entfernt alle Dreiecke mit drei kolinearen Knoten."/>
-    <RemoveDoubleButton Text="Dreiecksduplikate entfernen" ToolTip="Entfernt alle Duplikate von Dreiecken, unabh&#228;ngig von der Orientierung."/>
-    <FlipAllTrianglesButton Text="Drehe alle Dreiecke" ToolTip="&#196;ndert die Orientierung, und damit die Richtung der Normalen, aller Dreiecke."/>
     <FlipSelectedTriangleButton Text="Drehe ausgew&#228;hltes Dreieck" ToolTip="&#196;ndert die Orientierung, und damit die Richtung der Normalen, des, durch die Knotenindizes oben, ausgew&#228;hlten Dreiecks."/>
-    <SubdivideMeshButton Text="Unterteile gesamtes Netz" ToolTip="Unterteilt alle Dreiecke durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
     <SubdivideTriangleButton Text="Unterteile ausgew&#228;hltes Dreieck" ToolTip="Unterteilt das,durch die Knotenindizes oben, ausgew&#228;hlte Dreieck durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
     <RemoveTriangleButton Text="Entferne ausgew&#228;hltes Dreieck" ToolTip="Entfernt das durch die Knotenindizes oben gegebene Dreieck."/>
     <AddTriangleButton Text="F&#252;ge Dreieck hinzu" ToolTip="F&#252;gt das durch die Knotenindizes oben gegebene Dreieck hinzu."/>
-    <MeshesTab Text="Netz" ToolTip="Erzeugung eines neuen Netzes."/>
-    <CreateCubeButton Text="W&#252;rfel" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines W&#252;rfels."/>
-    <CreateEllipsoidButton Text="Ellipsoid" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines Ellipsoids."/>
-    <CreateIcosahedronButton Text="Ikosaeder" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines Ikosaeders."/>
-    <CreateMushroomButton Text="Pilz" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines merkw&#252;rdigen Pilzes."/>
-    <CreateFunctionButton Text="2D-Funktion" ToolTip="Erzeugt ein neues Dreiecksnetz das durch eine Funktion in x und y beschrieben wird."/>
+    <MeshesTab Text="Netz" ToolTip="Netzmanipulation"/>
+    <XLabel2 Text="X:" ToolTip="Skalierungsfaktor für die X-Koordinaten."/>
+    <YLabel2 Text="Y:" ToolTip="Skalierungsfaktor für die Y-Koordinaten."/>
+    <ZLabel2 Text="Z:" ToolTip="Skalierungsfaktor für die Z-Koordinaten."/>
+    <ScaleMeshButton Text="Skaliere Netz" ToolTip="Skaliert das gesamte Netz mit den oben gewählten Faktoren."/>
+    <FlipMeshButton Text="Drehe Netz" ToolTip="&#196;ndert die Orientierung, und damit die Richtung der Normalen, aller Dreiecke."/>
+    <SubdivideMeshButton Text="Unterteile Netz" ToolTip="Unterteilt alle Dreiecke durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
+    <RemoveSinglesButton Text="Einzelknoten entfernen" ToolTip="Entfernt Knoten, die nicht zu einem Dreieck geh&#246;ren."/>
+    <RemoveDoubleVertButton Text="Knotenduplikate entfernen" ToolTip="Entfernt Duplikate von Knoten und passt das Netz an."/>
+    <Remove2NVerticesButton Text="Knoten mit 2 Nachbarn entfernen" ToolTip="Entfernt Knoten die nur zwei Nachbarknoten haben."/>
+    <RemoveColinButton Text="Entferne Dreiecke mit kolinearen Knoten" ToolTip="Entfernt alle Dreiecke mit drei kolinearen Knoten."/>
+    <RemoveDoubleButton Text="Dreiecksduplikate entfernen" ToolTip="Entfernt alle Duplikate von Dreiecken, unabh&#228;ngig von der Orientierung."/>
   </TriMMWindow>
   <Vector>
     <DotProductError>Die Vektoren m&#252;ssen f&#252;r das Skalarprodukt die selbe L&#228;nge haben!</DotProductError>

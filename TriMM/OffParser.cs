@@ -19,9 +19,9 @@
 // http://trimm.sourceforge.net/
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Windows;
-using System.Globalization;
 
 namespace TriMM {
 
@@ -139,10 +139,15 @@ namespace TriMM {
             // The TriangleMesh is complete and can be finalized.
             // If there are no Vertex normals in the file, they are calculated with the chosen algorithm.
             if (!vN) {
-                TriMMApp.Mesh.Finish(true, true);
+                TriMMApp.Mesh.Finish(true);
+                TriangleMesh mesh = TriMMApp.Mesh;
+                TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
+
             } else {
-                TriMMApp.Mesh.Finish(true, false);
+                TriMMApp.Mesh.Finish(true);
             }
+
+            TriMMApp.Mesh.SetArrays();
         }
 
         /// <summary>

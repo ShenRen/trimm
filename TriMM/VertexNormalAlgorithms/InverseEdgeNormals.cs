@@ -42,20 +42,21 @@ namespace TriMM.VertexNormalAlgorithms {
         /// Calculates the Vertex normals as an average of the normals of the normals of the adjacent Edges,
         /// that are calculated as the average of the normals of the adjacent Triangles weighted by the inverse of their area.
         /// </summary>
-        public void GetVertexNormals() {
-            for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
-                Vertex vertex = TriMMApp.Mesh.Vertices[i];
+        /// <param name="mesh">Reference to the TriangleMesh to calculate the vertex normals for.</param>
+        public void GetVertexNormals(ref TriangleMesh mesh) {
+            for (int i = 0; i < mesh.Vertices.Count; i++) {
+                Vertex vertex = mesh.Vertices[i];
                 vertex.Normal = new Vector(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
-                    Triangle triangle = TriMMApp.Mesh[vertex.Triangles[j]];
+                    Triangle triangle = mesh[vertex.Triangles[j]];
                     int[] neighbors = triangle.GetNeighborsOf(i);
                     double weight = 1 /
-                        (Vector.Distance(TriMMApp.Mesh.Vertices[i], TriMMApp.Mesh.Vertices[neighbors[0]])
-                        * Triangle.GetAreaOf(vertex, triangle.Centroid, TriMMApp.Mesh.Vertices[neighbors[0]]));
+                        (Vector.Distance(mesh.Vertices[i], mesh.Vertices[neighbors[0]])
+                        * Triangle.GetAreaOf(vertex, triangle.Centroid, mesh.Vertices[neighbors[0]]));
                     weight += 1 /
-                        (Vector.Distance(TriMMApp.Mesh.Vertices[i], TriMMApp.Mesh.Vertices[neighbors[1]])
-                        * Triangle.GetAreaOf(vertex, triangle.Centroid, TriMMApp.Mesh.Vertices[neighbors[1]]));
+                        (Vector.Distance(mesh.Vertices[i], mesh.Vertices[neighbors[1]])
+                        * Triangle.GetAreaOf(vertex, triangle.Centroid, mesh.Vertices[neighbors[1]]));
                     vertex.Normal += weight * triangle.Normal;
                 }
                 vertex.Normal.Normalize();

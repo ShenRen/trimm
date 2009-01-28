@@ -19,12 +19,12 @@
 // http://trimm.sourceforge.net/
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
-using System.Globalization;
 
 namespace TriMM {
     /// <summary>
@@ -114,7 +114,10 @@ namespace TriMM {
 #if !DEBUG
             }
 #endif
-            TriMMApp.Mesh.Finish(false, true);
+            TriMMApp.Mesh.Finish(false);
+            TriangleMesh mesh = TriMMApp.Mesh;
+            TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
+            TriMMApp.Mesh.SetArrays();
         }
 
         /// <summary>
@@ -198,7 +201,10 @@ namespace TriMM {
             }
 #endif
 
-            TriMMApp.Mesh.Finish(false, true);
+            TriMMApp.Mesh.Finish(false);
+            TriangleMesh mesh = TriMMApp.Mesh;
+            TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
+            TriMMApp.Mesh.SetArrays();
         }
 
         /// <summary>

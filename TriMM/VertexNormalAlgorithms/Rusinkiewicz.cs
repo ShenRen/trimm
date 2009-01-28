@@ -43,15 +43,16 @@ namespace TriMM.VertexNormalAlgorithms {
         /// Calculates the Vertex normals as an average of the normals of the adjacent Triangles,
         /// weighted by the area nearest to the Vertex.
         /// </summary>
-        public void GetVertexNormals() {
-            for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
-                Vertex vertex = TriMMApp.Mesh.Vertices[i];
+        /// <param name="mesh">Reference to the TriangleMesh to calculate the vertex normals for.</param>
+        public void GetVertexNormals(ref TriangleMesh mesh) {
+            for (int i = 0; i < mesh.Vertices.Count; i++) {
+                Vertex vertex = mesh.Vertices[i];
                 vertex.Normal = new Vector(0, 0, 0);
 
                 for (int j = 0; j < vertex.Triangles.Count; j++) {
                     int adj = vertex.Triangles[j];
-                    Triangle triangle = TriMMApp.Mesh[adj];
-                    vertex.Normal += triangle.Normal * TriMMApp.Mesh[adj].GetCornerAreaAt(i);
+                    Triangle triangle = mesh[adj];
+                    vertex.Normal += triangle.Normal * mesh[adj].GetCornerAreaAt(i);
                 }
                 vertex.Normal.Normalize();
             }

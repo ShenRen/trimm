@@ -40,6 +40,8 @@
     <VertexItem Text="Vertices"/>
     <EdgeItem Text="Edges"/>
     <TriangleItem Text="Triangles"/>
+    <OKButton Text="OK"/>
+    <CancelButton Text="Cancel"/>
   </Global>
   <VertexNormalAlgorithms>
     <AEW>Adjacent Edges Weights</AEW>
@@ -61,6 +63,13 @@
     <ProgramLabel Text="TriMM, the TriangleMesh Manipulator"/>
     <VersionLabel>Version:</VersionLabel>
   </About>
+  <BoxWindow>
+    <Title Text="Create a Cube"/>
+    <LengthLabel Text="Length:" ToolTip="Choose the length of one element of the box."/>
+    <WidthElementsLabel Text="Width:" ToolTip="Choose the number of elements for the width."/>
+    <HeightElementsLabel Text="Height:" ToolTip="Choose the number of elements for the height."/>
+    <DepthElementsLabel Text="Depth:" ToolTip="Choose the number of elements for the depth."/>
+  </BoxWindow>
   <ObjParser>
     <ObjBrokenFileError>The OBJ file is broken!</ObjBrokenFileError>
     <ObjHeader># Written by the TriMM ObjParser (by Christian Moritz)</ObjHeader>
@@ -152,7 +161,12 @@
     <Edge>Edge</Edge>
     <Triangle>Triangle</Triangle>
     <FileMenuItem Text="File"/>
-    <NewMenuItem Text="New" ToolTip="Creates a new empty triangle mesh."/>
+    <NewMenuItem Text="New..." ToolTip="Creates a new triangle mesh."/>
+    <EmptyMenuItem Text="Empty Mesh" ToolTip="Creates a new empty triangle mesh."/>
+    <BoxMenuItem Text="Box" ToolTip="Creates a new TriangleMesh representing a box."/>
+    <EllipsoidMenuItem Text="Ellipsoid" ToolTip="Creates a new TriangleMesh representing an ellipsoid."/>
+    <IcosahedronMenuItem Text="Icosahedron" ToolTip="Creates a new TriangleMesh representing an icosahedron."/>
+    <FunctionMenuItem Text="2D-Function Surface" ToolTip="Creates a new TriangleMesh representing a surface given by a function of x and y."/>
     <OpenMenuItem Text="Open" ToolTip="Loads a TriangleMesh from a file (.OBJ, .OFF, .PLY, .STL)."/>
     <SaveMenuItem Text="Save" ToolTip="Saves the TriangleMesh to the current file."/>
     <SaveAsMenuItem Text="Save As" ToolTip="Saves the TriangleMesh to a file (.OBJ, .OFF, .PLY, .STL)."/>
@@ -174,15 +188,12 @@
     <XLabel Text="X:" ToolTip="The x-coordinate."/>
     <YLabel Text="Y:" ToolTip="The y-coordinate."/>
     <ZLabel Text="Z:" ToolTip="The z-coordinate."/>
-    <RemoveSinglesButton Text="Remove Single Vertices" ToolTip="Removes all Vertices that do not belong to any Triangle."/>
-    <RemoveDoubleVertButton Text="Remove Double Vertices" ToolTip="Removes duplicates of Vertices and adjusts the Triangles."/>
-    <Remove2NVerticesButton Text="Remove Vertices with 2 Neighbors" ToolTip="Removes Vertices that have only two neighboring Vertices."/>
+    <DistanceLabel Text="Distance:" ToolTip="The distance to move the Vertex."/>
     <RemoveSelectedButton Text="Remove Selected Vertex" ToolTip="Removes the Vertex determined by the coordinates above, if it exists."/>
     <AddVertexButton Text="Add Vertex" ToolTip="Adds the Vertex determined by the coordinates chosen above."/>
     <MoveObservedButton Text="Move Observed Vertex To" ToolTip="Moves the Vertex picked in the visualization to the coordinates chosen above."/>
     <TransposeVertexButton Text="Transpose Observed Vertex By" ToolTip="Moves the Vertex picked in the visualization by adding the coordinates chosen above to it's position."/>
     <MoveAlongNormalButton Text="Move Selected Vertex along Normal" ToolTip="Moves the Vertex determined by the coordinates above, by the value selected below, along its normal vector."/>
-    <DistanceLabel Text="Distance:" ToolTip="The distance to move the Vertex."/>
     <EdgesTab Text="Edges" ToolTip="Edge Manipulation"/>
     <E1Label Text="1:" ToolTip="First Vertex of the Edge."/>
     <E2Label Text="2:" ToolTip="Second Vertex of the Edge."/>
@@ -193,20 +204,22 @@
     <ALabel Text="A:" ToolTip="First corner of the Triangle, in counter-clockwise order."/>
     <BLabel Text="B:" ToolTip="Second corner of the Triangle, in counter-clockwise order."/>
     <CLabel Text="C:" ToolTip="Third corner of the Triangle, in counter-clockwise order."/>
-    <RemoveColinButton Text="Remove Triangles with colinear Vertices" ToolTip="Removes all Triangles that have three colinear Vertices."/>
-    <RemoveDoubleButton Text="Remove Double Triangles" ToolTip="Removes all duplicates of Triangles, irrespectve of orientation."/>
-    <FlipAllTrianglesButton Text="Flip All Triangles" ToolTip="Changes the orientation and thus the direction of the normal vector for all Triangles."/>
     <FlipSelectedTriangleButton Text="Flip Selected Triangle" ToolTip="Changes the orientation and thus the direction of the normal vector for the Triangle determined by the Vertex-indices chosen above."/>
-    <SubdivideMeshButton Text="Subdivide Mesh" ToolTip="Subdivides all Triangles by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
     <SubdivideTriangleButton Text="Subdivide Selected Triangle" ToolTip="Subdivides the Triangle pdetermined by the Vertex-indices selected above by connecting the midege Vertices. 4 new Triangle for every Triangle."/>
     <RemoveTriangleButton Text="Remove selected Triangle" ToolTip="Removes the Triangle determined by the Vertex-indices selected above."/>
     <AddTriangleButton Text="Add selected Triangle" ToolTip="Adds the Triangle determined by the Vertex-indices selected above."/>
-    <MeshesTab Text="Mesh" ToolTip="Creation of a new mesh."/>
-    <CreateCubeButton Text="Cube" ToolTip="Creates a new TriangleMesh representing a cube."/>
-    <CreateEllipsoidButton Text="Ellipsoid" ToolTip="Creates a new TriangleMesh representing an ellipsoid."/>
-    <CreateIcosahedronButton Text="Icosahedron" ToolTip="Creates a new TriangleMesh representing an icosahedron."/>
-    <CreateMushroomButton Text="Mushroom" ToolTip="Creates a TriangleMesh looking like a strange mushroom."/>
-    <CreateFunctionButton Text="2D-Function Surface" ToolTip="Creates a new TriangleMesh representing a surface given by a function of x and y."/>
+    <MeshesTab Text="Mesh" ToolTip="Mesh Manipulation"/>
+    <XLabel2 Text="X:" ToolTip="The scaling factor for the x-coordinates."/>
+    <YLabel2 Text="Y:" ToolTip="The scaling factor for the y-coordinates."/>
+    <ZLabel2 Text="Z:" ToolTip="The scaling factor for the z-coordinates."/>
+    <ScaleMeshButton Text="Scale Mesh" ToolTip="Scales the mesh with the factors selected above."/>
+    <FlipMeshButton Text="Flip Mesh" ToolTip="Changes the orientation and thus the direction of the normal vector for all Triangles."/>
+    <SubdivideMeshButton Text="Subdivide Mesh" ToolTip="Subdivides all Triangles by connecting the midege Vertices. 4 new Triangles for every Triangle."/>
+    <RemoveSinglesButton Text="Remove Single Vertices" ToolTip="Removes all Vertices that do not belong to any Triangle."/>
+    <RemoveDoubleVertButton Text="Remove Double Vertices" ToolTip="Removes duplicates of Vertices and adjusts the Triangles."/>
+    <Remove2NVerticesButton Text="Remove Vertices with 2 Neighbors" ToolTip="Removes Vertices that have only two neighboring Vertices."/>
+    <RemoveColinButton Text="Remove Triangles with colinear Vertices" ToolTip="Removes all Triangles that have three colinear Vertices."/>
+    <RemoveDoubleButton Text="Remove Double Triangles" ToolTip="Removes all duplicates of Triangles, irrespectve of orientation."/>
   </TriMMWindow>
   <Vector>
     <DotProductError>The vectors need to be of equal length for the dot product!</DotProductError>

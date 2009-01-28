@@ -81,6 +81,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="BoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EllipsoidWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FunctionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="IcosahedronWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,6 +121,18 @@
   <ItemGroup>
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BoxWindow.xaml.cs">
+      <DependentUpon>BoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EllipsoidWindow.xaml.cs">
+      <DependentUpon>EllipsoidWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionWindow.xaml.cs">
+      <DependentUpon>FunctionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IcosahedronWindow.xaml.cs">
+      <DependentUpon>IcosahedronWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
@@ -176,6 +204,21 @@
     <Resource Include="lang\deutsch.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tri6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tri8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xroot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tri2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
