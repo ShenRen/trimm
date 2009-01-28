@@ -12,12 +12,12 @@
             </StackPanel>
             <StackPanel Name="stackPanel4" DockPanel.Dock="Right">
                 <StackPanel Name="stackPanel5" Orientation="Horizontal">
-                    <RadioButton Name="radioButton1" VerticalAlignment="Center" IsChecked="True" GroupName="meshType" Checked="RadioButton1_Checked"></RadioButton>
+                    <RadioButton Name="radioButton1" VerticalAlignment="Center" IsChecked="True" GroupName="meshType" Checked="RadioButton1_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=BoxWindow/MeshType/@ToolTip}"/>
                     <Image Name="image1" Stretch="Fill" />
                 </StackPanel>
                 <StackPanel Name="stackPanel6" Orientation="Horizontal">
-                    <RadioButton Name="radioButton2" VerticalAlignment="Center" GroupName="meshType" Checked="RadioButton2_Checked"></RadioButton>
-                    <Image Name="image2" Stretch="Fill" />
+                    <RadioButton Name="radioButton2" VerticalAlignment="Center" GroupName="meshType" Checked="RadioButton2_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=BoxWindow/MeshType/@ToolTip}"/>
+                        <Image Name="image2" Stretch="Fill" />
                 </StackPanel>
             </StackPanel>
             <StackPanel Name="stackPanel3">

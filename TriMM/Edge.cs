@@ -76,11 +76,9 @@ namespace TriMM {
             this.length = length;
             if (a < b) { vertices = new int[2] { a, b }; } else { vertices = new int[2] { b, a }; }
             string one = "0.000000000000";
-            for (int i = 0; i < 7 - vertices[0].ToString().Length; i++) { one += "0"; }
-            one += vertices[0].ToString();
+            one += vertices[0].ToString("D7");
             string two = "0.0000000000000000000";
-            for (int i = 0; i < 7 - vertices[1].ToString().Length; i++) { two += "0"; }
-            two += vertices[1].ToString();
+            two += vertices[1].ToString("D7");
             key = decimal.Round((decimal)length, 12) + decimal.Parse(one) + decimal.Parse(two);
         }
 
@@ -125,15 +123,11 @@ namespace TriMM {
             string one = "0.000000000000";
             string two = "0.0000000000000000000";
             if (a <= b) {
-                for (int i = 0; i < 7 - a.ToString().Length; i++) { one += "0"; }
-                one += a.ToString();
-                for (int i = 0; i < 7 - b.ToString().Length; i++) { two += "0"; }
-                two += b.ToString();
+                one += a.ToString("D7");
+                two += b.ToString("D7");
             } else {
-                for (int i = 0; i < 7 - b.ToString().Length; i++) { one += "0"; }
-                one += b.ToString();
-                for (int i = 0; i < 7 - a.ToString().Length; i++) { two += "0"; }
-                two += a.ToString();
+                one += b.ToString("D7");
+                two += a.ToString("D7");
             }
             return decimal.Round((decimal)length, 12) + decimal.Parse(one) + decimal.Parse(two);
         }

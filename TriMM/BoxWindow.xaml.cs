@@ -116,7 +116,20 @@ namespace TriMM {
                     }
                 }
             } else {
-                bm = new List<Vector>();
+                bm = new List<Vector>((x + 1) * (y + 1));
+                bm.Add(new Vector(-length * x * 0.5, -length * y * 0.5));
+
+                for (int i = 0; i <= y; i++) {
+                    for (int j = 0; j <= x; j++) {
+                        if (i != 0) {
+                            bm.Add(bm[0] + new Vector(j * length, i * length));
+                        } else {
+                            if (j != 0) {
+                                bm.Add(bm[0] + new Vector(j * length, i * length));
+                            }
+                        }
+                    }
+                }
             }
 
             return bm;
@@ -131,7 +144,9 @@ namespace TriMM {
         private TriangleMesh CreateTriangles(TriangleMesh mesh, int steps) {
             int point = 0;
             if (meshType == 0) {
+                steps *= 2;
                 do {
+                    // Creates eight triangles per square.
                     mesh.Add(new Triangle(point, point + 1, point + steps + 2));
                     mesh.Add(new Triangle(point + 1, point + 2, point + steps + 2));
                     mesh.Add(new Triangle(point + 2, point + steps + 3, point + steps + 2));
@@ -144,6 +159,13 @@ namespace TriMM {
                     if (point % (2 * steps + 2) < steps - 2) { point += 2; } else { point += steps + 4; }
                 } while (point <= mesh.Vertices.Count - (5 + 2 * steps));
             } else {
+                do {
+                    // Creates two triangles per square.
+                    mesh.Add(new Triangle(point, point + 1, point + steps + 2));
+                    mesh.Add(new Triangle(point, point + steps + 2, point + steps + 1));
+
+                    if (point % (steps + 1) < steps - 1) { point++; } else { point += 2; }
+                } while (point <= mesh.Vertices.Count - (steps + 3));
             }
 
             mesh.Finish(true);
@@ -159,7 +181,7 @@ namespace TriMM {
             TriangleMesh top = new TriangleMesh();
 
             for (int i = 0; i < bm.Count; i++) { top.Vertices.Add(new Vertex(bm[i][0], bm[i][1], depth * length * 0.5)); }
-            return CreateTriangles(top, 2 * width);
+            return CreateTriangles(top, width);
         }
 
         /// <summary>
@@ -171,7 +193,7 @@ namespace TriMM {
             TriangleMesh bottom = new TriangleMesh();
 
             for (int i = 0; i < bm.Count; i++) { bottom.Vertices.Add(new Vertex(bm[i][0], -bm[i][1], -depth * length * 0.5)); }
-            return CreateTriangles(bottom, 2 * width);
+            return CreateTriangles(bottom, width);
         }
 
         /// <summary>
@@ -182,8 +204,8 @@ namespace TriMM {
         private TriangleMesh CreateLeftMesh(List<Vector> bm) {
             TriangleMesh left = new TriangleMesh();
 
-            for (int i = 0; i < bm.Count; i++) {left.Vertices.Add(new Vertex(-width * length * 0.5, -bm[i][0], bm[i][1])); }
-            return CreateTriangles(left, 2 * height);
+            for (int i = 0; i < bm.Count; i++) { left.Vertices.Add(new Vertex(-width * length * 0.5, -bm[i][0], bm[i][1])); }
+            return CreateTriangles(left, height);
         }
 
         /// <summary>
@@ -195,7 +217,7 @@ namespace TriMM {
             TriangleMesh right = new TriangleMesh();
 
             for (int i = 0; i < bm.Count; i++) { right.Vertices.Add(new Vertex(width * length * 0.5, bm[i][0], bm[i][1])); }
-            return CreateTriangles(right, 2 * height);
+            return CreateTriangles(right, height);
         }
 
         /// <summary>
@@ -207,7 +229,7 @@ namespace TriMM {
             TriangleMesh back = new TriangleMesh();
 
             for (int i = 0; i < bm.Count; i++) { back.Vertices.Add(new Vertex(bm[i][0], -height * length * 0.5, bm[i][1])); }
-            return CreateTriangles(back, 2 * width);
+            return CreateTriangles(back, width);
         }
 
         /// <summary>
@@ -219,7 +241,7 @@ namespace TriMM {
             TriangleMesh front = new TriangleMesh();
 
             for (int i = 0; i < bm.Count; i++) { front.Vertices.Add(new Vertex(-bm[i][0], height * length * 0.5, bm[i][1])); }
-            return CreateTriangles(front, 2 * width);
+            return CreateTriangles(front, width);
         }
 
         #endregion
@@ -294,7 +316,7 @@ namespace TriMM {
         /// </summary>
         /// <param name="sender">radioButton2</param>
         /// <param name="e">Standard RoutedEventArgs</param>
-        private void RadioButton2_Checked(object sender, RoutedEventArgs e) { meshType = 0; }
+        private void RadioButton2_Checked(object sender, RoutedEventArgs e) { meshType = 1; }
 
         #endregion
 

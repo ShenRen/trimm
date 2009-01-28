@@ -69,6 +69,7 @@
     <WidthElementsLabel Text="Width:" ToolTip="Choose the number of elements for the width."/>
     <HeightElementsLabel Text="Height:" ToolTip="Choose the number of elements for the height."/>
     <DepthElementsLabel Text="Depth:" ToolTip="Choose the number of elements for the depth."/>
+    <MeshType ToolTip="Select the type of base element to create the mesh from."/>
   </BoxWindow>
   <ObjParser>
     <ObjBrokenFileError>The OBJ file is broken!</ObjBrokenFileError>

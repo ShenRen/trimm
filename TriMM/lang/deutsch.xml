@@ -69,6 +69,7 @@
     <WidthElementsLabel Text="Breite:" ToolTip="W&#228;hle die Anzahl an Elementen für die Breite."/>
     <HeightElementsLabel Text="H&#246;he:" ToolTip="W&#228;hle die Anzahl an Elementen für die H&#246;he."/>
     <DepthElementsLabel Text="Tiefe:" ToolTip="W&#228;hle die Anzahl an Elementen für die Tiefe."/>
+    <MeshType ToolTip="W&#228;hle den Typ der Elemente aus denen die Box zusammengesetzt wird."/>
   </BoxWindow>
   <ObjParser>
     <ObjBrokenFileError>Die OBJ Datei ist besch&#228;digt!</ObjBrokenFileError>
