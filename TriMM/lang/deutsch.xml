@@ -42,6 +42,7 @@
     <TriangleItem Text="Dreieck"/>
     <OKButton Text="OK"/>
     <CancelButton Text="Abbrechen"/>
+    <StepsLabel Text="Schritte:" ToolTip="W&#228;hle die Anzahl der Unterteilungsschritte."/>
   </Global>
   <VertexNormalAlgorithms>
     <AEW>Kantenl&#228;ngengewichtung</AEW>
@@ -71,6 +72,18 @@
     <DepthElementsLabel Text="Tiefe:" ToolTip="W&#228;hle die Anzahl an Elementen für die Tiefe."/>
     <MeshType ToolTip="W&#228;hle den Typ der Elemente aus denen die Box zusammengesetzt wird."/>
   </BoxWindow>
+  <IcosahedronWindow>
+    <Title Text="Erzeuge ein Ikosaeder"/>
+    <WidthElementsLabel Text="Breite:" ToolTip="W&#228;hle die Breite des Ikosaeders."/>
+    <HeightElementsLabel Text="H&#246;he:" ToolTip="W&#228;hle die H&#246;he des Ikosaeders."/>
+    <DepthElementsLabel Text="Tiefe:" ToolTip="W&#228;hle die Tiefe des Ikosaeders."/>
+  </IcosahedronWindow>
+  <EllipsoidWindow>
+    <Title Text="Erzeuge ein Ikosaeder"/>
+    <WidthElementsLabel Text="Breite:" ToolTip="W&#228;hle die Breite des Ellipsoids."/>
+    <HeightElementsLabel Text="H&#246;he:" ToolTip="W&#228;hle die H&#246;he des Ellipsoids."/>
+    <DepthElementsLabel Text="Tiefe:" ToolTip="W&#228;hle die Tiefe des Ellipsoids."/>
+  </EllipsoidWindow>
   <ObjParser>
     <ObjBrokenFileError>Die OBJ Datei ist besch&#228;digt!</ObjBrokenFileError>
     <ObjHeader># Erstellt mit dem TriMM ObjParser (von Christian Moritz)</ObjHeader>

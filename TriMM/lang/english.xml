@@ -42,6 +42,7 @@
     <TriangleItem Text="Triangles"/>
     <OKButton Text="OK"/>
     <CancelButton Text="Cancel"/>
+    <StepsLabel Text="Steps:" ToolTip="Choose the number of subdivision steps."/>
   </Global>
   <VertexNormalAlgorithms>
     <AEW>Adjacent Edges Weights</AEW>
@@ -71,6 +72,18 @@
     <DepthElementsLabel Text="Depth:" ToolTip="Choose the number of elements for the depth."/>
     <MeshType ToolTip="Select the type of base element to create the mesh from."/>
   </BoxWindow>
+  <IcosahedronWindow>
+    <Title Text="Create an Icosahedron"/>
+    <WidthElementsLabel Text="Width:" ToolTip="Choose the width of the icosahedron."/>
+    <HeightElementsLabel Text="Height:" ToolTip="Choose the heightof the icosahedron."/>
+    <DepthElementsLabel Text="Depth:" ToolTip="Choose the depthof the icosahedron."/>
+  </IcosahedronWindow>
+  <EllipsoidWindow>
+    <Title Text="Create an Ellipsoid"/>
+    <WidthElementsLabel Text="Width:" ToolTip="Choose the width of the ellipsoid."/>
+    <HeightElementsLabel Text="Height:" ToolTip="Choose the heightof the ellipsoid."/>
+    <DepthElementsLabel Text="Depth:" ToolTip="Choose the depthof the ellipsoid."/>
+  </EllipsoidWindow>
   <ObjParser>
     <ObjBrokenFileError>The OBJ file is broken!</ObjBrokenFileError>
     <ObjHeader># Written by the TriMM ObjParser (by Christian Moritz)</ObjHeader>

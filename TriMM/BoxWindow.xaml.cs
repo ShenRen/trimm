@@ -54,6 +54,7 @@ namespace TriMM {
         /// </summary>
         public BoxWindow() {
             InitializeComponent();
+            this.Icon = TriMMApp.Image;
 
             BitmapSource bitmapSource1 = Imaging.CreateBitmapSourceFromHBitmap(
                     TriMM.Properties.Resources.tri8.GetHbitmap(),
@@ -70,7 +71,6 @@ namespace TriMM {
 
             image2.Source = bitmapSource2;
 
-
             lengthNumericUpDown.DecimalPlaces = 15;
             lengthNumericUpDown.Minimum = 0.00001m;
             lengthNumericUpDown.Maximum = 100000;
@@ -78,14 +78,12 @@ namespace TriMM {
             lengthNumericUpDown.Value = 1;
             lengthNumericUpDown.TextAlign = widthElementsNumericUpDown.TextAlign = heightElementsNumericUpDown.TextAlign = depthElementsNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             widthElementsNumericUpDown.Minimum = heightElementsNumericUpDown.Minimum = depthElementsNumericUpDown.Minimum = 1;
-            widthElementsNumericUpDown.Maximum = heightElementsNumericUpDown.Maximum = depthElementsNumericUpDown.Maximum = 100;
+            widthElementsNumericUpDown.Maximum = heightElementsNumericUpDown.Maximum = depthElementsNumericUpDown.Maximum = 50;
 
             lengthWFHost.Child = lengthNumericUpDown;
             widthElementsWFHost.Child = widthElementsNumericUpDown;
             heightElementsWFHost.Child = heightElementsNumericUpDown;
             depthElementsWFHost.Child = depthElementsNumericUpDown;
-
-            this.Icon = TriMMApp.Image;
         }
 
         #endregion
@@ -309,14 +307,20 @@ namespace TriMM {
         /// </summary>
         /// <param name="sender">radioButton1</param>
         /// <param name="e">Standard RoutedEventArgs</param>
-        private void RadioButton1_Checked(object sender, RoutedEventArgs e) { meshType = 0; }
+        private void RadioButton1_Checked(object sender, RoutedEventArgs e) {
+            meshType = 0;
+            widthElementsNumericUpDown.Maximum = heightElementsNumericUpDown.Maximum = depthElementsNumericUpDown.Maximum = 50;
+        }
 
         /// <summary>
         /// Sets the type of element to be used to the one separating a square into 2 triangles.
         /// </summary>
         /// <param name="sender">radioButton2</param>
         /// <param name="e">Standard RoutedEventArgs</param>
-        private void RadioButton2_Checked(object sender, RoutedEventArgs e) { meshType = 1; }
+        private void RadioButton2_Checked(object sender, RoutedEventArgs e) {
+            meshType = 1;
+            widthElementsNumericUpDown.Maximum = heightElementsNumericUpDown.Maximum = depthElementsNumericUpDown.Maximum = 100;
+        }
 
         #endregion
 

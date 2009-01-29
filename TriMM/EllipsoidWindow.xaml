@@ -1,8 +1,40 @@
 ﻿<Window x:Class="TriMM.EllipsoidWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="EllipsoidWindow" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
+    Title="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/Title/@Text}" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <StackPanel Name="stackPanel1">
+        <DockPanel Name="dockPanel1">
+            <StackPanel Name="stackPanel2">
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/WidthElementsLabel/@Text}" Name="widthElementsLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/WidthElementsLabel/@ToolTip}" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/HeightElementsLabel/@Text}" Name="heightElementsLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/HeightElementsLabel/@ToolTip}" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/DepthElementsLabel/@Text}" Name="depthElementsLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/DepthElementsLabel/@ToolTip}" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/StepsLabel/@Text}" Name="stepsLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/StepsLabel/@ToolTip}" />
+            </StackPanel>
+            <StackPanel Name="stackPanel3">
+                <DockPanel Name="dockPanel2">
+                    <Label Name="label1" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="widthWFHost" />
+                </DockPanel>
+                <DockPanel Name="dockPanel3">
+                    <Label Name="label2" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="heightWFHost" />
+                </DockPanel>
+                <DockPanel Name="dockPanel4">
+                    <Label Name="label3" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="depthWFHost" />
+                </DockPanel>
+                <DockPanel Name="dockPanel5">
+                    <Label Name="label4" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="stepsWFHost" />
+                </DockPanel>
+            </StackPanel>
+        </DockPanel>
+        <Rectangle Height="6" Name="rectangle1" Visibility="Hidden" />
+        <DockPanel Name="dockPanel6">
+            <Button Content="{Binding Source={StaticResource Lang}, XPath=Global/CancelButton/@Text}" DockPanel.Dock="Right" IsCancel="True" Name="cancelButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/CancelButton/@ToolTip}" />
+            <Button Click="OKButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=Global/OKButton/@Text}" DockPanel.Dock="Right" Name="okButton" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/OKButton/@ToolTip}" />
+            <Rectangle Name="rectangle2" Visibility="Hidden" />
+        </DockPanel>
+    </StackPanel>
 </Window>
+

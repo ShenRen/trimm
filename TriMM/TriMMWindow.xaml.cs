@@ -263,24 +263,6 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Creates a new TriangleMesh representing an ellipsoid.
-        /// </summary>
-        /// <param name="sender">ellipsoidMenuItem</param>
-        /// <param name="e">Standard RoutedEventArgs</param>
-        private void EllipsoidMenuItem_Click(object sender, RoutedEventArgs e) {
-            Cursor = System.Windows.Input.Cursors.Wait;
-            CloseFile(sender, e);
-            EllipsoidWindow ew = new EllipsoidWindow();
-            ew.ShowDialog();
-            if (TriMMApp.Mesh != null) {
-                InitializeControl();
-                saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Visible;
-            }
-
-            Cursor = System.Windows.Input.Cursors.Arrow;
-        }
-
-        /// <summary>
         /// Creates a new TriangleMesh representing an icosahedron.
         /// </summary>
         /// <param name="sender">icosahedronMenuItem</param>
@@ -290,6 +272,24 @@ namespace TriMM {
             CloseFile(sender, e);
             IcosahedronWindow iw = new IcosahedronWindow();
             iw.ShowDialog();
+            if (TriMMApp.Mesh != null) {
+                InitializeControl();
+                saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Visible;
+            }
+
+            Cursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        /// <summary>
+        /// Creates a new TriangleMesh representing an ellipsoid.
+        /// </summary>
+        /// <param name="sender">ellipsoidMenuItem</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void EllipsoidMenuItem_Click(object sender, RoutedEventArgs e) {
+            Cursor = System.Windows.Input.Cursors.Wait;
+            CloseFile(sender, e);
+            EllipsoidWindow ew = new EllipsoidWindow();
+            ew.ShowDialog();
             if (TriMMApp.Mesh != null) {
                 InitializeControl();
                 saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility = meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Visible;
@@ -998,10 +998,7 @@ namespace TriMM {
         private void ScaleMeshButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
 
-            for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
-               TriMMApp.Mesh.Vertices[i] = (TriMMApp.Mesh.Vertices[i] * new Vertex((double)xSNumericUpDown.Value, (double)ySNumericUpDown.Value, (double)zSNumericUpDown.Value)).ToVertex();
-            }
-            TriMMApp.Mesh.Finish(true);
+            TriMMApp.Mesh.ScaleMesh(new Vector((double)xSNumericUpDown.Value, (double)ySNumericUpDown.Value, (double)zSNumericUpDown.Value));
             TriangleMesh mesh = TriMMApp.Mesh;
             TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
             TriMMApp.Mesh.SetArrays();

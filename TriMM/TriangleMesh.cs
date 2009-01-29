@@ -667,6 +667,20 @@ namespace TriMM {
         }
 
         /// <summary>
+        /// Scales the TriangleMesh by the given Vector.
+        /// That Vector has to be a 3D-Vector.
+        /// </summary>
+        /// <param name="scale">A 3D-Vector to scale the TriangleMesh by.</param>
+        public void ScaleMesh(Vector scale) {
+            if (scale.Count == 3) {
+                for (int i = 0; i < vertices.Count; i++) {
+                    vertices[i] = (vertices[i] * scale).ToVertex();
+                }
+                Finish(true);
+            }
+        }
+
+        /// <summary>
         /// Subdivides the TriangleMesh given by <paramref name="mesh"/> <paramref name="steps"/> times.
         /// Each Triangle is subdivided into four Triangles using the midedge Vertices.
         /// </summary>

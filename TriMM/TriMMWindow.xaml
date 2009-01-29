@@ -28,8 +28,8 @@
                     <MenuItem Name="emptyMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EmptyMenuItem/@Text}" Click="EmptyMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EmptyMenuItem/@ToolTip}"/>
                     <Separator />
                     <MenuItem Name="boxMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/BoxMenuItem/@Text}" Click="BoxMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/BoxMenuItem/@ToolTip}"/>
+                    <MenuItem Name="icosahedronMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/IcosahedronMenuItem/@Text}" Click="IcosahedronMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/IcosahedronMenuItem/@ToolTip}" />
                     <MenuItem Name="ellipsoidMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EllipsoidMenuItem/@Text}" Click="EllipsoidMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EllipsoidMenuItem/@ToolTip}"/>
-                    <MenuItem Name="icosahedronMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/IcosahedronMenuItem/@Text}" Click="IcosahedronMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/IcosahedronMenuItem/@ToolTip}"/>
                     <MenuItem Name="functionMenuItem" Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FunctionMenuItem/@Text}" Click="FunctionMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FunctionMenuItem/@ToolTip}"/>
                 </MenuItem>
                 <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@Text}" Name="openMenuItem" Click="OpenMenuItem_Click" ToolTip="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/OpenMenuItem/@ToolTip}" />
