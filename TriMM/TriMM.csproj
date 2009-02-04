@@ -93,7 +93,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="IcosahedronWindow.xaml">
+    <Page Include="PolyhedronWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,14 +125,15 @@
     <Compile Include="BoxWindow.xaml.cs">
       <DependentUpon>BoxWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Calculator.cs" />
     <Compile Include="EllipsoidWindow.xaml.cs">
       <DependentUpon>EllipsoidWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="FunctionWindow.xaml.cs">
       <DependentUpon>FunctionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IcosahedronWindow.xaml.cs">
-      <DependentUpon>IcosahedronWindow.xaml</DependentUpon>
+    <Compile Include="PolyhedronWindow.xaml.cs">
+      <DependentUpon>PolyhedronWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>

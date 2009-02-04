@@ -55,8 +55,6 @@ namespace TriMM {
         private TriMMView view;
         private SettingsWindow setWin;
 
-        private Timer timer;
-
         #endregion
 
         #region Constructors
@@ -97,10 +95,6 @@ namespace TriMM {
             normalComboBox.ItemsSource = TriMMApp.VertexNormalAlgorithms;
             normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo;
 
-            timer = new Timer();
-            timer.Interval = 50;
-            timer.Tick += new EventHandler(Timer_Tick);
-
             TriMMApp.Settings.NormalAlgoChanged += new NormalAlgoChangedEventHandler(Settings_NormalAlgoChanged);
             TriMMApp.Settings.LanguageChanged += new LanguageChangedEventHandler(Settings_LanguageChanged);
         }
@@ -122,20 +116,14 @@ namespace TriMM {
             e1NumericUpDown.Maximum = TriMMApp.Mesh.Vertices.Count - 1;
             e2NumericUpDown.Maximum = TriMMApp.Mesh.Vertices.Count - 1;
             if (TriMMApp.Mesh.Vertices.Count > 0) {
-                aNumericUpDown.Minimum = aNumericUpDown.Value = 0;
-                bNumericUpDown.Minimum = bNumericUpDown.Value = 0;
-                cNumericUpDown.Minimum = cNumericUpDown.Value = 0;
+                aNumericUpDown.Value = bNumericUpDown.Value = cNumericUpDown.Value = aNumericUpDown.Minimum = bNumericUpDown.Minimum = cNumericUpDown.Minimum = 0;
             } else {
-                aNumericUpDown.Minimum = aNumericUpDown.Value = -1;
-                bNumericUpDown.Minimum = bNumericUpDown.Value = -1;
-                cNumericUpDown.Minimum = cNumericUpDown.Value = -1;
+                aNumericUpDown.Value = bNumericUpDown.Value = cNumericUpDown.Value = aNumericUpDown.Minimum = bNumericUpDown.Minimum = cNumericUpDown.Minimum = -1;
             }
             if (TriMMApp.Mesh.Edges.Count > 0) {
-                e1NumericUpDown.Minimum = e1NumericUpDown.Value = 0;
-                e2NumericUpDown.Minimum = e2NumericUpDown.Value = 0;
+                e1NumericUpDown.Value = e2NumericUpDown.Value = e1NumericUpDown.Minimum = e2NumericUpDown.Minimum = 0;
             } else {
-                e1NumericUpDown.Minimum = e1NumericUpDown.Value = -1;
-                e2NumericUpDown.Minimum = e2NumericUpDown.Value = -1;
+                e1NumericUpDown.Value = e2NumericUpDown.Value = e1NumericUpDown.Minimum = e2NumericUpDown.Minimum = -1;
             }
 
             verticesTextBox.Text = TriMMApp.Mesh.Vertices.Count.ToString();
@@ -263,14 +251,14 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Creates a new TriangleMesh representing an icosahedron.
+        /// Creates a new TriangleMesh representing a polyhedron
         /// </summary>
-        /// <param name="sender">icosahedronMenuItem</param>
+        /// <param name="sender">polyhedronMenuItem</param>
         /// <param name="e">Standard RoutedEventArgs</param>
-        private void IcosahedronMenuItem_Click(object sender, RoutedEventArgs e) {
+        private void PolyhedronMenuItem_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
             CloseFile(sender, e);
-            IcosahedronWindow iw = new IcosahedronWindow();
+            PolyhedronWindow iw = new PolyhedronWindow();
             iw.ShowDialog();
             if (TriMMApp.Mesh != null) {
                 InitializeControl();
@@ -578,6 +566,7 @@ namespace TriMM {
             ClearObserved();
             if (picked.Count != 0) {
                 TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Edge")[0].InnerText + " " + picked[0] + " = " + TriMMApp.Mesh.Edges.Values[picked[0]].ToString());
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("LengthLabel")[0].InnerText + " " + TriMMApp.Mesh.Edges.Values[picked[0]].Length.ToString());
                 TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh.Edges.Values[picked[0]][0] + " = " + TriMMApp.Mesh.Vertices[TriMMApp.Mesh.Edges.Values[picked[0]][0]].ToString());
                 TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh.Edges.Values[picked[0]][1] + " = " + TriMMApp.Mesh.Vertices[TriMMApp.Mesh.Edges.Values[picked[0]][1]].ToString());
                 TriMMApp.Mesh.ObservedEdge = picked[0];
@@ -649,7 +638,6 @@ namespace TriMM {
                 TriMMApp.Mesh.SetArrays();
                 ClearObserved();
                 Cursor = System.Windows.Input.Cursors.Arrow;
-                timer.Enabled = true;
             }
         }
 
@@ -688,7 +676,6 @@ namespace TriMM {
                 TriMMApp.Mesh.SetArrays();
                 ClearObserved();
                 Cursor = System.Windows.Input.Cursors.Arrow;
-                timer.Enabled = true;
             }
         }
 
@@ -708,7 +695,6 @@ namespace TriMM {
                 TriMMApp.Mesh.SetArrays();
                 ClearObserved();
                 Cursor = System.Windows.Input.Cursors.Arrow;
-                timer.Enabled = true;
             }
         }
 
@@ -731,7 +717,6 @@ namespace TriMM {
                 TriMMApp.Mesh.SetArrays();
                 ClearObserved();
                 Cursor = System.Windows.Input.Cursors.Arrow;
-                timer.Enabled = true;
             }
         }
 
@@ -797,7 +782,6 @@ namespace TriMM {
                         TriMMApp.Mesh.SetArrays();
                         ClearObserved();
                         Cursor = System.Windows.Input.Cursors.Arrow;
-                        timer.Enabled = true;
                     }
                 }
             }
@@ -840,7 +824,6 @@ namespace TriMM {
                     TriMMApp.Mesh.SetArrays();
                     ClearObserved();
                     Cursor = System.Windows.Input.Cursors.Arrow;
-                    timer.Enabled = true;
                 }
             }
         }
@@ -872,7 +855,6 @@ namespace TriMM {
                     TriMMApp.Mesh.SetArrays();
                     ClearObserved();
                     Cursor = System.Windows.Input.Cursors.Arrow;
-                    timer.Enabled = true;
                 }
             }
         }
@@ -901,7 +883,6 @@ namespace TriMM {
                     TriMMApp.Mesh.SetArrays();
                     RefreshControl();
                     Cursor = System.Windows.Input.Cursors.Arrow;
-                    timer.Enabled = true;
                 }
             }
 
@@ -925,7 +906,6 @@ namespace TriMM {
 
                     ClearObserved();
                     Cursor = System.Windows.Input.Cursors.Arrow;
-                    timer.Enabled = true;
                 }
             }
         }
@@ -958,7 +938,6 @@ namespace TriMM {
                 TriMMApp.Mesh.SetArrays();
                 ClearObserved();
                 Cursor = System.Windows.Input.Cursors.Arrow;
-                timer.Enabled = true;
             }
         }
 
@@ -981,7 +960,6 @@ namespace TriMM {
 
                     ClearObserved();
                     Cursor = System.Windows.Input.Cursors.Arrow;
-                    timer.Enabled = true;
                 }
             }
         }
@@ -1006,7 +984,6 @@ namespace TriMM {
             RefreshControl();
 
             Cursor = System.Windows.Input.Cursors.Arrow;
-            timer.Enabled = true;
         }
 
         /// <summary>
@@ -1027,7 +1004,6 @@ namespace TriMM {
             TriMMApp.Mesh.SetArrays();
             RefreshControl();
             Cursor = System.Windows.Input.Cursors.Arrow;
-            timer.Enabled = true;
         }
 
         /// <summary>
@@ -1045,7 +1021,6 @@ namespace TriMM {
 
             ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
-            timer.Enabled = true;
         }
 
         /// <summary>
@@ -1080,7 +1055,6 @@ namespace TriMM {
             TriMMApp.Mesh.SetArrays();
             ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
-            timer.Enabled = true;
         }
 
         /// <summary>
@@ -1139,7 +1113,6 @@ namespace TriMM {
             TriMMApp.Mesh.SetArrays();
             ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
-            timer.Enabled = true;
         }
 
         /// <summary>
@@ -1187,7 +1160,6 @@ namespace TriMM {
             TriMMApp.Mesh.SetArrays();
             ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
-            timer.Enabled = true;
         }
         /// <summary>
         /// Removes Triangles, that are not really Triangles, because they have three colinear Vertices.
@@ -1205,7 +1177,6 @@ namespace TriMM {
             TriMMApp.Mesh.SetArrays();
             ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
-            timer.Enabled = true;
         }
 
         /// <summary>
@@ -1226,22 +1197,11 @@ namespace TriMM {
             TriMMApp.Mesh.SetArrays();
             ClearObserved();
             Cursor = System.Windows.Input.Cursors.Arrow;
-            timer.Enabled = true;
         }
 
         #endregion
 
         #endregion
-
-        /// <summary>
-        /// Stops the Timer and refreshes the TriMMControl.
-        /// </summary>
-        /// <param name="sender">timer</param>
-        /// <param name="e">Standard EventArgs</param>
-        private void Timer_Tick(object sender, EventArgs e) {
-            timer.Enabled = false;
-            TriMMApp.Control.Refresh();
-        }
 
         /// <summary>
         /// When a new VertexNormalAlgorithm is selected the normals are calculated and the TriMMControl is refreshed.

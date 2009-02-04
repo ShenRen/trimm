@@ -22,27 +22,29 @@
     <Culture>de-DE</Culture>
     <ErrorTitle>Fehler!</ErrorTitle>
     <NormalAlgorithmLabel Text="Normalen Algorithmus:"/>
-    <NormalAlgorithmComboBox ToolTip="W&#228;hle den Algorithmus zur Berechnung der Knotennormalen."/>
     <OpenFileTitle>Datei &#214;ffnen</OpenFileTitle>
     <SaveFileTitle>Datei Speichern</SaveFileTitle>
     <Files>Dateien</Files>
-    <SmoothCheckBox Text="Glatt" ToolTip="Das Modell wird unter Verwendung der Knotennormalen gezeichnet."/>
-    <SolidCheckBox Text="Objekt" ToolTip="Die Dreiecke werden als Fl&#228;chen gezeichnet."/>
-    <MeshCheckBox Text="Netz" ToolTip="Die Kanten werden als Linien gezeichnet."/>
-    <VerticesCheckBox Text="Knoten" ToolTip="Die Knoten werden als Punkte gezeichnet."/>
-    <TriangleNormalsCheckBox Text="Dreiecksnormalen" ToolTip="Die Dreiecksnormalen werden als Linien gezeichnet."/>
-    <VertexNormalsCheckBox Text="Knotennormalen" ToolTip="Die Knotennormalen werden als Linien gezeichnet."/>
-    <XAxisCheckBox Text="X-Achse" ToolTip="Die X-Achse wird als Linie gezeichnet."/>
-    <YAxisCheckBox Text="Y-Achse" ToolTip="Die Y-Achse wird als Linie gezeichnet."/>
-    <ZAxisCheckBox Text="Z-Achse" ToolTip="Die Z-Achse wird als Linie gezeichnet."/>
-    <PickingModeComboBox ToolTip="Keine Auswahl, Knoten, Kanten oder Dreiecks Auswahl."/>
+    <SmoothCheckBox Text="Glatt"/>
+    <SolidCheckBox Text="Objekt"/>
+    <MeshCheckBox Text="Netz"/>
+    <VerticesCheckBox Text="Knoten"/>
+    <TriangleNormalsCheckBox Text="Dreiecksnormalen"/>
+    <VertexNormalsCheckBox Text="Knotennormalen"/>
+    <XAxisCheckBox Text="X-Achse"/>
+    <YAxisCheckBox Text="Y-Achse"/>
+    <ZAxisCheckBox Text="Z-Achse"/>
     <NoneItem Text="Keine Auswahl"/>
     <VertexItem Text="Knoten"/>
     <EdgeItem Text="Kanten"/>
     <TriangleItem Text="Dreieck"/>
     <OKButton Text="OK"/>
     <CancelButton Text="Abbrechen"/>
-    <StepsLabel Text="Schritte:" ToolTip="W&#228;hle die Anzahl der Unterteilungsschritte."/>
+    <StepsLabel Text="Schritte:"/>
+    <WidthLabel Text="Breite:"/>
+    <HeightLabel Text="H&#246;he:"/>
+    <DepthLabel Text="Tiefe:"/>
+    <LengthLabel Text="L&#228;nge:">L&#228;nge</LengthLabel>
   </Global>
   <VertexNormalAlgorithms>
     <AEW>Kantenl&#228;ngengewichtung</AEW>
@@ -66,24 +68,17 @@
   </About>
   <BoxWindow>
     <Title Text="Erzeuge eine Box"/>
-    <LengthLabel Text="L&#228;nge:" ToolTip="W&#228;hle die L&#228;nge eines Elementes der Box."/>
-    <WidthElementsLabel Text="Breite:" ToolTip="W&#228;hle die Anzahl an Elementen für die Breite."/>
-    <HeightElementsLabel Text="H&#246;he:" ToolTip="W&#228;hle die Anzahl an Elementen für die H&#246;he."/>
-    <DepthElementsLabel Text="Tiefe:" ToolTip="W&#228;hle die Anzahl an Elementen für die Tiefe."/>
-    <MeshType ToolTip="W&#228;hle den Typ der Elemente aus denen die Box zusammengesetzt wird."/>
   </BoxWindow>
-  <IcosahedronWindow>
-    <Title Text="Erzeuge ein Ikosaeder"/>
-    <WidthElementsLabel Text="Breite:" ToolTip="W&#228;hle die Breite des Ikosaeders."/>
-    <HeightElementsLabel Text="H&#246;he:" ToolTip="W&#228;hle die H&#246;he des Ikosaeders."/>
-    <DepthElementsLabel Text="Tiefe:" ToolTip="W&#228;hle die Tiefe des Ikosaeders."/>
-  </IcosahedronWindow>
   <EllipsoidWindow>
-    <Title Text="Erzeuge ein Ikosaeder"/>
-    <WidthElementsLabel Text="Breite:" ToolTip="W&#228;hle die Breite des Ellipsoids."/>
-    <HeightElementsLabel Text="H&#246;he:" ToolTip="W&#228;hle die H&#246;he des Ellipsoids."/>
-    <DepthElementsLabel Text="Tiefe:" ToolTip="W&#228;hle die Tiefe des Ellipsoids."/>
+    <Title Text="Erzeuge ein Ellipsoid"/>
   </EllipsoidWindow>
+  <FunctionWindow>
+    <Title Text="2D-Funktions-Oberfläche"/>
+    <XWidthLabel Text="X-Breite:"/>
+    <XStepsLabel Text="X-Schritte:"/>
+    <YWidthLabel Text="Y-Breite:"/>
+    <YStepsLabel Text="Y-Schritte:"/>
+  </FunctionWindow>
   <ObjParser>
     <ObjBrokenFileError>Die OBJ Datei ist besch&#228;digt!</ObjBrokenFileError>
     <ObjHeader># Erstellt mit dem TriMM ObjParser (von Christian Moritz)</ObjHeader>
@@ -97,6 +92,14 @@
     <PlyTriangleError>Mindestens eine der Fl&#228;chen ist kein Dreieck!</PlyTriangleError>
     <PlyHeader>comment Erstellt mit dem  TriMM PlyParser (von Christian Moritz)</PlyHeader>
   </PlyParser>
+  <PolyhedronWindow>
+    <Title Text="Erzeuge ein Polyeder"/>
+    <TetrahedronItem Text="Tetraeder"/>
+    <PyramidItem Text="Pyramide"/>
+    <OctahedronItem Text="Oktaeder"/>
+    <DodecahedronItem Text="Dodekaeder"/>
+    <IcosahedronItem Text="Ikosaeder"/>
+  </PolyhedronWindow>
   <Settings>
     <NAError>Nur die Zahlen 0 bis 12 sind f&#252;r die Wahl des Normalenalgorithmus erlaubt!</NAError>
     <PICKError>Die Auswahleinstellung (PICK) darf nur die Werte 0 bis 3 annehmen!</PICKError>
@@ -115,15 +118,13 @@
   <SettingsWindow>
     <Title Text="TriMM Einstellungen"/>
     <SETFilter>Einstellungen</SETFilter>
-    <LoadSettingsMenuItem Text="Laden" ToolTip="L&#228;dt die Einstellungen aus einer .SET Datei."/>
-    <SaveSettingsMenuItem Text="Speichern" ToolTip="Speichert die Einstellungen in einer .SET Datei."/>
-    <ResetAllMenuItem Text="Standard" ToolTip="Setzt alle Einstellungen auf die Standardeinstellungen zur&#252;ck."/>
-    <MakeStandardMenuItem Text="Standard setzen" ToolTip="Akzeptiert die aktuellen Einstellungen als Standardwerte."/>
+    <LoadSettingsMenuItem Text="Laden"/>
+    <SaveSettingsMenuItem Text="Speichern"/>
+    <ResetAllMenuItem Text="Standard"/>
+    <MakeStandardMenuItem Text="Standard setzen"/>
     <LanguageLabel Text="Sprache:"/>
-    <LanguageComboBox ToolTip="W&#228;hle die Sprache f&#252;r TriMM."/>
     <ResetButton Text="Standard"/>
     <ColorsGroupBoxHeader Text="Farben"/>
-    <ColorComboBox ToolTip="W&#228;hle das Element dessen Farbe ge&#228;ndert werden soll."/>
     <BackgroundItem Text="Hintergrund"/>
     <TextItem Text="Text"/>
     <SolidItem Text="Objekt"/>
@@ -137,12 +138,8 @@
     <ObservedVertexItem Text="Ausgew&#228;hlter Knoten"/>
     <ObservedEdgeItem Text="Ausgew&#228;hlte Kante"/>
     <ObservedTriangleItem Text="Ausgew&#228;hltes Dreieck"/>
-    <ColorTextBox ToolTip="Der RGB-Wert der Farbe."/>
-    <ColorButton ToolTip="W&#228;hle eine andere Farbe."/>
-    <ResetColorsButton ToolTip="Setzt die Farben zur&#252;ck auf die Standardwerte."/>
     <DisplayGroupBoxHeader Text="Darstellung"/>
     <PickingModeLabel Text="Auswahlmodus:"/>
-    <ResetDisplayButton ToolTip="Setzt die Anzeigeoptionen zur&#252;ck auf die Standardwerte."/>
   </SettingsWindow>
   <STLParser>
     <STLBrokenFileError>Die STL-Datei ist besch&#228;digt!</STLBrokenFileError>
@@ -159,81 +156,73 @@
   </TriMMControl>
   <TriMMView>
     <Title Text="TriMM Ansicht"/>
-    <ClippingPlaneLabel Text="Clipping Ebene:" ToolTip="Bewegt die Clipping Ebene. 1.1 ist Hinten, -1.1 ist Vorne."/>
+    <ClippingPlaneLabel Text="Clipping Ebene:"/>
     <PickingGroupBoxHeader Text="Auswahl"/>
-    <ObservedLabel Text="Ausgew&#228;hlt" ToolTip="Index des ausgew&#228;hlten Teils (Knoten, Kante, Dreieck). -1 bedeutet, dass nichts ausgew&#228;hlt ist."/>
-    <ClearButton Text="Auswahl l&#246;schen" ToolTip="L&#246;scht die Auswahl."/>
-    <RadiusLabel Text="Radius" ToolTip="Radius der Kugel um den ausgew&#228;hlten Knoten. Der Radius des Zylinders um die ausgew&#228;hlte Kante ist 1/10 dieses Wertes."/>
-    <ScreenshotButton Text="Screenshot" ToolTip="Erstellt einen Screenshot (png, bmp oder jpg) der Szene."/>
-    <ResetViewButton Text="Ansicht zur&#252;cksetzen" ToolTip="Setzt die Kameraposition zur&#252;ck."/>
-    <XScrollBar ToolTip="Bewegt die Kamera horizontal"/>
-    <YScrollBar ToolTip="Bewegt die Kamera vertikal."/>
-    <CenterButton ToolTip="Zentriert die Kamera."/>
+    <ObservedLabel Text="Ausgew&#228;hlt"/>
+    <ClearButton Text="Auswahl l&#246;schen"/>
+    <RadiusLabel Text="Radius"/>
+    <ScreenshotButton Text="Screenshot"/>
+    <ResetViewButton Text="Ansicht zur&#252;cksetzen"/>
   </TriMMView>
   <TriMMWindow>
     <Vertex>Knoten</Vertex>
     <Edge>Kante</Edge>
     <Triangle>Dreieck</Triangle>
+    <Length>Length</Length>
     <FileMenuItem Text="Datei"/>
-    <NewMenuItem Text="Neu..." ToolTip="Erzeugt ein neues Dreiecksnetz."/>
-    <EmptyMenuItem Text="Leeres Netz" ToolTip="Erzeugt ein neues leeres Dreiecksnetz."/>
-    <BoxMenuItem Text="Box" ToolTip="Erzeugt ein neues Dreiecksnetz in Form einer Box."/>
-    <EllipsoidMenuItem Text="Ellipsoid" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines Ellipsoids."/>
-    <IcosahedronMenuItem Text="Ikosaeder" ToolTip="Erzeugt ein neues Dreiecksnetz in Form eines Ikosaeders."/>
-    <FunctionMenuItem Text="2D-Funktion" ToolTip="Erzeugt ein neues Dreiecksnetz das durch eine Funktion in x und y beschrieben wird."/>
-    <OpenMenuItem Text="&#214;ffnen" ToolTip="L&#228;dt ein Dreiecksnetz aus einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
-    <SaveMenuItem Text="Speichern" ToolTip="Speichert das Dreiecksnetz in der aktuellen Datei."/>
-    <SaveAsMenuItem Text="Speichern unter" ToolTip="Speichert ein Dreiecksnetz in einer Datei (.OBJ, .OFF, .PLY, .STL)."/>
-    <CloseMenuItem Text="Schlie&#223;en" ToolTip="Schlie&#223;t die aktuelle Datei."/>
-    <ExitMenuItem Text="Beenden" ToolTip="Beendet TriMM."/>
-    <ViewMenuItem Text="Ansicht" ToolTip="Zeigt eine Visualisierung des Dreiecksnetzes."/>
-    <SettingsMenuItem Text="Einstellungen" ToolTip="Hier k&#246;nnen die Einstellungen f&#252;r TriMM ver&#228;ndert werden."/>
+    <NewMenuItem Text="Neu..."/>
+    <EmptyMenuItem Text="Leeres Netz"/>
+    <BoxMenuItem Text="Box"/>
+    <EllipsoidMenuItem Text="Ellipsoid"/>
+    <PolyhedronMenuItem Text="Polyeder"/>
+    <FunctionMenuItem Text="2D-Funktion" />
+    <OpenMenuItem Text="&#214;ffnen"/>
+    <SaveMenuItem Text="Speichern"/>
+    <SaveAsMenuItem Text="Speichern unter"/>
+    <CloseMenuItem Text="Schlie&#223;en"/>
+    <ExitMenuItem Text="Beenden"/>
+    <ViewMenuItem Text="Ansicht"/>
+    <SettingsMenuItem Text="Einstellungen"/>
     <HelpMenuItem Text="Hilfe"/>
-    <ManualMenuItem Text="Handbuch" ToolTip="&#214;ffnet das Handbuch zu TriMM."/>
-    <InfoMenuItem Text="Info" ToolTip="Copyright, Version und Lizenz Informationen."/>
+    <ManualMenuItem Text="Handbuch"/>
+    <InfoMenuItem Text="Info"/>
     <MeshInformationHeader Text="Netz-Informationen"/>
     <VerticesLabel Text="Knoten:"/>
     <EdgesLabel Text="Kanten:"/>
     <TrianglesLabel Text="Dreiecke:"/>
-    <VerticesTextBox ToolTip="Zeigt die Anzahl an Knoten im Dreiecksnetz."/>
-    <EdgesTextBox ToolTip="Zeigt die Anzahl an Kanten im Dreiecksnetz."/>
-    <TrianglesTextBox ToolTip="Zeigt die Anzahl an Dreiecken im Dreiecksnetz"/>
-    <VerticesTab Text="Knoten" ToolTip="Knotenmanipulation"/>
-    <XLabel Text="X:" ToolTip="Die X-Koordinate."/>
-    <YLabel Text="Y:" ToolTip="Die Y-Koordinate."/>
-    <ZLabel Text="Z:" ToolTip="Die Z-Koordinate."/>
-    <DistanceLabel Text="Abstand:" ToolTip="Der Wert um den der Knoten verschoben werden soll."/>
-    <RemoveSelectedButton Text="Ausgew&#228;hlten Knoten entfernen" ToolTip="Entfernt den in durch die Koordinaten oben ausgew&#228;hlten Knoten, falls er existiert."/>
-    <AddVertexButton Text="Knoten hinzuf&#252;gen" ToolTip="F&#252;gt den durch die oben angegebenen Koordinaten festgelegten Knoten hinzu."/>
-    <MoveObservedButton Text="Verschiebe ausgew&#228;hlten Knoten nach" ToolTip="Verschiebt den ausgew&#228;hlten Knoten zu den oben angegebenen Koordinaten."/>
-    <TransposeVertexButton Text="Verschiebe ausgew&#228;hlten Knoten um" ToolTip="Verschiebt den ausgew&#228;hlten Knoten um die oben angegebenen Koordinaten."/>
-    <MoveAlongNormalButton Text="Knoten entlang Normalen verschieben" ToolTip="Verschiebt den durch die Koordinaten oben ausgew&#228;hlten Knoten um den unten angegebenen Wert entlang des Normalenvektors."/>
-    <EdgesTab Text="Kanten" ToolTip="Kantenmanipulation"/>
-    <E1Label Text="1:" ToolTip="Erster Endpunkt der Kante."/>
-    <E2Label Text="2:" ToolTip="Zweiter Endpunkt der Kante."/>
-    <FlipEdgeButton Text="Ausgew&#228;hlte Kante Flippen" ToolTip="Flippt die, durch die Endknoten oben, ausgew&#228;hlte Kante durch Verbinden der gegen&#252;berliegenden Knoten der inzidenten Dreiecke und Entfernen der alten Kante."/>
-    <SubdivideEdgeButton Text="Ausgew&#228;hlte Kante unterteilen" ToolTip="Unterteilt die, durch die Endknoten oben, ausgew&#228;hlte Kante durch Verbinden des Kantenmittelpunktes mit den gegen&#252;berliegenden Knoten der inzidenten Dreiecke."/>
-    <RemoveEdgeButton Text="Ausgew&#228;hlte Kante entfernen" ToolTip="Entfernt die, durch die Endknoten oben, ausgew&#228;hlte Kante."/>
-    <TrianglesTab Text="Dreiecke" ToolTip="Dreiecksmanipulation"/>
-    <ALabel Text="A:" ToolTip="Erste Ecke des Dreiecks, im Gegenuhrzeigersinn."/>
-    <BLabel Text="B:" ToolTip="Zweite Ecke des Dreiecks, im Gegenuhrzeigersinn."/>
-    <CLabel Text="C:" ToolTip="Dritte Ecke des Dreiecks, im Gegenuhrzeigersinn."/>
-    <FlipSelectedTriangleButton Text="Drehe ausgew&#228;hltes Dreieck" ToolTip="&#196;ndert die Orientierung, und damit die Richtung der Normalen, des, durch die Knotenindizes oben, ausgew&#228;hlten Dreiecks."/>
-    <SubdivideTriangleButton Text="Unterteile ausgew&#228;hltes Dreieck" ToolTip="Unterteilt das,durch die Knotenindizes oben, ausgew&#228;hlte Dreieck durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
-    <RemoveTriangleButton Text="Entferne ausgew&#228;hltes Dreieck" ToolTip="Entfernt das durch die Knotenindizes oben gegebene Dreieck."/>
-    <AddTriangleButton Text="F&#252;ge Dreieck hinzu" ToolTip="F&#252;gt das durch die Knotenindizes oben gegebene Dreieck hinzu."/>
+    <VerticesTab Text="Knoten"/>
+    <XLabel Text="X:"/>
+    <YLabel Text="Y:"/>
+    <ZLabel Text="Z:"/>
+    <DistanceLabel Text="Abstand:"/>
+    <RemoveSelectedButton Text="Ausgew&#228;hlten Knoten entfernen"/>
+    <AddVertexButton Text="Knoten hinzuf&#252;gen"/>
+    <MoveObservedButton Text="Verschiebe ausgew&#228;hlten Knoten nach"/>
+    <TransposeVertexButton Text="Verschiebe ausgew&#228;hlten Knoten um"/>
+    <MoveAlongNormalButton Text="Knoten entlang Normalen verschieben"/>
+    <EdgesTab Text="Kanten"/>
+    <E1Label Text="1:"/>
+    <E2Label Text="2:"/>
+    <FlipEdgeButton Text="Ausgew&#228;hlte Kante Flippen"/>
+    <SubdivideEdgeButton Text="Ausgew&#228;hlte Kante unterteilen"/>
+    <RemoveEdgeButton Text="Ausgew&#228;hlte Kante entfernen"/>
+    <TrianglesTab Text="Dreiecke"/>
+    <ALabel Text="A:"/>
+    <BLabel Text="B:"/>
+    <CLabel Text="C:"/>
+    <FlipSelectedTriangleButton Text="Drehe ausgew&#228;hltes Dreieck"/>
+    <SubdivideTriangleButton Text="Unterteile ausgew&#228;hltes Dreieck"/>
+    <RemoveTriangleButton Text="Entferne ausgew&#228;hltes Dreieck"/>
+    <AddTriangleButton Text="F&#252;ge Dreieck hinzu"/>
     <MeshesTab Text="Netz" ToolTip="Netzmanipulation"/>
-    <XLabel2 Text="X:" ToolTip="Skalierungsfaktor für die X-Koordinaten."/>
-    <YLabel2 Text="Y:" ToolTip="Skalierungsfaktor für die Y-Koordinaten."/>
-    <ZLabel2 Text="Z:" ToolTip="Skalierungsfaktor für die Z-Koordinaten."/>
-    <ScaleMeshButton Text="Skaliere Netz" ToolTip="Skaliert das gesamte Netz mit den oben gewählten Faktoren."/>
-    <FlipMeshButton Text="Drehe Netz" ToolTip="&#196;ndert die Orientierung, und damit die Richtung der Normalen, aller Dreiecke."/>
-    <SubdivideMeshButton Text="Unterteile Netz" ToolTip="Unterteilt alle Dreiecke durch Verbinden der Kantenmittelpunkte. Es entstehen 4 neue Dreiecke pro Dreieck."/>
-    <RemoveSinglesButton Text="Einzelknoten entfernen" ToolTip="Entfernt Knoten, die nicht zu einem Dreieck geh&#246;ren."/>
-    <RemoveDoubleVertButton Text="Knotenduplikate entfernen" ToolTip="Entfernt Duplikate von Knoten und passt das Netz an."/>
-    <Remove2NVerticesButton Text="Knoten mit 2 Nachbarn entfernen" ToolTip="Entfernt Knoten die nur zwei Nachbarknoten haben."/>
-    <RemoveColinButton Text="Entferne Dreiecke mit kolinearen Knoten" ToolTip="Entfernt alle Dreiecke mit drei kolinearen Knoten."/>
-    <RemoveDoubleButton Text="Dreiecksduplikate entfernen" ToolTip="Entfernt alle Duplikate von Dreiecken, unabh&#228;ngig von der Orientierung."/>
+    <ScaleMeshButton Text="Skaliere Netz"/>
+    <FlipMeshButton Text="Drehe Netz"/>
+    <SubdivideMeshButton Text="Unterteile Netz"/>
+    <RemoveSinglesButton Text="Einzelknoten entfernen"/>
+    <RemoveDoubleVertButton Text="Knotenduplikate entfernen"/>
+    <Remove2NVerticesButton Text="Knoten mit 2 Nachbarn entfernen"/>
+    <RemoveColinButton Text="Entferne Dreiecke mit kolinearen Knoten"/>
+    <RemoveDoubleButton Text="Dreiecksduplikate entfernen"/>
   </TriMMWindow>
   <Vector>
     <DotProductError>Die Vektoren m&#252;ssen f&#252;r das Skalarprodukt die selbe L&#228;nge haben!</DotProductError>

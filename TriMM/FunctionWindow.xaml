@@ -1,8 +1,54 @@
 ﻿<Window x:Class="TriMM.FunctionWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="FunctionWindow" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
+    Title="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/Title/@Text}" Height="300" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+    <StackPanel Name="stackPanel1">
+        <DockPanel Name="dockPanel1">
+            <Rectangle Name="rectangle1" Width="6" />
+            <StackPanel Name="stackPanel5" Orientation="Horizontal">
+                <RadioButton Checked="RadioButton1_Checked" GroupName="meshType" IsChecked="True" Name="radioButton1" VerticalAlignment="Center" />
+                <Image Name="image1" />
+            </StackPanel>
+            <Rectangle Name="rectangle2" Width="6" />
+            <StackPanel Name="stackPanel6" Orientation="Horizontal">
+                <RadioButton Checked="RadioButton2_Checked" GroupName="meshType" Name="radioButton2" VerticalAlignment="Center" />
+                <Image Name="image2" />
+            </StackPanel>
+            <Rectangle Name="rectangle3" Width="6" />
+            <StackPanel Name="stackPanel2">
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/LengthLabel/@Text}" Name="lengthLabel" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/StepsLabel/@Text}" Name="stepsLabel" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/XWidthLabel/@Text}" Name="xWidthLabel" Visibility="Collapsed" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/XStepsLabel/@Text}" Name="xStepsLabel" Visibility="Collapsed" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/YWidthLabel/@Text}" Name="yWidthLabel" Visibility="Collapsed" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/YStepsLabel/@Text}" Name="yStepsLabel" Visibility="Collapsed" />
+            </StackPanel>
+            <StackPanel Name="stackPanel3">
+                <DockPanel Name="lengthDockPanel">
+                    <Label Name="label2" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="lengthWFHost" />
+                </DockPanel>
+                <DockPanel Name="stepsDockPanel">
+                    <Label Name="label1" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="stepsWFHost" />
+                </DockPanel>
+                <DockPanel Name="xWidthDockPanel" Visibility="Collapsed">
+                    <Label Name="label3" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="xWidthWFHost" />
+                </DockPanel>
+                <DockPanel Name="xStepsDockPanel" Visibility="Collapsed">
+                    <Label Name="label4" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="xStepsWFHost" />
+                </DockPanel>
+                <DockPanel Name="yWidthDockPanel" Visibility="Collapsed">
+                    <Label Name="label5" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="yWidthWFHost" />
+                </DockPanel>
+                <DockPanel Name="yStepsDockPanel" Visibility="Collapsed">
+                    <Label Name="label6" Visibility="Hidden">I</Label>
+                    <WindowsFormsHost Name="yStepsWFHost" />
+                </DockPanel>
+            </StackPanel>
+        </DockPanel>
+    </StackPanel>
 </Window>

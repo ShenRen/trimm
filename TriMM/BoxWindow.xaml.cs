@@ -61,14 +61,13 @@ namespace TriMM {
                     IntPtr.Zero,
                     Int32Rect.Empty,
                     BitmapSizeOptions.FromEmptyOptions());
-
             image1.Source = bitmapSource1;
+
             BitmapSource bitmapSource2 = Imaging.CreateBitmapSourceFromHBitmap(
                     TriMM.Properties.Resources.tri2.GetHbitmap(),
                     IntPtr.Zero,
                     Int32Rect.Empty,
                     BitmapSizeOptions.FromEmptyOptions());
-
             image2.Source = bitmapSource2;
 
             lengthNumericUpDown.DecimalPlaces = 15;

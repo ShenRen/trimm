@@ -30,6 +30,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Interop;
+using System.Windows.Forms;
 
 namespace TriMM {
 
@@ -38,16 +40,81 @@ namespace TriMM {
     /// </summary>
     public partial class FunctionWindow : Window {
 
+        #region Fields
+
+        private NumericUpDown lengthNumericUpDown = new NumericUpDown();
+        private NumericUpDown stepsNumericUpDown = new NumericUpDown();
+        private NumericUpDown xWidthNumericUpDown = new NumericUpDown();
+        private NumericUpDown xStepsNumericUpDown = new NumericUpDown();
+        private NumericUpDown yWidthNumericUpDown = new NumericUpDown();
+        private NumericUpDown yStepsNumericUpDown = new NumericUpDown();
+
+        private int meshType = 0;
+
+        #endregion
+
         #region Constructors
 
         public FunctionWindow() {
             InitializeComponent();
             this.Icon = TriMMApp.Image;
+
+            BitmapSource bitmapSource1 = Imaging.CreateBitmapSourceFromHBitmap(
+                    TriMM.Properties.Resources.tri6.GetHbitmap(),
+                    IntPtr.Zero,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
+            image1.Source = bitmapSource1;
+
+            BitmapSource bitmapSource2 = Imaging.CreateBitmapSourceFromHBitmap(
+                    TriMM.Properties.Resources.tri8.GetHbitmap(),
+                    IntPtr.Zero,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
+            image2.Source = bitmapSource2;
+
+            stepsNumericUpDown.TextAlign = lengthNumericUpDown.TextAlign = xWidthNumericUpDown.TextAlign = xStepsNumericUpDown.TextAlign
+                = yWidthNumericUpDown.TextAlign = yStepsNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            lengthNumericUpDown.Minimum = xWidthNumericUpDown.Minimum = yWidthNumericUpDown.Minimum = 0.001m;
+            lengthNumericUpDown.Maximum = xWidthNumericUpDown.Maximum = yWidthNumericUpDown.Maximum = 1000;
+            lengthNumericUpDown.Increment = xWidthNumericUpDown.Increment = yWidthNumericUpDown.Increment = 0.001m;
+            lengthNumericUpDown.Value = xWidthNumericUpDown.Value = yWidthNumericUpDown.Value = 1;
+            stepsNumericUpDown.Minimum = 0;
+            stepsNumericUpDown.Maximum = 10;
+            xStepsNumericUpDown.Minimum = yStepsNumericUpDown.Minimum = 1;
+            xStepsNumericUpDown.Maximum = yStepsNumericUpDown.Maximum = 100;
+
+            stepsWFHost.Child = stepsNumericUpDown;
+            lengthWFHost.Child = lengthNumericUpDown;
+            xWidthWFHost.Child = xWidthNumericUpDown;
+            xStepsWFHost.Child = xStepsNumericUpDown;
+            yWidthWFHost.Child = yWidthNumericUpDown;
+            yStepsWFHost.Child = yStepsNumericUpDown;
         }
 
         #endregion
 
         #region Event Handling Stuff
+
+        private void RadioButton1_Checked(object sender, RoutedEventArgs e) {
+            meshType = 0;
+            lengthNumericUpDown.Maximum = xWidthNumericUpDown.Maximum = xStepsNumericUpDown.Maximum = 50;
+            if (stepsLabel != null) {
+                stepsLabel.Visibility = stepsDockPanel.Visibility = lengthLabel.Visibility = lengthDockPanel.Visibility = Visibility.Visible;
+                xWidthLabel.Visibility = xWidthDockPanel.Visibility = xStepsLabel.Visibility = xStepsDockPanel.Visibility
+                    = yWidthLabel.Visibility = yWidthDockPanel.Visibility = yStepsLabel.Visibility = yStepsDockPanel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void RadioButton2_Checked(object sender, RoutedEventArgs e) {
+            meshType = 1;
+            lengthNumericUpDown.Maximum = xWidthNumericUpDown.Maximum = xStepsNumericUpDown.Maximum = 100;
+            if (stepsLabel != null) {
+                stepsLabel.Visibility = stepsDockPanel.Visibility = lengthLabel.Visibility = lengthDockPanel.Visibility = Visibility.Collapsed;
+                xWidthLabel.Visibility = xWidthDockPanel.Visibility = xStepsLabel.Visibility = xStepsDockPanel.Visibility
+                    = yWidthLabel.Visibility = yWidthDockPanel.Visibility = yStepsLabel.Visibility = yStepsDockPanel.Visibility = Visibility.Visible;
+            }
+        }
 
         #endregion
     }

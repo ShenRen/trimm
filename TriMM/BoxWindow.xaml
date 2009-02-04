@@ -1,22 +1,22 @@
 ﻿<Window x:Class="TriMM.BoxWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="{Binding Source={StaticResource Lang}, XPath=CubeWindow/Title/@Text}" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" ShowActivated="True">
+    Title="{Binding Source={StaticResource Lang}, XPath=BoxWindow/Title/@Text}" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" ShowActivated="True">
     <StackPanel Name="stackPanel1">
         <DockPanel Name="dockPanel1">
             <StackPanel Name="stackPanel2">
-                <Label Content="{Binding Source={StaticResource Lang}, XPath=BoxWindow/LengthLabel/@Text}" Name="lengthLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=BoxWindow/LengthLabel/@ToolTip}" />
-                <Label Content="{Binding Source={StaticResource Lang}, XPath=BoxWindow/WidthElementsLabel/@Text}" Name="widthElementsLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=BoxWindow/WidthElementsLabel/@ToolTip}" />
-                <Label Content="{Binding Source={StaticResource Lang}, XPath=BoxWindow/HeightElementsLabel/@Text}" Name="heightElementsLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=BoxWindow/HeightElementsLabel/@ToolTip}" />
-                <Label Content="{Binding Source={StaticResource Lang}, XPath=BoxWindow/DepthElementsLabel/@Text}" Name="depthElementsLabel" ToolTip="{Binding Source={StaticResource Lang}, XPath=BoxWindow/DepthElementsLabel/@ToolTip}" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/LengthLabel/@Text}" Name="lengthLabel"/>
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/WidthLabel/@Text}" Name="widthElementsLabel" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/HeightLabel/@Text}" Name="heightElementsLabel" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/DepthLabel/@Text}" Name="depthElementsLabel"/>
             </StackPanel>
             <StackPanel Name="stackPanel4" DockPanel.Dock="Right">
                 <StackPanel Name="stackPanel5" Orientation="Horizontal">
-                    <RadioButton Name="radioButton1" VerticalAlignment="Center" IsChecked="True" GroupName="meshType" Checked="RadioButton1_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=BoxWindow/MeshType/@ToolTip}"/>
+                    <RadioButton Name="radioButton1" VerticalAlignment="Center" IsChecked="True" GroupName="meshType" Checked="RadioButton1_Checked"/>
                     <Image Name="image1" Stretch="Fill" />
                 </StackPanel>
                 <StackPanel Name="stackPanel6" Orientation="Horizontal">
-                    <RadioButton Name="radioButton2" VerticalAlignment="Center" GroupName="meshType" Checked="RadioButton2_Checked" ToolTip="{Binding Source={StaticResource Lang}, XPath=BoxWindow/MeshType/@ToolTip}"/>
+                    <RadioButton Name="radioButton2" VerticalAlignment="Center" GroupName="meshType" Checked="RadioButton2_Checked" />
                         <Image Name="image2" Stretch="Fill" />
                 </StackPanel>
             </StackPanel>
@@ -41,8 +41,8 @@
         </DockPanel>
         <Rectangle Height="6" Name="rectangle1" Visibility="Hidden" />
         <DockPanel Name="dockPanel6">
-            <Button Name="cancelButton" DockPanel.Dock="Right" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/CancelButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=Global/CancelButton/@Text}" IsCancel="True" />
-            <Button Name="okButton" DockPanel.Dock="Right" ToolTip="{Binding Source={StaticResource Lang}, XPath=Global/OKButton/@ToolTip}" Content="{Binding Source={StaticResource Lang}, XPath=Global/OKButton/@Text}" Click="OKButton_Click" />
+            <Button Name="cancelButton" DockPanel.Dock="Right" Content="{Binding Source={StaticResource Lang}, XPath=Global/CancelButton/@Text}" IsCancel="True" />
+            <Button Name="okButton" DockPanel.Dock="Right" Content="{Binding Source={StaticResource Lang}, XPath=Global/OKButton/@Text}" Click="OKButton_Click" />
             <Rectangle Name="rectangle2" Visibility="Hidden" />
         </DockPanel>
     </StackPanel>
