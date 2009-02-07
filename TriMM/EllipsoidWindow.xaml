@@ -1,4 +1,22 @@
-﻿<Window x:Class="TriMM.EllipsoidWindow"
+﻿<!-- Part of TriMM, the TriangleMesh Manipulator.
+
+    Copyright (C) 2008  Christian Moritz
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+    
+    For more information and contact details look at TriMMs website: http://trimm.sourceforge.net/-->
+<Window x:Class="TriMM.EllipsoidWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/Title/@Text}" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
@@ -31,8 +49,10 @@
         </DockPanel>
         <Rectangle Height="6" Name="rectangle1" Visibility="Hidden" />
         <DockPanel Name="dockPanel6">
-            <Button Content="{Binding Source={StaticResource Lang}, XPath=Global/CancelButton/@Text}" DockPanel.Dock="Right" IsCancel="True" Name="cancelButton" />
-            <Button Click="OKButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=Global/OKButton/@Text}" DockPanel.Dock="Right" Name="okButton"  />
+            <UniformGrid Name="uniformGrid1" Columns="2" DockPanel.Dock="Right">
+                <Button Name="okButton" Content="{Binding Source={StaticResource Lang}, XPath=Global/OKButton/@Text}" Click="OKButton_Click" />
+                <Button Name="cancelButton" Content="{Binding Source={StaticResource Lang}, XPath=Global/CancelButton/@Text}" IsCancel="True" />
+            </UniformGrid>
             <Rectangle Name="rectangle2" Visibility="Hidden" />
         </DockPanel>
     </StackPanel>

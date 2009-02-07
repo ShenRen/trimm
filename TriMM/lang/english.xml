@@ -78,6 +78,13 @@
     <XStepsLabel Text="X-Steps:"/>
     <YWidthLabel Text="Y-Width:"/>
     <YStepsLabel Text="Y-Steps:"/>
+    <FunctionLabel Text="Function:"/>
+    <AngleMode Text="Angle Mode"/>
+    <DEG Text="DEG"/>
+    <RAD Text="RAD"/>
+    <GRAD Text="GRAD"/>
+    <EraseButton Text="Erase"/>
+    <Operators Text="Operators"/>
   </FunctionWindow>
   <ObjParser>
     <ObjBrokenFileError>The OBJ file is broken!</ObjBrokenFileError>

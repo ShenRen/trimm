@@ -686,8 +686,8 @@ namespace TriMM {
         /// </summary>
         /// <param name="steps">The number of subdivision steps.</param>
         public void Subdivide(int steps) {
-            List<Triangle> oldTriangles = new List<Triangle>(TriMMApp.Mesh.ToArray());
-            List<Vertex> oldVertices = new List<Vertex>(TriMMApp.Mesh.Vertices.ToArray());
+            List<Triangle> oldTriangles = new List<Triangle>(this.ToArray());
+            List<Vertex> oldVertices = new List<Vertex>(this.Vertices.ToArray());
             List<Triangle> newTriangles = new List<Triangle>(oldTriangles.Count * 4);
             List<Vertex> newVertices = new List<Vertex>();
 

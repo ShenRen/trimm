@@ -78,6 +78,13 @@
     <XStepsLabel Text="X-Schritte:"/>
     <YWidthLabel Text="Y-Breite:"/>
     <YStepsLabel Text="Y-Schritte:"/>
+    <FunctionLabel Text="Funktion:"/>
+    <AngleMode Text="Winkelmodus"/>
+    <DEG Text="DEG"/>
+    <RAD Text="RAD"/>
+    <GRAD Text="GRAD"/>
+    <EraseButton Text="Löschen"/>
+    <Operators Text="Operatoren"/>
   </FunctionWindow>
   <ObjParser>
     <ObjBrokenFileError>Die OBJ Datei ist besch&#228;digt!</ObjBrokenFileError>
