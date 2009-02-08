@@ -36,9 +36,9 @@
             <StackPanel Name="stackPanel2">
                 <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/LengthLabel/@Text}" Name="lengthLabel" />
                 <Label Content="{Binding Source={StaticResource Lang}, XPath=Global/StepsLabel/@Text}" Name="stepsLabel" />
-                <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/XWidthLabel/@Text}" Name="xWidthLabel" Visibility="Collapsed" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/XLengthLabel/@Text}" Name="xLengthLabel" Visibility="Collapsed" />
                 <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/XStepsLabel/@Text}" Name="xStepsLabel" Visibility="Collapsed" />
-                <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/YWidthLabel/@Text}" Name="yWidthLabel" Visibility="Collapsed" />
+                <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/YLengthLabel/@Text}" Name="yLengthLabel" Visibility="Collapsed" />
                 <Label Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/YStepsLabel/@Text}" Name="yStepsLabel" Visibility="Collapsed" />
             </StackPanel>
             <StackPanel Name="stackPanel3">
@@ -50,17 +50,17 @@
                     <Label Name="label1" Visibility="Hidden">I</Label>
                     <WindowsFormsHost Name="stepsWFHost" />
                 </DockPanel>
-                <DockPanel Name="xWidthDockPanel" Visibility="Collapsed">
+                <DockPanel Name="xLengthDockPanel" Visibility="Collapsed">
                     <Label Name="label3" Visibility="Hidden">I</Label>
-                    <WindowsFormsHost Name="xWidthWFHost" />
+                    <WindowsFormsHost Name="xLengthWFHost" />
                 </DockPanel>
                 <DockPanel Name="xStepsDockPanel" Visibility="Collapsed">
                     <Label Name="label4" Visibility="Hidden">I</Label>
                     <WindowsFormsHost Name="xStepsWFHost" />
                 </DockPanel>
-                <DockPanel Name="yWidthDockPanel" Visibility="Collapsed">
+                <DockPanel Name="yLengthDockPanel" Visibility="Collapsed">
                     <Label Name="label5" Visibility="Hidden">I</Label>
-                    <WindowsFormsHost Name="yWidthWFHost" />
+                    <WindowsFormsHost Name="yLengthWFHost" />
                 </DockPanel>
                 <DockPanel Name="yStepsDockPanel" Visibility="Collapsed">
                     <Label Name="label6" Visibility="Hidden">I</Label>
@@ -76,62 +76,61 @@
         </DockPanel>
         <Rectangle Height="6" Name="rectangle5" />
         <GroupBox Header="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/Operators/@Text}"  Name="operatorGroupBox">
-            <UniformGrid Name="uniformGrid1" Rows="12" Columns="5">
+            <UniformGrid Name="uniformGrid1" Rows="10" Columns="6">
                 <Button Name="sinButton" Click="OperatorButton_Click" Tag="sin">sin</Button>
                 <Button Name="cosButton" Tag="cos" Click="OperatorButton_Click">cos</Button>
                 <Button Name="tanButton" Tag="tan" Click="OperatorButton_Click">tan</Button>
-                <Button Name="ArsinhButton" Tag="Arsinh" Click="OperatorButton_Click">Arsinh</Button>
-                <Button Name="absButton" Tag="abs" Click="OperatorButton_Click">abs</Button>
                 <Button Name="cosecButton" Tag="cosec" Click="OperatorButton_Click">cosec</Button>
                 <Button Name="secButton" Tag="sec" Click="OperatorButton_Click">sec</Button>
                 <Button Name="cotButton" Tag="cot" Click="OperatorButton_Click">cot</Button>
-                <Button Name="ArcoshButton" Tag="Arcosh" Click="OperatorButton_Click">Arcosh</Button>
-                <Button Name="ceilingButton" Tag="ceiling" Click="OperatorButton_Click">ceiling</Button>
                 <Button Name="asinButton" Tag="asin" Click="OperatorButton_Click">asin</Button>
                 <Button Name="acosButton" Tag="acos" Click="OperatorButton_Click">acos</Button>
                 <Button Name="atanButton" Tag="atan" Click="OperatorButton_Click">atan</Button>
-                <Button Name="ArtanhButton" Tag="Artanh" Click="OperatorButton_Click">Artanh</Button>
-                <Button Name="floorButton" Tag="floor" Click="OperatorButton_Click">floor</Button>
                 <Button Name="acosecButton" Tag="acosec" Click="OperatorButton_Click">acosec</Button>
                 <Button Name="asecButton" Tag="asec" Click="OperatorButton_Click">asec</Button>
                 <Button Name="acotButton" Tag="acot" Click="OperatorButton_Click">acot</Button>
-                <Button Name="ArcschButton" Tag="Arcsch" Click="OperatorButton_Click">Arcsch</Button>
-                <Button Name="roundButton" Tag="round" Click="OperatorButton_Click">round</Button>
                 <Button Name="sinhButton" Tag="sinh" Click="OperatorButton_Click">sinh</Button>
                 <Button Name="coshButton" Tag="cosh" Click="OperatorButton_Click">cosh</Button>
                 <Button Name="tanhButton" Tag="tanh" Click="OperatorButton_Click">tanh</Button>
-                <Button Name="ArsechButton" Tag="Arsech" Click="OperatorButton_Click">Arsech</Button>
-                <Button Name="nCrButton" Tag="C" Click="OperatorButton_Click">nCr</Button>
                 <Button Name="cosechButton" Tag="cosech" Click="OperatorButton_Click">cosech</Button>
                 <Button Name="sechButton" Tag="sech" Click="OperatorButton_Click">sech</Button>
                 <Button Name="cothButton" Tag="coth" Click="OperatorButton_Click">coth</Button>
+                <Button Name="ArsinhButton" Tag="Arsinh" Click="OperatorButton_Click">Arsinh</Button>
+                <Button Name="ArcoshButton" Tag="Arcosh" Click="OperatorButton_Click">Arcosh</Button>
+                <Button Name="ArtanhButton" Tag="Artanh" Click="OperatorButton_Click">Artanh</Button>
+                <Button Name="ArcschButton" Tag="Arcsch" Click="OperatorButton_Click">Arcsch</Button>
+                <Button Name="ArsechButton" Tag="Arsech" Click="OperatorButton_Click">Arsech</Button>
                 <Button Name="ArcothButton" Tag="Arcoth" Click="OperatorButton_Click">Arcoth</Button>
-                <Button Name="nPrButton" Tag="P" Click="OperatorButton_Click">nPr</Button>
+                <Button Name="absButton" Tag="abs" Click="OperatorButton_Click">abs</Button>
+                <Button Name="ceilingButton" Tag="ceiling" Click="OperatorButton_Click">ceiling</Button>
+                <Button Name="floorButton" Tag="floor" Click="OperatorButton_Click">floor</Button>
+                <Button Name="roundButton" Tag="round" Click="OperatorButton_Click">round</Button>
                 <Button Name="sqrtButton" Tag="sqrt" Click="OperatorButton_Click">sqrt</Button>
                 <Button Name="rootButton" Tag="root" Click="OperatorButton_Click">
-                    <Image Name="rootImage" Height="14" /> 
+                    <Image Name="rootImage" Height="14" />
                 </Button>
+                <Button Name="xButton" Tag="x" Click="OperatorButton_Click">x</Button>
+                <Button Name="yButton" Tag="y" Click="OperatorButton_Click">y</Button>
+                <Button Name="powerButton" Tag="^" Click="OperatorButton_Click">^</Button>
                 <Button Name="logButton" Tag="log" Click="OperatorButton_Click">log</Button>
                 <Button Name="lnButton" Tag="ln" Click="OperatorButton_Click">ln</Button>
                 <Button Name="modButton" Tag="%" Click="OperatorButton_Click">mod</Button>
-                <Button Name="xButton" Tag="x" Click="OperatorButton_Click">x</Button>
-                <Button Name="yButton" Tag="y" Click="OperatorButton_Click">y</Button>
-                <Button Name="eButton" Tag="e" Click="OperatorButton_Click">e</Button>
-                <Button Name="openButton" Tag="(" Click="OperatorButton_Click">(</Button>
-                <Button Name="closeButton" Tag=")" Click="OperatorButton_Click">)</Button>
                 <Button Name="sevenButton" Tag="7" Click="OperatorButton_Click">7</Button>
                 <Button Name="eightButton" Tag="8" Click="OperatorButton_Click">8</Button>
                 <Button Name="nineButton" Tag="9" Click="OperatorButton_Click">9</Button>
-                <Button Name="powerButton" Tag="^" Click="OperatorButton_Click">^</Button>
                 <Button Name="facultyButton" Tag="!" Click="OperatorButton_Click">!</Button>
+                <Button Name="nCrButton" Tag="C" Click="OperatorButton_Click">nCr</Button>
+                <Button Name="nPrButton" Tag="P" Click="OperatorButton_Click">nPr</Button>
                 <Button Name="fourButton" Tag="4" Click="OperatorButton_Click">4</Button>
                 <Button Name="fiveButton" Tag="5" Click="OperatorButton_Click">5</Button>
                 <Button Name="sixButton" Tag="6" Click="OperatorButton_Click">6</Button>
+                <Button Name="openButton" Tag="(" Click="OperatorButton_Click">(</Button>
                 <Button Name="timesButton" Tag="*" Click="OperatorButton_Click">*</Button>
                 <Button Name="divideButton" Tag="/" Click="OperatorButton_Click">/</Button>
                 <Button Name="oneButton" Tag="1" Click="OperatorButton_Click">1</Button>
                 <Button Name="twoButton" Tag="2" Click="OperatorButton_Click">2</Button>
                 <Button Name="threeButton" Tag="3" Click="OperatorButton_Click">3</Button>
+                <Button Name="closeButton" Tag=")" Click="OperatorButton_Click">)</Button>
                 <Button Name="plusButton" Tag="+" Click="OperatorButton_Click">+</Button>
                 <Button Name="minusButton" Tag="-" Click="OperatorButton_Click">-</Button>
                 <Button Name="zeroButton" Tag="0" Click="OperatorButton_Click">0</Button>
@@ -139,6 +138,7 @@
                 <Button Name="piButton" Tag="pi" Click="OperatorButton_Click">
                     <Image Name="piImage" Height="14"/>
                 </Button>
+                <Button Name="eButton" Tag="e" Click="OperatorButton_Click">e</Button>
                 <Button Name="spaceButton" Tag=" " Click="OperatorButton_Click"></Button>
                 <Button Name="eraseButton" Content="{Binding Source={StaticResource Lang}, XPath=FunctionWindow/EraseButton/@Text}" Click="EraseButton_Click" />
             </UniformGrid>
@@ -156,12 +156,12 @@
             </GroupBox>
             <Rectangle Name="rectangle11" Width="6" DockPanel.Dock="Right" />
             <DockPanel Name="dockPanel4" DockPanel.Dock="Right">
-                <Rectangle Height="8" Name="rectangle9" DockPanel.Dock="Top" />
-                <UniformGrid Name="uniformGrid2" Columns="2">
+                <Rectangle Name="rectangle10" Height="3" DockPanel.Dock="Bottom"/>
+                <UniformGrid Name="uniformGrid2" Columns="2" DockPanel.Dock="Bottom">
                     <Button Name="okButton" Content="{Binding Source={StaticResource Lang}, XPath=Global/OKButton/@Text}" Click="OKButton_Click" />
                     <Button Name="cancelButton" Content="{Binding Source={StaticResource Lang}, XPath=Global/CancelButton/@Text}" IsCancel="True" />
                 </UniformGrid>
-                <Rectangle Name="rectangle10" />
+                <Rectangle Name="rectangle9" DockPanel.Dock="Top" />
             </DockPanel>
             <Rectangle Name="rectangle8" MinWidth="6" />
         </DockPanel>

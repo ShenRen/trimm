@@ -19,19 +19,11 @@
 // http://trimm.sourceforge.net/
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Interop;
 using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace TriMM {
 
@@ -50,9 +42,9 @@ namespace TriMM {
 
         private NumericUpDown lengthNumericUpDown = new NumericUpDown();
         private NumericUpDown stepsNumericUpDown = new NumericUpDown();
-        private NumericUpDown xWidthNumericUpDown = new NumericUpDown();
+        private NumericUpDown xLengthNumericUpDown = new NumericUpDown();
         private NumericUpDown xStepsNumericUpDown = new NumericUpDown();
-        private NumericUpDown yWidthNumericUpDown = new NumericUpDown();
+        private NumericUpDown yLengthNumericUpDown = new NumericUpDown();
         private NumericUpDown yStepsNumericUpDown = new NumericUpDown();
 
         #endregion
@@ -95,12 +87,13 @@ namespace TriMM {
                     BitmapSizeOptions.FromEmptyOptions());
             piImage.Source = bitmapSource4;
 
-            stepsNumericUpDown.TextAlign = lengthNumericUpDown.TextAlign = xWidthNumericUpDown.TextAlign = xStepsNumericUpDown.TextAlign
-                = yWidthNumericUpDown.TextAlign = yStepsNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            lengthNumericUpDown.Minimum = xWidthNumericUpDown.Minimum = yWidthNumericUpDown.Minimum = 0.001m;
-            lengthNumericUpDown.Maximum = xWidthNumericUpDown.Maximum = yWidthNumericUpDown.Maximum = 1000;
-            lengthNumericUpDown.Increment = xWidthNumericUpDown.Increment = yWidthNumericUpDown.Increment = 0.001m;
-            lengthNumericUpDown.Value = xWidthNumericUpDown.Value = yWidthNumericUpDown.Value = 1;
+            stepsNumericUpDown.TextAlign = lengthNumericUpDown.TextAlign = xLengthNumericUpDown.TextAlign = xStepsNumericUpDown.TextAlign
+                = yLengthNumericUpDown.TextAlign = yStepsNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            lengthNumericUpDown.DecimalPlaces = xLengthNumericUpDown.DecimalPlaces = yLengthNumericUpDown.DecimalPlaces = 14;
+            lengthNumericUpDown.Minimum = xLengthNumericUpDown.Minimum = yLengthNumericUpDown.Minimum = 0.00001m;
+            lengthNumericUpDown.Maximum = xLengthNumericUpDown.Maximum = yLengthNumericUpDown.Maximum = 10000;
+            lengthNumericUpDown.Increment = xLengthNumericUpDown.Increment = yLengthNumericUpDown.Increment = 0.001m;
+            lengthNumericUpDown.Value = xLengthNumericUpDown.Value = yLengthNumericUpDown.Value = 1;
             stepsNumericUpDown.Minimum = 0;
             stepsNumericUpDown.Maximum = 7;
             xStepsNumericUpDown.Minimum = yStepsNumericUpDown.Minimum = 1;
@@ -108,9 +101,9 @@ namespace TriMM {
 
             stepsWFHost.Child = stepsNumericUpDown;
             lengthWFHost.Child = lengthNumericUpDown;
-            xWidthWFHost.Child = xWidthNumericUpDown;
+            xLengthWFHost.Child = xLengthNumericUpDown;
             xStepsWFHost.Child = xStepsNumericUpDown;
-            yWidthWFHost.Child = yWidthNumericUpDown;
+            yLengthWFHost.Child = yLengthNumericUpDown;
             yStepsWFHost.Child = yStepsNumericUpDown;
         }
 
@@ -151,39 +144,34 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Creates a square base mesh.
+        /// Creates a rectangular base mesh.
         /// </summary>
-        /// <returns>The square base mesh</returns>
+        /// <returns>The rectangular base mesh</returns>
         private TriangleMesh CreateSquareBase() {
             TriangleMesh baseMesh = new TriangleMesh();
 
             int xSteps = (int)xStepsNumericUpDown.Value * 2;
             int ySteps = (int)yStepsNumericUpDown.Value * 2;
-            double xMin = -(double)xWidthNumericUpDown.Value / 2;
-            double xMax = (double)xWidthNumericUpDown.Value / 2;
-            double yMin = -(double)yWidthNumericUpDown.Value / 2;
-            double yMax = (double)yWidthNumericUpDown.Value / 2;
-            double xStep = (xMax - xMin) / xSteps;
-            double yStep = (yMax - yMin) / ySteps;
+            double xLength = (double)xLengthNumericUpDown.Value;
+            double yLength = (double)yLengthNumericUpDown.Value;
+            double xMin = -(xLength * (int)xStepsNumericUpDown.Value) / 2;
+            double yMin = -(yLength * (int)yStepsNumericUpDown.Value) / 2;
 
-            int vertexCount = (xSteps + 1) * (ySteps + 1);
             baseMesh.Vertices.Add(new Vertex(xMin, yMin, 0));
-
 
             for (int i = 0; i <= ySteps; i++) {
                 for (int j = 0; j <= xSteps; j++) {
                     if (i != 0) {
-                        baseMesh.Vertices.Add((baseMesh.Vertices[0] + new Vector(j * xStep, i * yStep, 0)).ToVertex());
+                        baseMesh.Vertices.Add((baseMesh.Vertices[0] + new Vector(j * xLength * 0.5, i * yLength * 0.5, 0)).ToVertex());
                     } else {
                         if (j != 0) {
-                            baseMesh.Vertices.Add((baseMesh.Vertices[0] + new Vector(j * xStep, i * yStep, 0)).ToVertex());
+                            baseMesh.Vertices.Add((baseMesh.Vertices[0] + new Vector(j * xLength * 0.5, i * yLength * 0.5, 0)).ToVertex());
                         }
                     }
                 }
             }
 
             int point = 0;
-
             do {
                 baseMesh.Add(new Triangle(point, point + 1, point + xSteps + 2));
                 baseMesh.Add(new Triangle(point + 1, point + 2, point + xSteps + 2));
@@ -195,7 +183,7 @@ namespace TriMM {
                 baseMesh.Add(new Triangle(point + xSteps + 1, point, point + xSteps + 2));
 
                 if (point % (2 * xSteps + 2) < xSteps - 2) { point += 2; } else { point += xSteps + 4; }
-            } while (point <= baseMesh.Count - (5 + 2 * xSteps));
+            } while (point <= baseMesh.Vertices.Count - (5 + 2 * xSteps));
 
             return baseMesh;
         }
@@ -275,14 +263,13 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
-
                 if (meshType == 0) {
                     TriMMApp.Mesh = CreateHexBase();
                 } else {
                     TriMMApp.Mesh = CreateSquareBase();
                 }
 
-                string function = functionTextBox.Text;
+                string function = (functionTextBox.Text == "") ? "0" : functionTextBox.Text;
                 Calculator.factor = Calculator.factors[factorIndex];
                 for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
                     String editedFormula = function;
@@ -291,6 +278,7 @@ namespace TriMM {
                     TriMMApp.Mesh.Vertices[i][2] = Calculator.Evaluate(editedFormula);
                 }
 
+                TriMMApp.Mesh.Finish(true);
                 TriangleMesh mesh = TriMMApp.Mesh;
                 TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
                 TriMMApp.Mesh.SetArrays();
@@ -328,26 +316,24 @@ namespace TriMM {
         /// <param name="e">Standard RoutedEventArgs</param>
         private void HexRadioButton_Checked(object sender, RoutedEventArgs e) {
             meshType = 0;
-            xStepsNumericUpDown.Maximum = yStepsNumericUpDown.Maximum = 50;
             if (stepsLabel != null) {
                 stepsLabel.Visibility = stepsDockPanel.Visibility = lengthLabel.Visibility = lengthDockPanel.Visibility = Visibility.Visible;
-                xWidthLabel.Visibility = xWidthDockPanel.Visibility = xStepsLabel.Visibility = xStepsDockPanel.Visibility
-                    = yWidthLabel.Visibility = yWidthDockPanel.Visibility = yStepsLabel.Visibility = yStepsDockPanel.Visibility = Visibility.Collapsed;
+                xLengthLabel.Visibility = xLengthDockPanel.Visibility = xStepsLabel.Visibility = xStepsDockPanel.Visibility
+                    = yLengthLabel.Visibility = yLengthDockPanel.Visibility = yStepsLabel.Visibility = yStepsDockPanel.Visibility = Visibility.Collapsed;
             }
         }
 
         /// <summary>
-        /// Adjusts the FunctionWindow to create a square base mesh.
+        /// Adjusts the FunctionWindow to create a rectangular base mesh.
         /// </summary>
         /// <param name="sender">squareRadioButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void SquareRadioButton_Checked(object sender, RoutedEventArgs e) {
             meshType = 1;
-            xStepsNumericUpDown.Maximum = yStepsNumericUpDown.Maximum = 100;
             if (stepsLabel != null) {
                 stepsLabel.Visibility = stepsDockPanel.Visibility = lengthLabel.Visibility = lengthDockPanel.Visibility = Visibility.Collapsed;
-                xWidthLabel.Visibility = xWidthDockPanel.Visibility = xStepsLabel.Visibility = xStepsDockPanel.Visibility
-                    = yWidthLabel.Visibility = yWidthDockPanel.Visibility = yStepsLabel.Visibility = yStepsDockPanel.Visibility = Visibility.Visible;
+                xLengthLabel.Visibility = xLengthDockPanel.Visibility = xStepsLabel.Visibility = xStepsDockPanel.Visibility
+                    = yLengthLabel.Visibility = yLengthDockPanel.Visibility = yStepsLabel.Visibility = yStepsDockPanel.Visibility = Visibility.Visible;
             }
         }
 

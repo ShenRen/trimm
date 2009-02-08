@@ -74,9 +74,9 @@
   </EllipsoidWindow>
   <FunctionWindow>
     <Title Text="2D-Funktions-Oberfläche"/>
-    <XWidthLabel Text="X-Breite:"/>
+    <XLengthLabel Text="X-L&#228;nge:"/>
     <XStepsLabel Text="X-Schritte:"/>
-    <YWidthLabel Text="Y-Breite:"/>
+    <YLengthLabel Text="Y-L&#228;nge:"/>
     <YStepsLabel Text="Y-Schritte:"/>
     <FunctionLabel Text="Funktion:"/>
     <AngleMode Text="Winkelmodus"/>
