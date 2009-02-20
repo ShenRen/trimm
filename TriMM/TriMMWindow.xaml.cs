@@ -48,9 +48,10 @@ namespace TriMM {
         private NumericUpDown distanceNumericUpDown = new NumericUpDown();
         private NumericUpDown e1NumericUpDown = new NumericUpDown();
         private NumericUpDown e2NumericUpDown = new NumericUpDown();
-        private NumericUpDown xSNumericUpDown = new NumericUpDown();
-        private NumericUpDown ySNumericUpDown = new NumericUpDown();
-        private NumericUpDown zSNumericUpDown = new NumericUpDown();
+        private NumericUpDown x2NumericUpDown = new NumericUpDown();
+        private NumericUpDown y2NumericUpDown = new NumericUpDown();
+        private NumericUpDown z2NumericUpDown = new NumericUpDown();
+        private NumericUpDown angleNumericUpDown = new NumericUpDown();
 
         private TriMMView view;
         private SettingsWindow setWin;
@@ -66,16 +67,20 @@ namespace TriMM {
             InitializeComponent();
 
             xNumericUpDown.DecimalPlaces = yNumericUpDown.DecimalPlaces = zNumericUpDown.DecimalPlaces
-                = distanceNumericUpDown.DecimalPlaces = xSNumericUpDown.DecimalPlaces = ySNumericUpDown.DecimalPlaces = zSNumericUpDown.DecimalPlaces = 15;
+                = distanceNumericUpDown.DecimalPlaces = x2NumericUpDown.DecimalPlaces = y2NumericUpDown.DecimalPlaces
+                = z2NumericUpDown.DecimalPlaces = angleNumericUpDown.DecimalPlaces = 15;
             xNumericUpDown.TextAlign = yNumericUpDown.TextAlign = zNumericUpDown.TextAlign = distanceNumericUpDown.TextAlign
                 = aNumericUpDown.TextAlign = bNumericUpDown.TextAlign = cNumericUpDown.TextAlign = e1NumericUpDown.TextAlign
-                = e2NumericUpDown.TextAlign = xSNumericUpDown.TextAlign = ySNumericUpDown.TextAlign = zSNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+                = e2NumericUpDown.TextAlign = x2NumericUpDown.TextAlign = y2NumericUpDown.TextAlign = z2NumericUpDown.TextAlign
+                = angleNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             xNumericUpDown.Minimum = yNumericUpDown.Minimum = zNumericUpDown.Minimum = distanceNumericUpDown.Minimum = -100000000;
             xNumericUpDown.Maximum = yNumericUpDown.Maximum = zNumericUpDown.Maximum = distanceNumericUpDown.Maximum = 100000000;
-            xNumericUpDown.Increment = yNumericUpDown.Increment = zNumericUpDown.Increment = distanceNumericUpDown.Increment = 0.001m;
-            xSNumericUpDown.Minimum = ySNumericUpDown.Minimum = zSNumericUpDown.Minimum = 0.01m;
-            xSNumericUpDown.Maximum = ySNumericUpDown.Maximum = zSNumericUpDown.Maximum = 100;
-            xSNumericUpDown.Increment = ySNumericUpDown.Increment = zSNumericUpDown.Increment = 0.01m;
+            xNumericUpDown.Increment = yNumericUpDown.Increment = zNumericUpDown.Increment = distanceNumericUpDown.Increment
+                = x2NumericUpDown.Increment = y2NumericUpDown.Increment = z2NumericUpDown.Increment = angleNumericUpDown.Increment = 0.001m;
+            x2NumericUpDown.Minimum = y2NumericUpDown.Minimum = z2NumericUpDown.Minimum = -1000;
+            x2NumericUpDown.Maximum = y2NumericUpDown.Maximum = z2NumericUpDown.Maximum = 1000;
+            x2NumericUpDown.Value = y2NumericUpDown.Value = z2NumericUpDown.Value = 1;
+            angleNumericUpDown.Maximum = 360;
 
             aWFHost.Child = aNumericUpDown;
             bWFHost.Child = bNumericUpDown;
@@ -86,9 +91,10 @@ namespace TriMM {
             distanceWFHost.Child = distanceNumericUpDown;
             e1WFHost.Child = e1NumericUpDown;
             e2WFHost.Child = e2NumericUpDown;
-            xSWFHost.Child = xSNumericUpDown;
-            ySWFHost.Child = ySNumericUpDown;
-            zSWFHost.Child = zSNumericUpDown;
+            x2WFHost.Child = x2NumericUpDown;
+            y2WFHost.Child = y2NumericUpDown;
+            z2WFHost.Child = z2NumericUpDown;
+            angleWFHost.Child = angleNumericUpDown;
 
             this.Icon = TriMMApp.Image;
 
@@ -420,7 +426,8 @@ namespace TriMM {
             e1NumericUpDown.Maximum = e2NumericUpDown.Maximum = aNumericUpDown.Maximum = bNumericUpDown.Maximum = cNumericUpDown.Maximum = 0;
             xNumericUpDown.Value = yNumericUpDown.Value = zNumericUpDown.Value = distanceNumericUpDown.Value =
                 e1NumericUpDown.Value = e2NumericUpDown.Value = aNumericUpDown.Value = bNumericUpDown.Value = cNumericUpDown.Value = 0;
-            xSNumericUpDown.Value = ySNumericUpDown.Value = zSNumericUpDown.Value = 1;
+            x2NumericUpDown.Value = y2NumericUpDown.Value = z2NumericUpDown.Value = 1;
+            angleNumericUpDown.Value = 0;
             TriMMApp.Mesh = null;
             TriMMApp.CurrentFormat = -1;
             TriMMApp.CurrentPath = "";
@@ -520,7 +527,7 @@ namespace TriMM {
                 } else {
                     manual.StartInfo.FileName = "doc/english.pdf";
                 }
-                
+
                 manual.Start();
 #if !DEBUG
             } catch (Exception ex) {
@@ -969,19 +976,87 @@ namespace TriMM {
         #region Mesh
 
         /// <summary>
-        /// Scales the mesh by the factors chosen in the xS-, yS- and zSNumericUpDown.
+        /// Scales the mesh by the factors chosen in the x2-, y2- and z2NumericUpDown.
         /// </summary>
         /// <param name="sender">scaleMeshButton</param>
         /// <param name="e">Standard RoutedEventArgs</param>
         private void ScaleMeshButton_Click(object sender, RoutedEventArgs e) {
             Cursor = System.Windows.Input.Cursors.Wait;
 
-            TriMMApp.Mesh.ScaleMesh(new Vector((double)xSNumericUpDown.Value, (double)ySNumericUpDown.Value, (double)zSNumericUpDown.Value));
+            double x = (double)x2NumericUpDown.Value;
+            double y = (double)y2NumericUpDown.Value;
+            double z = (double)z2NumericUpDown.Value;
+
+            // If the 0 was allowed, the mesh could be folded together to a plane, line or the origin, causing problems with the triangles.
+            // Negative values will invert the modell.
+            if ((x != 0) && (y != 0) && (z != 0)) {
+                TriMMApp.Mesh.ScaleMesh(new Vector(x, y, z));
+                TriangleMesh mesh = TriMMApp.Mesh;
+                TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
+                TriMMApp.Mesh.SetArrays();
+                x2NumericUpDown.Value = y2NumericUpDown.Value = z2NumericUpDown.Value = 1;
+                RefreshControl();
+            }
+
+            Cursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        /// <summary>
+        /// Transposes the mesh by the values chosen in the x2-, y2- and z2NumericUpDown.
+        /// </summary>
+        /// <param name="sender">transposeMeshButton</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void TransposeMeshButton_Click(object sender, RoutedEventArgs e) {
+            Cursor = System.Windows.Input.Cursors.Wait;
+
+            TriMMApp.Mesh.Transpose(new Vector((double)x2NumericUpDown.Value, (double)y2NumericUpDown.Value, (double)z2NumericUpDown.Value));
             TriangleMesh mesh = TriMMApp.Mesh;
             TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
             TriMMApp.Mesh.SetArrays();
-            xSNumericUpDown.Value = ySNumericUpDown.Value = zSNumericUpDown.Value = 1;
             RefreshControl();
+
+            Cursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        /// <summary>
+        /// Transposes the mesh so its center is at the origin.
+        /// </summary>
+        /// <param name="sender">centerMeshButton</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void CenterMeshButton_Click(object sender, RoutedEventArgs e) {
+            Cursor = System.Windows.Input.Cursors.Wait;
+
+            TriMMApp.Mesh.Transpose(-(new Vector(TriMMApp.Mesh.Center)));
+            TriangleMesh mesh = TriMMApp.Mesh;
+            TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
+            TriMMApp.Mesh.SetArrays();
+            RefreshControl();
+
+            Cursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        /// <summary>
+        /// Rotates the mesh by the angle chosen in the angleNumericUpDown around the axis chosen in the x2-, y2- and z2NumericUpDown.
+        /// </summary>
+        /// <param name="sender">rotateMeshButton</param>
+        /// <param name="e">Standard RoutedEventArgs</param>
+        private void RotateMeshButton_Click(object sender, RoutedEventArgs e) {
+            Cursor = System.Windows.Input.Cursors.Wait;
+
+            double x = (double)x2NumericUpDown.Value;
+            double y = (double)y2NumericUpDown.Value;
+            double z = (double)z2NumericUpDown.Value;
+            double angle = (double)angleNumericUpDown.Value;
+
+            // If the 0 was allowed, the mesh could be folded together to a plane, line or the origin, causing problems with the triangles.
+            // Negative values will invert the modell.
+            if (((x != 0) || (y != 0) || (z != 0)) && (angle != 0) && (angle != 360)) {
+                TriMMApp.Mesh.Rotate(new Vector(x, y, z), Math.PI * angle / 180);
+                TriangleMesh mesh = TriMMApp.Mesh;
+                TriMMApp.VertexNormalAlgorithm.GetVertexNormals(ref mesh);
+                TriMMApp.Mesh.SetArrays();
+                RefreshControl();
+            }
 
             Cursor = System.Windows.Input.Cursors.Arrow;
         }

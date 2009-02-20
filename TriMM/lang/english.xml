@@ -35,9 +35,9 @@
     <YAxisCheckBox Text="Y-Axis"/>
     <ZAxisCheckBox Text="Z-Axis"/>
     <NoneItem Text="None"/>
-    <VertexItem Text="Vertices"/>
-    <EdgeItem Text="Edges"/>
-    <TriangleItem Text="Triangles"/>
+    <VertexItem Text="Vertex"/>
+    <EdgeItem Text="Edge"/>
+    <TriangleItem Text="Triangle"/>
     <OKButton Text="OK"/>
     <CancelButton Text="Cancel"/>
     <StepsLabel Text="Steps:"/>
@@ -86,6 +86,9 @@
     <EraseButton Text="Erase"/>
     <Operators Text="Operators"/>
   </FunctionWindow>
+  <Matrix>
+    <MatrixDimensionError>The dimensions need to match for the matrix operation.</MatrixDimensionError>
+  </Matrix>
   <ObjParser>
     <ObjBrokenFileError>The OBJ file is broken!</ObjBrokenFileError>
     <ObjHeader># Written by the TriMM ObjParser (by Christian Moritz)</ObjHeader>
@@ -220,8 +223,12 @@
     <SubdivideTriangleButton Text="Subdivide Selected Triangle"/>
     <RemoveTriangleButton Text="Remove selected Triangle"/>
     <AddTriangleButton Text="Add selected Triangle"/>
-    <MeshesTab Text="Mesh" ToolTip="Mesh Manipulation"/>
+    <MeshesTab Text="Mesh"/>
+    <AngleLabel Text="Angle:"/>
     <ScaleMeshButton Text="Scale Mesh"/>
+    <TransposeMeshButton Text="Transpose Mesh"/>
+    <CenterMeshButton Text="Center Mesh"/>
+    <RotateMeshButton Text="Rotate Mesh"/>
     <FlipMeshButton Text="Flip Mesh"/>
     <SubdivideMeshButton Text="Subdivide Mesh"/>
     <RemoveSinglesButton Text="Remove Single Vertices"/>

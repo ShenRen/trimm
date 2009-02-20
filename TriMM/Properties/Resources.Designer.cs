@@ -60,6 +60,20 @@ namespace TriMM.Properties {
             }
         }
         
+        internal static System.Drawing.Icon Icon_Big {
+            get {
+                object obj = ResourceManager.GetObject("Icon_Big", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon Icon_Small {
+            get {
+                object obj = ResourceManager.GetObject("Icon_Small", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die                     GNU GENERAL PUBLIC LICENSE
         ///                     Version 3, 29 June 2007
@@ -79,20 +93,6 @@ namespace TriMM.Properties {
         internal static string license {
             get {
                 return ResourceManager.GetString("license", resourceCulture);
-            }
-        }
-        
-        internal static System.Drawing.Icon LogoGross {
-            get {
-                object obj = ResourceManager.GetObject("LogoGross", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon LogoKlein {
-            get {
-                object obj = ResourceManager.GetObject("LogoKlein", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         

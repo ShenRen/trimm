@@ -175,31 +175,39 @@
                             <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/XLabel/@Text}" Name="xLabel2" />
                             <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/YLabel/@Text}" Name="yLabel2" />
                             <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ZLabel/@Text}" Name="zLabel2" />
+                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/AngleLabel/@Text}" Name="angleLabel" />
                         </StackPanel>
                         <StackPanel Name="stackPanel15">
                             <DockPanel Name="dockPanel20">
                                 <Label Name="label12" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost Name="xSWFHost" TabIndex="31" />
+                                <WindowsFormsHost Name="x2WFHost" TabIndex="31" />
                             </DockPanel>
                             <DockPanel Name="dockPanel21">
                                 <Label Name="label13" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost Name="ySWFHost" TabIndex="32" />
+                                <WindowsFormsHost Name="y2WFHost" TabIndex="32" />
                             </DockPanel>
                             <DockPanel Name="dockPanel22">
                                 <Label Name="label14" Visibility="Hidden">I</Label>
-                                <WindowsFormsHost Name="zSWFHost" TabIndex="33" />
+                                <WindowsFormsHost Name="z2WFHost" TabIndex="33" />
+                            </DockPanel>
+                            <DockPanel Name="dockPanel23">
+                                <Label Name="label15" Visibility="Hidden">I</Label>
+                                <WindowsFormsHost Name="angleWFHost" TabIndex="34" />
                             </DockPanel>
                         </StackPanel>
                     </DockPanel>
                     <Rectangle Height="6" Name="rectangle10" StrokeThickness="0" Visibility="Hidden" />
-                    <Button Name="scaleMeshButton" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ScaleMeshButton/@Text}" Click="ScaleMeshButton_Click" TabIndex="34" />
-                    <Button Name="flipMeshButton" TabIndex="35" Click="FlipMeshButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipMeshButton/@Text}" />
-                    <Button Name="subdivideMeshButton" TabIndex="36" Click="SubdivideMeshButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideMeshButton/@Text}" />
-                    <Button Name="removeSinglesButton" TabIndex="37" Click="RemoveSinglesButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSinglesButton/@Text}" />
-                    <Button Name="removeDoubleVertButton" TabIndex="38" Click="RemoveDoubleVertButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleVertButton/@Text}" />
-                    <Button Name="remove2NVerticesButton" TabIndex="39" Click="Remove2NVerticesButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/Remove2NVerticesButton/@Text}" />
-                    <Button Name="removeColinButton" TabIndex="40" Click="RemoveColinButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveColinButton/@Text}" />
-                    <Button Name="removeDoubleButton" TabIndex="41" Click="RemoveDoubleButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleButton/@Text}" />
+                    <Button Name="scaleMeshButton" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ScaleMeshButton/@Text}" Click="ScaleMeshButton_Click" TabIndex="35" />
+                    <Button Name="transposeMeshButton" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TransposeMeshButton/@Text}" TabIndex="36" Click="TransposeMeshButton_Click" />
+                    <Button Name="centerMeshButton" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CenterMeshButton/@Text}" TabIndex="37" Click="CenterMeshButton_Click" />
+                    <Button Name="rotateMeshButton" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RotateMeshButton/@Text}" TabIndex="38" Click="RotateMeshButton_Click" />
+                    <Button Name="flipMeshButton" TabIndex="39" Click="FlipMeshButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/FlipMeshButton/@Text}" />
+                    <Button Name="subdivideMeshButton" TabIndex="40" Click="SubdivideMeshButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/SubdivideMeshButton/@Text}" />
+                    <Button Name="removeSinglesButton" TabIndex="41" Click="RemoveSinglesButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveSinglesButton/@Text}" />
+                    <Button Name="removeDoubleVertButton" TabIndex="42" Click="RemoveDoubleVertButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleVertButton/@Text}" />
+                    <Button Name="remove2NVerticesButton" TabIndex="43" Click="Remove2NVerticesButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/Remove2NVerticesButton/@Text}" />
+                    <Button Name="removeColinButton" TabIndex="44" Click="RemoveColinButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveColinButton/@Text}" />
+                    <Button Name="removeDoubleButton" TabIndex="45" Click="RemoveDoubleButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/RemoveDoubleButton/@Text}" />
                 </StackPanel>
             </TabItem>
         </TabControl>

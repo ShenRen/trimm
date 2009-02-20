@@ -89,7 +89,7 @@ namespace TriMM {
 
             settings = new Settings();
 
-            Icon icon = TriMM.Properties.Resources.LogoKlein;
+            Icon icon = TriMM.Properties.Resources.Icon_Small;
             MemoryStream iconStream = new MemoryStream();
             icon.Save(iconStream);
             iconStream.Seek(0, SeekOrigin.Begin);

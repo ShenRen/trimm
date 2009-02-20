@@ -114,12 +114,12 @@ namespace TriMM {
         private TriangleMesh CreateBaseOctahedron() {
             TriangleMesh baseMesh = new TriangleMesh();
 
-            baseMesh.Vertices.Add(new Vertex(0, 0, 1));
-            baseMesh.Vertices.Add(new Vertex(1, 0, 0));
-            baseMesh.Vertices.Add(new Vertex(0, 1, 0));
-            baseMesh.Vertices.Add(new Vertex(-1, 0, 0));
-            baseMesh.Vertices.Add(new Vertex(0, -1, 0));
-            baseMesh.Vertices.Add(new Vertex(0, 0, -1));
+            baseMesh.Vertices.Add(new Vertex(0, 0, 0.5));
+            baseMesh.Vertices.Add(new Vertex(0.5, 0, 0));
+            baseMesh.Vertices.Add(new Vertex(0, 0.5, 0));
+            baseMesh.Vertices.Add(new Vertex(-0.5, 0, 0));
+            baseMesh.Vertices.Add(new Vertex(0, -0.5, 0));
+            baseMesh.Vertices.Add(new Vertex(0, 0, -0.5));
 
             baseMesh.Add(new Triangle(0, 1, 2));
             baseMesh.Add(new Triangle(0, 2, 3));

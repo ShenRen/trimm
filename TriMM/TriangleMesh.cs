@@ -673,11 +673,46 @@ namespace TriMM {
         /// <param name="scale">A 3D-Vector to scale the TriangleMesh by.</param>
         public void ScaleMesh(Vector scale) {
             if (scale.Count == 3) {
-                for (int i = 0; i < vertices.Count; i++) {
-                    vertices[i] = (vertices[i] * scale).ToVertex();
-                }
+                for (int i = 0; i < vertices.Count; i++) { vertices[i] = (vertices[i] * scale).ToVertex(); }
                 Finish(true);
             }
+        }
+
+        /// <summary>
+        /// Transposes the TriangleMesh by the given Vector.
+        /// That Vector has to be a 3D-Vector.
+        /// </summary>
+        /// <param name="scale">A 3D-Vector to transpose the TriangleMesh by.</param>
+        public void Transpose(Vector shift) {
+            if (shift.Count == 3) {
+                for (int i = 0; i < vertices.Count; i++) { vertices[i] = (vertices[i] + shift).ToVertex(); }
+                Finish(true);
+            }
+        }
+
+        /// Rotates the mesh by the angle <paramref name="angle"/> around the axis <paramref name="axis"/>.
+        /// The formula for the rotation matrix used can (for example) be found at http://en.wikipedia.org/wiki/Rotation_matrix .
+        /// </summary>
+        /// <param name="axis">The axis to rotate around.</param>
+        /// <param name="angle">The angle to rotate by.</param>
+        public void Rotate(Vector axis, double angle) {
+            Vector theAxis = axis.Normalized;
+
+            // Creates the roation matrix.
+            Matrix ro = new Matrix(3, 3);
+            ro[0, 0] = Math.Cos(angle) + theAxis[0] * theAxis[0] * (1 - Math.Cos(angle));
+            ro[0, 1] = theAxis[0] * theAxis[1] * (1 - Math.Cos(angle)) - theAxis[2] * Math.Sin(angle);
+            ro[0, 2] = theAxis[0] * theAxis[2] * (1 - Math.Cos(angle)) + theAxis[1] * Math.Sin(angle);
+            ro[1, 0] = theAxis[1] * theAxis[0] * (1 - Math.Cos(angle)) + theAxis[2] * Math.Sin(angle);
+            ro[1, 1] = Math.Cos(angle) + theAxis[1] * theAxis[1] * (1 - Math.Cos(angle));
+            ro[1, 2] = theAxis[1] * theAxis[2] * (1 - Math.Cos(angle)) - theAxis[0] * Math.Sin(angle);
+            ro[2, 0] = theAxis[0] * theAxis[2] * (1 - Math.Cos(angle)) - theAxis[1] * Math.Sin(angle);
+            ro[2, 1] = theAxis[2] * theAxis[1] * (1 - Math.Cos(angle)) + theAxis[0] * Math.Sin(angle);
+            ro[2, 2] = Math.Cos(angle) + theAxis[2] * theAxis[2] * (1 - Math.Cos(angle));
+
+            for (int i = 0; i < vertices.Count; i++) { vertices[i] = (ro * vertices[i]).ToVertex(); }
+
+            Finish(true);
         }
 
         /// <summary>

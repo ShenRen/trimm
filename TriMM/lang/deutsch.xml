@@ -36,7 +36,7 @@
     <ZAxisCheckBox Text="Z-Achse"/>
     <NoneItem Text="Keine Auswahl"/>
     <VertexItem Text="Knoten"/>
-    <EdgeItem Text="Kanten"/>
+    <EdgeItem Text="Kante"/>
     <TriangleItem Text="Dreieck"/>
     <OKButton Text="OK"/>
     <CancelButton Text="Abbrechen"/>
@@ -73,7 +73,7 @@
     <Title Text="Erzeuge ein Ellipsoid"/>
   </EllipsoidWindow>
   <FunctionWindow>
-    <Title Text="2D-Funktions-Oberfläche"/>
+    <Title Text="2D-Funktions-Oberfl&#228;che"/>
     <XLengthLabel Text="X-L&#228;nge:"/>
     <XStepsLabel Text="X-Schritte:"/>
     <YLengthLabel Text="Y-L&#228;nge:"/>
@@ -83,9 +83,12 @@
     <DEG Text="DEG"/>
     <RAD Text="RAD"/>
     <GRAD Text="GRAD"/>
-    <EraseButton Text="Löschen"/>
+    <EraseButton Text="L&#246;schen"/>
     <Operators Text="Operatoren"/>
   </FunctionWindow>
+  <Matrix>
+    <MatrixDimensionError>Die Dimensionen m&#252;ssen zur Matrix-Operation passend gew&#228;hlt werden.</MatrixDimensionError>
+  </Matrix>
   <ObjParser>
     <ObjBrokenFileError>Die OBJ Datei ist besch&#228;digt!</ObjBrokenFileError>
     <ObjHeader># Erstellt mit dem TriMM ObjParser (von Christian Moritz)</ObjHeader>
@@ -204,8 +207,8 @@
     <DistanceLabel Text="Abstand:"/>
     <RemoveSelectedButton Text="Ausgew&#228;hlten Knoten entfernen"/>
     <AddVertexButton Text="Knoten hinzuf&#252;gen"/>
-    <MoveObservedButton Text="Verschiebe ausgew&#228;hlten Knoten nach"/>
-    <TransposeVertexButton Text="Verschiebe ausgew&#228;hlten Knoten um"/>
+    <MoveObservedButton Text="Ausgew&#228;hlten Knoten an Position verschieben"/>
+    <TransposeVertexButton Text="Ausgew&#228;hlten Knoten um Wert verschieben"/>
     <MoveAlongNormalButton Text="Knoten entlang Normalen verschieben"/>
     <EdgesTab Text="Kanten"/>
     <E1Label Text="1:"/>
@@ -217,18 +220,22 @@
     <ALabel Text="A:"/>
     <BLabel Text="B:"/>
     <CLabel Text="C:"/>
-    <FlipSelectedTriangleButton Text="Drehe ausgew&#228;hltes Dreieck"/>
-    <SubdivideTriangleButton Text="Unterteile ausgew&#228;hltes Dreieck"/>
-    <RemoveTriangleButton Text="Entferne ausgew&#228;hltes Dreieck"/>
-    <AddTriangleButton Text="F&#252;ge Dreieck hinzu"/>
-    <MeshesTab Text="Netz" ToolTip="Netzmanipulation"/>
-    <ScaleMeshButton Text="Skaliere Netz"/>
-    <FlipMeshButton Text="Drehe Netz"/>
-    <SubdivideMeshButton Text="Unterteile Netz"/>
+    <FlipSelectedTriangleButton Text="Ausgew&#228;hltes Dreieck drehen"/>
+    <SubdivideTriangleButton Text="Ausgew&#228;hltes Dreieck unterteilen"/>
+    <RemoveTriangleButton Text="Ausgew&#228;hltes Dreieck entfernen"/>
+    <AddTriangleButton Text="Dreieck hinzuf&#252;gen"/>
+    <MeshesTab Text="Netz"/>
+    <AngleLabel Text="Winkel:"/>
+    <ScaleMeshButton Text="Netz Skalieren"/>
+    <TransposeMeshButton Text="Netz verschieben"/>
+    <CenterMeshButton Text="Netz zentrieren"/>
+    <RotateMeshButton Text="Netz um Achse drehen"/>
+    <FlipMeshButton Text="Alle Dreiecke drehen"/>
+    <SubdivideMeshButton Text="Netz unterteilen"/>
     <RemoveSinglesButton Text="Einzelknoten entfernen"/>
     <RemoveDoubleVertButton Text="Knotenduplikate entfernen"/>
     <Remove2NVerticesButton Text="Knoten mit 2 Nachbarn entfernen"/>
-    <RemoveColinButton Text="Entferne Dreiecke mit kolinearen Knoten"/>
+    <RemoveColinButton Text="Dreiecke mit kolinearen Knoten entfernen"/>
     <RemoveDoubleButton Text="Dreiecksduplikate entfernen"/>
   </TriMMWindow>
   <Vector>

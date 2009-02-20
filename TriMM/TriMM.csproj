@@ -16,7 +16,7 @@
     <WarningLevel>4</WarningLevel>
     <StartupObject>
     </StartupObject>
-    <ApplicationIcon>Resources\LogoGross.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icon_Big.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -132,6 +132,7 @@
     <Compile Include="FunctionWindow.xaml.cs">
       <DependentUpon>FunctionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Matrix.cs" />
     <Compile Include="PolyhedronWindow.xaml.cs">
       <DependentUpon>PolyhedronWindow.xaml</DependentUpon>
     </Compile>
@@ -185,10 +186,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LogoGross.ico" />
+    <None Include="Resources\Icon_Big.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LogoKlein.ico" />
+    <None Include="Resources\Icon_Small.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="default.set">

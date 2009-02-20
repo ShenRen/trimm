@@ -121,11 +121,8 @@
   <data name="license" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\license.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="LogoGross" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LogoGross.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LogoKlein" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LogoKlein.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Icon_Big" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Icon_Big.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Pi" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Pi.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -141,5 +138,8 @@
   </data>
   <data name="tri2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tri2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icon_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Icon_Small.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

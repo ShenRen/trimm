@@ -19,7 +19,7 @@
 <Window x:Class="TriMM.EllipsoidWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/Title/@Text}" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    Title="{Binding Source={StaticResource Lang}, XPath=EllipsoidWindow/Title/@Text}" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Topmost="True">
     <StackPanel Name="stackPanel1">
         <DockPanel Name="dockPanel1">
             <StackPanel Name="stackPanel2">

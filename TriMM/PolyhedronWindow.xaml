@@ -19,7 +19,7 @@
 <Window x:Class="TriMM.PolyhedronWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="{Binding Source={StaticResource Lang}, XPath=PolyhedronWindow/Title/@Text}" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    Title="{Binding Source={StaticResource Lang}, XPath=PolyhedronWindow/Title/@Text}" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Topmost="True">
     <StackPanel Name="stackPanel1">
         <Rectangle Height="6" Name="rectangle1" Visibility="Hidden" />
         <DockPanel Name="dockPanel7">

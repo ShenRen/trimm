@@ -265,6 +265,7 @@ namespace TriMM {
         private void ObservedNumericUpDown_ValueChanged(object sender, EventArgs e) {
             if (observedNumericUpDown.Value == -1) {
                 TriMMApp.Mesh.ObservedVertex = -1;
+                TriMMApp.Mesh.ObservedEdge = -1;
                 TriMMApp.Control.Info.Clear();
                 TriMMApp.Control.UseColorArray = false;
             } else {

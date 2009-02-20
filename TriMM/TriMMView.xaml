@@ -23,7 +23,7 @@
     <DockPanel Name="dockPanel1">
         <Grid Name="optionsGrid" DockPanel.Dock="Right">
             <StackPanel Name="stackPanel1" Orientation="Vertical" Margin="6,6,6,6">
-                <CheckBox Name="smoothCheckBox" Checked="SmoothCheckBox_CheckedChanged" Unchecked="SmoothCheckBox_CheckedChanged" VerticalContentAlignment="Center" />
+                <CheckBox Name="smoothCheckBox" Checked="SmoothCheckBox_CheckedChanged" Unchecked="SmoothCheckBox_CheckedChanged" VerticalContentAlignment="Center" Content="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBox/@Text}"/>
                 <Rectangle Height="6" Name="rectangle1" StrokeThickness="0" Visibility="Hidden" />
                 <CheckBox Name="solidCheckBox" Checked="SolidCheckBox_CheckedChanged" Unchecked="SolidCheckBox_CheckedChanged" Content="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBox/@Text}" VerticalContentAlignment="Center" />
                 <Rectangle Height="6" Name="rectangle2" StrokeThickness="0" Visibility="Hidden" />
