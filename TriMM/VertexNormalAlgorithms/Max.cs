@@ -40,7 +40,7 @@ namespace TriMM.VertexNormalAlgorithms {
         #region Methods
 
         /// <summary>
-        /// Calculates the Vertex normals as an average of the normals of the adjacent Triangles,
+        /// Calculates the Vertex normals as an average of the normals of the incident Triangles,
         /// weighted by the angle between the neighboring Vertices.
         /// As the Triangle normal can be calculated from the neighboring Vertices,
         /// the actual Triangle normals and the angles are not needed.

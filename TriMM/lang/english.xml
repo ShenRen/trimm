@@ -47,14 +47,14 @@
     <LengthLabel Text="Length:">Length</LengthLabel>
   </Global>
   <VertexNormalAlgorithms>
-    <AEW>Adjacent Edges Weights</AEW>
     <CW>Chen and Wu</CW>
     <EN>Edge Normals</EN>
     <ECW>Extended Chen and Wu</ECW>
     <ETW>Extended Thuermer and Wuethrich</ETW>
     <G>Gouraud</G>
-    <IAEW>Inverse Adjacent Edges Weights</IAEW>
+    <IEW>Incident Edges Weights</IEW>
     <IEN>Inverse Edge Normals</IEN>
+    <IIEW>Inverse Incident Edges Weights</IIEW>
     <IT>Inverse Taubin</IT>
     <M>Max</M>
     <R>Rusinkiewicz</R>

@@ -44,7 +44,7 @@ namespace TriMM {
 
         private static IVertexNormalAlgorithm[] vertexNormalAlgorithms = new IVertexNormalAlgorithm[] { new Gouraud(), new Max(), new Taubin(), new InverseTaubin(),
             new ThuermerAndWuethrich(), new ExtendedThuermerAndWuethrich(), new ChenAndWu(), new ExtendedChenAndWu(), new Rusinkiewicz(),  
-            new AdjacentEdgesWeights(), new InverseAdjacentEdgesWeights(), new EdgeNormals(), new InverseEdgeNormals()};
+            new IncidentEdgesWeights(), new InverseIncidentEdgesWeights(), new EdgeNormals(), new InverseEdgeNormals()};
 
         #endregion
 

@@ -20,9 +20,9 @@ using System.Collections.Generic;
 namespace TriMM.VertexNormalAlgorithms {
 
     /// <summary>
-    /// This algorithm calculates the Vertex normal, by weighting the normals of the adjacent Edges
+    /// This algorithm calculates the Vertex normal, by weighting the normals of the incident Edges
     /// with the inverse of their length. The normals of the Edges are calculated as the average
-    /// of the normals of the adjacent Triangles weighted by the area of the Triangle formed by the
+    /// of the normals of the incident Triangles weighted by the area of the Triangle formed by the
     /// Triangles centroid and the Edge.
     /// </summary>
     public class EdgeNormals : IVertexNormalAlgorithm {
@@ -39,8 +39,8 @@ namespace TriMM.VertexNormalAlgorithms {
         #region Methods
 
         /// <summary>
-        /// Calculates the Vertex normals as an average of the normals of the adjacent Edges,
-        /// that are calculated as the average of the normals of the adjacent Triangles weighted by their area.
+        /// Calculates the Vertex normals as an average of the normals of the incident Edges,
+        /// that are calculated as the average of the normals of the incident Triangles weighted by their area.
         /// </summary>
         /// <param name="mesh">Reference to the TriangleMesh to calculate the vertex normals for.</param>
         public void GetVertexNormals(ref TriangleMesh mesh) {

@@ -22,7 +22,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// <summary>
     /// The algorithm suggested by H. Gouraud in his article
     /// "Continuous Shading of Curved Surfaces".
-    /// The facet normals of the adjacent Triangles are all weighted equally.
+    /// The facet normals of the incident Triangles are all weighted equally.
     /// </summary>
     public class Gouraud : IVertexNormalAlgorithm{
 
@@ -38,7 +38,7 @@ namespace TriMM.VertexNormalAlgorithms {
         #region Methods
 
         /// <summary>
-        /// Calculates the Vertex normals as an average of the normals of the adjacent Triangles with equal weights.
+        /// Calculates the Vertex normals as an average of the normals of the incident Triangles with equal weights.
         /// </summary>
         /// <param name="mesh">Reference to the TriangleMesh to calculate the vertex normals for.</param>
         public void GetVertexNormals(ref TriangleMesh mesh) {

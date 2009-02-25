@@ -23,7 +23,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// The algorithm introduced by S.-G. Chen and J.-Y. Wu in their article
     /// "Estimating normal vectors and curvatures by centroid weights".
     /// The weights are proportional to the inverse of the squared distance between
-    /// the centroid of the adjacent Triangle and the current Vertex.
+    /// the centroid of the incident Triangle and the current Vertex.
     /// This extended version uses the triangle area as an additional weight.
     /// </summary>
     public class ExtendedChenAndWu : IVertexNormalAlgorithm {
@@ -40,8 +40,8 @@ namespace TriMM.VertexNormalAlgorithms {
         #region Methods
 
         /// <summary>
-        /// Calculates the Vertex normals as an average of the normals of the adjacent Triangles,
-        /// weighted by the inverse of the squared distance between the Vertex and the Centroid of the adjacent Triangle
+        /// Calculates the Vertex normals as an average of the normals of the incident Triangles,
+        /// weighted by the inverse of the squared distance between the Vertex and the Centroid of the incident Triangle
         /// and the triangle area.
         /// </summary>
         /// <param name="mesh">Reference to the TriangleMesh to calculate the vertex normals for.</param>

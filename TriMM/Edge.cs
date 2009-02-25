@@ -26,7 +26,7 @@ namespace TriMM {
 
     /// <summary>
     /// An Edge stores the indices of the two Vertices it connects, as well as a key.
-    /// The indices of the adjacent Triangles and the length of the Edge are also stored.
+    /// The indices of the incident Triangles and the length of the Edge are also stored.
     /// The key allows comparing two Edges and recognizing (a,b) as equal to (b,a).
     /// </summary>
     public class Edge {
@@ -48,7 +48,7 @@ namespace TriMM {
         /// <value>Gets the two Vertices connected by this Edge.</value>
         public int[] Vertices { get { return vertices; } }
 
-        /// <value>Gets the list of Triangles adjacent to this Edge or sets it.</value>
+        /// <value>Gets the list of Triangles incident to this Edge or sets it.</value>
         public List<int> Triangles { get { return triangles; } set { triangles = value; } }
 
         /// <value>Gets the key of this Edge or sets it.</value>

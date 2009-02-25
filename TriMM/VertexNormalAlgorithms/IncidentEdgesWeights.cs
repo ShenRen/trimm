@@ -21,25 +21,25 @@ namespace TriMM.VertexNormalAlgorithms {
 
     /// <summary>
     /// This algorithm uses the average of the length of the Edges containing the current Vertex
-    /// in the current adjacent Triangle as weights for the Triangle normal.
+    /// in the current incident Triangle as weights for the Triangle normal.
     /// </summary>
-    public class AdjacentEdgesWeights : IVertexNormalAlgorithm {
+    public class IncidentEdgesWeights : IVertexNormalAlgorithm {
 
         #region IVertexNormalAlgorithm Member
 
         #region Properties
 
         /// <value>Gets the name of this algorithm.</value>
-        public string Name { get { return TriMMApp.Lang.GetElementsByTagName("AEW")[0].InnerText; } }
+        public string Name { get { return TriMMApp.Lang.GetElementsByTagName("IEW")[0].InnerText; } }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Calculates the Vertex normals as an average of the normals of the adjacent Triangles,
+        /// Calculates the Vertex normals as an average of the normals of the incident Triangles,
         /// weighted by the average of the length of the Edges containing the current Vertex
-        /// in the current adjacent Triangle.
+        /// in the current incident Triangle.
         /// </summary>
         /// <param name="mesh">Reference to the TriangleMesh to calculate the vertex normals for.</param>
         public void GetVertexNormals(ref TriangleMesh mesh) {

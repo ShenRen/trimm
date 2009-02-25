@@ -622,14 +622,14 @@ namespace TriMM {
             if (remove != -1) {
                 Cursor = System.Windows.Input.Cursors.Wait;
 
-                List<int> adjacent = TriMMApp.Mesh.Vertices[remove].Triangles;
-                adjacent.Sort();
+                List<int> incident = TriMMApp.Mesh.Vertices[remove].Triangles;
+                incident.Sort();
 
                 // Remove Vertex
                 TriMMApp.Mesh.Vertices.RemoveAt(remove);
 
                 // Remove Triangles attached to this Vertex.
-                for (int j = adjacent.Count - 1; j >= 0; j--) { TriMMApp.Mesh.RemoveAt(adjacent[j]); }
+                for (int j = incident.Count - 1; j >= 0; j--) { TriMMApp.Mesh.RemoveAt(incident[j]); }
 
                 // Adjust Triangles
                 for (int j = 0; j < TriMMApp.Mesh.Count; j++) {

@@ -22,7 +22,7 @@ namespace TriMM.VertexNormalAlgorithms {
     /// <summary>
     /// The algorithm introduced by G. Thürmer and C. Wüthrich in their article
     /// "Computing Vertex Normals from Polygonal Facets".
-    /// The facet normals are weighted by the angle of the adjacent Triangle.
+    /// The facet normals are weighted by the angle of the incident Triangle.
     /// </summary>
     public class ThuermerAndWuethrich : IVertexNormalAlgorithm {
 
@@ -38,7 +38,7 @@ namespace TriMM.VertexNormalAlgorithms {
         #region Methods
 
         /// <summary>
-        /// Calculates the Vertex normals as an average of the normals of the adjacent Triangles,
+        /// Calculates the Vertex normals as an average of the normals of the incident Triangles,
         /// weighted by the angle between the neighboring Vertices.
         /// </summary>
         /// <param name="mesh">Reference to the TriangleMesh to calculate the vertex normals for.</param>

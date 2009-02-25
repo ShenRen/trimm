@@ -234,7 +234,7 @@ namespace TriMM {
 
         /// <summary>
         /// Fills the intial arrays, sets the extrema, the center and the scale.
-        /// Sets the adjacent Triangles and the Neighborhood of each Vertex.
+        /// Sets the incident Triangles and the Neighborhood of each Vertex.
         /// Fills the Edge list. Calculates the Triangle normals.
         /// Sets the local coordinate system and the rotation matrix for each Triangle.
         /// Determines the area nearest each Vertex of a Triangle and the area of the entire Triangle.
@@ -291,8 +291,8 @@ namespace TriMM {
                     if (this[i].Min[j] < min[j]) { min[j] = this[i].Min[j]; }
                     if (this[i].Max[j] > max[j]) { max[j] = this[i].Max[j]; }
 
-                    // Sets the adjacent Triangles.
-                    this[i, j].AddAdjacentTriangle(i);
+                    // Sets the incident Triangles.
+                    this[i, j].AddIncidentTriangle(i);
                     // Sets the Neighborhood.
                     this[i, j].Neighborhood.AddNeighbors(this[i][(j + 1) % 3], this[i][(j + 2) % 3]);
                     // Fills the Edge list.

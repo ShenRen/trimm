@@ -142,7 +142,7 @@
     <Compile Include="TriMMView.xaml.cs">
       <DependentUpon>TriMMView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VertexNormalAlgorithms\AdjacentEdgesWeights.cs" />
+    <Compile Include="VertexNormalAlgorithms\IncidentEdgesWeights.cs" />
     <Compile Include="VertexNormalAlgorithms\ChenAndWu.cs" />
     <Compile Include="ColorOGL.cs" />
     <Compile Include="Edge.cs" />
@@ -150,7 +150,7 @@
     <Compile Include="VertexNormalAlgorithms\ExtendedChenAndWu.cs" />
     <Compile Include="VertexNormalAlgorithms\ExtendedThuermerAndWuethrich.cs" />
     <Compile Include="VertexNormalAlgorithms\Gouraud.cs" />
-    <Compile Include="VertexNormalAlgorithms\InverseAdjacentEdgesWeight.cs" />
+    <Compile Include="VertexNormalAlgorithms\InverseIncidentEdgesWeight.cs" />
     <Compile Include="VertexNormalAlgorithms\InverseEdgeNormals.cs" />
     <Compile Include="VertexNormalAlgorithms\InverseTaubin.cs" />
     <Compile Include="VertexNormalAlgorithms\IVertexNormalAlgorithm.cs" />

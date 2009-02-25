@@ -26,7 +26,7 @@ namespace TriMM {
     [Serializable()]
 
     /// <summary>
-    /// A Vertex of the mesh. Can store the normal vector, the Voronoi area, a list of adjacent Triangles and a Neighborhood.
+    /// A Vertex of the mesh. Can store the normal vector, the Voronoi area, a list of incident Triangles and a Neighborhood.
     /// </summary>
     public class Vertex : Vector {
 
@@ -48,7 +48,7 @@ namespace TriMM {
         /// <value>Gets the Voronoi area of this Vertex or sets it.</value>
         public double Area { get { return area; } set { area = value; } }
 
-        /// <value>Gets the List of Triangles adjacent to this Vertex or sets it.</value>
+        /// <value>Gets the List of Triangles incident to this Vertex or sets it.</value>
         public List<int> Triangles { get { return triangles; } set { triangles = value; } }
 
         /// <value>Gets the 1-Neighborhood (could be any Neighborhood, but is used as 1-Neighborhood) of this Vertex or sets it.</value>
@@ -75,10 +75,10 @@ namespace TriMM {
         #region Methods
 
         /// <summary>
-        /// If the given Triangle is not already in the list of adjacent Triangle, it is added.
+        /// If the given Triangle is not already in the list of incident Triangle, it is added.
         /// </summary>
-        /// <param name="triangle">New adjacent Triangle.</param>
-        public void AddAdjacentTriangle(int triangle) { if (!triangles.Contains(triangle)) { triangles.Add(triangle); } }
+        /// <param name="triangle">New incident Triangle.</param>
+        public void AddIncidentTriangle(int triangle) { if (!triangles.Contains(triangle)) { triangles.Add(triangle); } }
 
         #endregion
 

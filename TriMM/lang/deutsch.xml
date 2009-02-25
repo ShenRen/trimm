@@ -47,14 +47,14 @@
     <LengthLabel Text="L&#228;nge:">L&#228;nge</LengthLabel>
   </Global>
   <VertexNormalAlgorithms>
-    <AEW>Kantenl&#228;ngengewichtung</AEW>
     <CW>Chen und Wu</CW>
     <EN>Mittelung der Kantennormalen</EN>
     <ECW>Erweiterter Chen und Wu</ECW>
     <ETW>Erweiterter Thuermer und Wuethrich</ETW>
     <G>Gouraud</G>
-    <IAEW>Inverse Kantenl&#228;ngengewichtung</IAEW>
+    <IEW>Kantenl&#228;ngengewichtung</IEW>
     <IEN>Inverse Mittelung der Kantennormalen</IEN>
+    <IIEW>Inverse Kantenl&#228;ngengewichtung</IIEW>
     <IT>Inverser Taubin</IT>
     <M>Max</M>
     <R>Rusinkiewicz</R>
