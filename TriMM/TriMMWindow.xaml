@@ -54,27 +54,14 @@
         </DockPanel>
         <Rectangle Name="rectangle2" StrokeThickness="0" Visibility="Hidden" Height="6" />
         <GroupBox Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshInformationHeader/@Text}" Name="meshGroupBox" Visibility="Collapsed">
-            <DockPanel Name="dockPanel2">
-                <StackPanel Name="stackPanel2">
-                    <Label Name="verticesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesLabel/@Text}" />
-                    <Label Name="edgesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesLabel/@Text}" />
-                    <Label Name="trianglesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesLabel/@Text}" />
-                </StackPanel>
-                <StackPanel Name="stackPanel3">
-                    <DockPanel Name="dockPanel3">
-                        <Label Name="spaceLabel1" Visibility="Hidden">I</Label>
-                        <TextBox Name="verticesTextBox" IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
-                    </DockPanel>
-                    <DockPanel Name="dockPanel4">
-                        <Label Name="spaceLabel2" Visibility="Hidden">I</Label>
-                        <TextBox IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Name="edgesTextBox" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
-                    </DockPanel>
-                    <DockPanel Name="dockPanel5">
-                        <Label Name="spaceLabel3" Visibility="Hidden">I</Label>
-                        <TextBox IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Name="trianglesTextBox" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" />
-                    </DockPanel>
-                </StackPanel>
-            </DockPanel>
+            <UniformGrid Name="uniformGrid1" Rows="2" Columns="3">
+                <Label Name="verticesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesLabel/@Text}" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" />
+                <Label Name="edgesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/EdgesLabel/@Text}" HorizontalContentAlignment="Center" />
+                <Label Name="trianglesLabel" Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/TrianglesLabel/@Text}" HorizontalContentAlignment="Center" />
+                <TextBox Name="verticesTextBox" IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                <TextBox IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Name="edgesTextBox" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                <TextBox IsEnabled="True" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" Name="trianglesTextBox" Background="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+            </UniformGrid>
         </GroupBox>
         <TabControl Name="manipulationTabControl" Visibility="Collapsed" VerticalContentAlignment="Top">
             <TabItem Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/VerticesTab/@Text}" Name="verticesTabItem" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" TabIndex="6">
