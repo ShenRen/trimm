@@ -597,12 +597,16 @@ namespace TriMM {
                 if (TriMMApp.Mesh.ObservedVertex != -1) { DrawObservedVertex(); }
                 if (TriMMApp.Mesh.ObservedEdge != -1) { DrawObservedEdge(); }
                 if (info.Count > 0) { DrawInfo(); }
-            } else if (picking && (TriMMApp.Settings.PickingMode == 1)) {
-                DrawPickingVertices();
-            } else if (picking && (TriMMApp.Settings.PickingMode == 2)) {
-                DrawPickingEdges();
-            } else if (picking && (TriMMApp.Settings.PickingMode == 3)) {
-                DrawPickingTriangles();
+            } else if (picking) {
+                Gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+                if (TriMMApp.Settings.PickingMode == 1) {
+                    DrawPickingVertices();
+                } else if (TriMMApp.Settings.PickingMode == 2) {
+                    DrawPickingEdges();
+                } else if (TriMMApp.Settings.PickingMode == 3) {
+                    DrawPickingTriangles();
+                }
+                Gl.glClearColor(TriMMApp.Settings.BackColor.R, TriMMApp.Settings.BackColor.G, TriMMApp.Settings.BackColor.B, 1.0f);
             }
             Gl.glPopMatrix();
         }
@@ -1004,7 +1008,7 @@ namespace TriMM {
             this.picking = false;
 
             // The TrianglePicked event is thrown, passing the picked Triangles to the attached EventHandler.
-            if (TrianglePicked != null) { TrianglePicked(ColorOGL.UniqueSelection(color, TriMMApp.Mesh.TriangleColorDist, 3 * TriMMApp.Mesh.Count)); }
+            if (TrianglePicked != null) { TrianglePicked(ColorOGL.UniqueSelection(color, TriMMApp.Mesh.TriangleColorDist, TriMMApp.Mesh.Count)); }
         }
 
         /// <summary>
