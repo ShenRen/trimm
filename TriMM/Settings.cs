@@ -442,8 +442,8 @@ namespace TriMM {
             triNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
             vertNormalColor = new ColorOGL(0.8f, 0.0f, 0.8f);
             observedVertexColor = new ColorOGL(1.0f, 1.0f, 1.0f);
-            observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
             observedEdgeColor = new ColorOGL(1.0f, 1.0f, 1.0f);
+            observedTriangleColor = new ColorOGL(1.0f, 0.0f, 0.0f);
             xAxisColor = new ColorOGL(0.8f, 0.0f, 0.0f);
             yAxisColor = new ColorOGL(0.0f, 0.8f, 0.0f);
             zAxisColor = new ColorOGL(0.0f, 0.0f, 0.8f);
@@ -481,8 +481,8 @@ namespace TriMM {
             triNormalColor = sTriNormalColor;
             vertNormalColor = sVertNormalColor;
             observedVertexColor = sObservedVertexColor;
-            observedTriangleColor = sObservedTriangleColor;
             observedEdgeColor = sObservedEdgeColor;
+            observedTriangleColor = sObservedTriangleColor;
             xAxisColor = sXAxisColor;
             yAxisColor = sYAxisColor;
             zAxisColor = sZAxisColor;
@@ -523,12 +523,11 @@ namespace TriMM {
             triNormalColor = sTriNormalColor;
             vertNormalColor = sVertNormalColor;
             observedVertexColor = sObservedVertexColor;
-            observedTriangleColor = sObservedTriangleColor;
             observedEdgeColor = sObservedEdgeColor;
+            observedTriangleColor = sObservedTriangleColor;
             xAxisColor = sXAxisColor;
             yAxisColor = sYAxisColor;
             zAxisColor = sZAxisColor;
-
 
             normalAlgo = sNormalAlgo;
             Language = sLanguage;
@@ -561,8 +560,8 @@ namespace TriMM {
             sTriNormalColor = triNormalColor;
             sVertNormalColor = vertNormalColor;
             sObservedVertexColor = observedVertexColor;
-            sObservedTriangleColor = observedTriangleColor;
             sObservedEdgeColor = observedEdgeColor;
+            sObservedTriangleColor = observedTriangleColor;
             sXAxisColor = xAxisColor;
             sYAxisColor = yAxisColor;
             sZAxisColor = zAxisColor;
@@ -607,9 +606,10 @@ namespace TriMM {
 
                         if (line.Length == 4) {
                             ColorOGL color = new ColorOGL(float.Parse(line[1], NumberStyles.Float, numberFormatInfo), float.Parse(line[2], NumberStyles.Float, numberFormatInfo), float.Parse(line[3], NumberStyles.Float, numberFormatInfo));
-                            if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "SOLIDC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; } else if (line[0] == "VERTEXC") { vertexColor = color; }
-                            else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; } else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; }
-                            else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
+                            if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "SOLIDC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; }
+                            else if (line[0] == "VERTEXC") { vertexColor = color; } else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; }
+                            else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; }
+                            else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
                         } else if (line.Length == 2) {
                             if (line[0] == "LANG") {
                                 Language = line[1];
@@ -687,13 +687,14 @@ namespace TriMM {
                 sw.WriteLine("TNC " + triNormalColor.R + " " + triNormalColor.G + " " + triNormalColor.B);
                 sw.WriteLine("VNC " + vertNormalColor.R + " " + vertNormalColor.G + " " + vertNormalColor.B);
                 sw.WriteLine("OVERTC " + observedVertexColor.R + " " + observedVertexColor.G + " " + observedVertexColor.B);
-                sw.WriteLine("OTRIC " + observedTriangleColor.R + " " + observedTriangleColor.G + " " + observedTriangleColor.B);
                 sw.WriteLine("OEDGC " + observedEdgeColor.R + " " + observedEdgeColor.G + " " + observedEdgeColor.B);
+                sw.WriteLine("OTRIC " + observedTriangleColor.R + " " + observedTriangleColor.G + " " + observedTriangleColor.B);
                 sw.WriteLine("XAXISC " + xAxisColor.R + " " + xAxisColor.G + " " + xAxisColor.B);
                 sw.WriteLine("YAXISC " + yAxisColor.R + " " + yAxisColor.G + " " + yAxisColor.B);
                 sw.WriteLine("ZAXISC " + zAxisColor.R + " " + zAxisColor.G + " " + zAxisColor.B);
 
                 // Display
+                sw.WriteLine("LANG " + language);
                 sw.WriteLine("NA " + normalAlgo);
                 sw.WriteLine("PICK " + pickingMode);
                 if (smooth) { sw.WriteLine("SMOOTH 1"); } else { sw.WriteLine("SMOOTH 0"); }

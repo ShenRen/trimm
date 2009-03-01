@@ -1,26 +1,26 @@
 # Settings for TriMM, the TriangleMesh Manipulator
-BACKC 0 0 0
-TEXTC 1 1 1
-SOLIDC 0 0.8 0.8
-MESHC 0.5 0.5 0.5
-VERTEXC 0.8 0.8 0
-TNC 0.8 0 0.8
-VNC 0.8 0 0.8
-OVERTC 1 1 1
-OTRIC 1 0 0
-OEDGC 1 1 1
-XAXISC 0.8 0 0
-YAXISC 0 0.8 0
-ZAXISC 0 0 0.8
-LANG english
-NA 0
-PICK 0
-SMOOTH 0
-SOLID 1
-MESH 1
-VERT 0
-TRINORM 0
-VERTNORM 0
-XAXIS 0
-YAXIS 0
-ZAXIS 0
+BACKC 0 0 0 			# Backcolor
+TEXTC 1 1 1				# Textcolor
+SOLIDC 0 0.8 0.8			# Color of the unselected Triangles
+MESHC 0.5 0.5 0.5			# Meshcolor
+VERTEXC 0.8 0.8 0			# Vertexcolor
+TNC 0.8 0 0.8			# Trianglenormalcolor
+VNC 0.8 0 0.8			# Vertexnormalcolor
+OVERTC 1 1 1			# Observed Vertex Color
+OEDGC 1 1 1				# Observed Edge Color
+OTRIC 1 0 0				# Observed Triangle Color
+XAXISC 0.8 0 0			# X-Axis Color
+YAXISC 0 0.8 0			# Y-Axis Color
+ZAXISC 0 0 0.8			# Z-Axis Color
+LANG english			# Name of the language file, without the extension XML
+NA 0					# Index of the selected Normal Algorithm (0 to 12)
+PICK 0				# Picking mode (0=None, 1=Vertex, 2=Edge, 3=Triangle)
+SMOOTH 0				# Smooth Mesh (0=true, 1=false)
+SOLID 1				# Paint Triangles (0=true, 1=false)
+MESH 1				# Paint Mesh (0=true, 1=false)
+VERT 0				# Paint Vertices (0=true, 1=false)
+TRINORM 0				# Paint Trianglenormals (0=true, 1=false)
+VERTNORM 0				# Paint Vertexnormals (0=true, 1=false)
+XAXIS 0				# Paint X-Axis (0=true, 1=false)
+YAXIS 0				# Paint Y-Axis (0=true, 1=false)
+ZAXIS 0				# Paint Z-Axis (0=true, 1=false)

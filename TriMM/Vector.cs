@@ -414,7 +414,7 @@ namespace TriMM {
             string result = "[";
             for (int i = 0; i < this.Count; i++) {
                 result += this[i].ToString();
-                if (i < this.Count - 1) { result += ", "; } else { result += "]"; }
+                if (i < this.Count - 1) { result += "; "; } else { result += "]"; }
             }
             return result;
         }

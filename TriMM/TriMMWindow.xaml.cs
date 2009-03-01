@@ -590,7 +590,7 @@ namespace TriMM {
         private void Control_TrianglePicked(List<int> picked) {
             ClearObserved();
             if (picked.Count != 0) {
-                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Triangle")[0].InnerText + " " + picked[0] + " = (" + TriMMApp.Mesh[picked[0]][0] + ", " + TriMMApp.Mesh[picked[0]][1] + ", " + TriMMApp.Mesh[picked[0]][2] + ")");
+                TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Triangle")[0].InnerText + " " + picked[0] + " = (" + TriMMApp.Mesh[picked[0]][0] + "; " + TriMMApp.Mesh[picked[0]][1] + "; " + TriMMApp.Mesh[picked[0]][2] + ")");
                 TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh[picked[0]][0] + " = " + TriMMApp.Mesh[picked[0], 0].ToString());
                 TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh[picked[0]][1] + " = " + TriMMApp.Mesh[picked[0], 1].ToString());
                 TriMMApp.Control.Info.Add(TriMMApp.Lang.GetElementsByTagName("Vertex")[0].InnerText + " " + TriMMApp.Mesh[picked[0]][2] + " = " + TriMMApp.Mesh[picked[0], 2].ToString());
