@@ -275,9 +275,6 @@ namespace TriMM {
                 }
 
                 string function = (functionTextBox.Text == "") ? "0" : functionTextBox.Text;
-                // The Calculator internally works with the decimal separator ".", so it has to be switched.
-                function = function.Replace(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".");
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
                 Calculator.factor = Calculator.factors[factorIndex];
                 for (int i = 0; i < TriMMApp.Mesh.Vertices.Count; i++) {
                     String editedFormula = function;
@@ -285,17 +282,6 @@ namespace TriMM {
                     editedFormula = editedFormula.Replace("y", "(" + TriMMApp.Mesh.Vertices[i][1].ToString() + ")");
                     TriMMApp.Mesh.Vertices[i][2] = Calculator.Evaluate(editedFormula);
                 }
-
-                // The decimal separator is switched back.
-#if !Debug
-                try {
-#endif
-                    Thread.CurrentThread.CurrentCulture = new CultureInfo(TriMMApp.Lang.GetElementsByTagName("Culture")[0].InnerText);
-#if !Debug
-                } catch {
-                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-                }
-#endif
 
                 TriMMApp.Mesh.Finish(true);
                 TriangleMesh mesh = TriMMApp.Mesh;

@@ -29,7 +29,6 @@ namespace TriMM {
     /// The ObjParser allows parsing files in Wavefronts *.OBJ format.
     /// Only triangle meshes are supported.
     /// Information other than that about the Vertices, the vertex normals and the faces is lost.
-    /// 
     /// </summary>
     public static class ObjParser {
 
@@ -86,9 +85,9 @@ namespace TriMM {
                         if (inputList[1].Contains("/")) {
                             // The OBJ format allows entering information about the Vertices (v), the texture (vt) and the normal vectors at the Vertices (vn) in the form v/vt/vn.
                             // Only the Vertex informations are used, as no texture is supported by this program and the normal vectors are attached to the Vertices directly.
-                            a = int.Parse(inputList[1].Substring(0, inputList[1].IndexOf('/')), nFI) - 1;
-                            b = int.Parse(inputList[2].Substring(0, inputList[2].IndexOf('/')), nFI) - 1;
-                            c = int.Parse(inputList[3].Substring(0, inputList[3].IndexOf('/')), nFI) - 1;
+                            a = int.Parse(inputList[1].Substring(0, inputList[1].IndexOf('/')).Trim(), nFI) - 1;
+                            b = int.Parse(inputList[2].Substring(0, inputList[2].IndexOf('/')).Trim(), nFI) - 1;
+                            c = int.Parse(inputList[3].Substring(0, inputList[3].IndexOf('/')).Trim(), nFI) - 1;
                         } else {
                             // The simple version only gives information about the Vertices.
                             a = int.Parse(inputList[1], nFI) - 1;

@@ -45,6 +45,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 
 namespace TriMM {
 
@@ -332,19 +333,20 @@ namespace TriMM {
         private static double EvalNumber(ref string expression) {
             bool foundSeparator = false;
             string temp = "";
+            char sep = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator.ToCharArray()[0];
             int i = 0;
             expression = expression.Trim();
 
             // build a string with the number
-            while (i != expression.Length && (char.IsDigit(expression[i]) || expression[i] == '.')) {
+            while (i != expression.Length && (char.IsDigit(expression[i]) || expression[i] == sep)) {
                 // Allow only one decimal separator
-                if (expression[i] == '.') {
+                if (expression[i] == sep) {
                     if (!foundSeparator) { foundSeparator = true; } else { throw new FormatException(); }
                 }
                 temp += expression[i++];
             }
             // First or last symbol may not be the decimal separator
-            if (temp[0] == '.' || temp[temp.Length - 1] == '.') { throw new FormatException(); }
+            if (temp[0] == sep || temp[temp.Length - 1] == sep) { throw new FormatException(); }
 
             expression = expression.Substring(i, expression.Length - i).Trim();
             return Double.Parse(temp);

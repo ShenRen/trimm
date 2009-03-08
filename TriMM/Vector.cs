@@ -437,10 +437,10 @@ namespace TriMM {
         }
 
         /// <summary>
-        /// Just so that Visual Studio doesn't complain.
+        /// Needed for operations like Union.
         /// </summary>
-        /// <returns>base.GetHashCode()</returns>
-        public override int GetHashCode() { return base.GetHashCode(); }
+        /// <returns>HashCode of the Vector as a string.</returns>
+        public override int GetHashCode() { return this.ToString().GetHashCode(); }
 
         #endregion
 
