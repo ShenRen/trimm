@@ -187,7 +187,11 @@ namespace TriMM {
         public int NormalAlgo {
             get { return normalAlgo; }
             set {
-                normalAlgo = value;
+                if ((value < 0) || (value > 12)) {
+                    normalAlgo = 0;
+                } else {
+                    normalAlgo = value;
+                }
                 if (NormalAlgoChanged != null) { NormalAlgoChanged(); }
             }
         }

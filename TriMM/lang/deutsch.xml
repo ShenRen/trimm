@@ -226,7 +226,7 @@
     <AddTriangleButton Text="Dreieck hinzuf&#252;gen"/>
     <MeshesTab Text="Netz"/>
     <AngleLabel Text="Winkel:"/>
-    <ScaleMeshButton Text="Netz Skalieren"/>
+    <ScaleMeshButton Text="Netz skalieren"/>
     <TransposeMeshButton Text="Netz verschieben"/>
     <CenterMeshButton Text="Netz zentrieren"/>
     <RotateMeshButton Text="Netz um Achse drehen"/>
