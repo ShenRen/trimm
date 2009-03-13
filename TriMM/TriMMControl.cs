@@ -598,7 +598,6 @@ namespace TriMM {
                 if (TriMMApp.Mesh.ObservedEdge != -1) { DrawObservedEdge(); }
                 if (info.Count > 0) { DrawInfo(); }
             } else if (picking) {
-                Gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                 if (TriMMApp.Settings.PickingMode == 1) {
                     DrawPickingVertices();
                 } else if (TriMMApp.Settings.PickingMode == 2) {
@@ -606,7 +605,6 @@ namespace TriMM {
                 } else if (TriMMApp.Settings.PickingMode == 3) {
                     DrawPickingTriangles();
                 }
-                Gl.glClearColor(TriMMApp.Settings.BackColor.R, TriMMApp.Settings.BackColor.G, TriMMApp.Settings.BackColor.B, 1.0f);
             }
             Gl.glPopMatrix();
         }
@@ -868,14 +866,15 @@ namespace TriMM {
             Gl.glDisable(Gl.GL_LIGHTING);
             Gl.glDisable(Gl.GL_LIGHT0);
             Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
+            Gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             this.picking = true;
 
             float[] color = new float[3 * rect[2] * rect[3]];
-
             RenderScene();
             Gl.glReadBuffer(Gl.GL_BACK);
             Gl.glReadPixels(rect[0], rect[1], rect[2], rect[3], Gl.GL_RGB, Gl.GL_FLOAT, color);
 
+            Gl.glClearColor(TriMMApp.Settings.BackColor.R, TriMMApp.Settings.BackColor.G, TriMMApp.Settings.BackColor.B, 1.0f);
             Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
             Gl.glEnable(Gl.GL_LIGHTING);
             Gl.glEnable(Gl.GL_LIGHT0);
@@ -938,6 +937,7 @@ namespace TriMM {
             Gl.glDisable(Gl.GL_LIGHTING);
             Gl.glDisable(Gl.GL_LIGHT0);
             Gl.glDisableClientState(Gl.GL_NORMAL_ARRAY);
+            Gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             this.picking = true;
 
             float[] color = new float[3 * rect[2] * rect[3]];
@@ -946,6 +946,7 @@ namespace TriMM {
             Gl.glReadBuffer(Gl.GL_BACK);
             Gl.glReadPixels(rect[0], rect[1], rect[2], rect[3], Gl.GL_RGB, Gl.GL_FLOAT, color);
 
+            Gl.glClearColor(TriMMApp.Settings.BackColor.R, TriMMApp.Settings.BackColor.G, TriMMApp.Settings.BackColor.B, 1.0f);
             Gl.glEnableClientState(Gl.GL_NORMAL_ARRAY);
             Gl.glEnable(Gl.GL_LIGHTING);
             Gl.glEnable(Gl.GL_LIGHT0);
@@ -995,6 +996,7 @@ namespace TriMM {
         private void PickTriangle(int[] rect) {
             Gl.glDisable(Gl.GL_LIGHTING);
             Gl.glDisable(Gl.GL_LIGHT0);
+            Gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             this.picking = true;
 
             float[] color = new float[3 * rect[2] * rect[3]];
@@ -1003,6 +1005,7 @@ namespace TriMM {
             Gl.glReadBuffer(Gl.GL_BACK);
             Gl.glReadPixels(rect[0], rect[1], rect[2], rect[3], Gl.GL_RGB, Gl.GL_FLOAT, color);
 
+            Gl.glClearColor(TriMMApp.Settings.BackColor.R, TriMMApp.Settings.BackColor.G, TriMMApp.Settings.BackColor.B, 1.0f);
             Gl.glEnable(Gl.GL_LIGHTING);
             Gl.glEnable(Gl.GL_LIGHT0);
             this.picking = false;

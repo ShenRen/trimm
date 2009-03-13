@@ -610,10 +610,7 @@ namespace TriMM {
 
                         if (line.Length == 4) {
                             ColorOGL color = new ColorOGL(float.Parse(line[1], NumberStyles.Float, numberFormatInfo), float.Parse(line[2], NumberStyles.Float, numberFormatInfo), float.Parse(line[3], NumberStyles.Float, numberFormatInfo));
-                            if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "SOLIDC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; }
-                            else if (line[0] == "VERTEXC") { vertexColor = color; } else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; }
-                            else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; }
-                            else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
+                            if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "SOLIDC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; } else if (line[0] == "VERTEXC") { vertexColor = color; } else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; } else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; } else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
                         } else if (line.Length == 2) {
                             if (line[0] == "LANG") {
                                 Language = line[1];
@@ -658,6 +655,7 @@ namespace TriMM {
                     }
                 }
 
+                if (SettingsChanged != null) { SettingsChanged(); }
                 MakeStandard();
 #if !DEBUG
             } catch (ArgumentException ex) {
@@ -681,21 +679,25 @@ namespace TriMM {
 #if !DEBUG
             try {
 #endif
+                // The numbers in the file must have the decimal separator ".".
+                NumberFormatInfo nFI = new NumberFormatInfo();
+                nFI.NumberDecimalSeparator = ".";
+
                 sw.WriteLine(TriMMApp.Lang.GetElementsByTagName("SETHeader")[0].InnerText);
                 // Colors
-                sw.WriteLine("BACKC " + backColor.R + " " + backColor.G + " " + backColor.B);
-                sw.WriteLine("TEXTC " + textColor.R + " " + textColor.G + " " + textColor.B);
-                sw.WriteLine("SOLIDC " + solidColor.R + " " + solidColor.G + " " + solidColor.B);
-                sw.WriteLine("MESHC " + meshColor.R + " " + meshColor.G + " " + meshColor.B);
-                sw.WriteLine("VERTEXC " + vertexColor.R + " " + vertexColor.G + " " + vertexColor.B);
-                sw.WriteLine("TNC " + triNormalColor.R + " " + triNormalColor.G + " " + triNormalColor.B);
-                sw.WriteLine("VNC " + vertNormalColor.R + " " + vertNormalColor.G + " " + vertNormalColor.B);
-                sw.WriteLine("OVERTC " + observedVertexColor.R + " " + observedVertexColor.G + " " + observedVertexColor.B);
-                sw.WriteLine("OEDGC " + observedEdgeColor.R + " " + observedEdgeColor.G + " " + observedEdgeColor.B);
-                sw.WriteLine("OTRIC " + observedTriangleColor.R + " " + observedTriangleColor.G + " " + observedTriangleColor.B);
-                sw.WriteLine("XAXISC " + xAxisColor.R + " " + xAxisColor.G + " " + xAxisColor.B);
-                sw.WriteLine("YAXISC " + yAxisColor.R + " " + yAxisColor.G + " " + yAxisColor.B);
-                sw.WriteLine("ZAXISC " + zAxisColor.R + " " + zAxisColor.G + " " + zAxisColor.B);
+                sw.WriteLine("BACKC " + backColor.R.ToString(nFI) + " " + backColor.G.ToString(nFI) + " " + backColor.B.ToString(nFI));
+                sw.WriteLine("TEXTC " + textColor.R.ToString(nFI) + " " + textColor.G.ToString(nFI) + " " + textColor.B.ToString(nFI));
+                sw.WriteLine("SOLIDC " + solidColor.R.ToString(nFI) + " " + solidColor.G.ToString(nFI) + " " + solidColor.B.ToString(nFI));
+                sw.WriteLine("MESHC " + meshColor.R.ToString(nFI) + " " + meshColor.G.ToString(nFI) + " " + meshColor.B.ToString(nFI));
+                sw.WriteLine("VERTEXC " + vertexColor.R.ToString(nFI) + " " + vertexColor.G.ToString(nFI) + " " + vertexColor.B.ToString(nFI));
+                sw.WriteLine("TNC " + triNormalColor.R.ToString(nFI) + " " + triNormalColor.G.ToString(nFI) + " " + triNormalColor.B.ToString(nFI));
+                sw.WriteLine("VNC " + vertNormalColor.R.ToString(nFI) + " " + vertNormalColor.G.ToString(nFI) + " " + vertNormalColor.B.ToString(nFI));
+                sw.WriteLine("OVERTC " + observedVertexColor.R.ToString(nFI) + " " + observedVertexColor.G.ToString(nFI) + " " + observedVertexColor.B.ToString(nFI));
+                sw.WriteLine("OEDGC " + observedEdgeColor.R.ToString(nFI) + " " + observedEdgeColor.G.ToString(nFI) + " " + observedEdgeColor.B.ToString(nFI));
+                sw.WriteLine("OTRIC " + observedTriangleColor.R.ToString(nFI) + " " + observedTriangleColor.G.ToString(nFI) + " " + observedTriangleColor.B.ToString(nFI));
+                sw.WriteLine("XAXISC " + xAxisColor.R.ToString(nFI) + " " + xAxisColor.G.ToString(nFI) + " " + xAxisColor.B.ToString(nFI));
+                sw.WriteLine("YAXISC " + yAxisColor.R.ToString(nFI) + " " + yAxisColor.G.ToString(nFI) + " " + yAxisColor.B.ToString(nFI));
+                sw.WriteLine("ZAXISC " + zAxisColor.R.ToString(nFI) + " " + zAxisColor.G.ToString(nFI) + " " + zAxisColor.B.ToString(nFI));
 
                 // Display
                 sw.WriteLine("LANG " + language);

@@ -421,7 +421,6 @@ namespace TriMM {
             if (view != null) { view.Close(); }
             saveMenuItem.Visibility = saveAsMenuItem.Visibility = closeMenuItem.Visibility = viewMenuItem.Visibility =
                  meshGroupBox.Visibility = manipulationTabControl.Visibility = Visibility.Collapsed;
-            normalComboBox.SelectedIndex = 0;
             e1NumericUpDown.Minimum = e2NumericUpDown.Minimum = aNumericUpDown.Minimum = bNumericUpDown.Minimum = cNumericUpDown.Minimum = 0;
             e1NumericUpDown.Maximum = e2NumericUpDown.Maximum = aNumericUpDown.Maximum = bNumericUpDown.Maximum = cNumericUpDown.Maximum = 0;
             xNumericUpDown.Value = yNumericUpDown.Value = zNumericUpDown.Value = distanceNumericUpDown.Value =

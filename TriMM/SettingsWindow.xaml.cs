@@ -41,6 +41,9 @@ namespace TriMM {
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes the SettingsWindow with all its controls.
+        /// </summary>
         public SettingsWindow() {
             InitializeComponent();
             this.Icon = TriMMApp.Image;
@@ -70,6 +73,7 @@ namespace TriMM {
             pickingModeComboBox.SelectedIndex = TriMMApp.Settings.PickingMode;
 
             TriMMApp.Settings.SettingsChanged += new SettingsChangedEventHandler(Settings_SettingsChanged);
+            TriMMApp.Settings.LanguageChanged += new LanguageChangedEventHandler(Settings_LanguageChanged);
         }
 
         #endregion
@@ -361,9 +365,12 @@ namespace TriMM {
         #endregion
 
         /// <summary>
-        /// Adjusts the values in the SettingsForm, when the Settings were changed.
+        /// Adjusts the values in the SettingsWindow, when the Settings were changed.
         /// </summary>
         private void Settings_SettingsChanged() {
+            // Vertexnormal Algorithm
+            normalComboBox.SelectedIndex = TriMMApp.Settings.NormalAlgo;
+
             // Colors
             switch (colorComboBox.SelectedIndex) {
                 case 0:
@@ -431,6 +438,15 @@ namespace TriMM {
             triangleNormalsCheckBox.IsChecked = TriMMApp.Settings.TriangleNormalVectors;
             vertexNormalsCheckBox.IsChecked = TriMMApp.Settings.VertexNormalVectors;
             pickingModeComboBox.SelectedIndex = TriMMApp.Settings.PickingMode;
+        }
+
+        /// <summary>
+        /// Adjusts the language ComboBox, when the language is changed.
+        /// </summary>
+        private void Settings_LanguageChanged() {
+            languageComboBox.SelectionChanged -= LanguageComboBox_SelectionChanged;
+            languageComboBox.SelectedItem = TriMMApp.Settings.Language;
+            languageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
         }
 
         #endregion

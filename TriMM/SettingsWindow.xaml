@@ -22,23 +22,23 @@
     Title="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/Title/@Text}"  WindowStartupLocation="Manual" Topmost="False" ShowInTaskbar="False" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Visibility="Visible">
     <StackPanel Name="stackPanel1">
         <Menu Name="setMenu">
-            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/LoadSettingsMenuItem/@Text}" Name="loadSettingsMenuItem" Click="LoadSettingsMenuItem_Click" />
-            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/SaveSettingsMenuItem/@Text}" Name="saveSettingsMenuItem" Click="SaveSettingsMenuItem_Click" />
-            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetAllMenuItem/@Text}" Name="resetAllMenuItem" Click="ResetAllMenuItem_Click" />
-            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/MakeStandardMenuItem/@Text}" Name="makeStandardMenuItem" Click="MakeStandardMenuItem_Click" />
+            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/LoadSettingsMenuItem/@Text}" Name="loadSettingsMenuItem" Click="LoadSettingsMenuItem_Click" TabIndex="0" />
+            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/SaveSettingsMenuItem/@Text}" Name="saveSettingsMenuItem" Click="SaveSettingsMenuItem_Click" TabIndex="1" />
+            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetAllMenuItem/@Text}" Name="resetAllMenuItem" Click="ResetAllMenuItem_Click" TabIndex="2" />
+            <MenuItem Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/MakeStandardMenuItem/@Text}" Name="makeStandardMenuItem" Click="MakeStandardMenuItem_Click" TabIndex="3" />
         </Menu>
         <Rectangle Name="rectangle1" StrokeThickness="0" Visibility="Hidden" Height="6" />
         <DockPanel Name="dockPanel1">
             <Label Height="Auto" Name="languageLabel" Width="Auto" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/LanguageLabel/@Text}" VerticalContentAlignment="Center" />
-            <ComboBox Height="Auto" Name="languageComboBox" TabIndex="0" SelectionChanged="LanguageComboBox_SelectionChanged" MinWidth="120" />
+            <ComboBox Height="Auto" Name="languageComboBox" TabIndex="4" SelectionChanged="LanguageComboBox_SelectionChanged" MinWidth="120" />
             <Label Height="Auto" Name="normalAlgorithmLabel" Content="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmLabel/@Text}" VerticalContentAlignment="Center" />
             <Rectangle Name="rectangle2" StrokeThickness="0" Visibility="Hidden" Width="6" DockPanel.Dock="Right" />
-            <ComboBox Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="0" MinWidth="100" DockPanel.Dock="Right" />
+            <ComboBox Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" TabIndex="5" MinWidth="100" DockPanel.Dock="Right" />
         </DockPanel>
         <Rectangle Name="rectangle3" StrokeThickness="0" Visibility="Hidden" Height="6" />
         <GroupBox Header="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ColorsGroupBoxHeader/@Text}" Name="colorsGroupBox">
             <DockPanel Name="dockPanel2">
-                <ComboBox Height="Auto" Name="colorComboBox" SelectionChanged="ColorComboBox_SelectionChanged" MinWidth="135">
+                <ComboBox Height="Auto" Name="colorComboBox" SelectionChanged="ColorComboBox_SelectionChanged" MinWidth="135" TabIndex="6">
                     <ComboBoxItem Name="backgroundItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/BackgroundItem/@Text}" />
                     <ComboBoxItem Name="textItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/TextItem/@Text}" />
                     <ComboBoxItem Name="solidItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/SolidItem/@Text}" />
@@ -54,9 +54,9 @@
                     <ComboBoxItem Name="observedTriangleItem" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ObservedTriangleItem/@Text}" />
                 </ComboBox>
                 <Rectangle Name="rectangle4" StrokeThickness="0" Visibility="Hidden" Width="6" />
-                <Button Height="Auto" Name="resetColorsButton" Click="ResetColorsButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetButton/@Text}" MinHeight="23" DockPanel.Dock="Right" />
+                <Button Height="Auto" Name="resetColorsButton" Click="ResetColorsButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetButton/@Text}" MinHeight="23" DockPanel.Dock="Right" TabIndex="8" />
                 <Rectangle Name="rectangle5" StrokeThickness="0" Visibility="Hidden" Width="6" DockPanel.Dock="Right" />
-                <Button Height="23" Name="colorButton" Click="ColorButton_Click" MinWidth="23" MinHeight="23" DockPanel.Dock="Right"></Button>
+                <Button Height="23" Name="colorButton" Click="ColorButton_Click" MinWidth="23" MinHeight="23" DockPanel.Dock="Right" TabIndex="7"></Button>
                 <Rectangle Name="rectangle6" StrokeThickness="0" Visibility="Hidden" Width="6" DockPanel.Dock="Right" />
                 <TextBox Name="colorTextBox" Height="Auto" IsEnabled="True" IsReadOnly="True" TextAlignment="Right" MinWidth="150" />
             </DockPanel>
@@ -66,28 +66,28 @@
             <StackPanel Name="stackPanel2">
                 <DockPanel Name="dockPanel3">
                     <StackPanel Name="stackPanel3">
-                        <CheckBox Name="smoothCheckBox" Width="Auto" Checked="SmoothCheckBox_Checked" Unchecked="SmoothCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBox/@Text}" />
+                        <CheckBox Name="smoothCheckBox" Width="Auto" Checked="SmoothCheckBox_Checked" Unchecked="SmoothCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/SmoothCheckBox/@Text}" TabIndex="9" />
                         <Rectangle Name="rectangle8" StrokeThickness="0" Visibility="Hidden" Height="6" />
-                        <CheckBox Name="triangleNormalsCheckBox" Checked="TriangleNormalsCheckBox_Checked" Unchecked="TriangleNormalsCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBox/@Text}" Height="Auto" />
+                        <CheckBox Name="triangleNormalsCheckBox" Checked="TriangleNormalsCheckBox_Checked" Unchecked="TriangleNormalsCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleNormalsCheckBox/@Text}" Height="Auto" TabIndex="13" />
                     </StackPanel>
                     <Rectangle Name="rectangle9" Width="6" StrokeThickness="0" Visibility="Hidden" />
                     <StackPanel Name="stackPanel4">
-                        <CheckBox Name="solidCheckBox" Width="Auto" Checked="SolidCheckBox_Checked" Unchecked="SolidCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBox/@Text}" />
+                        <CheckBox Name="solidCheckBox" Width="Auto" Checked="SolidCheckBox_Checked" Unchecked="SolidCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/SolidCheckBox/@Text}" TabIndex="10" />
                         <Rectangle Height="6" Name="rectangle10" StrokeThickness="0" Visibility="Hidden" />
-                        <CheckBox Name="vertexNormalsCheckBox" Checked="VertexNormalsCheckBox_Checked" Unchecked="VertexNormalsCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBox/@Text}" Height="Auto" />
+                        <CheckBox Name="vertexNormalsCheckBox" Checked="VertexNormalsCheckBox_Checked" Unchecked="VertexNormalsCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexNormalsCheckBox/@Text}" Height="Auto" TabIndex="14" />
                     </StackPanel>
-                    <CheckBox Name="zAxisCheckBox" Checked="ZAxisCheckBox_Checked" Unchecked="ZAxisCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/ZAxisCheckBox/@Text}" DockPanel.Dock="Right" VerticalAlignment="Bottom" />
+                    <CheckBox Name="zAxisCheckBox" Checked="ZAxisCheckBox_Checked" Unchecked="ZAxisCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/ZAxisCheckBox/@Text}" DockPanel.Dock="Right" VerticalAlignment="Bottom" TabIndex="17" />
                     <Rectangle Name="rectangle11" Width="6" StrokeThickness="0" Visibility="Hidden" DockPanel.Dock="Right" />
                     <StackPanel Name="stackPanel5" DockPanel.Dock="Right">
-                        <CheckBox Name="verticesCheckBox" Checked="VerticesCheckBox_Checked" Unchecked="VerticesCheckBox_Checked"  Content="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBox/@Text}" />
+                        <CheckBox Name="verticesCheckBox" Checked="VerticesCheckBox_Checked" Unchecked="VerticesCheckBox_Checked"  Content="{Binding Source={StaticResource Lang}, XPath=Global/VerticesCheckBox/@Text}" TabIndex="12" />
                         <Rectangle Height="6" Name="rectangle12" StrokeThickness="0" Visibility="Hidden" />
-                        <CheckBox Name="yAxisCheckBox" Checked="YAxisCheckBox_Checked" Unchecked="YAxisCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBox/@Text}" />
+                        <CheckBox Name="yAxisCheckBox" Checked="YAxisCheckBox_Checked" Unchecked="YAxisCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/YAxisCheckBox/@Text}" TabIndex="16" />
                     </StackPanel>
                     <Rectangle Name="rectangle13" Width="6" StrokeThickness="0" Visibility="Hidden" DockPanel.Dock="Right" />
                     <StackPanel Name="stackPanel6" DockPanel.Dock="Right">
-                        <CheckBox Name="meshCheckBox" Checked="MeshCheckBox_Checked" Unchecked="MeshCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBox/@Text}" />
+                        <CheckBox Name="meshCheckBox" Checked="MeshCheckBox_Checked" Unchecked="MeshCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/MeshCheckBox/@Text}" TabIndex="11" />
                         <Rectangle Height="6" Name="rectangle14" StrokeThickness="0" Visibility="Hidden" />
-                        <CheckBox Name="xAxisCheckBox" Checked="XAxisCheckBox_Checked" Unchecked="XAxisCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBox/@Text}" />
+                        <CheckBox Name="xAxisCheckBox" Checked="XAxisCheckBox_Checked" Unchecked="XAxisCheckBox_Checked" Content="{Binding Source={StaticResource Lang}, XPath=Global/XAxisCheckBox/@Text}" TabIndex="15" />
                     </StackPanel>
                     <Rectangle Name="rectangle15" StrokeThickness="0" Visibility="Hidden" />
                 </DockPanel>
@@ -95,13 +95,13 @@
                 <DockPanel Name="dockPanel4">
                     <Label Name="pickingModeLabel" Width="Auto" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/PickingModeLabel/@Text}" />
                     <Rectangle Name="rectangle17" Width="6" StrokeThickness="0" Visibility="Hidden" />
-                    <ComboBox Name="pickingModeComboBox" SelectedIndex="0" SelectionChanged="PickingModeComboBox_SelectionChanged" MinWidth="120">
+                    <ComboBox Name="pickingModeComboBox" SelectionChanged="PickingModeComboBox_SelectionChanged" MinWidth="120" TabIndex="18">
                         <ComboBoxItem Name="noneItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/NoneItem/@Text}" />
                         <ComboBoxItem Name="vertexItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/VertexItem/@Text}" />
                         <ComboBoxItem Name="edgeItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/EdgeItem/@Text}" />
                         <ComboBoxItem Name="triangleItem" Content="{Binding Source={StaticResource Lang}, XPath=Global/TriangleItem/@Text}" />
                     </ComboBox>
-                    <Button Name="resetDisplayButton" Click="ResetDisplayButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetButton/@Text}" Width="Auto" DockPanel.Dock="Right" />
+                    <Button Name="resetDisplayButton" Click="ResetDisplayButton_Click" Content="{Binding Source={StaticResource Lang}, XPath=SettingsWindow/ResetButton/@Text}" Width="Auto" DockPanel.Dock="Right" TabIndex="19" />
                     <Rectangle Name="rectangle18" StrokeThickness="0" Visibility="Hidden" />
                 </DockPanel>
             </StackPanel>
