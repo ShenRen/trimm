@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("TriMM")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Moritz")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TriMM")]
 [assembly: AssemblyCopyright("Copyright © Christian Moritz 2009")]
 [assembly: AssemblyTrademark("")]
