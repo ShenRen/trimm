@@ -323,9 +323,10 @@ namespace TriMM {
             try {
 #endif
                 ofd.CheckFileExists = true;
-                ofd.DefaultExt = "off";
                 string files = TriMMApp.Lang.GetElementsByTagName("Files")[0].InnerText;
-                ofd.Filter = "OOGL " + files + " (*.off)|*.off|STL " + files + " (*.stl)|*.stl|PLY " + files + " (ascii) (*.ply)|*.ply|Wavefront OBJ " + files + " (*.obj)|*.obj";
+                ofd.Filter = "Wavefront OBJ " + files + " (*.obj)|*.obj|OOGL " + files + " (*.off)|*.off|PLY " + files + " (ascii) (*.ply)|*.ply|STL " + files + " (*.stl)|*.stl";
+                ofd.DefaultExt = "off";
+                ofd.FilterIndex = 2;
                 ofd.Multiselect = false;
                 ofd.Title = TriMMApp.Lang.GetElementsByTagName("OpenFileTitle")[0].InnerText;
                 if (ofd.ShowDialog() == true) {
@@ -384,21 +385,22 @@ namespace TriMM {
 #endif
                 sfd.AddExtension = true;
                 sfd.OverwritePrompt = true;
-                sfd.DefaultExt = "off";
                 string files = TriMMApp.Lang.GetElementsByTagName("Files")[0].InnerText;
-                sfd.Filter = "OOGL " + files + " (*.off)|*.off|STL ASCII-" + files + " (*.stl)|*.stl|STL Binary-" + files + " (*.stl)|*.stl|PLY " + files + " (ascii) (*.ply)|*.ply|Wavefront OBJ " + files + " (*.obj)|*.obj";
+                sfd.Filter = "Wavefront OBJ " + files + " (*.obj)|*.obj|OOGL " + files + " (*.off)|*.off|PLY " + files + " (ascii) (*.ply)|*.ply|STL ASCII-" + files + " (*.stl)|*.stl|STL Binary-" + files + " (*.stl)|*.stl";
+                sfd.DefaultExt = "off";
+                sfd.FilterIndex = 2;
                 sfd.Title = TriMMApp.Lang.GetElementsByTagName("SaveFileTitle")[0].InnerText;
                 if (sfd.ShowDialog() == true) {
                     if (sfd.FilterIndex == 1) {
-                        OffParser.WriteOFF(sfd.FileName);
-                    } else if (sfd.FilterIndex == 2) {
-                        STLParser.WriteToASCII(sfd.FileName);
-                    } else if (sfd.FilterIndex == 3) {
-                        STLParser.WriteToBinary(sfd.FileName);
-                    } else if (sfd.FilterIndex == 4) {
-                        PlyParser.WritePLY(sfd.FileName);
-                    } else if (sfd.FilterIndex == 5) {
                         ObjParser.WriteOBJ(sfd.FileName);
+                    } else if (sfd.FilterIndex == 2) {
+                        OffParser.WriteOFF(sfd.FileName);
+                    } else if (sfd.FilterIndex == 3) {
+                        PlyParser.WritePLY(sfd.FileName);
+                    } else if (sfd.FilterIndex == 4) {
+                        STLParser.WriteToASCII(sfd.FileName);
+                    } else if (sfd.FilterIndex == 5) {
+                        STLParser.WriteToBinary(sfd.FileName);
                     }
                     TriMMApp.CurrentPath = sfd.FileName;
                     TriMMApp.CurrentFormat = sfd.FilterIndex - 1;

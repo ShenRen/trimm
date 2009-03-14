@@ -50,7 +50,7 @@
         <DockPanel Name="dockPanel1">
             <Label Name="normalAlgorithmLabel" Content="{Binding Source={StaticResource Lang}, XPath=Global/NormalAlgorithmLabel/@Text}" HorizontalContentAlignment="Stretch" />
             <Rectangle Name="rectangle1" StrokeThickness="0" Visibility="Hidden" Width="6" />
-            <ComboBox Height="Auto" Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" MinWidth="100" DockPanel.Dock="Right" TabIndex="5" />
+            <ComboBox Name="normalComboBox" SelectionChanged="NormalComboBox_SelectionChanged" MinWidth="100" DockPanel.Dock="Right" TabIndex="5" />
         </DockPanel>
         <Rectangle Name="rectangle2" StrokeThickness="0" Visibility="Hidden" Height="6" />
         <GroupBox Header="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/MeshInformationHeader/@Text}" Name="meshGroupBox" Visibility="Collapsed">

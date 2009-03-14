@@ -57,7 +57,7 @@ namespace TriMM {
             // The header is processed here.
             while (count < 2) {
                 input = file.ReadLine();
-                input.Trim();
+                input = input.Replace("\t", " ").Trim();
 
                 // Empty lines and comment-lines are skipped.
                 if ((input != "") && (!input.StartsWith("#"))) {
@@ -95,7 +95,7 @@ namespace TriMM {
             count = 0;
             while (count < vertices) {
                 input = file.ReadLine();
-                input.Trim();
+                input = input.Replace("\t", " ").Trim();
                 if ((input != "") && (!input.StartsWith("#"))) {
                     if (input.Contains("#")) { input = input.Substring(0, input.IndexOf("#")); }
 

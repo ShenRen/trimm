@@ -603,53 +603,52 @@ namespace TriMM {
 #endif
                 String input = null;
                 while ((input = file.ReadLine()) != null) {
-                    input = input.Trim();
-                    if (!input.StartsWith("#")) {
-                        // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
-                        String[] line = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (input.Contains("#")) { input = input.Substring(0, input.IndexOf("#")); }
+                    input = input.Replace("\t", " ").Trim();
+                    // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
+                    String[] line = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                        if (line.Length == 4) {
-                            ColorOGL color = new ColorOGL(float.Parse(line[1], NumberStyles.Float, numberFormatInfo), float.Parse(line[2], NumberStyles.Float, numberFormatInfo), float.Parse(line[3], NumberStyles.Float, numberFormatInfo));
-                            if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "SOLIDC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; } else if (line[0] == "VERTEXC") { vertexColor = color; } else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; } else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; } else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
-                        } else if (line.Length == 2) {
-                            if (line[0] == "LANG") {
-                                Language = line[1];
-                            } else {
-                                int mode = int.Parse(line[1]);
-                                if (line[0] == "NA") {
-                                    if ((mode < 0) || (mode > 12)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("NAError")[0].InnerText); }
-                                    normalAlgo = mode;
-                                } else if (line[0] == "PICK") {
-                                    if ((mode < 0) || (mode > 3)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("PICKError")[0].InnerText); }
-                                    pickingMode = mode;
-                                } else if (line[0] == "SMOOTH") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("SMOOTHError")[0].InnerText); }
-                                    if (mode == 0) { smooth = false; } else { smooth = true; }
-                                } else if (line[0] == "SOLID") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("SOLIDError")[0].InnerText); }
-                                    if (mode == 0) { solid = false; } else { solid = true; }
-                                } else if (line[0] == "MESH") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("MESHError")[0].InnerText); }
-                                    if (mode == 0) { mesh = false; } else { mesh = true; }
-                                } else if (line[0] == "VERT") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("VERTError")[0].InnerText); }
-                                    if (mode == 0) { vertices = false; } else { vertices = true; }
-                                } else if (line[0] == "TRINORM") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("TRINORMError")[0].InnerText); }
-                                    if (mode == 0) { triangleNormalVectors = false; } else { triangleNormalVectors = true; }
-                                } else if (line[0] == "VERTNORM") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("VERTNORMError")[0].InnerText); }
-                                    if (mode == 0) { vertexNormalVectors = false; } else { vertexNormalVectors = true; }
-                                } else if (line[0] == "XAXIS") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("XAXISError")[0].InnerText); }
-                                    if (mode == 0) { xAxis = false; } else { xAxis = true; }
-                                } else if (line[0] == "YAXIS") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("YAXISError")[0].InnerText); }
-                                    if (mode == 0) { yAxis = false; } else { yAxis = true; }
-                                } else if (line[0] == "ZAXIS") {
-                                    if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("ZAXISError")[0].InnerText); }
-                                    if (mode == 0) { zAxis = false; } else { zAxis = true; }
-                                }
+                    if (line.Length == 4) {
+                        ColorOGL color = new ColorOGL(float.Parse(line[1], NumberStyles.Float, numberFormatInfo), float.Parse(line[2], NumberStyles.Float, numberFormatInfo), float.Parse(line[3], NumberStyles.Float, numberFormatInfo));
+                        if (line[0] == "BACKC") { backColor = color; } else if (line[0] == "TEXTC") { textColor = color; } else if (line[0] == "SOLIDC") { solidColor = color; } else if (line[0] == "MESHC") { meshColor = color; } else if (line[0] == "VERTEXC") { vertexColor = color; } else if (line[0] == "TNC") { triNormalColor = color; } else if (line[0] == "VNC") { vertNormalColor = color; } else if (line[0] == "OVERTC") { observedVertexColor = color; } else if (line[0] == "OEDGC") { observedEdgeColor = color; } else if (line[0] == "OTRIC") { observedTriangleColor = color; } else if (line[0] == "XAXISC") { xAxisColor = color; } else if (line[0] == "YAXISC") { yAxisColor = color; } else if (line[0] == "ZAXISC") { zAxisColor = color; }
+                    } else if (line.Length == 2) {
+                        if (line[0] == "LANG") {
+                            Language = line[1];
+                        } else {
+                            int mode = int.Parse(line[1]);
+                            if (line[0] == "NA") {
+                                if ((mode < 0) || (mode > 12)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("NAError")[0].InnerText); }
+                                normalAlgo = mode;
+                            } else if (line[0] == "PICK") {
+                                if ((mode < 0) || (mode > 3)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("PICKError")[0].InnerText); }
+                                pickingMode = mode;
+                            } else if (line[0] == "SMOOTH") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("SMOOTHError")[0].InnerText); }
+                                if (mode == 0) { smooth = false; } else { smooth = true; }
+                            } else if (line[0] == "SOLID") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("SOLIDError")[0].InnerText); }
+                                if (mode == 0) { solid = false; } else { solid = true; }
+                            } else if (line[0] == "MESH") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("MESHError")[0].InnerText); }
+                                if (mode == 0) { mesh = false; } else { mesh = true; }
+                            } else if (line[0] == "VERT") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("VERTError")[0].InnerText); }
+                                if (mode == 0) { vertices = false; } else { vertices = true; }
+                            } else if (line[0] == "TRINORM") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("TRINORMError")[0].InnerText); }
+                                if (mode == 0) { triangleNormalVectors = false; } else { triangleNormalVectors = true; }
+                            } else if (line[0] == "VERTNORM") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("VERTNORMError")[0].InnerText); }
+                                if (mode == 0) { vertexNormalVectors = false; } else { vertexNormalVectors = true; }
+                            } else if (line[0] == "XAXIS") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("XAXISError")[0].InnerText); }
+                                if (mode == 0) { xAxis = false; } else { xAxis = true; }
+                            } else if (line[0] == "YAXIS") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("YAXISError")[0].InnerText); }
+                                if (mode == 0) { yAxis = false; } else { yAxis = true; }
+                            } else if (line[0] == "ZAXIS") {
+                                if ((mode < 0) || (mode > 1)) { throw new ArgumentException(TriMMApp.Lang.GetElementsByTagName("ZAXISError")[0].InnerText); }
+                                if (mode == 0) { zAxis = false; } else { zAxis = true; }
                             }
                         }
                     }

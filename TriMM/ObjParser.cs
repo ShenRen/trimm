@@ -62,7 +62,7 @@ namespace TriMM {
                 input = file.ReadLine();
 
                 while (input != null) {
-                    input.Trim();
+                    input = input.Replace("\t", " ").Trim();
 
                     // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace.
                     inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

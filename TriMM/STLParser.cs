@@ -69,7 +69,7 @@ namespace TriMM {
             try {
 #endif
                 while ((input = sr.ReadLine()) != null) {
-                    input = input.Trim();
+                    input = input.Replace("\t", " ").Trim();
                     if (count == 4) {
                         count = 0;
                         triangles.Add(tmp);

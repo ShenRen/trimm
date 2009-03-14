@@ -98,12 +98,13 @@ namespace TriMM {
             // The file must not be empty!
             input = file.ReadLine();
             if (input == null) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
-            input.Trim();
+            input = input.Replace("\t", " ").Trim();
             inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             // The first word in the first line must be "ply"!
             if (inputList[0] != "ply") { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
+            
             input = file.ReadLine();
-            input.Trim();
+            input = input.Replace("\t", " ").Trim();
             inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             // There has to be more information than just "ply"!
             if (input == null) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
@@ -127,7 +128,7 @@ namespace TriMM {
                 // There has to be more information than just the header, which must end with "end_header"!
                 input = file.ReadLine();
                 if (input == null) { throw new Exception(TriMMApp.Lang.GetElementsByTagName("PlyBrokenFileError")[0].InnerText); }
-                input.Trim();
+                input = input.Replace("\t", " ").Trim();
                 inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             } while (input != "end_header");
 
@@ -170,9 +171,9 @@ namespace TriMM {
             count = 0;
             while (count < vertices) {
                 input = file.ReadLine();
-                input.Trim();
-                if ((input != "") && (!input.StartsWith("#"))) {
-                    if (input.Contains("#")) { input = input.Substring(0, input.IndexOf("#")); }
+                input = input.Replace("\t", " ").Trim();
+                if ((input != "") && (!input.StartsWith("comment"))) {
+                    if (input.Contains("comment")) { input = input.Substring(0, input.IndexOf("comment")); }
 
                     // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace.
                     inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -191,9 +192,9 @@ namespace TriMM {
             count = 0;
             while (count < faces) {
                 input = file.ReadLine();
-                input.Trim();
-                if ((input != "") && (!input.StartsWith("#"))) {
-                    if (input.Contains("#")) { input = input.Substring(0, input.IndexOf("#")); }
+                input = input.Replace("\t", " ").Trim();
+                if ((input != "") && (!input.StartsWith("comment"))) {
+                    if (input.Contains("comment")) { input = input.Substring(0, input.IndexOf("comment")); }
 
                     // RemoveEmptyEntities removes empty entities, resulting from more than one whitespace
                     inputList = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

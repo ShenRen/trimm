@@ -48,12 +48,12 @@
   </Global>
   <VertexNormalAlgorithms>
     <CW>Chen and Wu</CW>
-    <EN>Edge Normals</EN>
+    <EN>Edgenormals</EN>
     <ECW>Extended Chen and Wu</ECW>
     <ETW>Extended Thuermer and Wuethrich</ETW>
     <G>Gouraud</G>
     <IEW>Incident Edges Weights</IEW>
-    <IEN>Inverse Edge Normals</IEN>
+    <IEN>Inverse Edgenormals</IEN>
     <IIEW>Inverse Incident Edges Weights</IIEW>
     <IT>Inverse Taubin</IT>
     <M>Max</M>

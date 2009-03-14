@@ -48,12 +48,12 @@
   </Global>
   <VertexNormalAlgorithms>
     <CW>Chen und Wu</CW>
-    <EN>Mittelung der Kantennormalen</EN>
+    <EN>Kantennormalen</EN>
     <ECW>Erweiterter Chen und Wu</ECW>
     <ETW>Erweiterter Thuermer und Wuethrich</ETW>
     <G>Gouraud</G>
     <IEW>Kantenl&#228;ngengewichtung</IEW>
-    <IEN>Inverse Mittelung der Kantennormalen</IEN>
+    <IEN>Inverse Kantennormalen</IEN>
     <IIEW>Inverse Kantenl&#228;ngengewichtung</IIEW>
     <IT>Inverser Taubin</IT>
     <M>Max</M>
