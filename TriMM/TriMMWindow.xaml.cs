@@ -733,6 +733,26 @@ namespace TriMM {
         #region Edges
 
         /// <summary>
+        /// Accepts the index of the currently observed Vertex as the value of the e1NumericUpDown.
+        /// You can pick a Vertex in the visualization and transfer it to the edge manipulation tab.
+        /// </summary>
+        /// <param name="sender">Left mouse button on label1.</param>
+        /// <param name="e">Standard System.Windows.Input.MouseButtonEventArgs</param>
+        private void Label1_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (TriMMApp.Mesh.ObservedVertex != -1) { e1NumericUpDown.Value = TriMMApp.Mesh.ObservedVertex; }
+        }
+
+        /// <summary>
+        /// Accepts the index of the currently observed Vertex as the value of the e2NumericUpDown.
+        /// You can pick a Vertex in the visualization and transfer it to the edge manipulation tab.
+        /// </summary>
+        /// <param name="sender">Left mouse button on label2.</param>
+        /// <param name="e">Standard System.Windows.Input.MouseButtonEventArgs</param>
+        private void Label2_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (TriMMApp.Mesh.ObservedVertex != -1) { e2NumericUpDown.Value = TriMMApp.Mesh.ObservedVertex; }
+        }
+
+        /// <summary>
         /// Flips the Edge given by the two selected Vertices.
         /// </summary>
         /// <param name="sender">flipEdgeButton</param>
@@ -870,6 +890,36 @@ namespace TriMM {
         #endregion
 
         #region Triangles
+
+        /// <summary>
+        /// Accepts the index of the currently observed Vertex as the value of the aNumericUpDown.
+        /// You can pick a Vertex in the visualization and transfer it to the edge manipulation tab.
+        /// </summary>
+        /// <param name="sender">Left mouse button on aLabel.</param>
+        /// <param name="e">Standard System.Windows.Input.MouseButtonEventArgs</param>
+        private void ALabel_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (TriMMApp.Mesh.ObservedVertex != -1) { aNumericUpDown.Value = TriMMApp.Mesh.ObservedVertex; }
+        }
+
+        /// <summary>
+        /// Accepts the index of the currently observed Vertex as the value of the bNumericUpDown.
+        /// You can pick a Vertex in the visualization and transfer it to the edge manipulation tab.
+        /// </summary>
+        /// <param name="sender">Left mouse button on bLabel.</param>
+        /// <param name="e">Standard System.Windows.Input.MouseButtonEventArgs</param>
+        private void BLabel_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (TriMMApp.Mesh.ObservedVertex != -1) { bNumericUpDown.Value = TriMMApp.Mesh.ObservedVertex; }
+        }
+
+        /// <summary>
+        /// Accepts the index of the currently observed Vertex as the value of the cNumericUpDown.
+        /// You can pick a Vertex in the visualization and transfer it to the edge manipulation tab.
+        /// </summary>
+        /// <param name="sender">Left mouse button on cLabel.</param>
+        /// <param name="e">Standard System.Windows.Input.MouseButtonEventArgs</param>
+        private void CLabel_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (TriMMApp.Mesh.ObservedVertex != -1) { cNumericUpDown.Value = TriMMApp.Mesh.ObservedVertex; }
+        }
 
         /// <summary>
         /// Changes the orientation of the Triangle determined by the Vertices selected above.

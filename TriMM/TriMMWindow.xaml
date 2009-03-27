@@ -104,8 +104,8 @@
                 <StackPanel Name="stackPanel7">
                     <DockPanel Name="dockPanel15">
                         <StackPanel Name="stackPanel11">
-                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/E1Label/@Text}" Name="label1"/>
-                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/E2Label/@Text}" Name="label2"/>
+                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/E1Label/@Text}" Name="label1" MouseLeftButtonDown="Label1_MouseLeftButtonDown" />
+                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/E2Label/@Text}" Name="label2" MouseLeftButtonDown="Label2_MouseLeftButtonDown" />
                         </StackPanel>
                         <StackPanel Name="stackPanel12">
                             <DockPanel Name="dockPanel16">
@@ -129,9 +129,9 @@
                 <StackPanel Name="stackPanel8">
                     <DockPanel Name="dockPanel11">
                         <StackPanel Name="stackPanel9">
-                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ALabel/@Text}" Name="aLabel" />
-                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/BLabel/@Text}" Name="bLabel" />
-                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CLabel/@Text}" Name="cLabel" />
+                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/ALabel/@Text}" Name="aLabel" MouseLeftButtonDown="ALabel_MouseLeftButtonDown" />
+                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/BLabel/@Text}" Name="bLabel" MouseLeftButtonDown="BLabel_MouseLeftButtonDown" />
+                            <Label Content="{Binding Source={StaticResource Lang}, XPath=TriMMWindow/CLabel/@Text}" Name="cLabel" MouseLeftButtonDown="CLabel_MouseLeftButtonDown" />
                         </StackPanel>
                         <StackPanel Name="stackPanel10">
                             <DockPanel Name="dockPanel12">
